@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VerifyFlow — Data Structures & API Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#00e5c3;--teal-dark:#00b89b;--bg:#0a0e17;--bg2:#111827;--card:#151b2e;--text:#e2e8f0;--text2:#94a3b8;--border:#1e293b;--danger:#ef4444;--warn:#f59e0b;--success:#10b981;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--teal);text-decoration:none}
+code{font-family:'JetBrains Mono',monospace;font-size:.85em;background:var(--bg2);padding:.15em .4em;border-radius:4px}
+pre{font-family:'JetBrains Mono',monospace;font-size:.82rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;overflow-x:auto;line-height:1.7}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.2rem;border-radius:8px;font-size:.85rem;font-weight:600;border:none;cursor:pointer;transition:all .2s}
+.btn-outline{border:1px solid var(--border);background:transparent;color:var(--text)}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+@media(max-width:768px){.layout{grid-template-columns:1fr}.sidebar{display:none}}
+
+/* Sidebar */
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:1.5rem 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-header{padding:0 1.5rem 1.5rem;border-bottom:1px solid var(--border)}
+.sidebar-header h1{font-size:1.2rem;color:#fff}
+.sidebar-header h1 span{color:var(--teal)}
+.sidebar-header p{font-size:.75rem;color:var(--text2);margin-top:.25rem}
+.nav-group{padding:.75rem 0}
+.nav-group-title{padding:.4rem 1.5rem;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text2)}
+.nav-link{display:block;padding:.45rem 1.5rem;font-size:.83rem;color:var(--text2);cursor:pointer;transition:all .15s;border-left:2px solid transparent}
+.nav-link:hover{color:var(--text);background:rgba(0,229,195,.03)}
+.nav-link.active{color:var(--teal);border-left-color:var(--teal);background:rgba(0,229,195,.05)}
+
+/* Main */
+.main{padding:2rem 3rem;max-width:900px}
+.main h2{font-size:1.6rem;margin-bottom:.5rem}
+.main>p{color:var(--text2);margin-bottom:2rem}
+
+/* Entity Cards */
+.entity{margin-bottom:2.5rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.entity-header{padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.entity-header h3{font-size:1.05rem;display:flex;align-items:center;gap:.5rem}
+.entity-header .tag{font-size:.7rem;padding:.2rem .5rem;border-radius:4px;font-weight:500}
+.tag-core{background:rgba(0,229,195,.1);color:var(--teal)}
+.tag-kyc{background:rgba(16,185,129,.1);color:var(--success)}
+.tag-aml{background:rgba(245,158,11,.1);color:var(--warn)}
+.tag-system{background:rgba(148,163,184,.1);color:var(--text2)}
+.entity-body{padding:1.5rem}
+.entity-desc{font-size:.9rem;color:var(--text2);margin-bottom:1.2rem}
+.field-table{width:100%;border-collapse:collapse}
+.field-table th{text-align:left;padding:.5rem .75rem;font-size:.75rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.03em;background:var(--bg);border-bottom:1px solid var(--border)}
+.field-table td{padding:.5rem .75rem;font-size:.83rem;border-bottom:1px solid rgba(30,41,59,.5)}
+.field-table tr:last-child td{border-bottom:none}
+.type{color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:.8rem}
+.pk{color:var(--warn);font-size:.65rem;font-weight:600;margin-left:.3rem}
+.fk{color:var(--teal);font-size:.65rem;font-weight:600;margin-left:.3rem}
+.req{color:var(--danger);font-size:.7rem}
+
+/* ERD */
+.erd{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;margin-bottom:2.5rem;overflow-x:auto}
+.erd h3{margin-bottom:1rem;font-size:1rem}
+.erd-diagram{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
+.erd-entity{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;min-width:140px;text-align:center;font-size:.8rem;transition:all .2s}
+.erd-entity:hover{border-color:var(--teal);transform:translateY(-2px)}
+.erd-entity strong{display:block;color:#fff;margin-bottom:.25rem}
+.erd-entity span{color:var(--text2);font-size:.7rem}
+.erd-rel{display:flex;align-items:center;color:var(--text2);font-size:.75rem}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>Verify<span>Flow</span></h1>
+      <p>Data Model Reference</p>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Overview</div>
+      <a class="nav-link active" href="#erd">Entity Diagram</a>
+      <a class="nav-link" href="#relationships">Relationships</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Core Entities</div>
+      <a class="nav-link" href="#client">Client</a>
+      <a class="nav-link" href="#institution">Institution</a>
+      <a class="nav-link" href="#staff">Staff</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Verification</div>
+      <a class="nav-link" href="#kyc_profile">KYC_Profile</a>
+      <a class="nav-link" href="#kyb_profile">KYB_Profile</a>
+      <a class="nav-link" href="#beneficial_owner">Beneficial_Owner</a>
+      <a class="nav-link" href="#document">Document</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Compliance</div>
+      <a class="nav-link" href="#aml_check">AML_Check</a>
+      <a class="nav-link" href="#risk_assessment">Risk_Assessment</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">System</div>
+      <a class="nav-link" href="#workflow">Workflow</a>
+      <a class="nav-link" href="#workflow_event">Workflow_Event</a>
+      <a class="nav-link" href="#notification">Notification</a>
+    </div>
+    <div style="padding:1.5rem"><a href="/" class="btn btn-outline" style="width:100%;justify-content:center;font-size:.8rem">← Back to Site</a></div>
+  </aside>
+
+  <main class="main">
+    <h2>Data Structures</h2>
+    <p>Complete database schema for the VerifyFlow platform. Built for Supabase (PostgreSQL) with Row Level Security.</p>
+
+    <!-- ERD -->
+    <div class="erd" id="erd">
+      <h3>Entity Relationship Overview</h3>
+      <div class="erd-diagram">
+        <div class="erd-entity" style="border-color:var(--teal)"><strong>Client</strong><span>Core entity</span></div>
+        <div class="erd-rel">1 → 1</div>
+        <div class="erd-entity"><strong>KYC_Profile</strong><span>Identity</span></div>
+        <div class="erd-rel">1 → 1</div>
+        <div class="erd-entity"><strong>KYB_Profile</strong><span>Business</span></div>
+        <div class="erd-rel">1 → N</div>
+        <div class="erd-entity"><strong>Beneficial_Owner</strong><span>UBOs</span></div>
+      </div>
+      <div class="erd-diagram" style="margin-top:1rem">
+        <div class="erd-entity" style="border-color:var(--teal)"><strong>Client</strong><span>Core entity</span></div>
+        <div class="erd-rel">1 → N</div>
+        <div class="erd-entity"><strong>Document</strong><span>Files</span></div>
+        <div class="erd-rel" style="margin:0 1rem">|</div>
+        <div class="erd-entity"><strong>AML_Check</strong><span>Screening</span></div>
+        <div class="erd-rel" style="margin:0 1rem">|</div>
+        <div class="erd-entity"><strong>Risk_Assessment</strong><span>Scoring</span></div>
+      </div>
+      <div class="erd-diagram" style="margin-top:1rem">
+        <div class="erd-entity"><strong>Workflow</strong><span>Process</span></div>
+        <div class="erd-rel">1 → N</div>
+        <div class="erd-entity"><strong>Workflow_Event</strong><span>Audit log</span></div>
+        <div class="erd-rel" style="margin:0 1.5rem">|</div>
+        <div class="erd-entity"><strong>Institution</strong><span>Tenant</span></div>
+        <div class="erd-rel">1 → N</div>
+        <div class="erd-entity"><strong>Staff</strong><span>Users</span></div>
+        <div class="erd-rel" style="margin:0 1.5rem">|</div>
+        <div class="erd-entity"><strong>Notification</strong><span>Alerts</span></div>
+      </div>
+    </div>
+
+    <!-- Relationships -->
+    <div class="entity" id="relationships">
+      <div class="entity-header"><h3>Key Relationships</h3></div>
+      <div class="entity-body">
+        <pre><span style="color:var(--teal)">Client</span> 1──1 <span style="color:var(--success)">KYC_Profile</span>        (each client has one KYC profile)
+<span style="color:var(--teal)">Client</span> 1──1 <span style="color:var(--success)">KYB_Profile</span>        (business clients have one KYB profile)
+<span style="color:var(--success)">KYB_Profile</span> 1──N <span style="color:var(--success)">Beneficial_Owner</span> (KYB has multiple UBOs)
+<span style="color:var(--teal)">Client</span> 1──N <span style="color:var(--success)">Document</span>           (client uploads multiple documents)
+<span style="color:var(--teal)">Client</span> 1──N <span style="color:var(--warn)">AML_Check</span>          (client has multiple AML screenings)
+<span style="color:var(--teal)">Client</span> 1──N <span style="color:var(--warn)">Risk_Assessment</span>    (client has multiple risk evaluations)
+<span style="color:var(--teal)">Client</span> 1──1 <span style="color:var(--text2)">Workflow</span>           (each client has one active workflow)
+<span style="color:var(--text2)">Workflow</span> 1──N <span style="color:var(--text2)">Workflow_Event</span>    (workflow has event audit trail)
+<span style="color:var(--text2)">Institution</span> 1──N <span style="color:var(--teal)">Client</span>        (institution has many clients)
+<span style="color:var(--text2)">Institution</span> 1──N <span style="color:var(--text2)">Staff</span>         (institution has many staff)
+<span style="color:var(--text2)">Staff</span> 1──N <span style="color:var(--text2)">Notification</span>       (staff receives notifications)</pre>
+      </div>
+    </div>
+
+    <!-- Client -->
+    <div class="entity" id="client">
+      <div class="entity-header"><h3>Client <span class="tag tag-core">Core</span></h3></div>
+      <div class="entity-body">
+        <p class="entity-desc">Central entity representing an individual or business going through onboarding.</p>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id <span class="pk">PK</span></td><td class="type">uuid</td><td>Primary key (gen_random_uuid)</td></tr>
+            <tr><td>institution_id <span class="fk">FK</span></td><td class="type">uuid</td><td>References Institution</td></tr>
+            <tr><td>type</td><td class="type">enum</td><td>'individual' | 'business'</td></tr>
+            <tr><td>status</td><td class="type">enum</td><td>'pending' | 'in_review' | 'approved' | 'rejected' | 'suspended'</td></tr>
+            <tr><td>email</td><td class="type">varchar(255)</td><td>Primary contact email <span class="req">required</span></td></tr>
+            <tr><td>phone</td><td class="type">varchar(50)</td><td>Contact phone number</td></tr>
+            <tr><td>metadata</td><td class="type">jsonb</td><td>Flexible additional data</td></tr>
+            <tr><td>created_at</td><td class="type">timestamptz</td><td>Record creation timestamp</td></tr>
+            <tr><td>updated_at</td><td class="type">timestamptz</td><td>Last update timestamp</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- KYC_Profile -->
+    <div class="entity" id="kyc_profile">
+      <div class="entity-header"><h3>KYC_Profile <span class="tag tag-kyc">Verification</span></h3></div>
+      <div class="entity-body">
+        <p class="entity-desc">Know Your Customer profile with identity verification data. Integrates with Onfido.</p>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id <span class="pk">PK</span></td><td class="type">uuid</td><td>Primary key</td></tr>
+            <tr><td>client_id <span class="fk">FK</span></td><td class="type">uuid</td><td>References Client (unique)</td></tr>
+            <tr><td>first_name</td><td class="type">varchar(100)</td><td>Legal first name <span class="req">required</span></td></tr>
+            <tr><td>last_name</td><td class="type">varchar(100)</td><td>Legal last name <span class="req">required</span></td></tr>
+            <tr><td>date_of_birth</td><td class="type">date</td><td>Date of birth <span class="req">required</span></td></tr>
+            <tr><td>nationality</td><td class="type">varchar(3)</td><td>ISO 3166-1 alpha-3 country code</td></tr>
+            <tr><td>tax_id</td><td class="type">varchar(50)</td><td>Tax identification number</td></tr>
+            <tr><td>address</td><td class="type">jsonb</td><td>{street, city, state, postal_code, country}</td></tr>
+            <tr><td>onfido_applicant_id</td><td class="type">varchar(100)</td><td>Onfido applicant reference</td></tr>
+            <tr><td>onfido_check_id</td><td class="type">varchar(100)</td><td>Onfido check reference</td></tr>
+            <tr><td>verification_status</td><td class="type">enum</td><td>'pending' | 'processing' | 'passed' | 'failed' | 'manual_review'</td></tr>
+            <tr><td>match_score</td><td class="type">decimal(5,2)</td><td>Document-to-selfie match percentage</td></tr>
+            <tr><td>verified_at</td><td class="type">timestamptz</td><td>When verification completed</td></tr>
+            <tr><td>created_at</td><td class="type">timestamptz</td><td>Record creation timestamp</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- KYB_Profile -->
+    <div class="entity" id="kyb_profile">
+      <div class="entity-header"><h3>KYB_Profile <span class="tag tag-kyc">Verification</span></h3></div>
+      <div class="entity-body">
+        <p class="entity-desc">Know Your Business profile for company verification with registry checks and UBO tracking.</p>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id <span class="pk">PK</span></td><td class="type">uuid</td><td>Primary key</td></tr>
+            <tr><td>client_id <span class="fk">FK</span></td><td class="type">uuid</td><td>References Client (unique)</td></tr>
+            <tr><td>company_name</td><td class="type">varchar(255)</td><td>Registered company name <span class="req">required</span></td></tr>
+            <tr><td>registration_number</td><td class="type">varchar(100)</td><td>Company registration number</td></tr>
+            <tr><td>jurisdiction</td><td class="type">varchar(3)</td><td>Country of incorporation (ISO)</td></tr>
+            <tr><td>company_type</td><td class="type">enum</td><td>'llc' | 'corp' | 'partnership' | 'sole_prop' | 'other'</td></tr>
+            <tr><td>registered_address</td><td class="type">jsonb</td><td>Official registered address</td></tr>
+            <tr><td>registry_status</td><td class="type">enum</td><td>'pending' | 'verified' | 'mismatch' | 'not_found'</td></tr>
+            <tr><td>structure_complexity</td><td class="type">enum</td><td>'simple' | 'complex' | 'unknown'</td></tr>
+            <tr><td>verified_at</td><td class="type">timestamptz</td><td>When business was verified</td></tr>
+            <tr><td>created_at</td><td class="type">timestamptz</td><td>Record creation timestamp</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Beneficial_Owner -->
+    <div class="entity" id="beneficial_owner">
+      <div class="entity-header"><h3>Beneficial_Owner <span class="tag tag-kyc">Verification</span></h3></div>
+      <div class="entity-body">
+        <p class="entity-desc">Ultimate Beneficial Owners (UBOs) linked to a KYB profile. Each must pass KYC.</p>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id <span class="pk">PK</span></td><td class="type">uuid</td><td>Primary key</td></tr>
+            <tr><td>kyb_profile_id <span class="fk">FK</span></td><td class="type">uuid</td><td>References KYB_Profile</td></tr>
+            <tr><td>kyc_profile_id <span class="fk">FK</span></td><td class="type">uuid</td><td>References KYC_Profile (UBO's personal KYC)</td></tr>
+            <tr><td>full_name</td><td class="type">varchar(200)</td><td>Full legal name <span class="req">required</span></td></tr>
+            <tr><td>ownership_percentage</td><td class="type">decimal(5,2)</td><td>Percentage of ownership</td></tr>
+            <tr><td>role</td><td class="type">varchar(100)</td><td>Role in the company (CEO, Director, etc.)</td></tr>
+            <tr><td>is_direct</td><td class="type">boolean</td><td>Direct vs indirect ownership</td></tr>
+            <tr><td>created_at</td><td class="type">timestamptz</td><td>Record creation timestamp</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Document -->
+    <div class="entity" id="document">
+      <div class="entity-header"><h3>Document <span class="tag tag-kyc">Verification</span></h3></div>
+      <div class="entity-body">
+        <p class="entity-desc">Uploaded identity documents and proofs. Files stored in Supabase Storage.</p>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id <span class="pk">PK</span></td><td class="type">uuid</td><td>Primary key</td></tr>
+            <tr><td>client_id <span class="fk">FK</span></td><td class="type">uuid</td><td>References Client</td></tr>
+            <tr><td>type</td><td class="type">enum</td><td>'passport' | 'id_card' | 'drivers_license' | 'proof_of_address' | 'registration_cert' | 'other'</td></tr>
+            <tr><td>file_path</td><td class="type">varchar(500)</td><td>Supabase Storage path</td></tr>
+            <tr><td>file_name</td><td class="type">varchar(255)</td><td>Original filename</td></tr>
+            <tr><td>mime_type</td><td class="type">varchar(50)</td><td>File MIME type</td></tr>
+            <tr><td>file_size</td><td class="type">integer</td><td>File size in bytes</td></tr>
+            <tr><td>status</td><td class="type">enum</td><td>'uploaded' | 'processing' | 'verified' | 'rejected'</td></tr>
+            <tr><td>onfido_document_id</td><td class="type">varchar(100)</td><td>Onfido document reference</td></tr>
+            <tr><td>created_at</td><td class="type">timestamptz</td><td>Upload timestamp</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- AML_Check -->
+    <div class="entity" id="aml_check">
+      <div class="entity-header"><h3>AML_Check <span class="tag tag-aml">Compliance</span></h3></div>
+      <div class="entity-body">
+        <p class="entity-desc">Anti-Money Laundering screening results. Powered by ComplyAdvantage.</p>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id <span class="pk">PK</span></td><td class="type">uuid</td><td>Primary key</td></tr>
+            <tr><td>client_id <span class="fk">FK</span></td><td class="type">uuid</td><td>References Client</td></tr>
+            <tr><td>provider</td><td class="type">varchar(50)</td><td>'complyadvantage'</td></tr>
+            <tr><td>external_id</td><td class="type">varchar(100)</td><td>ComplyAdvantage search reference</td></tr>
+            <tr><td>sanctions_result</td><td class="type">enum</td><td>'clear' | 'match' | 'pending'</td></tr>
+            <tr><td>pep_result</td><td class="type">enum</td><td>'clear' | 'match' | 'pending'</td></tr>
+            <tr><td>adverse_media_result</td><td class="type">enum</td><td>'clear' | 'match' | 'pending'</td></tr>
+            <tr><td>overall_result</td><td class="type">enum</td><td>'clear' | 'review' | 'fail'</td></tr>
+            <tr><td>match_details</td><td class="type">jsonb</td><td>Detailed match data from provider</td></tr>
+            <tr><td>is_ongoing</td><td class="type">boolean</td><td>Whether ongoing monitoring is active</td></tr>
+            <tr><td>checked_at</td><td class="type">timestamptz</td><td>When screening was performed</td></tr>
+            <tr><td>next_check_at</td><td class="type">timestamptz</td><td>Next scheduled rescreening</td></tr>
+            <tr><td>created_at</td><td class="type">timestamptz</td><td>Record creation timestamp</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Risk_Assessment -->
+    <div class="entity" id="risk_assessment">
+      <div class="entity-header"><h3>Risk_Assessment <span class="tag tag-aml">Compliance</span></h3></div>
+      <div class="entity-body">
+        <p class="entity-desc">Dynamic risk scoring based on configurable rules. Determines auto-approve/reject thresholds.</p>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id <span class="pk">PK</span></td><td class="type">uuid</td><td>Primary key</td></tr>
+            <tr><td>client_id <span class="fk">FK</span></td><td class="type">uuid</td><td>References Client</td></tr>
+            <tr><td>score</td><td class="type">integer</td><td>Risk score 0-100 <span class="req">required</span></td></tr>
+            <tr><td>level</td><td class="type">enum</td><td>'low' (0-30) | 'medium' (31-70) | 'high' (71-100)</td></tr>
+            <tr><td>factors</td><td class="type">jsonb</td><td>Array of risk factor objects with weights</td></tr>
+            <tr><td>decision</td><td class="type">enum</td><td>'auto_approved' | 'manual_review' | 'auto_rejected'</td></tr>
+            <tr><td>reviewed_by <span class="fk">FK</span></td><td class="type">uuid</td><td>References Staff (if manually reviewed)</td></tr>
+            <tr><td>notes</td><td class="type">text</td><td>Reviewer notes</td></tr>
+            <tr><td>assessed_at</td><td class="type">timestamptz</td><td>When assessment was performed</td></tr>
+            <tr><td>created_at</td><td class="type">timestamptz</td><td>Record creation timestamp</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Workflow -->
+    <div class="entity" id="workflow">
+      <div class="entity-header"><h3>Workflow <span class="tag tag-system">System</span></h3></div>
+      <div class="entity-body">
+        <p class="entity-desc">Tracks the onboarding workflow state for each client through the verification pipeline.</p>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id <span class="pk">PK</span></td><td class="type">uuid</td><td>Primary key</td></tr>
+            <tr><td>client_id <span class="fk">FK</span></td><td class="type">uuid</td><td>References Client (unique)</td></tr>
+            <tr><td>type</td><td class="type">enum</td><td>'individual_onboarding' | 'business_onboarding'</td></tr>
+            <tr><td>current_step</td><td class="type">enum</td><td>'registration' | 'kyc_submit' | 'doc_verify' | 'kyb_verify' | 'ubo_kyc' | 'aml_screen' | 'risk_score' | 'decision'</td></tr>
+            <tr><td>status</td><td class="type">enum</td><td>'active' | 'completed' | 'failed' | 'cancelled'</td></tr>
+            <tr><td>started_at</td><td class="type">timestamptz</td><td>When workflow began</td></tr>
+            <tr><td>completed_at</td><td class="type">timestamptz</td><td>When workflow finished</td></tr>
+            <tr><td>created_at</td><td class="type">timestamptz</td><td>Record creation timestamp</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Workflow_Event -->
+    <div class="entity" id="workflow_event">
+      <div class="entity-header"><h3>Workflow_Event <span class="tag tag-system">System</span></h3></div>
+      <div class="entity-body">
+        <p class="entity-desc">Immutable audit log of all workflow state transitions and actions taken.</p>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id <span class="pk">PK</span></td><td class="type">uuid</td><td>Primary key</td></tr>
+            <tr><td>workflow_id <span class="fk">FK</span></td><td class="type">uuid</td><td>References Workflow</td></tr>
+            <tr><td>event_type</td><td class="type">varchar(100)</td><td>Event type identifier</td></tr>
+            <tr><td>from_step</td><td class="type">varchar(50)</td><td>Previous workflow step</td></tr>
+            <tr><td>to_step</td><td class="type">varchar(50)</td><td>New workflow step</td></tr>
+            <tr><td>actor_type</td><td class="type">enum</td><td>'system' | 'staff' | 'client'</td></tr>
+            <tr><td>actor_id</td><td class="type">uuid</td><td>Who triggered the event</td></tr>
+            <tr><td>data</td><td class="type">jsonb</td><td>Event payload/details</td></tr>
+            <tr><td>created_at</td><td class="type">timestamptz</td><td>Event timestamp (immutable)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Staff -->
+    <div class="entity" id="staff">
+      <div class="entity-header"><h3>Staff <span class="tag tag-system">System</span></h3></div>
+      <div class="entity-body">
+        <p class="entity-desc">Internal platform users — compliance officers, reviewers, and admins.</p>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id <span class="pk">PK</span></td><td class="type">uuid</td><td>Primary key (Supabase Auth uid)</td></tr>
+            <tr><td>institution_id <span class="fk">FK</span></td><td class="type">uuid</td><td>References Institution</td></tr>
+            <tr><td>email</td><td class="type">varchar(255)</td><td>Staff email <span class="req">required</span></td></tr>
+            <tr><td>full_name</td><td class="type">varchar(200)</td><td>Display name</td></tr>
+            <tr><td>role</td><td class="type">enum</td><td>'admin' | 'reviewer' | 'analyst' | 'viewer'</td></tr>
+            <tr><td>is_active</td><td class="type">boolean</td><td>Account active status</td></tr>
+            <tr><td>last_login_at</td><td class="type">timestamptz</td><td>Last login timestamp</td></tr>
+            <tr><td>created_at</td><td class="type">timestamptz</td><td>Record creation timestamp</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Institution -->
+    <div class="entity" id="institution">
+      <div class="entity-header"><h3>Institution <span class="tag tag-core">Core</span></h3></div>
+      <div class="entity-body">
+        <p class="entity-desc">Multi-tenant institution/organization. Each institution has its own clients and staff.</p>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id <span class="pk">PK</span></td><td class="type">uuid</td><td>Primary key</td></tr>
+            <tr><td>name</td><td class="type">varchar(255)</td><td>Institution name <span class="req">required</span></td></tr>
+            <tr><td>slug</td><td class="type">varchar(100)</td><td>URL-safe identifier (unique)</td></tr>
+            <tr><td>plan</td><td class="type">enum</td><td>'starter' | 'professional' | 'enterprise'</td></tr>
+            <tr><td>settings</td><td class="type">jsonb</td><td>Platform config (thresholds, features, branding)</td></tr>
+            <tr><td>api_key_hash</td><td class="type">varchar(255)</td><td>Hashed API key</td></tr>
+            <tr><td>is_active</td><td class="type">boolean</td><td>Account active status</td></tr>
+            <tr><td>created_at</td><td class="type">timestamptz</td><td>Record creation timestamp</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="entity" id="notification">
+      <div class="entity-header"><h3>Notification <span class="tag tag-system">System</span></h3></div>
+      <div class="entity-body">
+        <p class="entity-desc">In-app and email notifications for staff about onboarding events.</p>
+        <table class="field-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>id <span class="pk">PK</span></td><td class="type">uuid</td><td>Primary key</td></tr>
+            <tr><td>staff_id <span class="fk">FK</span></td><td class="type">uuid</td><td>References Staff</td></tr>
+            <tr><td>type</td><td class="type">varchar(50)</td><td>'kyc_approved' | 'aml_match' | 'review_needed' | 'application_rejected' etc.</td></tr>
+            <tr><td>title</td><td class="type">varchar(200)</td><td>Notification title</td></tr>
+            <tr><td>body</td><td class="type">text</td><td>Notification content</td></tr>
+            <tr><td>link</td><td class="type">varchar(500)</td><td>Deep link to relevant page</td></tr>
+            <tr><td>is_read</td><td class="type">boolean</td><td>Read status (default false)</td></tr>
+            <tr><td>created_at</td><td class="type">timestamptz</td><td>When notification was created</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SQL Example -->
+    <div class="entity">
+      <div class="entity-header"><h3>Supabase Migration Example</h3></div>
+      <div class="entity-body">
+        <pre><span style="color:var(--teal)">-- Create Client table with RLS</span>
+CREATE TABLE public.client (
+  id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  institution_id uuid REFERENCES public.institution(id),
+  type        text NOT NULL CHECK (type IN ('individual','business')),
+  status      text NOT NULL DEFAULT 'pending'
+              CHECK (status IN ('pending','in_review','approved','rejected','suspended')),
+  email       varchar(255) NOT NULL,
+  phone       varchar(50),
+  metadata    jsonb DEFAULT '{}',
+  created_at  timestamptz DEFAULT now(),
+  updated_at  timestamptz DEFAULT now()
+);
+
+<span style="color:var(--teal)">-- Enable Row Level Security</span>
+ALTER TABLE public.client ENABLE ROW LEVEL SECURITY;
+
+<span style="color:var(--teal)">-- Institution-scoped access policy</span>
+CREATE POLICY "institution_access" ON public.client
+  USING (institution_id = auth.jwt()->>'institution_id');
+
+<span style="color:var(--teal)">-- Auto-update updated_at</span>
+CREATE OR REPLACE FUNCTION update_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN NEW.updated_at = now(); RETURN NEW; END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER client_updated
+  BEFORE UPDATE ON public.client
+  FOR EACH ROW EXECUTE FUNCTION update_timestamp();</pre>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// Sidebar active link on scroll
+const sections=document.querySelectorAll('.entity[id]');
+const navLinks=document.querySelectorAll('.nav-link');
+window.addEventListener('scroll',()=>{
+  let current='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-100)current=s.id});
+  navLinks.forEach(l=>{l.classList.toggle('active',l.getAttribute('href')==='#'+current)});
+},{passive:true});
+
+// Smooth scroll
+document.querySelectorAll('.nav-link').forEach(a=>a.addEventListener('click',function(e){
+  e.preventDefault();
+  const t=document.querySelector(this.getAttribute('href'));
+  if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+}));
+</script>
+</body>
+</html>

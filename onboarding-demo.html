@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VerifyFlow — Onboarding Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#00e5c3;--teal-dark:#00b89b;--bg:#0a0e17;--bg2:#111827;--bg3:#1a2035;--card:#151b2e;--text:#e2e8f0;--text2:#94a3b8;--border:#1e293b;--danger:#ef4444;--warn:#f59e0b;--success:#10b981;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--teal);text-decoration:none}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.4rem;border-radius:8px;font-size:.9rem;font-weight:600;border:none;cursor:pointer;transition:all .2s}
+.btn-primary{background:var(--teal);color:var(--bg)}
+.btn-primary:hover{background:var(--teal-dark)}
+.btn-outline{border:1px solid var(--border);background:transparent;color:var(--text)}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+
+/* Layout */
+.demo-layout{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+@media(max-width:768px){.demo-layout{grid-template-columns:1fr}.sidebar{display:none}}
+
+/* Sidebar */
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:1.5rem 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-header{padding:0 1.5rem 1.5rem;border-bottom:1px solid var(--border)}
+.sidebar-header h1{font-size:1.2rem}
+.sidebar-header h1 span{color:var(--teal)}
+.sidebar-header p{font-size:.8rem;color:var(--text2);margin-top:.25rem}
+.sidebar-nav{padding:1rem 0}
+.nav-section{padding:.5rem 1.5rem;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);margin-top:.5rem}
+.nav-item{display:flex;align-items:center;gap:.75rem;padding:.6rem 1.5rem;font-size:.85rem;color:var(--text2);cursor:pointer;transition:all .15s;border-left:2px solid transparent}
+.nav-item:hover{background:rgba(0,229,195,.05);color:var(--text)}
+.nav-item.active{color:var(--teal);border-left-color:var(--teal);background:rgba(0,229,195,.05)}
+.nav-item.completed{color:var(--success)}
+.nav-item .icon{width:20px;text-align:center;font-size:.9rem}
+.nav-item .status{margin-left:auto;font-size:.7rem;padding:.15rem .4rem;border-radius:4px}
+.nav-item .status.done{background:rgba(16,185,129,.1);color:var(--success)}
+.nav-item .status.active{background:rgba(0,229,195,.1);color:var(--teal)}
+.nav-item .status.pending{background:rgba(148,163,184,.1);color:var(--text2)}
+
+/* Main */
+.main{padding:2rem;overflow-y:auto}
+.main-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.main-header h2{font-size:1.3rem}
+.breadcrumb{font-size:.8rem;color:var(--text2)}
+.breadcrumb span{color:var(--teal)}
+
+/* Demo Panels */
+.panel{display:none;animation:fadeIn .3s ease}
+.panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem}
+.card h3{font-size:1rem;margin-bottom:.75rem}
+.card p{font-size:.9rem;color:var(--text2)}
+
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem}
+.stat-card .label{font-size:.8rem;color:var(--text2)}
+.stat-card .value{font-size:1.8rem;font-weight:700;margin:.25rem 0}
+.stat-card .change{font-size:.8rem;color:var(--success)}
+.stat-card .change.down{color:var(--danger)}
+
+/* Table */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:.7rem 1rem;font-size:.8rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.03em;border-bottom:1px solid var(--border)}
+td{padding:.7rem 1rem;font-size:.85rem;border-bottom:1px solid var(--border)}
+tr:hover td{background:rgba(0,229,195,.02)}
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:6px;font-size:.75rem;font-weight:500}
+.badge-success{background:rgba(16,185,129,.1);color:var(--success)}
+.badge-warning{background:rgba(245,158,11,.1);color:var(--warn)}
+.badge-danger{background:rgba(239,68,68,.1);color:var(--danger)}
+.badge-info{background:rgba(0,229,195,.1);color:var(--teal)}
+.badge-neutral{background:rgba(148,163,184,.1);color:var(--text2)}
+
+/* Timeline */
+.timeline{position:relative;padding-left:2rem}
+.timeline::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;padding-bottom:1.5rem}
+.timeline-item::before{content:'';position:absolute;left:-2rem;top:4px;width:14px;height:14px;border-radius:50%;border:2px solid var(--border);background:var(--bg)}
+.timeline-item.done::before{border-color:var(--success);background:var(--success)}
+.timeline-item.active::before{border-color:var(--teal);background:var(--teal)}
+.timeline-item .time{font-size:.75rem;color:var(--text2)}
+.timeline-item .desc{font-size:.9rem;margin-top:.2rem}
+
+/* Workflow Vis */
+.workflow-steps{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:1.5rem 0}
+.wf-step{display:flex;align-items:center;gap:.5rem;padding:.6rem 1rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:.8rem}
+.wf-step.done{border-color:var(--success);color:var(--success)}
+.wf-step.active{border-color:var(--teal);color:var(--teal);background:rgba(0,229,195,.05)}
+.wf-step.pending{color:var(--text2)}
+.wf-arrow{color:var(--text2);font-size:.8rem}
+
+/* Risk Gauge */
+.risk-gauge{width:200px;margin:1rem auto}
+.risk-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.risk-fill{height:100%;border-radius:4px;transition:width .8s ease}
+.risk-low{background:var(--success)}
+.risk-med{background:var(--warn)}
+.risk-high{background:var(--danger)}
+
+/* Notification */
+.notif{display:flex;align-items:flex-start;gap:.75rem;padding:1rem;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.75rem;font-size:.85rem}
+.notif .dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.notif .dot.green{background:var(--success)}
+.notif .dot.yellow{background:var(--warn)}
+.notif .dot.red{background:var(--danger)}
+.notif .dot.blue{background:var(--teal)}
+</style>
+</head>
+<body>
+<div class="demo-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>Verify<span>Flow</span></h1>
+      <p>Admin Dashboard Demo</p>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Overview</div>
+      <div class="nav-item active" onclick="showPanel('dashboard')"><span class="icon">📊</span>Dashboard<span class="status active">Live</span></div>
+      <div class="nav-section">Onboarding</div>
+      <div class="nav-item" onclick="showPanel('clients')"><span class="icon">👤</span>Clients</div>
+      <div class="nav-item" onclick="showPanel('kyc')"><span class="icon">🔍</span>KYC Reviews</div>
+      <div class="nav-item" onclick="showPanel('kyb')"><span class="icon">🏢</span>KYB Reviews</div>
+      <div class="nav-item" onclick="showPanel('aml')"><span class="icon">🛡️</span>AML Screening</div>
+      <div class="nav-item" onclick="showPanel('risk')"><span class="icon">⚡</span>Risk Engine</div>
+      <div class="nav-section">System</div>
+      <div class="nav-item" onclick="showPanel('workflow')"><span class="icon">🔄</span>Workflows</div>
+      <div class="nav-item" onclick="showPanel('notifications')"><span class="icon">🔔</span>Notifications</div>
+      <div class="nav-item" onclick="showPanel('settings')"><span class="icon">⚙️</span>Settings</div>
+      <div style="padding:1.5rem"><a href="/" class="btn btn-outline" style="width:100%;justify-content:center;font-size:.8rem">← Back to Site</a></div>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="main-header">
+      <div>
+        <div class="breadcrumb">Demo / <span id="panelTitle">Dashboard</span></div>
+        <h2 id="panelHeading">Dashboard Overview</h2>
+      </div>
+      <div style="display:flex;gap:.5rem">
+        <button class="btn btn-outline" style="font-size:.8rem" onclick="simulateData()">↻ Refresh</button>
+        <button class="btn btn-primary" style="font-size:.8rem" onclick="runDemo()">▶ Run Demo</button>
+      </div>
+    </div>
+
+    <!-- Dashboard Panel -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="stats-row">
+        <div class="stat-card"><div class="label">Total Clients</div><div class="value" id="s-clients">1,247</div><div class="change">↑ 12% this month</div></div>
+        <div class="stat-card"><div class="label">Pending Reviews</div><div class="value" id="s-pending">23</div><div class="change down">↑ 3 from yesterday</div></div>
+        <div class="stat-card"><div class="label">Approval Rate</div><div class="value" id="s-approval">94.2%</div><div class="change">↑ 1.5% this month</div></div>
+        <div class="stat-card"><div class="label">Avg. Time</div><div class="value" id="s-time">2.8m</div><div class="change">↓ 0.4m improvement</div></div>
+      </div>
+      <div class="card">
+        <h3>Recent Onboarding Activity</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Client</th><th>Type</th><th>KYC</th><th>AML</th><th>Risk</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody id="dashboardTable">
+              <tr><td>Maria Schmidt</td><td>Individual</td><td><span class="badge badge-success">Passed</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-success">Low</span></td><td><span class="badge badge-success">Approved</span></td><td>2026-04-09</td></tr>
+              <tr><td>TechStart GmbH</td><td>Business</td><td><span class="badge badge-warning">Review</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-warning">Medium</span></td><td><span class="badge badge-info">In Review</span></td><td>2026-04-09</td></tr>
+              <tr><td>Ahmed Yilmaz</td><td>Individual</td><td><span class="badge badge-success">Passed</span></td><td><span class="badge badge-warning">Review</span></td><td><span class="badge badge-warning">Medium</span></td><td><span class="badge badge-info">In Review</span></td><td>2026-04-08</td></tr>
+              <tr><td>FinServe Ltd</td><td>Business</td><td><span class="badge badge-danger">Failed</span></td><td><span class="badge badge-neutral">Pending</span></td><td><span class="badge badge-danger">High</span></td><td><span class="badge badge-danger">Rejected</span></td><td>2026-04-08</td></tr>
+              <tr><td>Sophie Dupont</td><td>Individual</td><td><span class="badge badge-success">Passed</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-success">Low</span></td><td><span class="badge badge-success">Approved</span></td><td>2026-04-07</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clients Panel -->
+    <div class="panel" id="panel-clients">
+      <div class="card">
+        <h3>Client Directory</h3>
+        <p style="margin-bottom:1rem">All onboarded and pending clients</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Type</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr><td>Maria Schmidt</td><td>maria@example.com</td><td>Individual</td><td><span class="badge badge-success">Active</span></td><td>2026-03-15</td><td><a href="#" style="font-size:.8rem">View</a></td></tr>
+              <tr><td>TechStart GmbH</td><td>admin@techstart.de</td><td>Business</td><td><span class="badge badge-info">In Review</span></td><td>2026-04-01</td><td><a href="#" style="font-size:.8rem">Review</a></td></tr>
+              <tr><td>Ahmed Yilmaz</td><td>ahmed@example.com</td><td>Individual</td><td><span class="badge badge-info">In Review</span></td><td>2026-04-02</td><td><a href="#" style="font-size:.8rem">Review</a></td></tr>
+              <tr><td>FinServe Ltd</td><td>info@finserve.co</td><td>Business</td><td><span class="badge badge-danger">Rejected</span></td><td>2026-03-28</td><td><a href="#" style="font-size:.8rem">View</a></td></tr>
+              <tr><td>Sophie Dupont</td><td>sophie@example.fr</td><td>Individual</td><td><span class="badge badge-success">Active</span></td><td>2026-03-10</td><td><a href="#" style="font-size:.8rem">View</a></td></tr>
+              <tr><td>Nordic Pay Oy</td><td>ops@nordicpay.fi</td><td>Business</td><td><span class="badge badge-success">Active</span></td><td>2026-02-20</td><td><a href="#" style="font-size:.8rem">View</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- KYC Panel -->
+    <div class="panel" id="panel-kyc">
+      <div class="stats-row">
+        <div class="stat-card"><div class="label">Pending KYC</div><div class="value">8</div></div>
+        <div class="stat-card"><div class="label">Passed Today</div><div class="value">12</div></div>
+        <div class="stat-card"><div class="label">Failed Today</div><div class="value">1</div></div>
+      </div>
+      <div class="card">
+        <h3>KYC Review Queue</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Client</th><th>Document</th><th>Liveness</th><th>Match Score</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td>Ahmed Yilmaz</td><td><span class="badge badge-success">Verified</span></td><td><span class="badge badge-success">Pass</span></td><td>96.5%</td><td><span class="badge badge-warning">Manual Review</span></td><td><button class="btn btn-primary" style="padding:.3rem .8rem;font-size:.75rem" onclick="approveKYC(this)">Approve</button></td></tr>
+              <tr><td>Hans Mueller</td><td><span class="badge badge-warning">Unclear</span></td><td><span class="badge badge-success">Pass</span></td><td>78.2%</td><td><span class="badge badge-warning">Manual Review</span></td><td><button class="btn btn-primary" style="padding:.3rem .8rem;font-size:.75rem" onclick="approveKYC(this)">Approve</button></td></tr>
+              <tr><td>Elena Rossi</td><td><span class="badge badge-success">Verified</span></td><td><span class="badge badge-danger">Fail</span></td><td>45.1%</td><td><span class="badge badge-danger">Rejected</span></td><td><button class="btn btn-outline" style="padding:.3rem .8rem;font-size:.75rem">Retry</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Onfido Integration Status</h3>
+        <p>Connected to Onfido sandbox environment</p>
+        <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap">
+          <span class="badge badge-success">API Connected</span>
+          <span class="badge badge-info">Sandbox Mode</span>
+          <span class="badge badge-success">Webhooks Active</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- KYB Panel -->
+    <div class="panel" id="panel-kyb">
+      <div class="card">
+        <h3>Business Verification Queue</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Company</th><th>Registration</th><th>UBOs</th><th>Structure</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>TechStart GmbH</td><td><span class="badge badge-success">Verified</span></td><td>2 identified</td><td><span class="badge badge-success">Simple</span></td><td><span class="badge badge-info">In Review</span></td></tr>
+              <tr><td>Nordic Pay Oy</td><td><span class="badge badge-success">Verified</span></td><td>3 identified</td><td><span class="badge badge-warning">Complex</span></td><td><span class="badge badge-success">Approved</span></td></tr>
+              <tr><td>FinServe Ltd</td><td><span class="badge badge-danger">Mismatch</span></td><td>0 identified</td><td><span class="badge badge-danger">Unknown</span></td><td><span class="badge badge-danger">Rejected</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Beneficial Owners — TechStart GmbH</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Ownership %</th><th>Role</th><th>KYC Status</th></tr></thead>
+            <tbody>
+              <tr><td>Klaus Weber</td><td>60%</td><td>CEO / Founder</td><td><span class="badge badge-success">Passed</span></td></tr>
+              <tr><td>Anna Fischer</td><td>40%</td><td>CTO / Co-founder</td><td><span class="badge badge-warning">Pending</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- AML Panel -->
+    <div class="panel" id="panel-aml">
+      <div class="stats-row">
+        <div class="stat-card"><div class="label">Screenings Today</div><div class="value">34</div></div>
+        <div class="stat-card"><div class="label">Matches Found</div><div class="value">2</div></div>
+        <div class="stat-card"><div class="label">False Positives</div><div class="value">1</div></div>
+      </div>
+      <div class="card">
+        <h3>AML Screening Results</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Client</th><th>Sanctions</th><th>PEP</th><th>Adverse Media</th><th>Result</th></tr></thead>
+            <tbody>
+              <tr><td>Maria Schmidt</td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-success">Pass</span></td></tr>
+              <tr><td>Ahmed Yilmaz</td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-warning">Match</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-warning">Review</span></td></tr>
+              <tr><td>FinServe Ltd</td><td><span class="badge badge-danger">Match</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-danger">Match</span></td><td><span class="badge badge-danger">Fail</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3>ComplyAdvantage Integration</h3>
+        <p>Connected to ComplyAdvantage for ongoing AML monitoring</p>
+        <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap">
+          <span class="badge badge-success">API Connected</span>
+          <span class="badge badge-info">Ongoing Monitoring</span>
+          <span class="badge badge-success">Daily Rescreening</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Risk Panel -->
+    <div class="panel" id="panel-risk">
+      <div class="card">
+        <h3>Risk Assessment Engine</h3>
+        <p style="margin-bottom:1.5rem">Automated risk scoring based on configurable rules</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Client</th><th>Risk Score</th><th>Level</th><th>Factors</th><th>Decision</th></tr></thead>
+            <tbody>
+              <tr><td>Maria Schmidt</td><td>15/100</td><td><span class="badge badge-success">Low</span></td><td>Clean history, EU resident</td><td>Auto-approved</td></tr>
+              <tr><td>Ahmed Yilmaz</td><td>52/100</td><td><span class="badge badge-warning">Medium</span></td><td>PEP match (relative)</td><td>Manual review</td></tr>
+              <tr><td>TechStart GmbH</td><td>38/100</td><td><span class="badge badge-warning">Medium</span></td><td>New company, pending UBO KYC</td><td>Manual review</td></tr>
+              <tr><td>FinServe Ltd</td><td>87/100</td><td><span class="badge badge-danger">High</span></td><td>Sanctions match, adverse media</td><td>Auto-rejected</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Risk Thresholds</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-top:1rem">
+          <div><div style="font-size:.8rem;color:var(--text2);margin-bottom:.5rem">Low Risk (0-30)</div><div class="risk-bar"><div class="risk-fill risk-low" style="width:30%"></div></div><div style="font-size:.75rem;color:var(--success);margin-top:.25rem">→ Auto-approve</div></div>
+          <div><div style="font-size:.8rem;color:var(--text2);margin-bottom:.5rem">Medium Risk (31-70)</div><div class="risk-bar"><div class="risk-fill risk-med" style="width:70%"></div></div><div style="font-size:.75rem;color:var(--warn);margin-top:.25rem">→ Manual review</div></div>
+          <div><div style="font-size:.8rem;color:var(--text2);margin-bottom:.5rem">High Risk (71-100)</div><div class="risk-bar"><div class="risk-fill risk-high" style="width:100%"></div></div><div style="font-size:.75rem;color:var(--danger);margin-top:.25rem">→ Auto-reject</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workflow Panel -->
+    <div class="panel" id="panel-workflow">
+      <div class="card">
+        <h3>Individual Onboarding Workflow</h3>
+        <div class="workflow-steps">
+          <div class="wf-step done">✓ Registration</div><span class="wf-arrow">→</span>
+          <div class="wf-step done">✓ KYC Submit</div><span class="wf-arrow">→</span>
+          <div class="wf-step active">● Doc Verify</div><span class="wf-arrow">→</span>
+          <div class="wf-step pending">○ AML Screen</div><span class="wf-arrow">→</span>
+          <div class="wf-step pending">○ Risk Score</div><span class="wf-arrow">→</span>
+          <div class="wf-step pending">○ Decision</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Business Onboarding Workflow</h3>
+        <div class="workflow-steps">
+          <div class="wf-step done">✓ Registration</div><span class="wf-arrow">→</span>
+          <div class="wf-step done">✓ KYB Submit</div><span class="wf-arrow">→</span>
+          <div class="wf-step done">✓ Registry Check</div><span class="wf-arrow">→</span>
+          <div class="wf-step active">● UBO KYC</div><span class="wf-arrow">→</span>
+          <div class="wf-step pending">○ AML Screen</div><span class="wf-arrow">→</span>
+          <div class="wf-step pending">○ Risk Score</div><span class="wf-arrow">→</span>
+          <div class="wf-step pending">○ Decision</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Workflow Event Log</h3>
+        <div class="timeline">
+          <div class="timeline-item done"><div class="time">09:42 — Maria Schmidt</div><div class="desc">Application auto-approved (risk score: 15)</div></div>
+          <div class="timeline-item done"><div class="time">09:38 — Maria Schmidt</div><div class="desc">AML screening completed — all clear</div></div>
+          <div class="timeline-item done"><div class="time">09:35 — Maria Schmidt</div><div class="desc">KYC document verified (passport, score: 99.1%)</div></div>
+          <div class="timeline-item active"><div class="time">09:30 — Ahmed Yilmaz</div><div class="desc">PEP match flagged — escalated to manual review</div></div>
+          <div class="timeline-item done"><div class="time">09:22 — TechStart GmbH</div><div class="desc">Company registry verified — 2 UBOs identified</div></div>
+          <div class="timeline-item done"><div class="time">09:15 — FinServe Ltd</div><div class="desc">Application auto-rejected (sanctions match)</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notifications Panel -->
+    <div class="panel" id="panel-notifications">
+      <div class="card">
+        <h3>Recent Notifications</h3>
+        <div style="margin-top:1rem">
+          <div class="notif"><div class="dot green"></div><div><strong>KYC Approved</strong> — Maria Schmidt's identity verified<br><span style="font-size:.75rem;color:var(--text2)">2 minutes ago</span></div></div>
+          <div class="notif"><div class="dot yellow"></div><div><strong>Manual Review Required</strong> — Ahmed Yilmaz flagged as PEP relative<br><span style="font-size:.75rem;color:var(--text2)">15 minutes ago</span></div></div>
+          <div class="notif"><div class="dot red"></div><div><strong>Application Rejected</strong> — FinServe Ltd matched sanctions list<br><span style="font-size:.75rem;color:var(--text2)">1 hour ago</span></div></div>
+          <div class="notif"><div class="dot blue"></div><div><strong>New Application</strong> — TechStart GmbH started business onboarding<br><span style="font-size:.75rem;color:var(--text2)">2 hours ago</span></div></div>
+          <div class="notif"><div class="dot green"></div><div><strong>AML Clear</strong> — Sophie Dupont passed all compliance checks<br><span style="font-size:.75rem;color:var(--text2)">3 hours ago</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="panel" id="panel-settings">
+      <div class="card">
+        <h3>Platform Settings</h3>
+        <div style="display:grid;gap:1rem;margin-top:1rem">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
+            <div><strong style="font-size:.9rem">Auto-approve low risk</strong><br><span style="font-size:.8rem;color:var(--text2)">Automatically approve clients with risk score &lt; 30</span></div>
+            <div style="width:44px;height:24px;background:var(--teal);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
+            <div><strong style="font-size:.9rem">Auto-reject high risk</strong><br><span style="font-size:.8rem;color:var(--text2)">Automatically reject clients with risk score &gt; 70</span></div>
+            <div style="width:44px;height:24px;background:var(--teal);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
+            <div><strong style="font-size:.9rem">Ongoing AML monitoring</strong><br><span style="font-size:.8rem;color:var(--text2)">Rescreen approved clients daily for changes</span></div>
+            <div style="width:44px;height:24px;background:var(--teal);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
+            <div><strong style="font-size:.9rem">Email notifications</strong><br><span style="font-size:.8rem;color:var(--text2)">Send email alerts for flagged applications</span></div>
+            <div style="width:44px;height:24px;background:var(--border);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>API Keys</h3>
+        <div style="margin-top:1rem">
+          <div style="display:flex;align-items:center;gap:1rem;padding:.75rem;background:var(--bg);border-radius:8px;margin-bottom:.5rem">
+            <code style="font-size:.8rem;color:var(--teal);flex:1">vf_live_sk_••••••••••••••••</code>
+            <span class="badge badge-success">Active</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:1rem;padding:.75rem;background:var(--bg);border-radius:8px">
+            <code style="font-size:.8rem;color:var(--text2);flex:1">vf_test_sk_••••••••••••••••</code>
+            <span class="badge badge-info">Sandbox</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  const titles={dashboard:'Dashboard Overview',clients:'Client Directory',kyc:'KYC Verification',kyb:'KYB Verification',aml:'AML Screening',risk:'Risk Assessment',workflow:'Workflow Manager',notifications:'Notifications',settings:'Platform Settings'};
+  document.getElementById('panelTitle').textContent=titles[id]||id;
+  document.getElementById('panelHeading').textContent=titles[id]||id;
+}
+
+function approveKYC(btn){
+  const row=btn.closest('tr');
+  row.querySelector('td:nth-child(5) .badge').className='badge badge-success';
+  row.querySelector('td:nth-child(5) .badge').textContent='Approved';
+  btn.textContent='Done';btn.disabled=true;btn.style.opacity='.5';
+}
+
+function simulateData(){
+  const el=document.getElementById('s-clients');
+  const n=parseInt(el.textContent.replace(',',''))+Math.floor(Math.random()*5);
+  el.textContent=n.toLocaleString();
+}
+
+function runDemo(){
+  const panels=['clients','kyc','aml','risk','workflow','notifications'];
+  let i=0;
+  const items=document.querySelectorAll('.nav-item');
+  function next(){
+    if(i>=panels.length)return;
+    items.forEach(n=>n.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    const id=panels[i];
+    document.getElementById('panel-'+id).classList.add('active');
+    const titles={clients:'Client Directory',kyc:'KYC Verification',aml:'AML Screening',risk:'Risk Assessment',workflow:'Workflow Manager',notifications:'Notifications'};
+    document.getElementById('panelTitle').textContent=titles[id];
+    document.getElementById('panelHeading').textContent=titles[id];
+    items.forEach(n=>{if(n.textContent.toLowerCase().includes(id.substring(0,3)))n.classList.add('active')});
+    i++;
+    setTimeout(next,2500);
+  }
+  next();
+}
+</script>
+</body>
+</html>
