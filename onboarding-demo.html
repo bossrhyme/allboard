@@ -109,6 +109,28 @@ tr:hover td{background:rgba(0,229,195,.02)}
 .notif .dot.yellow{background:var(--warn)}
 .notif .dot.red{background:var(--danger)}
 .notif .dot.blue{background:var(--teal)}
+/* Chat staff side */
+.chat-box{display:flex;flex-direction:column;height:420px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
+.chat-msgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem}
+.cmsg{display:flex;gap:.5rem;max-width:78%}
+.cmsg.cli{align-self:flex-end;flex-direction:row-reverse}
+.cmsg.stf{align-self:flex-start}
+.cbub{padding:.6rem 1rem;border-radius:12px;font-size:.85rem;line-height:1.5}
+.cmsg.cli .cbub{background:rgba(0,229,195,.15);border:1px solid rgba(0,229,195,.3);border-radius:12px 12px 2px 12px}
+.cmsg.stf .cbub{background:var(--bg2);border:1px solid var(--border);border-radius:12px 12px 12px 2px}
+.cmeta{font-size:.68rem;color:var(--text2);margin-top:.2rem}
+.cmsg.cli .cmeta{text-align:right}.cmsg.stf .cmeta{text-align:left}
+.cav{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0;align-self:flex-end}
+.cmsg.cli .cav{background:rgba(0,229,195,.2);color:var(--teal)}.cmsg.stf .cav{background:var(--bg3);color:var(--text2)}
+.chat-inp-row{border-top:1px solid var(--border);padding:.75rem;display:flex;gap:.5rem}
+.chat-inp{flex:1;padding:.6rem .9rem;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.875rem;font-family:inherit}
+.chat-inp:focus{outline:none;border-color:var(--teal)}
+/* Interview */
+.int-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:1rem}
+.int-card .int-icon{font-size:1.5rem;flex-shrink:0}
+.int-card .int-info{flex:1}.int-card .int-name{font-size:.9rem;font-weight:600}
+.int-card .int-meta{font-size:.78rem;color:var(--text2);margin-top:.15rem}
+.int-card .int-actions{display:flex;gap:.5rem}
 </style>
 </head>
 <body>
@@ -128,6 +150,11 @@ tr:hover td{background:rgba(0,229,195,.02)}
       <div class="nav-item" onclick="showPanel('kyb')"><span class="icon">🏢</span>KYB Reviews</div>
       <div class="nav-item" onclick="showPanel('aml')"><span class="icon">🛡️</span>AML Screening</div>
       <div class="nav-item" onclick="showPanel('risk')"><span class="icon">⚡</span>Risk Engine</div>
+      <div class="nav-section">Client Management</div>
+      <div class="nav-item" onclick="showPanel('clientprofile')"><span class="icon">🪪</span>Client Profile</div>
+      <div class="nav-section">Communication</div>
+      <div class="nav-item" onclick="showPanel('staffchat')"><span class="icon">💬</span>Messaging</div>
+      <div class="nav-item" onclick="showPanel('interview')"><span class="icon">📅</span>Interviews</div>
       <div class="nav-section">System</div>
       <div class="nav-item" onclick="showPanel('workflow')"><span class="icon">🔄</span>Workflows</div>
       <div class="nav-item" onclick="showPanel('notifications')"><span class="icon">🔔</span>Notifications</div>
@@ -365,6 +392,174 @@ tr:hover td{background:rgba(0,229,195,.02)}
       </div>
     </div>
 
+    <!-- Client Profile Panel -->
+    <div class="panel" id="panel-clientprofile">
+      <div class="card" style="display:flex;align-items:center;gap:1rem;padding:1.5rem">
+        <div style="width:64px;height:64px;background:rgba(0,229,195,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;color:var(--teal);flex-shrink:0">AY</div>
+        <div style="flex:1">
+          <h2 style="font-size:1.2rem;margin-bottom:.2rem">Ahmet Yılmaz</h2>
+          <p style="font-size:.83rem;color:var(--text2)">ahmet@ornek.com &nbsp;·&nbsp; +90 555 123 45 67</p>
+          <div style="display:flex;gap:.5rem;margin-top:.4rem;flex-wrap:wrap">
+            <span class="badge badge-warning">KYC: İncelemede</span>
+            <span class="badge badge-info">AML: Taranıyor</span>
+            <span class="badge badge-neutral">Risk: Bekliyor</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.5rem">
+          <button class="btn btn-primary" style="font-size:.8rem;padding:.4rem 1rem" onclick="approveKYC(this)">KYC Onayla</button>
+          <button class="btn btn-outline" style="font-size:.8rem;padding:.4rem 1rem">Reddet</button>
+          <button class="btn btn-outline" style="font-size:.8rem;padding:.4rem 1rem" onclick="showPanel('staffchat')">💬 Mesaj Gönder</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="card">
+          <h3 style="font-size:.85rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)">Kişisel Bilgiler</h3>
+          <div style="display:grid;gap:.6rem;font-size:.85rem">
+            <div><span style="color:var(--text2);font-size:.75rem">Ad Soyad</span><div style="font-weight:500">Ahmet Yılmaz</div></div>
+            <div><span style="color:var(--text2);font-size:.75rem">Doğum Tarihi</span><div style="font-weight:500">15.03.1985</div></div>
+            <div><span style="color:var(--text2);font-size:.75rem">Uyruk</span><div style="font-weight:500">Türkiye</div></div>
+            <div><span style="color:var(--text2);font-size:.75rem">TC Kimlik No</span><div style="font-weight:500">•••••678901</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="font-size:.85rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)">Risk & PEP</h3>
+          <div style="display:grid;gap:.6rem;font-size:.85rem">
+            <div><span style="color:var(--text2);font-size:.75rem">PEP Durumu</span><div style="font-weight:500">Hayır</div></div>
+            <div><span style="color:var(--text2);font-size:.75rem">Yakın PEP</span><div style="font-weight:500">Hayır</div></div>
+            <div><span style="color:var(--text2);font-size:.75rem">Fon Kaynağı</span><div style="font-weight:500">Maaş / Salary</div></div>
+            <div><span style="color:var(--text2);font-size:.75rem">İşlem Hacmi</span><div style="font-weight:500">€1,000 – €10,000</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Belgeler / Documents</h3>
+        <div class="table-wrap" style="margin-top:.75rem">
+          <table>
+            <thead><tr><th>Belge</th><th>Dosya</th><th>Boyut</th><th>Durum</th><th>İşlem</th></tr></thead>
+            <tbody>
+              <tr><td>Kimlik / Passport</td><td>passport_ahmet.pdf</td><td>2.4 MB</td><td><span class="badge badge-warning">İncelemede</span></td><td><button class="btn btn-outline" style="padding:.25rem .6rem;font-size:.75rem">Görüntüle</button></td></tr>
+              <tr><td>İkametgah / Address</td><td>ikametgah_2026.pdf</td><td>1.1 MB</td><td><span class="badge badge-warning">İncelemede</span></td><td><button class="btn btn-outline" style="padding:.25rem .6rem;font-size:.75rem">Görüntüle</button></td></tr>
+              <tr><td>Vergi Levhası / Tax</td><td>—</td><td>—</td><td><span class="badge badge-neutral">Mevcut Değil</span></td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Workflow Geçmişi / Event Log</h3>
+        <div class="timeline" style="margin-top:.75rem">
+          <div class="timeline-item done"><div class="time">12 Nis 2026, 08:30</div><div class="desc">Başvuru alındı — Bireysel KYC</div></div>
+          <div class="timeline-item done"><div class="time">12 Nis 2026, 08:31</div><div class="desc">Belgeler yüklendi (2/3)</div></div>
+          <div class="timeline-item active"><div class="time">12 Nis 2026, 09:00</div><div class="desc">Belge incelemesi başlatıldı</div></div>
+          <div class="timeline-item"><div class="time">Bekleniyor</div><div class="desc">AML taraması</div></div>
+          <div class="timeline-item"><div class="time">Bekleniyor</div><div class="desc">Risk değerlendirmesi</div></div>
+          <div class="timeline-item"><div class="time">Bekleniyor</div><div class="desc">Nihai karar</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Staff Chat Panel -->
+    <div class="panel" id="panel-staffchat">
+      <div style="display:grid;grid-template-columns:280px 1fr;gap:1rem;height:calc(100vh - 200px)">
+        <div class="card" style="overflow-y:auto;padding:1rem">
+          <h3 style="font-size:.85rem;margin-bottom:.75rem">Aktif Konuşmalar</h3>
+          <div onclick="selectChat(this,'Ahmet Yılmaz','AY')" style="display:flex;align-items:center;gap:.75rem;padding:.75rem;border-radius:8px;cursor:pointer;background:rgba(0,229,195,.05);border:1px solid rgba(0,229,195,.3);margin-bottom:.5rem">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(0,229,195,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--teal);flex-shrink:0">AY</div>
+            <div style="flex:1;min-width:0"><div style="font-size:.85rem;font-weight:600">Ahmet Yılmaz</div><div style="font-size:.75rem;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Belgelerimi yükledim...</div></div>
+            <div style="font-size:.7rem;color:var(--text2)">09:22</div>
+          </div>
+          <div onclick="selectChat(this,'Maria Schmidt','MS')" style="display:flex;align-items:center;gap:.75rem;padding:.75rem;border-radius:8px;cursor:pointer;border:1px solid var(--border);margin-bottom:.5rem">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--text2);flex-shrink:0">MS</div>
+            <div style="flex:1;min-width:0"><div style="font-size:.85rem;font-weight:600">Maria Schmidt</div><div style="font-size:.75rem;color:var(--text2)">Approved ✓</div></div>
+            <div style="font-size:.7rem;color:var(--text2)">Dün</div>
+          </div>
+          <div onclick="selectChat(this,'TechStart GmbH','TS')" style="display:flex;align-items:center;gap:.75rem;padding:.75rem;border-radius:8px;cursor:pointer;border:1px solid var(--border)">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--text2);flex-shrink:0">TS</div>
+            <div style="flex:1;min-width:0"><div style="font-size:.85rem;font-weight:600">TechStart GmbH</div><div style="font-size:.75rem;color:var(--text2)">UBO belgesi lazım...</div></div>
+            <div style="font-size:.7rem;color:var(--text2)">2g</div>
+          </div>
+        </div>
+        <div class="card" style="display:flex;flex-direction:column;padding:0;overflow:hidden">
+          <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem">
+            <div id="chatClientAv" style="width:36px;height:36px;border-radius:50%;background:rgba(0,229,195,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--teal)">AY</div>
+            <div><div id="chatClientName" style="font-size:.9rem;font-weight:600">Ahmet Yılmaz</div><div style="font-size:.75rem;color:var(--success)">● Çevrimiçi</div></div>
+            <button class="btn btn-outline" style="margin-left:auto;font-size:.78rem;padding:.35rem .8rem" onclick="showPanel('clientprofile')">Profili Aç →</button>
+          </div>
+          <div class="chat-msgs" id="staffChatMsgs" style="flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem">
+            <div class="cmsg cli"><div class="cav">AY</div><div><div class="cbub">Belgelerimi yükledim. Ne kadar süreceğini öğrenebilir miyim?</div><div class="cmeta">09:22</div></div></div>
+            <div class="cmsg stf"><div class="cav">VF</div><div><div class="cbub">Belgeleriniz alındı. Normal koşullarda inceleme 1-2 iş günü içinde tamamlanır.</div><div class="cmeta">Siz · 09:30</div></div></div>
+            <div class="cmsg cli"><div class="cav">AY</div><div><div class="cbub">Kimlik belgesinin arka yüzünü yüklemem gerekiyor mu?</div><div class="cmeta">10:40</div></div></div>
+          </div>
+          <div class="chat-inp-row">
+            <input type="text" class="chat-inp" id="staffChatInp" placeholder="Müşteriye mesaj yazın..." onkeydown="if(event.key==='Enter')staffSend()">
+            <button class="btn btn-primary btn-sm" onclick="staffSend()">Gönder ↑</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interview Panel -->
+    <div class="panel" id="panel-interview">
+      <div class="stats-row">
+        <div class="stat-card"><div class="label">Bu Hafta Planlanacak</div><div class="value">4</div></div>
+        <div class="stat-card"><div class="label">Planlandı</div><div class="value">7</div></div>
+        <div class="stat-card"><div class="label">Tamamlandı</div><div class="value">23</div></div>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+          <h3>Görüşme Takvimi / Interview Schedule</h3>
+          <button class="btn btn-primary btn-sm" onclick="scheduleInterview()">+ Görüşme Planla</button>
+        </div>
+        <div id="interviewList">
+          <div class="int-card">
+            <div class="int-icon">📅</div>
+            <div class="int-info">
+              <div class="int-name">Ahmet Yılmaz — KYC Görüşmesi</div>
+              <div class="int-meta">14 Nis 2026, Pazartesi 14:00 · Video Call · Compliance: Sara Demir</div>
+            </div>
+            <span class="badge badge-info">Planlandı</span>
+            <div class="int-actions">
+              <button class="btn btn-outline" style="font-size:.75rem;padding:.3rem .7rem">Düzenle</button>
+              <button class="btn btn-primary" style="font-size:.75rem;padding:.3rem .7rem" onclick="completeInterview(this)">Tamamlandı ✓</button>
+            </div>
+          </div>
+          <div class="int-card">
+            <div class="int-icon">📅</div>
+            <div class="int-info">
+              <div class="int-name">TechStart GmbH — KYB UBO Görüşmesi</div>
+              <div class="int-meta">15 Nis 2026, Salı 10:30 · Video Call · Compliance: Mehmet Yıldız</div>
+            </div>
+            <span class="badge badge-info">Planlandı</span>
+            <div class="int-actions">
+              <button class="btn btn-outline" style="font-size:.75rem;padding:.3rem .7rem">Düzenle</button>
+              <button class="btn btn-primary" style="font-size:.75rem;padding:.3rem .7rem" onclick="completeInterview(this)">Tamamlandı ✓</button>
+            </div>
+          </div>
+          <div class="int-card" style="opacity:.7">
+            <div class="int-icon">✅</div>
+            <div class="int-info">
+              <div class="int-name">Sophie Dupont — KYC Görüşmesi</div>
+              <div class="int-meta">10 Nis 2026, Perşembe 15:00 · Video Call · Compliance: Sara Demir</div>
+            </div>
+            <span class="badge badge-success">Tamamlandı</span>
+            <div class="int-actions">
+              <button class="btn btn-outline" style="font-size:.75rem;padding:.3rem .7rem">Notlar</button>
+            </div>
+          </div>
+          <div class="int-card">
+            <div class="int-icon">🕐</div>
+            <div class="int-info">
+              <div class="int-name">Hans Mueller — Belge Görüşmesi</div>
+              <div class="int-meta">Tarih belirlenmedi · Müşteri ile koordinasyon gerekli</div>
+            </div>
+            <span class="badge badge-warning">Planlanacak</span>
+            <div class="int-actions">
+              <button class="btn btn-primary" style="font-size:.75rem;padding:.3rem .7rem" onclick="scheduleInterview()">Planla</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Settings Panel -->
     <div class="panel" id="panel-settings">
       <div class="card">
@@ -410,8 +605,8 @@ function showPanel(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  const titles={dashboard:'Dashboard Overview',clients:'Client Directory',kyc:'KYC Verification',kyb:'KYB Verification',aml:'AML Screening',risk:'Risk Assessment',workflow:'Workflow Manager',notifications:'Notifications',settings:'Platform Settings'};
+  if(event&&event.currentTarget)event.currentTarget.classList.add('active');
+  const titles={dashboard:'Dashboard Overview',clients:'Client Directory',kyc:'KYC Verification',kyb:'KYB Verification',aml:'AML Screening',risk:'Risk Assessment',workflow:'Workflow Manager',notifications:'Notifications',settings:'Platform Settings',clientprofile:'Client Profile Detail',staffchat:'Messaging / Chat',interview:'Interview Management'};
   document.getElementById('panelTitle').textContent=titles[id]||id;
   document.getElementById('panelHeading').textContent=titles[id]||id;
 }
@@ -447,6 +642,40 @@ function runDemo(){
     setTimeout(next,2500);
   }
   next();
+}
+
+// Staff chat
+function staffSend(){
+  const inp=document.getElementById('staffChatInp'),txt=inp.value.trim();if(!txt)return;
+  const msgs=document.getElementById('staffChatMsgs');
+  const now=new Date(),ts=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  const m=document.createElement('div');m.className='cmsg stf';
+  m.innerHTML='<div class="cav">VF</div><div><div class="cbub">'+txt.replace(/</g,'&lt;')+'</div><div class="cmeta">Siz · '+ts+'</div></div>';
+  msgs.appendChild(m);inp.value='';msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(()=>{
+    const r=document.createElement('div');r.className='cmsg cli';
+    r.innerHTML='<div class="cav" style="background:rgba(0,229,195,.2);color:var(--teal)">M</div><div><div class="cbub">Teşekkürler, anlıyorum.</div><div class="cmeta">Müşteri · '+ts+'</div></div>';
+    msgs.appendChild(r);msgs.scrollTop=msgs.scrollHeight;
+  },1500);
+}
+function selectChat(el,name,initials){
+  document.querySelectorAll('[data-chat]').forEach(c=>{c.style.background='';c.style.border='1px solid var(--border)';});
+  el.dataset.chat='active';el.style.background='rgba(0,229,195,.05)';el.style.border='1px solid rgba(0,229,195,.3)';
+  document.getElementById('chatClientName').textContent=name;
+  const av=document.getElementById('chatClientAv');av.textContent=initials;
+}
+function scheduleInterview(){
+  const list=document.getElementById('interviewList');
+  const item=document.createElement('div');item.className='int-card';
+  item.innerHTML='<div class="int-icon">📅</div><div class="int-info"><div class="int-name">Yeni Görüşme — Tarih belirleniyor</div><div class="int-meta">Planlanıyor...</div></div><span class="badge badge-warning">Planlanacak</span><div class="int-actions"><button class="btn btn-outline" style="font-size:.75rem;padding:.3rem .7rem">Düzenle</button></div>';
+  list.insertBefore(item,list.firstChild);
+}
+function completeInterview(btn){
+  const card=btn.closest('.int-card');
+  card.querySelector('.badge').className='badge badge-success';
+  card.querySelector('.badge').textContent='Tamamlandı';
+  card.style.opacity='.7';btn.remove();
+  card.querySelector('.int-icon').textContent='✅';
 }
 </script>
 </body>

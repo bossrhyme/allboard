@@ -1,605 +1,663 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VerifyFlow — Fintech Onboarding Platform</title>
+<title>VerifyFlow — KYC/KYB Onboarding Platformu</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--teal:#00e5c3;--teal-dark:#00b89b;--bg:#0a0e17;--bg2:#111827;--bg3:#1a2035;--card:#151b2e;--text:#e2e8f0;--text2:#94a3b8;--border:#1e293b;--danger:#ef4444;--warn:#f59e0b;--success:#10b981;--radius:12px}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
 a{color:var(--teal);text-decoration:none}
-a:hover{color:var(--teal-dark)}
-
-/* Scrollbar */
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
-
-/* Nav */
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,14,23,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-.nav-logo{font-size:1.5rem;font-weight:700;color:#fff}
-.nav-logo span{color:var(--teal)}
-.nav-links{display:flex;gap:2rem;align-items:center}
-.nav-links a{color:var(--text2);font-size:.9rem;font-weight:500;transition:color .2s}
-.nav-links a:hover{color:#fff}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.4rem;border-radius:8px;font-size:.9rem;font-weight:600;border:none;cursor:pointer;transition:all .2s}
-.btn-primary{background:var(--teal);color:var(--bg)}
-.btn-primary:hover{background:var(--teal-dark);transform:translateY(-1px)}
-.btn-outline{border:1px solid var(--border);background:transparent;color:var(--text)}
-.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
-.btn-ghost{background:transparent;color:var(--teal);padding:.4rem .8rem}
-.btn-danger{background:var(--danger);color:#fff}
-.btn-sm{padding:.4rem 1rem;font-size:.8rem}
-
-/* Hero */
+.btn-primary{background:var(--teal);color:var(--bg)}.btn-primary:hover{background:var(--teal-dark);transform:translateY(-1px)}
+.btn-outline{border:1px solid var(--border);background:transparent;color:var(--text)}.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-ghost{background:transparent;color:var(--text2);border:none;cursor:pointer}.btn-ghost:hover{color:var(--text)}
+.btn-sm{padding:.4rem 1rem;font-size:.82rem}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(10,14,23,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-size:1.4rem;font-weight:700;color:#fff;cursor:pointer}.nav-logo span{color:var(--teal)}
+.nav-actions{display:flex;gap:.75rem;align-items:center}
+[data-view]{display:none}[data-view].active{display:block}
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(0,229,195,.08) 0%,transparent 70%);pointer-events:none}
-.hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;line-height:1.1;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2rem,5vw,3.8rem);font-weight:700;line-height:1.15;margin-bottom:1.5rem}
 .hero h1 span{background:linear-gradient(135deg,var(--teal),#00b4d8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:1.2rem;color:var(--text2);max-width:600px;margin:0 auto 2.5rem}
-.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.hero-stats{display:flex;gap:3rem;justify-content:center;margin-top:4rem}
-.hero-stats div{text-align:center}
-.hero-stats strong{display:block;font-size:2rem;color:#fff}
-.hero-stats span{font-size:.85rem;color:var(--text2)}
-
-/* Sections */
-.section{padding:6rem 2rem}
-.section-title{text-align:center;margin-bottom:3rem}
-.section-title h2{font-size:2.2rem;font-weight:700;margin-bottom:.5rem}
-.section-title p{color:var(--text2);max-width:500px;margin:0 auto}
-.container{max-width:1200px;margin:0 auto}
-
-/* Features */
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;max-width:1200px;margin:0 auto}
-.feature-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;transition:all .3s}
-.feature-card:hover{border-color:var(--teal);transform:translateY(-4px)}
-.feature-icon{width:48px;height:48px;background:rgba(0,229,195,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem}
-.feature-card h3{font-size:1.1rem;margin-bottom:.5rem}
-.feature-card p{color:var(--text2);font-size:.9rem}
-
-/* Pricing */
-.pricing-toggle{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:3rem}
-.pricing-toggle span{font-size:.9rem;color:var(--text2)}
-.pricing-toggle span.active{color:#fff}
-.toggle{width:50px;height:26px;background:var(--border);border-radius:13px;cursor:pointer;position:relative;transition:background .3s}
-.toggle.active{background:var(--teal)}
-.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform .3s}
-.toggle.active::after{transform:translateX(24px)}
-.pricing-tabs{display:flex;justify-content:center;gap:.5rem;margin-bottom:2rem}
-.pricing-tab{padding:.5rem 1.2rem;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:500;color:var(--text2);background:var(--bg2);border:1px solid var(--border);transition:all .2s}
-.pricing-tab.active{background:var(--teal);color:var(--bg);border-color:var(--teal)}
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto}
-.price-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;position:relative;transition:all .3s}
-.price-card.popular{border-color:var(--teal)}
-.price-card.popular::before{content:'Most Popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--teal);color:var(--bg);font-size:.75rem;font-weight:600;padding:.3rem 1rem;border-radius:20px}
-.price-card h3{font-size:1.2rem;margin-bottom:.5rem}
-.price-card .price{font-size:2.5rem;font-weight:700;margin:1rem 0}
-.price-card .price span{font-size:.9rem;font-weight:400;color:var(--text2)}
-.price-card ul{list-style:none;margin:1.5rem 0}
-.price-card li{padding:.4rem 0;font-size:.9rem;color:var(--text2)}
-.price-card li::before{content:'✓';color:var(--teal);margin-right:.5rem;font-weight:700}
-.price-card .btn{width:100%}
-
-/* Login Modal */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center}
-.modal-overlay.show{display:flex}
-.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:90%;max-width:420px;position:relative}
-.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--text2);font-size:1.3rem;cursor:pointer}
-.modal h2{margin-bottom:.5rem}
-.modal p{color:var(--text2);font-size:.9rem;margin-bottom:1.5rem}
-.form-group{margin-bottom:1rem}
-.form-group label{display:block;font-size:.85rem;font-weight:500;margin-bottom:.4rem;color:var(--text2)}
-.form-input{width:100%;padding:.7rem 1rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem;transition:border-color .2s}
-.form-input:focus{outline:none;border-color:var(--teal)}
-.form-footer{text-align:center;margin-top:1rem;font-size:.85rem;color:var(--text2)}
-.tabs{display:flex;margin-bottom:1.5rem;border-bottom:1px solid var(--border)}
-.tab{flex:1;padding:.7rem;text-align:center;cursor:pointer;font-size:.9rem;font-weight:500;color:var(--text2);border-bottom:2px solid transparent;transition:all .2s}
-.tab.active{color:var(--teal);border-bottom-color:var(--teal)}
-
-/* Onboarding Flow */
-.onboarding-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:300;overflow-y:auto}
-.onboarding-overlay.show{display:block}
-.onboarding-header{padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.onboarding-header h2{font-size:1.1rem}
-.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:.5rem}
-.progress-fill{height:100%;background:var(--teal);border-radius:2px;transition:width .4s ease}
-.onboarding-body{max-width:600px;margin:3rem auto;padding:0 2rem}
-.step{display:none}
-.step.active{display:block}
-.step h3{font-size:1.5rem;margin-bottom:.5rem}
-.step>p{color:var(--text2);margin-bottom:2rem}
-.step-nav{display:flex;justify-content:space-between;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border)}
-.radio-group{display:flex;flex-direction:column;gap:.75rem}
-.radio-option{display:flex;align-items:center;gap:.75rem;padding:1rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all .2s}
-.radio-option:hover{border-color:var(--teal)}
-.radio-option.selected{border-color:var(--teal);background:rgba(0,229,195,.05)}
-.radio-option input{display:none}
-.radio-dot{width:20px;height:20px;border:2px solid var(--border);border-radius:50%;position:relative;flex-shrink:0}
-.radio-option.selected .radio-dot{border-color:var(--teal)}
-.radio-option.selected .radio-dot::after{content:'';position:absolute;inset:3px;background:var(--teal);border-radius:50%}
-.radio-label strong{display:block;font-size:.95rem}
-.radio-label span{font-size:.8rem;color:var(--text2)}
-.file-upload{border:2px dashed var(--border);border-radius:var(--radius);padding:2rem;text-align:center;cursor:pointer;transition:all .2s}
-.file-upload:hover{border-color:var(--teal)}
-.file-upload p{color:var(--text2);font-size:.9rem}
-.file-upload .icon{font-size:2rem;margin-bottom:.5rem}
-.success-screen{text-align:center;padding:3rem 0}
-.success-screen .check{width:80px;height:80px;background:rgba(0,229,195,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 1.5rem}
-
-/* Footer */
-.footer{border-top:1px solid var(--border);padding:3rem 2rem;text-align:center}
-.footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap}
-.footer-links a{color:var(--text2);font-size:.85rem}
-.footer p{color:var(--text2);font-size:.8rem}
-
-/* Responsive */
-@media(max-width:768px){
-.nav-links{display:none}
-.hero h1{font-size:2rem}
-.hero-stats{flex-wrap:wrap;gap:1.5rem}
-.pricing-grid{grid-template-columns:1fr}
-.features-grid{grid-template-columns:1fr}
-}
+.hero p{font-size:1.05rem;color:var(--text2);max-width:560px;margin:0 auto 2rem}
+.hero-sub{font-size:.78rem;color:var(--text2);margin-bottom:.5rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:4rem}
+.hero-stats{display:flex;gap:3rem;justify-content:center;flex-wrap:wrap;padding-top:3rem;border-top:1px solid var(--border)}
+.hero-stats div{text-align:center}.hero-stats strong{display:block;font-size:1.8rem;font-weight:700;color:#fff}.hero-stats span{font-size:.78rem;color:var(--text2)}
+.features{padding:5rem 2rem;max-width:1200px;margin:0 auto}
+.ftitle{text-align:center;margin-bottom:3rem}.ftitle h2{font-size:1.9rem;font-weight:700;margin-bottom:.5rem}.ftitle p{color:var(--text2);font-size:.95rem}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+.fcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:all .3s}
+.fcard:hover{border-color:var(--teal);transform:translateY(-3px)}
+.fcard-icon{font-size:1.8rem;margin-bottom:.75rem}.fcard h3{font-size:.95rem;margin-bottom:.4rem}.fcard p{font-size:.82rem;color:var(--text2)}
+.vf-footer{border-top:1px solid var(--border);padding:2.5rem 2rem;text-align:center}
+.vf-footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:.75rem;flex-wrap:wrap}
+.vf-footer-links a{color:var(--text2);font-size:.82rem}.vf-footer p{color:var(--text2);font-size:.78rem}
+.ob-wrap{min-height:100vh;background:var(--bg);padding-top:60px}
+.ob-header{position:sticky;top:60px;background:var(--bg2);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;z-index:50}
+.ob-hd-left{flex:1}.ob-hd-left h2{font-size:.95rem;font-weight:600;margin-bottom:.4rem}
+.ob-prog-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.ob-prog-fill{height:100%;background:var(--teal);border-radius:2px;transition:width .4s ease}
+.ob-step-lbl{font-size:.78rem;color:var(--text2);white-space:nowrap}
+.ob-body{max-width:620px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+.spane{display:none;animation:fadeUp .3s ease}.spane.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.stitle{font-size:1.45rem;font-weight:700;margin-bottom:.3rem}
+.sdesc{color:var(--text2);font-size:.88rem;margin-bottom:2rem}
+.snav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.fg{margin-bottom:1rem}.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fg label{display:block;font-size:.8rem;font-weight:500;margin-bottom:.4rem;color:var(--text2)}
+.fi{width:100%;padding:.7rem 1rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem;transition:border-color .2s;font-family:inherit}
+.fi:focus{outline:none;border-color:var(--teal)}select.fi option{background:var(--bg2)}textarea.fi{resize:vertical;min-height:80px}
+.rg{display:flex;flex-direction:column;gap:.75rem}
+.ro{display:flex;align-items:center;gap:.75rem;padding:1rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all .2s}
+.ro:hover{border-color:var(--teal)}.ro.sel{border-color:var(--teal);background:rgba(0,229,195,.05)}
+.rdot{width:20px;height:20px;border:2px solid var(--border);border-radius:50%;flex-shrink:0;position:relative}
+.ro.sel .rdot{border-color:var(--teal)}.ro.sel .rdot::after{content:'';position:absolute;inset:3px;background:var(--teal);border-radius:50%}
+.rl strong{display:block;font-size:.93rem}.rl span{font-size:.78rem;color:var(--text2)}
+.co{display:flex;align-items:flex-start;gap:.75rem;padding:1rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.75rem}
+.co.req{border-left:2px solid rgba(0,229,195,.4)}
+.co input[type=checkbox]{width:17px;height:17px;margin-top:3px;accent-color:var(--teal);flex-shrink:0;cursor:pointer}
+.co label{font-size:.83rem;color:var(--text2);cursor:pointer;line-height:1.55}
+.co label strong{color:var(--text);display:block;margin-bottom:.15rem;font-size:.88rem}
+.dug{margin-bottom:1.25rem}
+.dug .dlabel{font-size:.83rem;font-weight:500;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.fdrop{border:2px dashed var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.fdrop:hover{border-color:var(--teal);background:rgba(0,229,195,.02)}
+.fdrop.dis{opacity:.4;cursor:not-allowed;pointer-events:none}
+.fdrop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.fdrop p{font-size:.8rem;color:var(--text2);margin-top:.2rem}
+.fst{font-size:.78rem;color:var(--success);margin-top:.4rem;display:none}
+.na{display:flex;align-items:center;gap:.5rem;margin-top:.5rem;font-size:.8rem;color:var(--text2);cursor:pointer}
+.na input{accent-color:var(--warn);cursor:pointer}
+.ubo-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1rem 0;margin-bottom:.75rem;position:relative}
+.ubo-rm{position:absolute;top:.7rem;right:.7rem;background:none;border:none;color:var(--text2);cursor:pointer;font-size:1rem}
+.ubo-rm:hover{color:var(--danger)}
+.pf-wrap{min-height:100vh;padding-top:60px}
+.pf-hdr{background:var(--bg2);border-bottom:1px solid var(--border);padding:1.5rem 2rem}
+.pf-hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.pf-av{width:56px;height:56px;background:rgba(0,229,195,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:700;color:var(--teal);flex-shrink:0}
+.pf-info{flex:1;margin-left:.75rem}.pf-info h2{font-size:1.25rem;font-weight:700}.pf-info p{font-size:.83rem;color:var(--text2)}
+.pf-status{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.4rem}
+.pf-tabs{display:flex;border-bottom:1px solid var(--border);margin-top:-.5rem;overflow-x:auto}
+.pf-tab{padding:.75rem 1.5rem;font-size:.88rem;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+.pf-tab.active{color:var(--teal);border-bottom-color:var(--teal)}.pf-tab:hover{color:var(--text)}
+.pf-body{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+.tbc{display:none;animation:fadeUp .3s ease}.tbc.active{display:block}
+.isec{margin-bottom:2rem}
+.isec h3{font-size:.82rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.igrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.75rem}
+.iitem .ilabel{font-size:.73rem;color:var(--text2);margin-bottom:.15rem}
+.iitem .ival{font-size:.88rem;font-weight:500}
+.dli{display:flex;align-items:center;gap:1rem;padding:1rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.75rem}
+.dli .dli-icon{font-size:1.4rem;flex-shrink:0}
+.dli .dli-info{flex:1}.dli .dli-name{font-size:.88rem;font-weight:500}.dli .dli-meta{font-size:.75rem;color:var(--text2)}
+.vc{display:flex;align-items:center;gap:1rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;margin-bottom:.85rem}
+.vc-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.vc-icon.pass{background:rgba(16,185,129,.15)}.vc-icon.review{background:rgba(245,158,11,.15)}.vc-icon.pend{background:rgba(148,163,184,.1)}
+.vc-info{flex:1}.vc-title{font-size:.88rem;font-weight:600}.vc-desc{font-size:.78rem;color:var(--text2);margin-top:.15rem}
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 240px);min-height:380px}
+.chat-msgs{flex:1;overflow-y:auto;padding:.5rem 0;display:flex;flex-direction:column;gap:.75rem}
+.cmsg{display:flex;gap:.5rem;max-width:76%}
+.cmsg.cli{align-self:flex-end;flex-direction:row-reverse}
+.cmsg.stf{align-self:flex-start}
+.cbub{padding:.65rem 1rem;border-radius:12px;font-size:.875rem;line-height:1.55}
+.cmsg.cli .cbub{background:var(--teal);color:var(--bg);border-radius:12px 12px 2px 12px}
+.cmsg.stf .cbub{background:var(--bg2);border:1px solid var(--border);border-radius:12px 12px 12px 2px}
+.cmeta{font-size:.68rem;color:var(--text2);margin-top:.2rem}
+.cmsg.cli .cmeta{text-align:right}.cmsg.stf .cmeta{text-align:left}
+.cav{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;align-self:flex-end}
+.cmsg.cli .cav{background:rgba(0,229,195,.2);color:var(--teal)}.cmsg.stf .cav{background:var(--bg3);color:var(--text2)}
+.chat-inp-area{border-top:1px solid var(--border);padding-top:.85rem;display:flex;gap:.75rem;align-items:flex-end}
+.chat-inp{flex:1;padding:.65rem 1rem;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.875rem;font-family:inherit;resize:none;max-height:110px;transition:border-color .2s}
+.chat-inp:focus{outline:none;border-color:var(--teal)}
+.badge{display:inline-flex;align-items:center;padding:.18rem .6rem;border-radius:6px;font-size:.73rem;font-weight:500}
+.bs{background:rgba(16,185,129,.1);color:var(--success)}.bw{background:rgba(245,158,11,.1);color:var(--warn)}
+.bd{background:rgba(239,68,68,.1);color:var(--danger)}.bi{background:rgba(0,229,195,.1);color:var(--teal)}.bn{background:rgba(148,163,184,.1);color:var(--text2)}
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center}
+.modal-ov.show{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:90%;max-width:420px;position:relative;max-height:90vh;overflow-y:auto}
+.modal-x{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--text2);font-size:1.3rem;cursor:pointer;line-height:1}
+.modal h2{margin-bottom:.2rem;font-size:1.25rem}.modal .msub{color:var(--text2);font-size:.85rem;margin-bottom:1.5rem}
+.mtabs{display:flex;margin-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.mtab{flex:1;padding:.65rem;text-align:center;cursor:pointer;font-size:.88rem;font-weight:500;color:var(--text2);border-bottom:2px solid transparent;transition:all .2s}
+.mtab.active{color:var(--teal);border-bottom-color:var(--teal)}
+@media(max-width:640px){.frow{grid-template-columns:1fr}.hero h1{font-size:1.8rem}.hero-stats{gap:1.5rem}.pf-tab{font-size:.8rem;padding:.6rem .9rem}}
 </style>
 </head>
 <body>
-
-<!-- Nav -->
-<nav class="nav">
-  <div class="nav-logo">Verify<span>Flow</span></div>
-  <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
-    <a href="/demo">Demo</a>
-    <a href="/data-structures">API Docs</a>
-    <button class="btn btn-outline" onclick="showModal('login')">Log In</button>
-    <button class="btn btn-primary" onclick="showModal('signup')">Get Started</button>
+<nav class="nav" id="mainNav">
+  <div class="nav-logo" onclick="nav('landing')">Verify<span>Flow</span></div>
+  <div class="nav-actions" id="navAct">
+    <button class="btn btn-outline btn-sm" onclick="showAuth('login')">Giriş Yap / Log In</button>
+    <button class="btn btn-primary btn-sm" onclick="showAuth('register')">Kayıt Ol / Register</button>
   </div>
 </nav>
 
-<!-- Hero -->
+<!-- ===== LANDING ===== -->
+<div data-view="landing" class="active" id="view-landing">
 <section class="hero">
   <div>
-    <h1>Onboarding Made<br><span>Effortless & Compliant</span></h1>
-    <p>End-to-end KYC, KYB, and AML verification for fintechs. Reduce onboarding time by 80% while staying fully compliant.</p>
+    <p class="hero-sub">KYC · KYB · AML Uyum Platformu</p>
+    <h1>Güvenli &amp; Uyumlu<br><span>Onboarding Platformu</span></h1>
+    <p>Bireysel ve kurumsal müşterilerinizi KYC/KYB süreçleriyle hızlı ve mevzuata uygun şekilde doğrulayın.<br><em style="font-size:.88rem">Verify your clients quickly and compliantly with KYC/KYB.</em></p>
     <div class="hero-btns">
-      <button class="btn btn-primary" onclick="showModal('signup')" style="padding:.8rem 2rem;font-size:1rem">Start Free Trial</button>
-      <button class="btn btn-outline" onclick="location.href='/demo'" style="padding:.8rem 2rem;font-size:1rem">View Demo</button>
+      <button class="btn btn-primary" onclick="showAuth('register')" style="padding:.8rem 2rem;font-size:1rem">Kayıt Ol / Register</button>
+      <button class="btn btn-outline" onclick="showAuth('login')" style="padding:.8rem 2rem;font-size:1rem">Giriş Yap / Log In</button>
     </div>
     <div class="hero-stats">
-      <div><strong>99.2%</strong><span>Verification Rate</span></div>
-      <div><strong>&lt;3min</strong><span>Avg. Onboarding</span></div>
-      <div><strong>50+</strong><span>Countries Supported</span></div>
-      <div><strong>SOC2</strong><span>Compliant</span></div>
+      <div><strong>99.2%</strong><span>Doğrulama Oranı</span></div>
+      <div><strong>&lt;3dk</strong><span>Ort. Onboarding</span></div>
+      <div><strong>50+</strong><span>Desteklenen Ülke</span></div>
+      <div><strong>SOC2</strong><span>Uyumlu</span></div>
     </div>
   </div>
 </section>
-
-<!-- Features -->
-<section class="section" id="features">
-  <div class="section-title">
-    <h2>Everything You Need</h2>
-    <p>Complete compliance infrastructure for modern fintechs</p>
-  </div>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">🔍</div>
-      <h3>KYC Verification</h3>
-      <p>Automated identity verification with document scanning, liveness detection, and biometric matching via Onfido integration.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🏢</div>
-      <h3>KYB for Businesses</h3>
-      <p>Verify business entities with registry lookups, UBO identification, and corporate structure analysis.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🛡️</div>
-      <h3>AML Screening</h3>
-      <p>Real-time sanctions, PEP, and adverse media screening powered by ComplyAdvantage with ongoing monitoring.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">⚡</div>
-      <h3>Risk Assessment</h3>
-      <p>Dynamic risk scoring engine with configurable rules, thresholds, and automated decision workflows.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📊</div>
-      <h3>Admin Dashboard</h3>
-      <p>Full visibility into onboarding pipelines, review queues, and compliance metrics in real-time.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🔗</div>
-      <h3>API & Webhooks</h3>
-      <p>RESTful API and webhook events for seamless integration with your existing tech stack.</p>
-    </div>
-  </div>
-</section>
-
-<!-- Pricing -->
-<section class="section" id="pricing" style="background:var(--bg2)">
-  <div class="section-title">
-    <h2>Simple, Transparent Pricing</h2>
-    <p>Choose the plan that fits your compliance needs</p>
-  </div>
-  <div class="pricing-tabs">
-    <div class="pricing-tab active" onclick="switchPricing('individual')">Individual</div>
-    <div class="pricing-tab" onclick="switchPricing('business')">Business</div>
-    <div class="pricing-tab" onclick="switchPricing('fullpack')">Full Pack</div>
-  </div>
-  <div id="pricing-individual" class="pricing-grid">
-    <div class="price-card">
-      <h3>Starter</h3>
-      <p style="color:var(--text2);font-size:.9rem">For small projects</p>
-      <div class="price">€29<span>/mo</span></div>
-      <ul>
-        <li>100 verifications/mo</li>
-        <li>KYC document checks</li>
-        <li>Email support</li>
-        <li>Basic dashboard</li>
-      </ul>
-      <button class="btn btn-outline" onclick="showModal('signup')">Get Started</button>
-    </div>
-    <div class="price-card popular">
-      <h3>Professional</h3>
-      <p style="color:var(--text2);font-size:.9rem">For growing teams</p>
-      <div class="price">€79<span>/mo</span></div>
-      <ul>
-        <li>1,000 verifications/mo</li>
-        <li>KYC + AML screening</li>
-        <li>Priority support</li>
-        <li>Advanced analytics</li>
-        <li>API access</li>
-      </ul>
-      <button class="btn btn-primary" onclick="showModal('signup')">Get Started</button>
-    </div>
-    <div class="price-card">
-      <h3>Enterprise</h3>
-      <p style="color:var(--text2);font-size:.9rem">Custom solutions</p>
-      <div class="price">Custom</div>
-      <ul>
-        <li>Unlimited verifications</li>
-        <li>Full compliance suite</li>
-        <li>Dedicated account manager</li>
-        <li>Custom integrations</li>
-        <li>SLA guarantee</li>
-      </ul>
-      <button class="btn btn-outline" onclick="showModal('signup')">Contact Sales</button>
-    </div>
-  </div>
-  <div id="pricing-business" class="pricing-grid" style="display:none">
-    <div class="price-card">
-      <h3>Startup</h3>
-      <p style="color:var(--text2);font-size:.9rem">For new businesses</p>
-      <div class="price">€149<span>/mo</span></div>
-      <ul>
-        <li>200 verifications/mo</li>
-        <li>KYB + KYC checks</li>
-        <li>UBO identification</li>
-        <li>Email support</li>
-      </ul>
-      <button class="btn btn-outline" onclick="showModal('signup')">Get Started</button>
-    </div>
-    <div class="price-card popular">
-      <h3>Scale</h3>
-      <p style="color:var(--text2);font-size:.9rem">For scaling companies</p>
-      <div class="price">€449<span>/mo</span></div>
-      <ul>
-        <li>2,000 verifications/mo</li>
-        <li>KYB + KYC + AML</li>
-        <li>Risk engine access</li>
-        <li>Priority support</li>
-        <li>Webhooks & API</li>
-      </ul>
-      <button class="btn btn-primary" onclick="showModal('signup')">Get Started</button>
-    </div>
-    <div class="price-card">
-      <h3>Enterprise</h3>
-      <p style="color:var(--text2);font-size:.9rem">Custom solutions</p>
-      <div class="price">Custom</div>
-      <ul>
-        <li>Unlimited verifications</li>
-        <li>Full compliance suite</li>
-        <li>Dedicated CSM</li>
-        <li>Custom workflows</li>
-        <li>On-prem option</li>
-      </ul>
-      <button class="btn btn-outline" onclick="showModal('signup')">Contact Sales</button>
-    </div>
-  </div>
-  <div id="pricing-fullpack" class="pricing-grid" style="display:none">
-    <div class="price-card">
-      <h3>Essential</h3>
-      <p style="color:var(--text2);font-size:.9rem">All-in-one starter</p>
-      <div class="price">€199<span>/mo</span></div>
-      <ul>
-        <li>500 verifications/mo</li>
-        <li>KYC + KYB + AML</li>
-        <li>Risk scoring</li>
-        <li>Dashboard & reports</li>
-      </ul>
-      <button class="btn btn-outline" onclick="showModal('signup')">Get Started</button>
-    </div>
-    <div class="price-card popular">
-      <h3>Complete</h3>
-      <p style="color:var(--text2);font-size:.9rem">Full platform access</p>
-      <div class="price">€899<span>/mo</span></div>
-      <ul>
-        <li>5,000 verifications/mo</li>
-        <li>All verification types</li>
-        <li>Ongoing monitoring</li>
-        <li>Admin dashboard</li>
-        <li>Full API + webhooks</li>
-        <li>Priority support</li>
-      </ul>
-      <button class="btn btn-primary" onclick="showModal('signup')">Get Started</button>
-    </div>
-    <div class="price-card">
-      <h3>Enterprise</h3>
-      <p style="color:var(--text2);font-size:.9rem">Unlimited scale</p>
-      <div class="price">Custom</div>
-      <ul>
-        <li>Unlimited everything</li>
-        <li>White-label option</li>
-        <li>Dedicated infrastructure</li>
-        <li>Custom SLA</li>
-        <li>24/7 phone support</li>
-      </ul>
-      <button class="btn btn-outline" onclick="showModal('signup')">Contact Sales</button>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="section" style="text-align:center">
-  <h2 style="font-size:2rem;margin-bottom:1rem">Ready to Streamline Onboarding?</h2>
-  <p style="color:var(--text2);margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto">Join hundreds of fintechs using VerifyFlow to onboard customers faster and stay compliant.</p>
-  <button class="btn btn-primary" onclick="showModal('signup')" style="padding:.8rem 2.5rem;font-size:1rem">Start Free Trial</button>
-</section>
-
-<!-- Footer -->
-<footer class="footer">
-  <div class="footer-links">
-    <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
-    <a href="/demo">Demo</a>
-    <a href="/data-structures">API Docs</a>
-    <a href="#">Privacy Policy</a>
-    <a href="#">Terms of Service</a>
-  </div>
-  <p>&copy; 2026 VerifyFlow. All rights reserved.</p>
-</footer>
-
-<!-- Login/Signup Modal -->
-<div class="modal-overlay" id="authModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">&times;</button>
-    <div class="tabs">
-      <div class="tab active" onclick="switchTab('login')">Log In</div>
-      <div class="tab" onclick="switchTab('signup')">Sign Up</div>
-    </div>
-    <div id="tab-login">
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" class="form-input" placeholder="you@company.com" id="loginEmail">
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-input" placeholder="Enter password" id="loginPass">
-      </div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="handleLogin()">Log In</button>
-      <div class="form-footer">Forgot password? <a href="#">Reset it</a></div>
-    </div>
-    <div id="tab-signup" style="display:none">
-      <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" class="form-input" placeholder="John Doe" id="signupName">
-      </div>
-      <div class="form-group">
-        <label>Work Email</label>
-        <input type="email" class="form-input" placeholder="you@company.com" id="signupEmail">
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-input" placeholder="Min 8 characters" id="signupPass">
-      </div>
-      <div class="form-group">
-        <label>Company Name</label>
-        <input type="text" class="form-input" placeholder="Acme Inc." id="signupCompany">
-      </div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="handleSignup()">Create Account</button>
-      <div class="form-footer">By signing up you agree to our <a href="#">Terms</a></div>
-    </div>
+<div class="features">
+  <div class="ftitle"><h2>Eksiksiz Uyum Altyapısı</h2><p>Modern fintech'ler için ihtiyacınız olan her şey / Everything modern fintechs need</p></div>
+  <div class="fgrid">
+    <div class="fcard"><div class="fcard-icon">🔍</div><h3>KYC Kimlik Doğrulama</h3><p>Pasaport, kimlik kartı ile otomatik kimlik doğrulama ve belge inceleme.</p></div>
+    <div class="fcard"><div class="fcard-icon">🏢</div><h3>KYB — Kurumsal Doğrulama</h3><p>Şirket tescil kontrolü, UBO tespiti ve kurumsal yapı analizi.</p></div>
+    <div class="fcard"><div class="fcard-icon">🛡️</div><h3>AML Tarama</h3><p>Gerçek zamanlı yaptırım listeleri, PEP ve olumsuz medya taraması.</p></div>
+    <div class="fcard"><div class="fcard-icon">⚡</div><h3>Risk Değerlendirmesi</h3><p>Yapılandırılabilir kurallarla dinamik risk skorlaması ve otomatik karar akışları.</p></div>
+    <div class="fcard"><div class="fcard-icon">💬</div><h3>Compliance Mesajlaşma</h3><p>Müşteriler ile uyum ekibi arasında güvenli, kayıt altında mesajlaşma.</p></div>
+    <div class="fcard"><div class="fcard-icon">📊</div><h3>Admin Dashboard</h3><p>Onboarding süreçleri, inceleme kuyrukları ve uyum metrikleri için tam görünürlük.</p></div>
   </div>
 </div>
+<footer class="vf-footer">
+  <div class="vf-footer-links"><a href="/demo">Admin Demo</a><a href="/data-structures">API Docs</a><a href="#">Gizlilik / Privacy</a><a href="#">Şartlar / Terms</a></div>
+  <p>&copy; 2026 VerifyFlow. Tüm hakları saklıdır.</p>
+</footer>
+</div><!-- /landing -->
 
-<!-- Onboarding Flow -->
-<div class="onboarding-overlay" id="onboarding">
-  <div class="onboarding-header">
-    <div style="flex:1">
-      <h2>Client Onboarding</h2>
-      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
+<!-- ===== ONBOARDING ===== -->
+<div data-view="onboarding" id="view-onboarding">
+<div class="ob-wrap">
+  <div class="ob-header">
+    <div class="ob-hd-left">
+      <h2>Hesap Oluştur / Create Account</h2>
+      <div class="ob-prog-bar"><div class="ob-prog-fill" id="obProg" style="width:14%"></div></div>
     </div>
-    <span id="stepLabel" style="color:var(--text2);font-size:.85rem;margin-left:1rem">Step 1 of 5</span>
-    <button class="btn btn-ghost" onclick="closeOnboarding()" style="margin-left:1rem">Exit</button>
+    <span class="ob-step-lbl" id="obLbl">Adım 1 / 7</span>
+    <button class="btn btn-ghost btn-sm" onclick="nav('landing')">✕ Çıkış</button>
   </div>
-  <div class="onboarding-body">
+  <div class="ob-body">
 
-    <!-- Step 1: Account Type -->
-    <div class="step active" data-step="1">
-      <h3>Account Type</h3>
-      <p>Select the type of account you want to create</p>
-      <div class="radio-group">
-        <label class="radio-option" onclick="selectOption(this,'accountType')">
-          <input type="radio" name="accountType" value="individual">
-          <div class="radio-dot"></div>
-          <div class="radio-label"><strong>Individual</strong><span>Personal account with KYC verification</span></div>
-        </label>
-        <label class="radio-option" onclick="selectOption(this,'accountType')">
-          <input type="radio" name="accountType" value="business">
-          <div class="radio-dot"></div>
-          <div class="radio-label"><strong>Business</strong><span>Company account with KYB + KYC verification</span></div>
-        </label>
-      </div>
-      <div class="step-nav">
-        <div></div>
-        <button class="btn btn-primary" onclick="nextStep()">Continue</button>
-      </div>
-    </div>
-
-    <!-- Step 2: Personal Info -->
-    <div class="step" data-step="2">
-      <h3>Personal Information</h3>
-      <p>Provide your identity details for KYC verification</p>
-      <div class="form-group">
-        <label>Legal First Name</label>
-        <input type="text" class="form-input" placeholder="John">
-      </div>
-      <div class="form-group">
-        <label>Legal Last Name</label>
-        <input type="text" class="form-input" placeholder="Doe">
-      </div>
-      <div class="form-group">
-        <label>Date of Birth</label>
-        <input type="date" class="form-input">
-      </div>
-      <div class="form-group">
-        <label>Nationality</label>
-        <select class="form-input"><option value="">Select country</option><option>Germany</option><option>France</option><option>Netherlands</option><option>Spain</option><option>Italy</option><option>Turkey</option><option>United Kingdom</option><option>United States</option><option>Other</option></select>
-      </div>
-      <div class="form-group">
-        <label>Tax ID / National ID</label>
-        <input type="text" class="form-input" placeholder="Enter your tax or national ID">
-      </div>
-      <div class="step-nav">
-        <button class="btn btn-outline" onclick="prevStep()">Back</button>
-        <button class="btn btn-primary" onclick="nextStep()">Continue</button>
-      </div>
-    </div>
-
-    <!-- Step 3: Document Upload -->
-    <div class="step" data-step="3">
-      <h3>Identity Document</h3>
-      <p>Upload a government-issued ID for verification</p>
-      <div class="radio-group" style="margin-bottom:1.5rem">
-        <label class="radio-option" onclick="selectOption(this,'docType')">
-          <input type="radio" name="docType" value="passport">
-          <div class="radio-dot"></div>
-          <div class="radio-label"><strong>Passport</strong></div>
-        </label>
-        <label class="radio-option" onclick="selectOption(this,'docType')">
-          <input type="radio" name="docType" value="id_card">
-          <div class="radio-dot"></div>
-          <div class="radio-label"><strong>National ID Card</strong></div>
-        </label>
-        <label class="radio-option" onclick="selectOption(this,'docType')">
-          <input type="radio" name="docType" value="license">
-          <div class="radio-dot"></div>
-          <div class="radio-label"><strong>Driver's License</strong></div>
-        </label>
-      </div>
-      <div class="file-upload" onclick="document.getElementById('fileInput').click()">
-        <div class="icon">📄</div>
-        <p><strong style="color:var(--teal)">Click to upload</strong> or drag and drop<br>PNG, JPG or PDF up to 10MB</p>
-        <input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="handleFile(this)">
-      </div>
-      <div id="fileStatus" style="margin-top:.75rem;font-size:.85rem;color:var(--success);display:none"></div>
-      <div class="step-nav">
-        <button class="btn btn-outline" onclick="prevStep()">Back</button>
-        <button class="btn btn-primary" onclick="nextStep()">Continue</button>
-      </div>
-    </div>
-
-    <!-- Step 4: AML Consent -->
-    <div class="step" data-step="4">
-      <h3>AML & Compliance</h3>
-      <p>We need to run compliance checks to verify your account</p>
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem">
-        <h4 style="font-size:.95rem;margin-bottom:.75rem">What we check:</h4>
-        <ul style="list-style:none">
-          <li style="padding:.3rem 0;font-size:.9rem;color:var(--text2)">✓ Global sanctions lists (OFAC, EU, UN)</li>
-          <li style="padding:.3rem 0;font-size:.9rem;color:var(--text2)">✓ Politically Exposed Persons (PEP) databases</li>
-          <li style="padding:.3rem 0;font-size:.9rem;color:var(--text2)">✓ Adverse media screening</li>
-          <li style="padding:.3rem 0;font-size:.9rem;color:var(--text2)">✓ Ongoing monitoring for changes</li>
-        </ul>
-      </div>
-      <label style="display:flex;align-items:flex-start;gap:.75rem;cursor:pointer;padding:1rem;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)">
-        <input type="checkbox" id="amlConsent" style="margin-top:3px;accent-color:var(--teal)">
-        <span style="font-size:.85rem;color:var(--text2)">I consent to VerifyFlow performing AML checks and ongoing monitoring as described above. I confirm that the information I have provided is accurate and complete.</span>
+  <!-- ADIM 1: Hesap Türü -->
+  <div class="spane active" id="s1">
+    <div class="stitle">Hesap Türü / Account Type</div>
+    <div class="sdesc">Oluşturmak istediğiniz hesap türünü seçin / Select the type of account you wish to create</div>
+    <div class="rg">
+      <label class="ro" onclick="pickRo(this)">
+        <div class="rdot"></div>
+        <div class="rl"><strong>Bireysel / Individual</strong><span>Kişisel KYC doğrulaması · Personal KYC verification (7 adım)</span></div>
       </label>
-      <div class="step-nav">
-        <button class="btn btn-outline" onclick="prevStep()">Back</button>
-        <button class="btn btn-primary" onclick="nextStep()">Submit Application</button>
+      <label class="ro" onclick="pickRo(this)">
+        <div class="rdot"></div>
+        <div class="rl"><strong>Kurumsal / Business</strong><span>Şirket KYB + KYC doğrulaması · Company KYB + KYC verification (10 adım)</span></div>
+      </label>
+    </div>
+    <div class="snav"><div></div><button class="btn btn-primary" onclick="goNext()">Devam / Continue →</button></div>
+  </div>
+
+  <!-- ADIM 2: Kişisel Bilgiler -->
+  <div class="spane" id="s2">
+    <div class="stitle">Kişisel Bilgiler / Personal Info</div>
+    <div class="sdesc">Kimlik doğrulaması için kişisel bilgilerinizi girin / Enter your personal details for identity verification</div>
+    <div class="frow">
+      <div class="fg"><label>Ad / First Name</label><input type="text" class="fi" placeholder="Ahmet"></div>
+      <div class="fg"><label>Soyad / Last Name</label><input type="text" class="fi" placeholder="Yılmaz"></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label>Doğum Tarihi / Date of Birth</label><input type="date" class="fi"></div>
+      <div class="fg"><label>Uyruk / Nationality</label>
+        <select class="fi"><option value="">Seçin / Select</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Hollanda</option><option>İspanya</option><option>İtalya</option><option>İngiltere</option><option>Amerika</option><option>Diğer / Other</option></select>
+      </div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label>TC Kimlik No / National ID</label><input type="text" class="fi" placeholder="12345678901"></div>
+      <div class="fg"><label>Telefon / Phone</label><input type="tel" class="fi" placeholder="+90 555 000 00 00"></div>
+    </div>
+    <div class="fg"><label>E-posta / Email</label><input type="email" class="fi" placeholder="ahmet@ornek.com"></div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+  </div>
+
+  <!-- ADIM 3: Adres -->
+  <div class="spane" id="s3">
+    <div class="stitle">Adres Bilgileri / Address</div>
+    <div class="sdesc">Güncel ikametgah adresinizi girin / Enter your current residential address</div>
+    <div class="fg"><label>Sokak / Street Address</label><input type="text" class="fi" placeholder="Atatürk Caddesi No:42"></div>
+    <div class="frow">
+      <div class="fg"><label>Şehir / City</label><input type="text" class="fi" placeholder="İstanbul"></div>
+      <div class="fg"><label>İlçe / District</label><input type="text" class="fi" placeholder="Beşiktaş"></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label>Posta Kodu / Postal Code</label><input type="text" class="fi" placeholder="34349"></div>
+      <div class="fg"><label>Ülke / Country</label>
+        <select class="fi"><option value="">Seçin / Select</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Hollanda</option><option>Diğer / Other</option></select>
+      </div>
+    </div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+  </div>
+
+  <!-- ADIM 4-BİREYSEL: PEP & Risk -->
+  <div class="spane" id="s4ind">
+    <div class="stitle">PEP &amp; Risk Beyanı</div>
+    <div class="sdesc">Aşağıdaki soruları dürüstçe yanıtlayın / Please answer the following questions honestly</div>
+    <div class="fg"><label>Siyasi açıdan öneme sahip bir kişi (PEP) misiniz? / Are you a Politically Exposed Person?</label>
+      <select class="fi"><option value="">Seçin / Select</option><option>Hayır / No</option><option>Evet / Yes</option></select></div>
+    <div class="fg"><label>Birinci derece yakınınızda PEP var mı? / Do you have a close relative who is a PEP?</label>
+      <select class="fi"><option value="">Seçin / Select</option><option>Hayır / No</option><option>Evet / Yes</option></select></div>
+    <div class="fg"><label>Fon Kaynağı / Source of Funds</label>
+      <select class="fi"><option value="">Seçin / Select</option><option>Maaş / Salary</option><option>Kira Geliri / Rental Income</option><option>Yatırım / Investments</option><option>Miras / Inheritance</option><option>İş Geliri / Business Income</option><option>Diğer / Other</option></select></div>
+    <div class="fg"><label>Aylık Tahmini İşlem Hacmi / Expected Monthly Transaction Volume</label>
+      <select class="fi"><option value="">Seçin / Select</option><option>€0 – €1,000</option><option>€1,000 – €10,000</option><option>€10,000 – €50,000</option><option>€50,000 – €250,000</option><option>€250,000+</option></select></div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+  </div>
+
+  <!-- ADIM 4-KURUMSAL: Şirket Bilgileri -->
+  <div class="spane" id="s4biz">
+    <div class="stitle">Şirket Bilgileri / Company Information</div>
+    <div class="sdesc">Şirketinize ait temel bilgileri girin / Enter basic information about your company</div>
+    <div class="fg"><label>Şirket Adı / Company Name</label><input type="text" class="fi" placeholder="Örnek A.Ş."></div>
+    <div class="frow">
+      <div class="fg"><label>Ticaret Sicil No / Trade Registry No</label><input type="text" class="fi" placeholder="12345-67890"></div>
+      <div class="fg"><label>Kuruluş Ülkesi / Country of Incorporation</label>
+        <select class="fi"><option value="">Seçin</option><option>Türkiye</option><option>Almanya</option><option>Hollanda</option><option>Lüksemburg</option><option>İrlanda</option><option>Diğer / Other</option></select></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label>Şirket Türü / Company Type</label>
+        <select class="fi"><option value="">Seçin</option><option>A.Ş.</option><option>Ltd. Şti.</option><option>GmbH</option><option>Ltd.</option><option>SAS</option><option>BV</option><option>Diğer</option></select></div>
+      <div class="fg"><label>Faaliyet Alanı / Business Activity</label>
+        <select class="fi"><option value="">Seçin</option><option>Fintech / Ödeme</option><option>E-ticaret</option><option>Yazılım / Teknoloji</option><option>Danışmanlık</option><option>İmalat</option><option>Gayrimenkul</option><option>Diğer</option></select></div>
+    </div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+  </div>
+
+  <!-- ADIM 5-KURUMSAL: Şirket Adresi -->
+  <div class="spane" id="s5biz">
+    <div class="stitle">Şirket Adresi / Company Address</div>
+    <div class="sdesc">Şirketin kayıtlı adresini girin / Enter the registered company address</div>
+    <div class="co" style="margin-bottom:1.25rem;border-left:none">
+      <input type="checkbox" id="sameAddr" onchange="document.getElementById('coAddrF').style.display=this.checked?'none':'block'">
+      <label for="sameAddr">Kişisel adresimle aynı / Same as my personal address</label>
+    </div>
+    <div id="coAddrF">
+      <div class="fg"><label>Sokak / Street Address</label><input type="text" class="fi" placeholder="Ticari Cadde No:1"></div>
+      <div class="frow">
+        <div class="fg"><label>Şehir / City</label><input type="text" class="fi" placeholder="İstanbul"></div>
+        <div class="fg"><label>İlçe / District</label><input type="text" class="fi" placeholder="Şişli"></div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label>Posta Kodu / Postal Code</label><input type="text" class="fi" placeholder="34394"></div>
+        <div class="fg"><label>Ülke / Country</label>
+          <select class="fi"><option value="">Seçin</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Diğer</option></select></div>
+      </div>
+    </div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+  </div>
+
+  <!-- ADIM 6-KURUMSAL: UBO -->
+  <div class="spane" id="s6biz">
+    <div class="stitle">Gerçek Faydalanıcılar / Beneficial Owners</div>
+    <div class="sdesc">%25 veya daha fazla hisseye sahip tüm gerçek faydalanıcıları ekleyin / Add all beneficial owners with 25%+ ownership</div>
+    <div id="uboList">
+      <div class="ubo-item">
+        <button class="ubo-rm" onclick="rmUBO(this)" title="Kaldır">✕</button>
+        <div class="frow">
+          <div class="fg"><label>Ad Soyad / Full Name</label><input type="text" class="fi" placeholder="Klaus Weber"></div>
+          <div class="fg"><label>Sahiplik % / Ownership %</label><input type="number" class="fi" placeholder="60" min="0" max="100"></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label>Pozisyon / Position</label><input type="text" class="fi" placeholder="CEO / Kurucu"></div>
+          <div class="fg"><label>Sahiplik Türü / Type</label>
+            <select class="fi"><option>Doğrudan / Direct</option><option>Dolaylı / Indirect</option></select></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="addUBO()" style="margin-bottom:1rem">+ Faydalanıcı Ekle / Add UBO</button>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+  </div>
+
+  <!-- ADIM 7-KURUMSAL: PEP & Risk -->
+  <div class="spane" id="s7biz">
+    <div class="stitle">PEP &amp; Risk Beyanı</div>
+    <div class="sdesc">Yetkili temsilci olarak aşağıdaki soruları yanıtlayın / As the authorized representative, answer the following</div>
+    <div class="fg"><label>Siyasi açıdan öneme sahip bir kişi (PEP) misiniz? / Are you a PEP?</label>
+      <select class="fi"><option value="">Seçin / Select</option><option>Hayır / No</option><option>Evet / Yes</option></select></div>
+    <div class="fg"><label>Şirket yöneticileri arasında PEP var mı? / Are any directors/officers PEPs?</label>
+      <select class="fi"><option value="">Seçin / Select</option><option>Hayır / No</option><option>Evet / Yes</option></select></div>
+    <div class="fg"><label>Fon Kaynağı / Source of Funds</label>
+      <select class="fi"><option value="">Seçin</option><option>Ticari Gelir / Business Revenue</option><option>Yatırım / Investment</option><option>Kredi / Loan</option><option>Sermaye Artırımı / Capital Raise</option><option>Diğer / Other</option></select></div>
+    <div class="fg"><label>Aylık Tahmini İşlem Hacmi / Expected Monthly Volume</label>
+      <select class="fi"><option value="">Seçin</option><option>€0 – €10,000</option><option>€10,000 – €100,000</option><option>€100,000 – €500,000</option><option>€500,000 – €2,000,000</option><option>€2,000,000+</option></select></div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+  </div>
+
+  <!-- ADIM BELGELER -->
+  <div class="spane" id="sDocs">
+    <div class="stitle">Belge Yükleme / Document Upload</div>
+    <div class="sdesc">Gerekli belgeleri yükleyin. Mevcut olmayan belgeler için kutuyu işaretleyin. / Upload required docs. Check box for unavailable documents.</div>
+
+    <div class="dug">
+      <div class="dlabel">Kimlik Belgesi / Identity Document <span class="badge bd">Zorunlu</span></div>
+      <div class="rg" style="flex-direction:row;gap:.5rem;margin-bottom:.6rem">
+        <label class="ro sel" onclick="pickRo(this)" style="flex:1;padding:.5rem .75rem"><div class="rdot"></div><div class="rl"><strong style="font-size:.8rem">Pasaport</strong></div></label>
+        <label class="ro" onclick="pickRo(this)" style="flex:1;padding:.5rem .75rem"><div class="rdot"></div><div class="rl"><strong style="font-size:.8rem">TC Kimlik</strong></div></label>
+        <label class="ro" onclick="pickRo(this)" style="flex:1;padding:.5rem .75rem"><div class="rdot"></div><div class="rl"><strong style="font-size:.8rem">Ehliyet</strong></div></label>
+      </div>
+      <div class="fdrop" id="dd-id" onclick="trigF('fi-id')">
+        <div style="font-size:1.4rem">📄</div><p><strong style="color:var(--teal)">Dosya seç</strong> veya sürükle bırak — PNG, JPG, PDF max 10MB</p>
+        <input type="file" id="fi-id" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-id')">
+      </div>
+      <div class="fst" id="fs-id"></div>
+      <div class="na"><input type="checkbox" id="na-id" onchange="togNA(this,'dd-id')"><label for="na-id">Bu belge mevcut değil / This document is not available</label></div>
+    </div>
+
+    <div class="dug">
+      <div class="dlabel">İkametgah Belgesi / Proof of Address <span class="badge bd">Zorunlu</span></div>
+      <div class="fdrop" id="dd-addr" onclick="trigF('fi-addr')">
+        <div style="font-size:1.4rem">🏠</div><p><strong style="color:var(--teal)">Dosya seç</strong> — Fatura, banka ekstresi, max 10MB</p>
+        <input type="file" id="fi-addr" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-addr')">
+      </div>
+      <div class="fst" id="fs-addr"></div>
+      <div class="na"><input type="checkbox" id="na-addr" onchange="togNA(this,'dd-addr')"><label for="na-addr">Bu belge mevcut değil / This document is not available</label></div>
+    </div>
+
+    <div class="dug">
+      <div class="dlabel">Vergi Levhası / Tax Certificate <span class="badge bn">İsteğe bağlı</span></div>
+      <div class="fdrop" id="dd-tax" onclick="trigF('fi-tax')">
+        <div style="font-size:1.4rem">📋</div><p><strong style="color:var(--teal)">Dosya seç</strong> — PDF max 10MB</p>
+        <input type="file" id="fi-tax" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-tax')">
+      </div>
+      <div class="fst" id="fs-tax"></div>
+      <div class="na"><input type="checkbox" id="na-tax" onchange="togNA(this,'dd-tax')"><label for="na-tax">Bu belge mevcut değil / This document is not available</label></div>
+    </div>
+
+    <div id="bizDocs" style="display:none">
+      <div class="dug">
+        <div class="dlabel">Ticaret Sicil Belgesi / Trade Registry Certificate</div>
+        <div class="fdrop" id="dd-reg" onclick="trigF('fi-reg')"><div style="font-size:1.4rem">🏛️</div><p><strong style="color:var(--teal)">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-reg" accept=".pdf" style="display:none" onchange="onFile(this,'fs-reg')"></div>
+        <div class="fst" id="fs-reg"></div><div class="na"><input type="checkbox" id="na-reg" onchange="togNA(this,'dd-reg')"><label for="na-reg">Bu belge mevcut değil / Not available</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel">Ana Sözleşme / Articles of Association</div>
+        <div class="fdrop" id="dd-aoa" onclick="trigF('fi-aoa')"><div style="font-size:1.4rem">📜</div><p><strong style="color:var(--teal)">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-aoa" accept=".pdf" style="display:none" onchange="onFile(this,'fs-aoa')"></div>
+        <div class="fst" id="fs-aoa"></div><div class="na"><input type="checkbox" id="na-aoa" onchange="togNA(this,'dd-aoa')"><label for="na-aoa">Bu belge mevcut değil / Not available</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel">İmza Sirküleri / Signature Circular</div>
+        <div class="fdrop" id="dd-sig" onclick="trigF('fi-sig')"><div style="font-size:1.4rem">✍️</div><p><strong style="color:var(--teal)">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-sig" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-sig')"></div>
+        <div class="fst" id="fs-sig"></div><div class="na"><input type="checkbox" id="na-sig" onchange="togNA(this,'dd-sig')"><label for="na-sig">Bu belge mevcut değil / Not available</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel">Faaliyet Belgesi / Certificate of Good Standing</div>
+        <div class="fdrop" id="dd-cgs" onclick="trigF('fi-cgs')"><div style="font-size:1.4rem">✅</div><p><strong style="color:var(--teal)">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-cgs" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-cgs')"></div>
+        <div class="fst" id="fs-cgs"></div><div class="na"><input type="checkbox" id="na-cgs" onchange="togNA(this,'dd-cgs')"><label for="na-cgs">Bu belge mevcut değil / Not available</label></div>
       </div>
     </div>
 
-    <!-- Step 5: Success -->
-    <div class="step" data-step="5">
-      <div class="success-screen">
-        <div class="check">✓</div>
-        <h3 style="font-size:1.5rem;margin-bottom:.5rem">Application Submitted!</h3>
-        <p style="color:var(--text2);max-width:400px;margin:0 auto 1rem">Your verification is being processed. You'll receive an email notification once your account is verified.</p>
-        <div style="display:inline-flex;gap:.5rem;flex-wrap:wrap;justify-content:center">
-          <span style="padding:.4rem .8rem;background:rgba(0,229,195,.1);color:var(--teal);border-radius:6px;font-size:.8rem;font-weight:500">KYC: Processing</span>
-          <span style="padding:.4rem .8rem;background:rgba(245,158,11,.1);color:var(--warn);border-radius:6px;font-size:.8rem;font-weight:500">AML: Screening</span>
-          <span style="padding:.4rem .8rem;background:rgba(0,229,195,.1);color:var(--teal);border-radius:6px;font-size:.8rem;font-weight:500">Risk: Evaluating</span>
-        </div>
-        <div style="margin-top:2rem">
-          <button class="btn btn-primary" onclick="closeOnboarding()">Go to Dashboard</button>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+  </div>
+
+  <!-- AML ONAYI -->
+  <div class="spane" id="sAml">
+    <div class="stitle">AML Onayı &amp; Şartlar / AML Consent &amp; Terms</div>
+    <div class="sdesc">Başvurunuzu tamamlamak için aşağıdaki onayları verin / Grant the following consents to complete your application</div>
+    <div class="co req"><input type="checkbox" id="c-aml"><label for="c-aml"><strong>AML Tarama Onayı / AML Screening Consent</strong>VerifyFlow'un yaptırım listeleri, PEP veritabanları ve olumsuz medya kaynaklarında AML taraması yapmasına izin veriyorum. / I consent to VerifyFlow conducting AML screening against sanctions lists, PEP databases and adverse media sources.</label></div>
+    <div class="co req"><input type="checkbox" id="c-prv"><label for="c-prv"><strong>Gizlilik Politikası / Privacy Policy</strong>Kişisel verilerimin VerifyFlow Gizlilik Politikası kapsamında işlenmesini kabul ediyorum. / I accept the processing of my personal data under the VerifyFlow Privacy Policy.</label></div>
+    <div class="co req"><input type="checkbox" id="c-tos"><label for="c-tos"><strong>Kullanım Şartları / Terms of Service</strong>VerifyFlow Kullanım Şartlarını okudum ve kabul ediyorum. / I have read and accept the VerifyFlow Terms of Service.</label></div>
+    <div class="co req"><input type="checkbox" id="c-acc"><label for="c-acc"><strong>Doğruluk Beyanı / Accuracy Declaration</strong>Sağladığım tüm bilgilerin doğru, eksiksiz ve güncel olduğunu beyan ediyorum. / I declare that all information provided is accurate, complete and up to date.</label></div>
+    <div class="co"><input type="checkbox" id="c-mon"><label for="c-mon"><strong>Süregelen İzleme / Ongoing Monitoring <span style="font-weight:400">(İsteğe bağlı / Optional)</span></strong>Hesabımda değişiklik olması durumunda yeniden tarama yapılmasına onay veriyorum.</label></div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="submitApp()">Başvuruyu Gönder / Submit ✓</button></div>
+  </div>
+
+  <!-- TAMAMLANDI -->
+  <div class="spane" id="sComplete">
+    <div style="text-align:center;padding:3rem 0">
+      <div style="width:88px;height:88px;background:rgba(0,229,195,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 1.5rem;border:2px solid rgba(0,229,195,.3)">✓</div>
+      <h2 style="font-size:1.6rem;margin-bottom:.5rem">Başvurunuz Alındı!</h2>
+      <p style="color:var(--text2)">Your Application Has Been Received!</p>
+      <p style="color:var(--text2);max-width:420px;margin:1rem auto;font-size:.88rem">Ekibimiz belgelerinizi inceleyecek ve sizinle en kısa sürede iletişime geçecektir.<br><em>Our team will review your documents and contact you shortly.</em></p>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin:1.5rem 0">
+        <span class="badge bi">KYC: İşleniyor</span>
+        <span class="badge bw">AML: Taranıyor</span>
+        <span class="badge bn">Risk: Değerlendiriliyor</span>
+      </div>
+      <button class="btn btn-primary" onclick="nav('profile')" style="margin-top:.5rem">Profilimi Görüntüle / View My Profile →</button>
+    </div>
+  </div>
+
+  </div><!-- .ob-body -->
+</div><!-- .ob-wrap -->
+</div><!-- /onboarding -->
+
+<!-- ===== PROFİL ===== -->
+<div data-view="profile" id="view-profile">
+<div class="pf-wrap">
+  <div class="pf-hdr">
+    <div class="pf-hdr-top">
+      <div style="display:flex;align-items:center;gap:.75rem;flex:1">
+        <div class="pf-av">AY</div>
+        <div class="pf-info">
+          <h2>Ahmet Yılmaz</h2>
+          <p>ahmet@ornek.com &nbsp;·&nbsp; <span class="badge bi">Bireysel / Individual</span></p>
+          <div class="pf-status">
+            <span class="badge bw">KYC: İnceleniyor</span>
+            <span class="badge bi">AML: Taranıyor</span>
+            <span class="badge bn">Risk: Bekliyor</span>
+          </div>
         </div>
       </div>
+      <button class="btn btn-ghost btn-sm" onclick="nav('landing')">← Çıkış / Log Out</button>
+    </div>
+    <div class="pf-tabs">
+      <div class="pf-tab active" onclick="pfTab('summary',this)">📋 Özet / Summary</div>
+      <div class="pf-tab" onclick="pfTab('docs',this)">📁 Belgeler / Documents</div>
+      <div class="pf-tab" onclick="pfTab('verify',this)">🛡️ Doğrulama / Verification</div>
+      <div class="pf-tab" onclick="pfTab('chat',this)">💬 Mesajlar / Messages</div>
+    </div>
+  </div>
+  <div class="pf-body">
+
+    <!-- ÖZET -->
+    <div class="tbc active" id="tb-summary">
+      <div class="isec"><h3>Kişisel Bilgiler / Personal Information</h3>
+        <div class="igrid">
+          <div class="iitem"><div class="ilabel">Ad Soyad / Full Name</div><div class="ival">Ahmet Yılmaz</div></div>
+          <div class="iitem"><div class="ilabel">Doğum Tarihi / Date of Birth</div><div class="ival">15.03.1985</div></div>
+          <div class="iitem"><div class="ilabel">Uyruk / Nationality</div><div class="ival">Türkiye</div></div>
+          <div class="iitem"><div class="ilabel">TC Kimlik No / National ID</div><div class="ival">•••••678901</div></div>
+          <div class="iitem"><div class="ilabel">Telefon / Phone</div><div class="ival">+90 555 123 45 67</div></div>
+          <div class="iitem"><div class="ilabel">E-posta / Email</div><div class="ival">ahmet@ornek.com</div></div>
+        </div>
+      </div>
+      <div class="isec"><h3>Adres / Address</h3>
+        <div class="igrid">
+          <div class="iitem"><div class="ilabel">Sokak / Street</div><div class="ival">Atatürk Cad. No:42</div></div>
+          <div class="iitem"><div class="ilabel">İlçe / District</div><div class="ival">Beşiktaş</div></div>
+          <div class="iitem"><div class="ilabel">Şehir / City</div><div class="ival">İstanbul</div></div>
+          <div class="iitem"><div class="ilabel">Posta Kodu</div><div class="ival">34349</div></div>
+          <div class="iitem"><div class="ilabel">Ülke / Country</div><div class="ival">Türkiye</div></div>
+        </div>
+      </div>
+      <div class="isec"><h3>PEP &amp; Risk Beyanı</h3>
+        <div class="igrid">
+          <div class="iitem"><div class="ilabel">PEP Durumu</div><div class="ival">Hayır / No</div></div>
+          <div class="iitem"><div class="ilabel">Yakın PEP</div><div class="ival">Hayır / No</div></div>
+          <div class="iitem"><div class="ilabel">Fon Kaynağı</div><div class="ival">Maaş / Salary</div></div>
+          <div class="iitem"><div class="ilabel">İşlem Hacmi / Volume</div><div class="ival">€1,000 – €10,000</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BELGELER -->
+    <div class="tbc" id="tb-docs">
+      <div class="dli"><div class="dli-icon">📄</div><div class="dli-info"><div class="dli-name">Kimlik Belgesi / Identity Document</div><div class="dli-meta">passport_ahmet_yilmaz.pdf · 2.4 MB · Yüklendi 12.04.2026</div></div><span class="badge bw">İncelemede</span></div>
+      <div class="dli"><div class="dli-icon">🏠</div><div class="dli-info"><div class="dli-name">İkametgah Belgesi / Proof of Address</div><div class="dli-meta">ikametgah_2026.pdf · 1.1 MB · Yüklendi 12.04.2026</div></div><span class="badge bw">İncelemede</span></div>
+      <div class="dli"><div class="dli-icon">📋</div><div class="dli-info"><div class="dli-name">Vergi Levhası / Tax Certificate</div><div class="dli-meta">Mevcut değil / Not available</div></div><span class="badge bn">Mevcut Değil</span></div>
+    </div>
+
+    <!-- DOĞRULAMA -->
+    <div class="tbc" id="tb-verify">
+      <div class="vc"><div class="vc-icon review">🔍</div><div class="vc-info"><div class="vc-title">KYC Kimlik Doğrulama / Identity Verification</div><div class="vc-desc">Belge incelemesi devam ediyor. Sonuç 1-2 iş günü içinde bildirilecektir. / Document review in progress. Result within 1-2 business days.</div></div><span class="badge bw">İncelemede</span></div>
+      <div class="vc"><div class="vc-icon review">🛡️</div><div class="vc-info"><div class="vc-title">AML Tarama / AML Screening</div><div class="vc-desc">Yaptırım listeleri ve PEP veritabanları taranıyor. / Screening against sanctions lists and PEP databases.</div></div><span class="badge bi">Taranıyor</span></div>
+      <div class="vc"><div class="vc-icon pend">⚡</div><div class="vc-info"><div class="vc-title">Risk Değerlendirmesi / Risk Assessment</div><div class="vc-desc">KYC ve AML tamamlandıktan sonra risk skoru hesaplanacaktır. / Risk score calculated after KYC and AML completion.</div></div><span class="badge bn">Bekliyor</span></div>
+      <div class="vc"><div class="vc-icon pend">✅</div><div class="vc-info"><div class="vc-title">Nihai Karar / Final Decision</div><div class="vc-desc">Tüm incelemeler tamamlandıktan sonra nihai karar verilecektir. / Final decision after all reviews are completed.</div></div><span class="badge bn">Bekliyor</span></div>
+    </div>
+
+    <!-- MESAJLAR / CHAT -->
+    <div class="tbc" id="tb-chat">
+      <div class="chat-wrap">
+        <div class="chat-msgs" id="chatMsgs">
+          <div class="cmsg stf"><div class="cav">VF</div><div><div class="cbub">Merhaba! Başvurunuzu aldık ve incelemeye başladık. Herhangi bir sorunuz olursa burada yanıt alabilirsiniz.<br><em style="font-size:.78rem;opacity:.8">Hello! We received your application and started the review. Feel free to ask questions here.</em></div><div class="cmeta">VerifyFlow Compliance · 12 Nis 2026, 09:15</div></div></div>
+          <div class="cmsg cli"><div class="cav">AY</div><div><div class="cbub">Teşekkürler! Belgelerimi yükledim. Ne kadar süreceğini öğrenebilir miyim?</div><div class="cmeta">12 Nis 2026, 09:22</div></div></div>
+          <div class="cmsg stf"><div class="cav">VF</div><div><div class="cbub">Belgeleriniz alındı. Normal koşullarda inceleme 1-2 iş günü içinde tamamlanır. Sonucu e-posta ile de bildireceğiz.<br><em style="font-size:.78rem;opacity:.8">Documents received. Review typically takes 1-2 business days. We will notify you by email too.</em></div><div class="cmeta">VerifyFlow Compliance · 12 Nis 2026, 09:30</div></div></div>
+          <div class="cmsg stf"><div class="cav">VF</div><div><div class="cbub">Bilgi: Kimlik belgenizin arka yüzünü de yüklemeniz gerekmektedir. Lütfen Belgeler sekmesinden ekleyiniz.<br><em style="font-size:.78rem;opacity:.8">Note: We also need the back side of your identity document. Please add it from the Documents tab.</em></div><div class="cmeta">VerifyFlow Compliance · 12 Nis 2026, 10:45</div></div></div>
+        </div>
+        <div class="chat-inp-area">
+          <textarea class="chat-inp" id="chatInp" placeholder="Mesajınızı yazın / Type your message..." rows="1" onkeydown="chatKey(event)"></textarea>
+          <button class="btn btn-primary btn-sm" onclick="sendMsg()">Gönder ↑</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- .pf-body -->
+</div><!-- .pf-wrap -->
+</div><!-- /profile -->
+
+<!-- AUTH MODAL -->
+<div class="modal-ov" id="authMod">
+  <div class="modal">
+    <button class="modal-x" onclick="closeAuth()">✕</button>
+    <div class="mtabs">
+      <div class="mtab active" onclick="authTab('login',this)">Giriş Yap / Log In</div>
+      <div class="mtab" onclick="authTab('register',this)">Kayıt Ol / Register</div>
+    </div>
+    <div id="aLogin">
+      <h2>Tekrar Hoşgeldiniz</h2>
+      <p class="msub">Hesabınıza giriş yapın / Sign in to your account</p>
+      <div class="fg"><label>E-posta / Email</label><input type="email" class="fi" placeholder="siz@ornek.com"></div>
+      <div class="fg"><label>Şifre / Password</label><input type="password" class="fi" placeholder="Şifrenizi girin"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doLogin()">Giriş Yap / Log In</button>
+      <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)">Hesabınız yok mu? <a href="#" onclick="authTab('register',null);return false">Kayıt olun</a></div>
+    </div>
+    <div id="aReg" style="display:none">
+      <h2>Hesap Oluştur</h2>
+      <p class="msub">Ücretsiz hesap oluşturun / Create your free account</p>
+      <div class="frow">
+        <div class="fg"><label>Ad / First Name</label><input type="text" class="fi" placeholder="Ahmet"></div>
+        <div class="fg"><label>Soyad / Last Name</label><input type="text" class="fi" placeholder="Yılmaz"></div>
+      </div>
+      <div class="fg"><label>E-posta / Email</label><input type="email" class="fi" placeholder="siz@ornek.com"></div>
+      <div class="fg"><label>Şifre / Password</label><input type="password" class="fi" placeholder="Min. 8 karakter"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doRegister()">Kayıt Ol / Register</button>
+      <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)">Kayıt olarak <a href="#">Şartları</a> kabul etmiş olursunuz.</div>
     </div>
   </div>
 </div>
 
 <script>
-// Modal
-function showModal(tab){document.getElementById('authModal').classList.add('show');switchTab(tab)}
-function closeModal(){document.getElementById('authModal').classList.remove('show')}
-function switchTab(t){
-  document.querySelectorAll('.tab').forEach((el,i)=>{el.classList.toggle('active',i===(t==='login'?0:1))});
-  document.getElementById('tab-login').style.display=t==='login'?'block':'none';
-  document.getElementById('tab-signup').style.display=t==='signup'?'block':'none';
+// ── SPA NAVIGASYON ────────────────────────────────────
+function nav(v){
+  document.querySelectorAll('[data-view]').forEach(el=>{el.classList.remove('active');el.style.display='none';});
+  var t=document.getElementById('view-'+v);t.style.display='block';t.classList.add('active');
+  window.scrollTo(0,0);
+  var na=document.getElementById('navAct');
+  if(v==='profile'){
+    na.innerHTML='<span style="font-size:.85rem;color:var(--text2);font-weight:500">Ahmet Yılmaz</span><button class="btn btn-ghost btn-sm" onclick="nav(\'landing\')">Çıkış / Logout</button>';
+  } else {
+    na.innerHTML='<button class="btn btn-outline btn-sm" onclick="showAuth(\'login\')">Giriş Yap / Log In</button><button class="btn btn-primary btn-sm" onclick="showAuth(\'register\')">Kayıt Ol / Register</button>';
+  }
+}
+document.addEventListener('DOMContentLoaded',function(){document.getElementById('view-landing').style.display='block';});
+
+// ── AUTH MODAL ────────────────────────────────────────
+function showAuth(t){document.getElementById('authMod').classList.add('show');authTab(t,null);}
+function closeAuth(){document.getElementById('authMod').classList.remove('show');}
+function authTab(t,el){
+  document.querySelectorAll('.mtab').forEach(function(m,i){m.classList.toggle('active',(t==='login'&&i===0)||(t==='register'&&i===1));});
+  document.getElementById('aLogin').style.display=t==='login'?'block':'none';
+  document.getElementById('aReg').style.display=t==='register'?'block':'none';
+}
+function doLogin(){closeAuth();nav('profile');}
+function doRegister(){closeAuth();startOB();}
+document.getElementById('authMod').addEventListener('click',function(e){if(e.target===e.currentTarget)closeAuth();});
+
+// ── ONBOARDING ────────────────────────────────────────
+var IND_STEPS=['s1','s2','s3','s4ind','sDocs','sAml','sComplete'];
+var BIZ_STEPS=['s1','s2','s3','s4biz','s5biz','s6biz','s7biz','sDocs','sAml','sComplete'];
+var steps=IND_STEPS,idx=0,acType='ind';
+
+function startOB(){steps=IND_STEPS;idx=0;acType='ind';nav('onboarding');showS(0);}
+function showS(i){
+  document.querySelectorAll('.spane').forEach(function(s){s.classList.remove('active');});
+  document.getElementById(steps[i]).classList.add('active');
+  var pct=Math.round(((i+1)/steps.length)*100);
+  document.getElementById('obProg').style.width=pct+'%';
+  document.getElementById('obLbl').textContent='Adım '+(i+1)+' / '+steps.length;
+  if(steps[i]==='sDocs')document.getElementById('bizDocs').style.display=acType==='biz'?'block':'none';
+}
+function goNext(){
+  if(idx===0){
+    var sel=document.querySelector('#s1 .ro.sel');
+    if(!sel){alert('Lütfen hesap türü seçin / Please select an account type');return;}
+    acType=sel.querySelector('.rl strong').textContent.indexOf('Bireysel')>=0?'ind':'biz';
+    steps=acType==='biz'?BIZ_STEPS:IND_STEPS;
+  }
+  if(idx<steps.length-1){idx++;showS(idx);}
+}
+function goPrev(){if(idx>0){idx--;showS(idx);}}
+function submitApp(){idx=steps.length-1;showS(idx);}
+
+// ── FORM YARDIMCILARI ─────────────────────────────────
+function pickRo(el){
+  var g=el.closest('.rg');if(!g)g=el.parentElement;
+  g.querySelectorAll('.ro').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+}
+function onFile(inp,sid){
+  if(inp.files.length){var s=document.getElementById(sid);s.style.display='block';s.textContent='✓ '+inp.files[0].name+' yüklendi';}
+}
+function trigF(id){var el=document.getElementById(id);if(el&&!el.disabled)el.click();}
+function togNA(cb,dropId){document.getElementById(dropId).classList.toggle('dis',cb.checked);}
+function addUBO(){
+  var l=document.getElementById('uboList'),t=l.querySelector('.ubo-item').cloneNode(true);
+  t.querySelectorAll('input,select').forEach(function(el){el.value='';});l.appendChild(t);
+}
+function rmUBO(btn){var l=document.getElementById('uboList');if(l.children.length>1)btn.closest('.ubo-item').remove();}
+
+// ── PROFİL SEKMELERI ──────────────────────────────────
+function pfTab(t,el){
+  document.querySelectorAll('.tbc').forEach(function(c){c.classList.remove('active');});
+  document.getElementById('tb-'+t).classList.add('active');
+  document.querySelectorAll('.pf-tab').forEach(function(tab){tab.classList.remove('active');});
+  if(el)el.classList.add('active');
 }
 
-// Auth handlers
-function handleLogin(){closeModal();startOnboarding()}
-function handleSignup(){closeModal();startOnboarding()}
-
-// Pricing
-function switchPricing(plan){
-  document.querySelectorAll('.pricing-tab').forEach(t=>t.classList.remove('active'));
-  event.target.classList.add('active');
-  ['individual','business','fullpack'].forEach(p=>{document.getElementById('pricing-'+p).style.display=p===plan?'grid':'none'});
+// ── CHAT ─────────────────────────────────────────────
+var REPLIES=['Mesajınız alındı, ilgili ekibimize iletildi. / Your message has been received and forwarded to our team.','Teşekkür ederiz, en kısa sürede dönüş yapacağız. / Thank you, we will get back to you shortly.','Bilginize sunulur. İnceleme süreciniz devam etmektedir. / Your review is ongoing.'];
+function sendMsg(){
+  var inp=document.getElementById('chatInp'),txt=inp.value.trim();if(!txt)return;
+  var msgs=document.getElementById('chatMsgs');
+  var now=new Date(),ts=now.getDate()+' Nis 2026, '+pad(now.getHours())+':'+pad(now.getMinutes());
+  var m=document.createElement('div');m.className='cmsg cli';
+  m.innerHTML='<div class="cav">AY</div><div><div class="cbub">'+esc(txt)+'</div><div class="cmeta">'+ts+'</div></div>';
+  msgs.appendChild(m);inp.value='';msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(function(){
+    var r=document.createElement('div');r.className='cmsg stf';
+    r.innerHTML='<div class="cav">VF</div><div><div class="cbub">'+REPLIES[Math.floor(Math.random()*REPLIES.length)]+'</div><div class="cmeta">VerifyFlow Compliance · '+ts+'</div></div>';
+    msgs.appendChild(r);msgs.scrollTop=msgs.scrollHeight;
+  },1200);
 }
-
-// Onboarding
-let currentStep=1;const totalSteps=5;
-function startOnboarding(){document.getElementById('onboarding').classList.add('show');currentStep=1;updateStep()}
-function closeOnboarding(){document.getElementById('onboarding').classList.remove('show');currentStep=1;updateStep()}
-function nextStep(){if(currentStep<totalSteps){currentStep++;updateStep()}}
-function prevStep(){if(currentStep>1){currentStep--;updateStep()}}
-function updateStep(){
-  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-  document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
-  document.getElementById('progressFill').style.width=((currentStep/totalSteps)*100)+'%';
-  document.getElementById('stepLabel').textContent=`Step ${currentStep} of ${totalSteps}`;
-}
-function selectOption(el,name){
-  el.closest('.radio-group').querySelectorAll('.radio-option').forEach(o=>o.classList.remove('selected'));
-  el.classList.add('selected');el.querySelector('input').checked=true;
-}
-function handleFile(input){
-  if(input.files.length){const s=document.getElementById('fileStatus');s.style.display='block';s.textContent='✓ '+input.files[0].name+' uploaded successfully';}
-}
-
-// Close modal on overlay click
-document.getElementById('authModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
-
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'})}));
+function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
+function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function pad(n){return String(n).padStart(2,'0');}
 </script>
 </body>
 </html>
