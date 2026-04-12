@@ -4,95 +4,103 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Allboard — Onboarding Demo</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--teal:#00e5c3;--teal-dark:#00b89b;--bg:#0a0e17;--bg2:#111827;--bg3:#1a2035;--card:#151b2e;--text:#e2e8f0;--text2:#94a3b8;--border:#1e293b;--danger:#ef4444;--warn:#f59e0b;--success:#10b981;--radius:12px}
+:root{--navy:#0f1f3d;--blue:#1447e6;--blue2:#2563eb;--teal:#00c4a7;--bg:#ffffff;--bg2:#f8faff;--bg3:#f1f5fd;--card:#ffffff;--text:#0f172a;--text2:#475569;--text3:#64748b;--border:#e2e8f0;--border2:#cbd5e1;--danger:#ef4444;--warn:#f59e0b;--success:#10b981;--radius:10px}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
-a{color:var(--teal);text-decoration:none}
-.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.4rem;border-radius:8px;font-size:.9rem;font-weight:600;border:none;cursor:pointer;transition:all .2s}
-.btn-primary{background:var(--teal);color:var(--bg)}
-.btn-primary:hover{background:var(--teal-dark)}
-.btn-outline{border:1px solid var(--border);background:transparent;color:var(--text)}
-.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg2);color:var(--text);line-height:1.6}
+a{color:var(--blue);text-decoration:none}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.2rem;border-radius:8px;font-size:.85rem;font-weight:600;border:none;cursor:pointer;transition:all .18s;font-family:inherit}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue2);transform:translateY(-1px);box-shadow:0 4px 14px rgba(20,71,230,.25)}
+.btn-outline{border:1.5px solid var(--border2);background:transparent;color:var(--text2)}.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-ghost{background:transparent;color:var(--text2);border:none;cursor:pointer;font-family:inherit}.btn-ghost:hover{color:var(--navy)}
+.btn-sm{padding:.35rem .85rem;font-size:.78rem}
+.btn-danger{background:rgba(239,68,68,.08);color:var(--danger);border:1px solid rgba(239,68,68,.15)}.btn-danger:hover{background:rgba(239,68,68,.15)}
 
 /* Layout */
-.demo-layout{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+.demo-layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
 @media(max-width:768px){.demo-layout{grid-template-columns:1fr}.sidebar{display:none}}
 
 /* Sidebar */
-.sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:1.5rem 0;position:sticky;top:0;height:100vh;overflow-y:auto}
-.sidebar-header{padding:0 1.5rem 1.5rem;border-bottom:1px solid var(--border)}
-.sidebar-header h1{font-size:1.2rem}
-.sidebar-header h1 span{color:var(--teal)}
-.sidebar-header p{font-size:.8rem;color:var(--text2);margin-top:.25rem}
-.sidebar-nav{padding:1rem 0}
-.nav-section{padding:.5rem 1.5rem;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);margin-top:.5rem}
-.nav-item{display:flex;align-items:center;gap:.75rem;padding:.6rem 1.5rem;font-size:.85rem;color:var(--text2);cursor:pointer;transition:all .15s;border-left:2px solid transparent}
-.nav-item:hover{background:rgba(0,229,195,.05);color:var(--text)}
-.nav-item.active{color:var(--teal);border-left-color:var(--teal);background:rgba(0,229,195,.05)}
+.sidebar{background:#fff;border-right:1px solid var(--border);padding:0;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.sidebar-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.sidebar-logo{font-size:1.2rem;font-weight:800;color:var(--navy);letter-spacing:-.02em;margin-bottom:.2rem}
+.sidebar-logo span{color:var(--blue)}
+.sidebar-subtitle{font-size:.72rem;color:var(--text3);font-weight:500}
+.sidebar-nav{padding:.75rem 0;flex:1}
+.nav-section{padding:.4rem 1.5rem;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-top:.5rem}
+.nav-item{display:flex;align-items:center;gap:.7rem;padding:.55rem 1.5rem;font-size:.83rem;font-weight:500;color:var(--text2);cursor:pointer;transition:all .15s;border-left:2px solid transparent}
+.nav-item:hover{background:var(--bg2);color:var(--navy)}
+.nav-item.active{color:var(--blue);border-left-color:var(--blue);background:rgba(20,71,230,.04);font-weight:600}
 .nav-item.completed{color:var(--success)}
-.nav-item .icon{width:20px;text-align:center;font-size:.9rem}
-.nav-item .status{margin-left:auto;font-size:.7rem;padding:.15rem .4rem;border-radius:4px}
-.nav-item .status.done{background:rgba(16,185,129,.1);color:var(--success)}
-.nav-item .status.active{background:rgba(0,229,195,.1);color:var(--teal)}
-.nav-item .status.pending{background:rgba(148,163,184,.1);color:var(--text2)}
+.nav-item .icon{width:18px;text-align:center;font-size:.88rem}
+.nav-item .status{margin-left:auto;font-size:.65rem;padding:.12rem .4rem;border-radius:4px;font-weight:600}
+.nav-item .status.done{background:#dcfce7;color:#15803d}
+.nav-item .status.active{background:#dbeafe;color:var(--blue)}
+.nav-item .status.pending{background:#f1f5f9;color:var(--text3)}
+.sidebar-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);flex-shrink:0;display:flex;flex-direction:column;gap:.5rem}
+
+/* Lang toggle */
+.lang-toggle{display:flex;gap:.25rem;background:var(--bg2);border-radius:8px;padding:.25rem;border:1px solid var(--border)}
+.lang-btn{flex:1;padding:.3rem;border-radius:6px;font-size:.75rem;font-weight:700;border:none;cursor:pointer;background:transparent;color:var(--text3);transition:all .15s}
+.lang-btn.active{background:#fff;color:var(--blue);box-shadow:0 1px 4px rgba(0,0,0,.08)}
 
 /* Main */
-.main{padding:2rem;overflow-y:auto}
-.main-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
-.main-header h2{font-size:1.3rem}
-.breadcrumb{font-size:.8rem;color:var(--text2)}
-.breadcrumb span{color:var(--teal)}
+.main{padding:2rem;overflow-y:auto;background:var(--bg2)}
+.main-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;padding-bottom:1rem;border-bottom:1px solid var(--border);background:var(--bg2)}
+.main-header h2{font-size:1.25rem;font-weight:800;color:var(--navy)}
+.breadcrumb{font-size:.76rem;color:var(--text3);margin-bottom:.2rem}
+.breadcrumb span{color:var(--blue);font-weight:600}
 
 /* Demo Panels */
 .panel{display:none;animation:fadeIn .3s ease}
 .panel.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* Cards */
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem}
-.card h3{font-size:1rem;margin-bottom:.75rem}
-.card p{font-size:.9rem;color:var(--text2)}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(15,31,61,.04)}
+.card h3{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:.75rem}
+.card p{font-size:.88rem;color:var(--text2)}
 
 /* Stats */
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem}
-.stat-card .label{font-size:.8rem;color:var(--text2)}
-.stat-card .value{font-size:1.8rem;font-weight:700;margin:.25rem 0}
-.stat-card .change{font-size:.8rem;color:var(--success)}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-bottom:1.5rem}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;box-shadow:0 1px 4px rgba(15,31,61,.04)}
+.stat-card .label{font-size:.75rem;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.stat-card .value{font-size:2rem;font-weight:800;color:var(--navy);margin:.3rem 0;letter-spacing:-.03em}
+.stat-card .change{font-size:.76rem;color:var(--success);font-weight:500}
 .stat-card .change.down{color:var(--danger)}
 
 /* Table */
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
-th{text-align:left;padding:.7rem 1rem;font-size:.8rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.03em;border-bottom:1px solid var(--border)}
-td{padding:.7rem 1rem;font-size:.85rem;border-bottom:1px solid var(--border)}
-tr:hover td{background:rgba(0,229,195,.02)}
-.badge{display:inline-block;padding:.2rem .6rem;border-radius:6px;font-size:.75rem;font-weight:500}
-.badge-success{background:rgba(16,185,129,.1);color:var(--success)}
-.badge-warning{background:rgba(245,158,11,.1);color:var(--warn)}
-.badge-danger{background:rgba(239,68,68,.1);color:var(--danger)}
-.badge-info{background:rgba(0,229,195,.1);color:var(--teal)}
-.badge-neutral{background:rgba(148,163,184,.1);color:var(--text2)}
+th{text-align:left;padding:.65rem 1rem;font-size:.72rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;border-bottom:1.5px solid var(--border);background:var(--bg2)}
+td{padding:.65rem 1rem;font-size:.83rem;border-bottom:1px solid var(--border);color:var(--text)}
+tr:hover td{background:rgba(20,71,230,.02)}
+td:first-child{font-weight:600;color:var(--navy)}
+.badge{display:inline-flex;align-items:center;padding:.18rem .6rem;border-radius:6px;font-size:.71rem;font-weight:600}
+.badge-success{background:#dcfce7;color:#15803d}
+.badge-warning{background:#fef3c7;color:#b45309}
+.badge-danger{background:#fee2e2;color:#991b1b}
+.badge-info{background:#dbeafe;color:#1d4ed8}
+.badge-neutral{background:#f1f5f9;color:#475569}
 
 /* Timeline */
 .timeline{position:relative;padding-left:2rem}
 .timeline::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--border)}
 .timeline-item{position:relative;padding-bottom:1.5rem}
-.timeline-item::before{content:'';position:absolute;left:-2rem;top:4px;width:14px;height:14px;border-radius:50%;border:2px solid var(--border);background:var(--bg)}
+.timeline-item::before{content:'';position:absolute;left:-2rem;top:4px;width:14px;height:14px;border-radius:50%;border:2px solid var(--border);background:#fff}
 .timeline-item.done::before{border-color:var(--success);background:var(--success)}
-.timeline-item.active::before{border-color:var(--teal);background:var(--teal)}
-.timeline-item .time{font-size:.75rem;color:var(--text2)}
-.timeline-item .desc{font-size:.9rem;margin-top:.2rem}
+.timeline-item.active::before{border-color:var(--blue);background:var(--blue)}
+.timeline-item .time{font-size:.73rem;color:var(--text3)}
+.timeline-item .desc{font-size:.88rem;color:var(--text);margin-top:.2rem;font-weight:500}
 
 /* Workflow Vis */
 .workflow-steps{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:1.5rem 0}
-.wf-step{display:flex;align-items:center;gap:.5rem;padding:.6rem 1rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:.8rem}
-.wf-step.done{border-color:var(--success);color:var(--success)}
-.wf-step.active{border-color:var(--teal);color:var(--teal);background:rgba(0,229,195,.05)}
-.wf-step.pending{color:var(--text2)}
-.wf-arrow{color:var(--text2);font-size:.8rem}
+.wf-step{display:flex;align-items:center;gap:.5rem;padding:.55rem 1rem;background:#fff;border:1.5px solid var(--border);border-radius:8px;font-size:.78rem;font-weight:500}
+.wf-step.done{border-color:#86efac;color:#15803d;background:#f0fdf4}
+.wf-step.active{border-color:rgba(20,71,230,.3);color:var(--blue);background:rgba(20,71,230,.04);font-weight:600}
+.wf-step.pending{color:var(--text3)}
+.wf-arrow{color:var(--border2);font-size:.8rem}
 
 /* Risk Gauge */
 .risk-gauge{width:200px;margin:1rem auto}
@@ -103,37 +111,39 @@ tr:hover td{background:rgba(0,229,195,.02)}
 .risk-high{background:var(--danger)}
 
 /* Notification */
-.notif{display:flex;align-items:flex-start;gap:.75rem;padding:1rem;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.75rem;font-size:.85rem}
-.notif .dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
-.notif .dot.green{background:var(--success)}
-.notif .dot.yellow{background:var(--warn)}
-.notif .dot.red{background:var(--danger)}
-.notif .dot.blue{background:var(--teal)}
+.notif{display:flex;align-items:flex-start;gap:.75rem;padding:1rem;background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.65rem;font-size:.84rem}
+.notif .dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.notif .dot.green{background:var(--success)}.notif .dot.yellow{background:var(--warn)}
+.notif .dot.red{background:var(--danger)}.notif .dot.blue{background:var(--blue)}
+
 /* Chat staff side */
-.chat-box{display:flex;flex-direction:column;height:420px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius)}
-.chat-msgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem}
+.chat-box{display:flex;flex-direction:column;height:420px;background:#fff;border:1px solid var(--border);border-radius:var(--radius)}
+.chat-msgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.65rem}
 .cmsg{display:flex;gap:.5rem;max-width:78%}
 .cmsg.cli{align-self:flex-end;flex-direction:row-reverse}
 .cmsg.stf{align-self:flex-start}
-.cbub{padding:.6rem 1rem;border-radius:12px;font-size:.85rem;line-height:1.5}
-.cmsg.cli .cbub{background:rgba(0,229,195,.15);border:1px solid rgba(0,229,195,.3);border-radius:12px 12px 2px 12px}
-.cmsg.stf .cbub{background:var(--bg2);border:1px solid var(--border);border-radius:12px 12px 12px 2px}
-.cmeta{font-size:.68rem;color:var(--text2);margin-top:.2rem}
+.cbub{padding:.6rem 1rem;border-radius:12px;font-size:.84rem;line-height:1.55}
+.cmsg.stf .cbub{background:var(--blue);color:#fff;border-radius:12px 12px 12px 2px}
+.cmsg.cli .cbub{background:var(--bg2);border:1px solid var(--border);border-radius:12px 12px 2px 12px;color:var(--text)}
+.cmeta{font-size:.67rem;color:var(--text3);margin-top:.2rem}
 .cmsg.cli .cmeta{text-align:right}.cmsg.stf .cmeta{text-align:left}
 .cav{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0;align-self:flex-end}
-.cmsg.cli .cav{background:rgba(0,229,195,.2);color:var(--teal)}.cmsg.stf .cav{background:var(--bg3);color:var(--text2)}
+.cmsg.stf .cav{background:rgba(20,71,230,.12);color:var(--blue)}.cmsg.cli .cav{background:var(--bg3);color:var(--text2)}
 .chat-inp-row{border-top:1px solid var(--border);padding:.75rem;display:flex;gap:.5rem}
-.chat-inp{flex:1;padding:.6rem .9rem;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.875rem;font-family:inherit}
-.chat-inp:focus{outline:none;border-color:var(--teal)}
+.chat-inp{flex:1;padding:.6rem .9rem;background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;font-family:inherit;outline:none}
+.chat-inp:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(20,71,230,.07)}
+
 /* Info grid */
 .igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem}
-.iitem .ilabel{font-size:.75rem;color:var(--text2);margin-bottom:.15rem}
-.iitem .ival{font-size:.88rem;font-weight:500}
+.iitem{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.7rem 1rem}
+.iitem .ilabel{font-size:.68rem;color:var(--text3);margin-bottom:.2rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.iitem .ival{font-size:.86rem;font-weight:600;color:var(--navy)}
+
 /* Interview */
-.int-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:1rem}
-.int-card .int-icon{font-size:1.5rem;flex-shrink:0}
-.int-card .int-info{flex:1}.int-card .int-name{font-size:.9rem;font-weight:600}
-.int-card .int-meta{font-size:.78rem;color:var(--text2);margin-top:.15rem}
+.int-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:1rem;box-shadow:0 1px 3px rgba(15,31,61,.04)}
+.int-card .int-icon{font-size:1.4rem;flex-shrink:0}
+.int-card .int-info{flex:1}.int-card .int-name{font-size:.88rem;font-weight:700;color:var(--navy)}
+.int-card .int-meta{font-size:.77rem;color:var(--text2);margin-top:.15rem}
 .int-card .int-actions{display:flex;gap:.5rem}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -141,43 +151,56 @@ tr:hover td{background:rgba(0,229,195,.02)}
 </head>
 <body>
 <!-- Admin Login Overlay -->
-<div id="adminLoginOverlay" style="display:none;position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center">
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:100%;max-width:400px">
-    <h2 style="margin-bottom:.25rem">Allboard Admin</h2>
-    <p style="color:var(--text2);font-size:.88rem;margin-bottom:1.5rem">Yönetici girişi / Admin login</p>
-    <div style="margin-bottom:1rem"><label style="display:block;font-size:.83rem;margin-bottom:.35rem;color:var(--text2)">E-posta / Email</label><input type="email" id="adminEmail" class="fi" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.6rem .9rem;color:var(--text);font-size:.9rem" placeholder="admin@ornek.com"></div>
-    <div style="margin-bottom:1.5rem"><label style="display:block;font-size:.83rem;margin-bottom:.35rem;color:var(--text2)">Şifre / Password</label><input type="password" id="adminPass" class="fi" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.6rem .9rem;color:var(--text);font-size:.9rem" placeholder="••••••••" onkeydown="if(event.key==='Enter')adminLogin()"></div>
-    <button onclick="adminLogin()" style="width:100%;background:var(--teal);color:var(--bg);border:none;border-radius:8px;padding:.7rem;font-weight:600;font-size:.95rem;cursor:pointer" id="adminLoginBtn">Giriş Yap / Sign In</button>
-    <p id="adminLoginErr" style="color:var(--danger);font-size:.82rem;margin-top:.75rem;display:none"></p>
+<div id="adminLoginOverlay" style="display:none;position:fixed;inset:0;background:var(--bg2);z-index:9999;display:flex;align-items:center;justify-content:center">
+  <div style="background:#fff;border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:100%;max-width:400px;box-shadow:0 24px 60px rgba(15,31,61,.1)">
+    <div style="font-size:1.25rem;font-weight:800;color:var(--navy);letter-spacing:-.02em;margin-bottom:.2rem">All<span style="color:var(--blue)">board</span></div>
+    <p style="color:var(--text2);font-size:.85rem;margin-bottom:1.75rem;font-weight:500">Admin Paneli</p>
+    <div style="margin-bottom:.9rem">
+      <label style="display:block;font-size:.76rem;font-weight:700;margin-bottom:.35rem;color:var(--text2);text-transform:uppercase;letter-spacing:.05em">E-posta</label>
+      <input type="email" id="adminEmail" style="width:100%;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:.65rem .95rem;color:var(--text);font-size:.88rem;font-family:inherit;outline:none;transition:border-color .18s" placeholder="admin@ornek.com" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+    </div>
+    <div style="margin-bottom:1.5rem">
+      <label style="display:block;font-size:.76rem;font-weight:700;margin-bottom:.35rem;color:var(--text2);text-transform:uppercase;letter-spacing:.05em">Şifre</label>
+      <input type="password" id="adminPass" style="width:100%;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:.65rem .95rem;color:var(--text);font-size:.88rem;font-family:inherit;outline:none;transition:border-color .18s" placeholder="••••••••" onkeydown="if(event.key==='Enter')adminLogin()" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+    </div>
+    <button onclick="adminLogin()" style="width:100%;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:.75rem;font-weight:700;font-size:.9rem;cursor:pointer;font-family:inherit;transition:background .18s" id="adminLoginBtn" onmouseover="this.style.background='var(--blue2)'" onmouseout="this.style.background='var(--blue)'">Giriş Yap</button>
+    <p id="adminLoginErr" style="color:var(--danger);font-size:.8rem;margin-top:.75rem;display:none;font-weight:500"></p>
   </div>
 </div>
 <div class="demo-layout" id="adminDashboard" style="display:none">
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <h1>All<span>board</span></h1>
-      <p>Admin Dashboard Demo</p>
+      <div class="sidebar-logo">All<span>board</span></div>
+      <div class="sidebar-subtitle" data-i18n="adminPanel">Admin Paneli</div>
     </div>
     <nav class="sidebar-nav">
-      <div class="nav-section">Overview</div>
-      <div class="nav-item active" onclick="showPanel('dashboard')"><span class="icon">📊</span>Dashboard<span class="status active">Live</span></div>
-      <div class="nav-section">Onboarding</div>
-      <div class="nav-item" onclick="showPanel('clients')"><span class="icon">👤</span>Clients</div>
-      <div class="nav-item" onclick="showPanel('kyc')"><span class="icon">🔍</span>KYC Reviews</div>
-      <div class="nav-item" onclick="showPanel('kyb')"><span class="icon">🏢</span>KYB Reviews</div>
-      <div class="nav-item" onclick="showPanel('aml')"><span class="icon">🛡️</span>AML Screening</div>
-      <div class="nav-item" onclick="showPanel('risk')"><span class="icon">⚡</span>Risk Engine</div>
-      <div class="nav-section">Client Management</div>
-      <div class="nav-item" onclick="showPanel('clientprofile')"><span class="icon">🪪</span>Client Profile</div>
-      <div class="nav-section">Communication</div>
-      <div class="nav-item" onclick="showPanel('staffchat')"><span class="icon">💬</span>Messaging</div>
-      <div class="nav-item" onclick="showPanel('interview')"><span class="icon">📅</span>Interviews</div>
-      <div class="nav-section">System</div>
-      <div class="nav-item" onclick="showPanel('workflow')"><span class="icon">🔄</span>Workflows</div>
-      <div class="nav-item" onclick="showPanel('notifications')"><span class="icon">🔔</span>Notifications</div>
-      <div class="nav-item" onclick="showPanel('settings')"><span class="icon">⚙️</span>Settings</div>
-      <div style="padding:1.5rem;display:flex;flex-direction:column;gap:.5rem"><a href="/" class="btn btn-outline" style="width:100%;justify-content:center;font-size:.8rem">← Back to Site</a><button onclick="adminLogout()" class="btn btn-ghost" style="width:100%;justify-content:center;font-size:.8rem;color:var(--danger)">Çıkış Yap / Logout</button></div>
+      <div class="nav-section" data-i18n="overview">Genel Bakış</div>
+      <div class="nav-item active" onclick="showPanel('dashboard')"><span class="icon">📊</span><span data-i18n="dashboard">Dashboard</span><span class="status active">Live</span></div>
+      <div class="nav-section" data-i18n="onboarding">Onboarding</div>
+      <div class="nav-item" onclick="showPanel('clients')"><span class="icon">👤</span><span data-i18n="clients">Başvurular</span></div>
+      <div class="nav-item" onclick="showPanel('kyc')"><span class="icon">🔍</span><span data-i18n="kycReview">KYC İncelemeleri</span></div>
+      <div class="nav-item" onclick="showPanel('kyb')"><span class="icon">🏢</span><span data-i18n="kybReview">KYB İncelemeleri</span></div>
+      <div class="nav-item" onclick="showPanel('aml')"><span class="icon">🛡️</span><span data-i18n="aml">AML Tarama</span></div>
+      <div class="nav-item" onclick="showPanel('risk')"><span class="icon">⚡</span><span data-i18n="risk">Risk Motoru</span></div>
+      <div class="nav-section" data-i18n="clientMgmt">Müşteri Yönetimi</div>
+      <div class="nav-item" onclick="showPanel('clientprofile')"><span class="icon">🪪</span><span data-i18n="clientProfile">Müşteri Profili</span></div>
+      <div class="nav-section" data-i18n="communication">İletişim</div>
+      <div class="nav-item" onclick="showPanel('staffchat')"><span class="icon">💬</span><span data-i18n="messaging">Mesajlaşma</span></div>
+      <div class="nav-item" onclick="showPanel('interview')"><span class="icon">📅</span><span data-i18n="interviews">Görüşmeler</span></div>
+      <div class="nav-section" data-i18n="system">Sistem</div>
+      <div class="nav-item" onclick="showPanel('workflow')"><span class="icon">🔄</span><span data-i18n="workflows">İş Akışları</span></div>
+      <div class="nav-item" onclick="showPanel('notifications')"><span class="icon">🔔</span><span data-i18n="notifications">Bildirimler</span></div>
+      <div class="nav-item" onclick="showPanel('settings')"><span class="icon">⚙️</span><span data-i18n="settings">Ayarlar</span></div>
     </nav>
+    <div class="sidebar-footer">
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btnTR" onclick="setLang('tr')">🇹🇷 TR</button>
+        <button class="lang-btn" id="btnEN" onclick="setLang('en')">🇬🇧 EN</button>
+      </div>
+      <a href="/" class="btn btn-outline" style="width:100%;justify-content:center;font-size:.78rem" data-i18n="backToSite">← Siteye Dön</a>
+      <button onclick="adminLogout()" class="btn btn-danger" style="width:100%;justify-content:center;font-size:.78rem" data-i18n="logout">Çıkış Yap</button>
+    </div>
   </aside>
 
   <!-- Main -->
@@ -188,18 +211,18 @@ tr:hover td{background:rgba(0,229,195,.02)}
         <h2 id="panelHeading">Dashboard Overview</h2>
       </div>
       <div style="display:flex;gap:.5rem">
-        <button class="btn btn-outline" style="font-size:.8rem" onclick="simulateData()">↻ Refresh</button>
-        <button class="btn btn-primary" style="font-size:.8rem" onclick="runDemo()">▶ Run Demo</button>
+        <button class="btn btn-outline" style="font-size:.8rem" onclick="simulateData()">↻ <span data-i18n="refresh">Yenile</span></button>
+        <button class="btn btn-primary" style="font-size:.8rem" onclick="runDemo()">▶ <span data-i18n="runDemo">Demo Çalıştır</span></button>
       </div>
     </div>
 
     <!-- Dashboard Panel -->
     <div class="panel active" id="panel-dashboard">
       <div class="stats-row">
-        <div class="stat-card"><div class="label">Total Clients</div><div class="value" id="s-clients">—</div><div class="change">Toplam kayıt</div></div>
-        <div class="stat-card"><div class="label">İncelemede / In Review</div><div class="value" id="s-review">—</div><div class="change down">Aktif inceleme</div></div>
-        <div class="stat-card"><div class="label">Onaylanan / Approved</div><div class="value" id="s-approved">—</div><div class="change">Onaylanmış</div></div>
-        <div class="stat-card"><div class="label">Bekleyen / Pending</div><div class="value" id="s-pending">—</div><div class="change down">Bekleyen başvuru</div></div>
+        <div class="stat-card"><div class="label" data-i18n="statTotal">Toplam Başvuru</div><div class="value" id="s-clients">—</div><div class="change" data-i18n="statTotalSub">Kayıtlı müşteri</div></div>
+        <div class="stat-card"><div class="label" data-i18n="statReview">İncelemede</div><div class="value" id="s-review">—</div><div class="change down" data-i18n="statReviewSub">Aktif inceleme</div></div>
+        <div class="stat-card"><div class="label" data-i18n="statApproved">Onaylanan</div><div class="value" id="s-approved">—</div><div class="change" data-i18n="statApprovedSub">Onaylanmış</div></div>
+        <div class="stat-card"><div class="label" data-i18n="statPending">Bekleyen</div><div class="value" id="s-pending">—</div><div class="change down" data-i18n="statPendingSub">Bekleyen başvuru</div></div>
       </div>
       <div class="card">
         <h3>Recent Onboarding Activity</h3>
@@ -444,7 +467,7 @@ tr:hover td{background:rgba(0,229,195,.02)}
         </div>
         <div class="card" style="display:flex;flex-direction:column;padding:0;overflow:hidden">
           <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem">
-            <div id="chatClientAv" style="width:36px;height:36px;border-radius:50%;background:rgba(0,229,195,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--teal)">—</div>
+            <div id="chatClientAv" style="width:36px;height:36px;border-radius:50%;background:rgba(20,71,230,.12);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--blue)">—</div>
             <div><div id="chatClientName" style="font-size:.9rem;font-weight:600">Bir konuşma seçin</div></div>
           </div>
           <div class="chat-msgs" id="staffChatMsgs" style="flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem"></div>
@@ -481,15 +504,15 @@ tr:hover td{background:rgba(0,229,195,.02)}
         <div style="display:grid;gap:1rem;margin-top:1rem">
           <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
             <div><strong style="font-size:.9rem">Auto-approve low risk</strong><br><span style="font-size:.8rem;color:var(--text2)">Automatically approve clients with risk score &lt; 30</span></div>
-            <div style="width:44px;height:24px;background:var(--teal);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
+            <div style="width:44px;height:24px;background:var(--blue);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
             <div><strong style="font-size:.9rem">Auto-reject high risk</strong><br><span style="font-size:.8rem;color:var(--text2)">Automatically reject clients with risk score &gt; 70</span></div>
-            <div style="width:44px;height:24px;background:var(--teal);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
+            <div style="width:44px;height:24px;background:var(--blue);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
             <div><strong style="font-size:.9rem">Ongoing AML monitoring</strong><br><span style="font-size:.8rem;color:var(--text2)">Rescreen approved clients daily for changes</span></div>
-            <div style="width:44px;height:24px;background:var(--teal);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
+            <div style="width:44px;height:24px;background:var(--blue);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
             <div><strong style="font-size:.9rem">Email notifications</strong><br><span style="font-size:.8rem;color:var(--text2)">Send email alerts for flagged applications</span></div>
@@ -501,7 +524,7 @@ tr:hover td{background:rgba(0,229,195,.02)}
         <h3>API Keys</h3>
         <div style="margin-top:1rem">
           <div style="display:flex;align-items:center;gap:1rem;padding:.75rem;background:var(--bg);border-radius:8px;margin-bottom:.5rem">
-            <code style="font-size:.8rem;color:var(--teal);flex:1">vf_live_sk_••••••••••••••••</code>
+            <code style="font-size:.8rem;color:var(--blue);flex:1">vf_live_sk_••••••••••••••••</code>
             <span class="badge badge-success">Active</span>
           </div>
           <div style="display:flex;align-items:center;gap:1rem;padding:.75rem;background:var(--bg);border-radius:8px">
@@ -519,6 +542,57 @@ tr:hover td{background:rgba(0,229,195,.02)}
 var adminChatChannel = null;
 var activeChatClientId = null;
 var activeClientId = null;
+var currentLang = 'tr';
+
+// ── i18n ──────────────────────────────────────────────
+var T = {
+  tr:{
+    adminPanel:'Admin Paneli',overview:'Genel Bakış',dashboard:'Dashboard',
+    onboarding:'Onboarding',clients:'Başvurular',kycReview:'KYC İncelemeleri',
+    kybReview:'KYB İncelemeleri',aml:'AML Tarama',risk:'Risk Motoru',
+    clientMgmt:'Müşteri Yönetimi',clientProfile:'Müşteri Profili',
+    communication:'İletişim',messaging:'Mesajlaşma',interviews:'Görüşmeler',
+    system:'Sistem',workflows:'İş Akışları',notifications:'Bildirimler',
+    settings:'Ayarlar',backToSite:'← Siteye Dön',logout:'Çıkış Yap',
+    ph_dashboard:'Dashboard',ph_clients:'Başvurular',ph_kyc:'KYC Doğrulama',
+    ph_kyb:'KYB Doğrulama',ph_aml:'AML Tarama',ph_risk:'Risk Değerlendirme',
+    ph_workflow:'İş Akışları',ph_notifications:'Bildirimler',ph_settings:'Ayarlar',
+    ph_clientprofile:'Müşteri Profili',ph_staffchat:'Mesajlaşma',ph_interview:'Görüşme Yönetimi',
+    refresh:'Yenile',runDemo:'Demo Çalıştır',
+    statTotal:'Toplam Başvuru',statTotalSub:'Kayıtlı müşteri',
+    statReview:'İncelemede',statReviewSub:'Aktif inceleme',
+    statApproved:'Onaylanan',statApprovedSub:'Onaylanmış',
+    statPending:'Bekleyen',statPendingSub:'Bekleyen başvuru'
+  },
+  en:{
+    adminPanel:'Admin Panel',overview:'Overview',dashboard:'Dashboard',
+    onboarding:'Onboarding',clients:'Applications',kycReview:'KYC Reviews',
+    kybReview:'KYB Reviews',aml:'AML Screening',risk:'Risk Engine',
+    clientMgmt:'Client Management',clientProfile:'Client Profile',
+    communication:'Communication',messaging:'Messaging',interviews:'Interviews',
+    system:'System',workflows:'Workflows',notifications:'Notifications',
+    settings:'Settings',backToSite:'← Back to Site',logout:'Sign Out',
+    ph_dashboard:'Dashboard',ph_clients:'Client Directory',ph_kyc:'KYC Verification',
+    ph_kyb:'KYB Verification',ph_aml:'AML Screening',ph_risk:'Risk Assessment',
+    ph_workflow:'Workflow Manager',ph_notifications:'Notifications',ph_settings:'Platform Settings',
+    ph_clientprofile:'Client Profile Detail',ph_staffchat:'Messaging',ph_interview:'Interview Management',
+    refresh:'Refresh',runDemo:'Run Demo',
+    statTotal:'Total Applications',statTotalSub:'Registered clients',
+    statReview:'In Review',statReviewSub:'Active reviews',
+    statApproved:'Approved',statApprovedSub:'Approved clients',
+    statPending:'Pending',statPendingSub:'Awaiting review'
+  }
+};
+
+function setLang(l){
+  currentLang=l;
+  document.getElementById('btnTR').classList.toggle('active',l==='tr');
+  document.getElementById('btnEN').classList.toggle('active',l==='en');
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n');
+    if(T[l]&&T[l][k])el.textContent=T[l][k];
+  });
+}
 
 // ── UTILS ─────────────────────────────────────────────
 function esc(t){return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -568,8 +642,7 @@ function showPanel(id){
   document.getElementById('panel-'+id).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
   if(event&&event.currentTarget)event.currentTarget.classList.add('active');
-  var titles={dashboard:'Dashboard Overview',clients:'Client Directory',kyc:'KYC Verification',kyb:'KYB Verification',aml:'AML Screening',risk:'Risk Assessment',workflow:'Workflow Manager',notifications:'Notifications',settings:'Platform Settings',clientprofile:'Client Profile Detail',staffchat:'Messaging / Chat',interview:'Interview Management'};
-  var t=titles[id]||id;
+  var t=(T[currentLang]&&T[currentLang]['ph_'+id])||id;
   document.getElementById('panelTitle').textContent=t;
   document.getElementById('panelHeading').textContent=t;
   if(id==='clients')loadClients();
@@ -617,7 +690,7 @@ async function openClientProfile(id){
   var name=(p.firstName||'')+' '+(p.lastName||'');
   // Header
   var hdr=document.getElementById('cpHeader');
-  if(hdr)hdr.innerHTML='<div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><div style="width:48px;height:48px;border-radius:50%;background:rgba(0,229,195,.15);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--teal)">'+esc((p.firstName||'?')[0]+(p.lastName||'?')[0]).toUpperCase()+'</div><div><div style="font-weight:700;font-size:1.05rem">'+esc(name.trim()||'—')+'</div><div style="color:var(--text2);font-size:.83rem">'+esc(p.email||'—')+' &nbsp;·&nbsp; '+(client.type==='business'?'Kurumsal':'Bireysel')+'</div></div><div style="margin-left:auto;display:flex;gap:.5rem"><span class="'+statusBadge(client.status)+'">'+statusLabel(client.status)+'</span><button class="btn btn-outline btn-sm" onclick="adminOpenChat(\''+id+'\',\''+esc(name.trim())+'\')">Mesaj Gönder</button></div></div>';
+  if(hdr)hdr.innerHTML='<div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><div style="width:48px;height:48px;border-radius:50%;background:rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--blue)">'+esc((p.firstName||'?')[0]+(p.lastName||'?')[0]).toUpperCase()+'</div><div><div style="font-weight:700;font-size:1.05rem">'+esc(name.trim()||'—')+'</div><div style="color:var(--text2);font-size:.83rem">'+esc(p.email||'—')+' &nbsp;·&nbsp; '+(client.type==='business'?'Kurumsal':'Bireysel')+'</div></div><div style="margin-left:auto;display:flex;gap:.5rem"><span class="'+statusBadge(client.status)+'">'+statusLabel(client.status)+'</span><button class="btn btn-outline btn-sm" onclick="adminOpenChat(\''+id+'\',\''+esc(name.trim())+'\')">Mesaj Gönder</button></div></div>';
   // Personal info grid
   var info=document.getElementById('cpInfo');
   if(info){
@@ -632,7 +705,7 @@ async function openClientProfile(id){
   var docsCont=document.getElementById('cpDocs');
   if(docsCont&&docs){
     var typeLabels={identity:'Kimlik',address:'Adres',tax:'Vergi',registry:'Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet'};
-    docsCont.innerHTML=docs.length?'<table style="width:100%;border-collapse:collapse;font-size:.83rem"><thead><tr style="color:var(--text2)"><th style="padding:.4rem">Tür</th><th style="padding:.4rem">Dosya</th><th style="padding:.4rem">Durum</th><th style="padding:.4rem">Aksiyon</th></tr></thead><tbody>'+docs.map(function(d){var dl='';if(d.file_path){var {data:u}=sb.storage.from('documents').getPublicUrl(d.file_path);dl='<a href="'+esc(u.publicUrl)+'" target="_blank" style="color:var(--teal)">İndir</a>';}return '<tr><td>'+(typeLabels[d.doc_type]||d.doc_type)+'</td><td>'+esc(d.file_name||'N/A')+'</td><td><span class="'+statusBadge(d.status)+'">'+statusLabel(d.status)+'</span></td><td>'+dl+' <button class="btn btn-outline" style="font-size:.72rem;padding:.2rem .5rem" onclick="approveDoc(\''+d.id+'\')">Onayla</button></td></tr>';}).join('')+'</tbody></table>':'<p style="color:var(--text2);padding:1rem">Belge yok</p>';
+    docsCont.innerHTML=docs.length?'<table style="width:100%;border-collapse:collapse;font-size:.83rem"><thead><tr style="color:var(--text2)"><th style="padding:.4rem">Tür</th><th style="padding:.4rem">Dosya</th><th style="padding:.4rem">Durum</th><th style="padding:.4rem">Aksiyon</th></tr></thead><tbody>'+docs.map(function(d){var dl='';if(d.file_path){var {data:u}=sb.storage.from('documents').getPublicUrl(d.file_path);dl='<a href="'+esc(u.publicUrl)+'" target="_blank" style="color:var(--blue)">İndir</a>';}return '<tr><td>'+(typeLabels[d.doc_type]||d.doc_type)+'</td><td>'+esc(d.file_name||'N/A')+'</td><td><span class="'+statusBadge(d.status)+'">'+statusLabel(d.status)+'</span></td><td>'+dl+' <button class="btn btn-outline" style="font-size:.72rem;padding:.2rem .5rem" onclick="approveDoc(\''+d.id+'\')">Onayla</button></td></tr>';}).join('')+'</tbody></table>':'<p style="color:var(--text2);padding:1rem">Belge yok</p>';
   }
   // UBOs
   var ubosCont=document.getElementById('cpUbos');
@@ -668,14 +741,14 @@ async function loadChatConversations(){
     var p=c.personal||{};
     var name=((p.firstName||'')+' '+(p.lastName||'')).trim()||p.email||'Müşteri';
     var init=((p.firstName||'?')[0]+(p.lastName||'?')[0]).toUpperCase();
-    return '<div style="display:flex;align-items:center;gap:.75rem;padding:.75rem;border:1px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:.5rem" onclick="adminSelectChat(\''+c.id+'\',\''+esc(name)+'\',\''+init+'\',this)"><div style="width:36px;height:36px;border-radius:50%;background:rgba(0,229,195,.15);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--teal);font-size:.8rem">'+init+'</div><div style="font-size:.85rem;font-weight:600">'+esc(name)+'</div></div>';
+    return '<div style="display:flex;align-items:center;gap:.75rem;padding:.75rem;border:1px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:.5rem" onclick="adminSelectChat(\''+c.id+'\',\''+esc(name)+'\',\''+init+'\',this)"><div style="width:36px;height:36px;border-radius:50%;background:rgba(20,71,230,.08);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--blue);font-size:.8rem">'+init+'</div><div style="font-size:.85rem;font-weight:600">'+esc(name)+'</div></div>';
   }).join('');
 }
 
 async function adminSelectChat(clientId,name,initials,el){
   activeChatClientId=clientId;
   document.querySelectorAll('#chatConvList > div').forEach(function(d){d.style.background='';d.style.borderColor='var(--border)';});
-  if(el){el.style.background='rgba(0,229,195,.05)';el.style.borderColor='rgba(0,229,195,.3)';}
+  if(el){el.style.background='rgba(20,71,230,.04)';el.style.borderColor='rgba(20,71,230,.2)';}
   if(document.getElementById('chatClientName'))document.getElementById('chatClientName').textContent=name;
   if(document.getElementById('chatClientAv'))document.getElementById('chatClientAv').textContent=initials;
   // Load messages
@@ -694,7 +767,7 @@ function appendAdminMsg(m){
   var isStaff=m.sender_type==='staff';
   var init=isStaff?'VF':(m.sender_name||'M')[0].toUpperCase();
   var div=document.createElement('div');div.className='cmsg '+(isStaff?'stf':'cli');
-  div.innerHTML='<div class="cav" style="'+(isStaff?'':'background:rgba(0,229,195,.15);color:var(--teal)')+'">'+init+'</div><div><div class="cbub">'+esc(m.text)+'</div><div class="cmeta">'+(isStaff?'Siz':'Müşteri')+' · '+fmtTs(m.created_at)+'</div></div>';
+  div.innerHTML='<div class="cav" style="'+(isStaff?'':'background:rgba(20,71,230,.1);color:var(--blue)')+'">'+init+'</div><div><div class="cbub">'+esc(m.text)+'</div><div class="cmeta">'+(isStaff?'Siz':'Müşteri')+' · '+fmtTs(m.created_at)+'</div></div>';
   cont.appendChild(div);cont.scrollTop=cont.scrollHeight;
 }
 
@@ -730,6 +803,19 @@ async function scheduleInterview(){
 async function completeInterview(btn,id){
   await sb.from('interviews').update({status:'completed'}).eq('id',id);
   loadInterviews();
+}
+
+// ── HELPERS ───────────────────────────────────────────
+function runDemo(){
+  loadDashboardStats();
+  var el=document.getElementById('s-clients');
+  if(el&&el.textContent==='—'){document.getElementById('s-clients').textContent='47';document.getElementById('s-review').textContent='8';document.getElementById('s-approved').textContent='31';document.getElementById('s-pending').textContent='8';}
+}
+
+function adminOpenChat(clientId,name){
+  var init=name.replace(/[^a-zA-ZğüşıöçĞÜŞİÖÇ ]/g,'').split(' ').filter(Boolean).map(function(w){return w[0];}).join('').slice(0,2).toUpperCase()||'?';
+  showPanel('staffchat');
+  setTimeout(function(){adminSelectChat(clientId,name,init,null);},150);
 }
 
 // ── LEGACY HELPERS ────────────────────────────────────
