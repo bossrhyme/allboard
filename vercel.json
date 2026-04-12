@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/admin", "destination": "/onboarding-demo.html" },
+    { "source": "/user", "destination": "/user-demo.html" },
     { "source": "/data-structures", "destination": "/onboarding-data-structures.html" },
     { "source": "/concept-1", "destination": "/concept-1-midnight.html" },
     { "source": "/concept-2", "destination": "/concept-2-trust.html" },

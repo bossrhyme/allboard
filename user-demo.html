@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Allboard — Müşteri Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f1f3d;--blue:#1447e6;--blue2:#2563eb;--teal:#00c4a7;--bg:#ffffff;--bg2:#f8faff;--bg3:#f1f5fd;--card:#ffffff;--text:#0f172a;--text2:#475569;--text3:#64748b;--border:#e2e8f0;--border2:#cbd5e1;--danger:#ef4444;--warn:#f59e0b;--success:#10b981;--radius:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg2);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:var(--blue);text-decoration:none}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.2rem;border-radius:8px;font-size:.85rem;font-weight:600;border:none;cursor:pointer;transition:all .18s;font-family:inherit}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue2);transform:translateY(-1px);box-shadow:0 4px 14px rgba(20,71,230,.25)}
+.btn-outline{border:1.5px solid var(--border2);background:transparent;color:var(--text2)}.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-ghost{background:transparent;color:var(--text2);border:none;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:600}.btn-ghost:hover{color:var(--navy)}
+.btn-sm{padding:.35rem .85rem;font-size:.78rem}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;padding:.18rem .6rem;border-radius:6px;font-size:.72rem;font-weight:600}
+.bs{background:#dcfce7;color:#15803d}.bw{background:#fef3c7;color:#b45309}
+.bd{background:#fee2e2;color:#991b1b}.bi{background:#dbeafe;color:#1d4ed8}.bn{background:#f1f5f9;color:#475569}
+
+/* Demo Banner */
+.demo-banner{background:#fef3c7;border-bottom:1px solid #fcd34d;padding:.5rem 1.5rem;text-align:center;font-size:.8rem;font-weight:600;color:#92400e;position:sticky;top:0;z-index:200}
+.demo-badge{display:inline-flex;align-items:center;padding:.15rem .55rem;border-radius:5px;font-size:.68rem;font-weight:700;background:rgba(20,71,230,.08);color:var(--blue);border:1px solid rgba(20,71,230,.15);letter-spacing:.03em}
+
+/* Nav */
+.nav{background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:33px;z-index:100;box-shadow:0 1px 0 var(--border)}
+.nav-logo{font-size:1.2rem;font-weight:800;color:var(--navy);letter-spacing:-.02em}.nav-logo span{color:var(--blue)}
+.nav-right{display:flex;align-items:center;gap:.75rem}
+
+/* Lang Toggle */
+.lang-toggle{display:flex;gap:.2rem;background:var(--bg2);border-radius:8px;padding:.2rem;border:1px solid var(--border)}
+.lang-btn{flex:1;padding:.25rem .5rem;border-radius:6px;font-size:.72rem;font-weight:700;border:none;cursor:pointer;background:transparent;color:var(--text3);transition:all .15s;white-space:nowrap}
+.lang-btn.active{background:#fff;color:var(--blue);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+
+/* Profile Header */
+.pf-wrap{min-height:calc(100vh - 93px)}
+.pf-hdr{background:#fff;border-bottom:1px solid var(--border);padding:1.5rem 2rem;box-shadow:0 1px 4px rgba(15,31,61,.05)}
+.pf-hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;gap:1rem;flex-wrap:wrap}
+.pf-hdr-left{display:flex;align-items:center;gap:.85rem}
+.pf-av{width:52px;height:52px;background:rgba(20,71,230,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;color:var(--blue);flex-shrink:0}
+.pf-info{flex:1}.pf-info h2{font-size:1.15rem;font-weight:800;color:var(--navy)}.pf-info p{font-size:.82rem;color:var(--text2);margin-top:.1rem}
+.pf-badges{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.45rem}
+.pf-tabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto}
+.pf-tab{padding:.7rem 1.4rem;font-size:.86rem;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .18s;white-space:nowrap}
+.pf-tab.active{color:var(--blue);border-bottom-color:var(--blue)}.pf-tab:hover:not(.active){color:var(--navy)}
+
+/* Tab Content */
+.pf-body{max-width:880px;margin:0 auto;padding:2rem 1.5rem 5rem}
+.tbc{display:none;animation:fadeUp .3s ease}.tbc.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Info sections */
+.isec{margin-bottom:2rem}
+.isec h3{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:.75rem;padding-bottom:.45rem;border-bottom:1px solid var(--border)}
+.igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.75rem}
+.iitem{background:#fff;border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem}
+.iitem .ilabel{font-size:.68rem;color:var(--text3);margin-bottom:.2rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.iitem .ival{font-size:.86rem;font-weight:600;color:var(--navy)}
+
+/* Docs table */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:.6rem 1rem;font-size:.7rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;border-bottom:1.5px solid var(--border);background:var(--bg2)}
+td{padding:.65rem 1rem;font-size:.84rem;border-bottom:1px solid var(--border);color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(20,71,230,.015)}
+td:first-child{font-weight:600;color:var(--navy)}
+
+/* Card */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(15,31,61,.04)}
+.card h3{font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:.6rem}
+
+/* Verification cards */
+.vc{display:flex;align-items:flex-start;gap:1rem;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;margin-bottom:.75rem;box-shadow:0 1px 3px rgba(15,31,61,.04)}
+.vc-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.vc-icon.pass{background:#dcfce7}.vc-icon.info{background:#dbeafe}.vc-icon.warn{background:#fef3c7}
+.vc-body{flex:1}
+.vc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem;gap:.5rem;flex-wrap:wrap}
+.vc-title{font-size:.9rem;font-weight:700;color:var(--navy)}
+.vc-desc{font-size:.8rem;color:var(--text2);line-height:1.55}
+
+/* Chat */
+.chat-wrap{display:flex;flex-direction:column;min-height:400px;max-height:520px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:0 1px 4px rgba(15,31,61,.04)}
+.chat-hdr{padding:.85rem 1.1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.65rem;background:var(--bg2)}
+.chat-hdr-av{width:32px;height:32px;border-radius:50%;background:rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--blue)}
+.chat-hdr-name{font-size:.88rem;font-weight:700;color:var(--navy)}
+.chat-hdr-sub{font-size:.73rem;color:var(--text3)}
+.online-dot{width:7px;height:7px;border-radius:50%;background:var(--success);flex-shrink:0;margin-left:auto}
+.chat-msgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.65rem}
+.cmsg{display:flex;gap:.5rem;max-width:78%}
+.cmsg.cli{align-self:flex-end;flex-direction:row-reverse}
+.cmsg.stf{align-self:flex-start}
+.cbub{padding:.6rem .95rem;border-radius:12px;font-size:.84rem;line-height:1.55}
+.cmsg.cli .cbub{background:var(--blue);color:#fff;border-radius:12px 12px 2px 12px}
+.cmsg.stf .cbub{background:var(--bg2);border:1px solid var(--border);border-radius:12px 12px 12px 2px;color:var(--text)}
+.cmeta{font-size:.67rem;color:var(--text3);margin-top:.2rem}
+.cmsg.cli .cmeta{text-align:right}.cmsg.stf .cmeta{text-align:left}
+.cav{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;flex-shrink:0;align-self:flex-end}
+.cmsg.cli .cav{background:rgba(20,71,230,.12);color:var(--blue)}.cmsg.stf .cav{background:var(--bg3);color:var(--text2)}
+.chat-inp-area{border-top:1px solid var(--border);padding:.75rem;display:flex;gap:.5rem;align-items:flex-end;background:#fff}
+.chat-inp{flex:1;padding:.6rem .9rem;background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:.84rem;font-family:inherit;resize:none;max-height:90px;outline:none;transition:border-color .18s;line-height:1.5}
+.chat-inp:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(20,71,230,.07)}
+
+/* Status bar (progress) */
+.progress-section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem;margin-bottom:1rem;box-shadow:0 1px 4px rgba(15,31,61,.04)}
+.progress-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:.55rem}
+.progress-label span:first-child{font-size:.82rem;font-weight:600;color:var(--navy)}
+.progress-label span:last-child{font-size:.75rem;color:var(--success);font-weight:600}
+.prog-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--blue),var(--teal))}
+.prog-steps{display:flex;justify-content:space-between;margin-top:.55rem}
+.prog-step{font-size:.68rem;color:var(--text3);font-weight:500}
+.prog-step.done{color:var(--success)}
+
+@media(max-width:640px){.pf-hdr{padding:1rem}.pf-body{padding:1.5rem 1rem 4rem}.nav{padding:0 1rem}.pf-tab{font-size:.78rem;padding:.6rem .85rem}}
+</style>
+</head>
+<body>
+
+<!-- Demo Banner -->
+<div class="demo-banner">⚠ <span data-i18n="demoBanner">Bu bir demo hesabıdır — veriler gerçek değildir</span></div>
+
+<!-- Nav -->
+<nav class="nav">
+  <div style="display:flex;align-items:center;gap:.65rem">
+    <div class="nav-logo">All<span>board</span></div>
+    <span class="demo-badge" data-i18n="demoLabel">Demo</span>
+  </div>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btnTR" onclick="setLang('tr')">🇹🇷 TR</button>
+      <button class="lang-btn" id="btnEN" onclick="setLang('en')">🇬🇧 EN</button>
+    </div>
+    <a href="/" class="btn btn-ghost btn-sm" data-i18n="backToSite">← Ana Sayfa</a>
+  </div>
+</nav>
+
+<!-- Profile -->
+<div class="pf-wrap">
+  <!-- Profile Header -->
+  <div class="pf-hdr">
+    <div class="pf-hdr-top">
+      <div class="pf-hdr-left">
+        <div class="pf-av">MS</div>
+        <div class="pf-info">
+          <h2>Maria Schmidt</h2>
+          <p data-i18n="accountType">Bireysel Hesap</p>
+          <div class="pf-badges">
+            <span class="badge bs" data-i18n="statusApproved">✓ Onaylandı</span>
+            <span class="badge bi">KYC ✓</span>
+            <span class="badge bs">AML ✓</span>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:.72rem;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem" data-i18n="submittedLabel">Başvuru Tarihi</div>
+        <div style="font-size:.88rem;font-weight:700;color:var(--navy)">09.04.2026</div>
+        <div style="font-size:.72rem;color:var(--text3);margin-top:.1rem">ID: #DM-0042</div>
+      </div>
+    </div>
+    <!-- Tabs -->
+    <div class="pf-tabs">
+      <div class="pf-tab active" onclick="pfTab('summary',this)" data-i18n="tabSummary">Özet</div>
+      <div class="pf-tab" onclick="pfTab('docs',this)" data-i18n="tabDocs">Belgeler</div>
+      <div class="pf-tab" onclick="pfTab('verify',this)" data-i18n="tabVerify">Doğrulama</div>
+      <div class="pf-tab" onclick="pfTab('chat',this)" data-i18n="tabChat">Mesajlar</div>
+    </div>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="pf-body">
+
+    <!-- TAB: ÖZET -->
+    <div class="tbc active" id="tb-summary">
+
+      <!-- Süreç Durumu -->
+      <div class="progress-section">
+        <div class="progress-label">
+          <span data-i18n="processStatus">Onboarding Süreci</span>
+          <span data-i18n="processComplete">Tamamlandı ✓</span>
+        </div>
+        <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
+        <div class="prog-steps">
+          <span class="prog-step done" data-i18n="step1">Başvuru</span>
+          <span class="prog-step done" data-i18n="step2">Belgeler</span>
+          <span class="prog-step done" data-i18n="step3">KYC</span>
+          <span class="prog-step done" data-i18n="step4">AML</span>
+          <span class="prog-step done" data-i18n="step5">Karar</span>
+        </div>
+      </div>
+
+      <!-- Kişisel Bilgiler -->
+      <div class="isec">
+        <h3 data-i18n="personalInfo">Kişisel Bilgiler</h3>
+        <div class="igrid">
+          <div class="iitem"><div class="ilabel" data-i18n="fullName">Ad Soyad</div><div class="ival">Maria Schmidt</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="dob">Doğum Tarihi</div><div class="ival">15.03.1988</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="nationality">Uyruk</div><div class="ival" data-i18n="german">Alman</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="nationalId">Kimlik No</div><div class="ival">•••••67890</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="phone">Telefon</div><div class="ival">+49 176 1234 5678</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="email">E-posta</div><div class="ival">maria.schmidt@demo.com</div></div>
+        </div>
+      </div>
+
+      <!-- Adres -->
+      <div class="isec">
+        <h3 data-i18n="address">Adres</h3>
+        <div class="igrid">
+          <div class="iitem" style="grid-column:span 2"><div class="ilabel" data-i18n="street">Sokak / Cadde</div><div class="ival">Hauptstraße 42</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="city">Şehir</div><div class="ival">Berlin</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="postal">Posta Kodu</div><div class="ival">10115</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="country">Ülke</div><div class="ival" data-i18n="germany">Almanya</div></div>
+        </div>
+      </div>
+
+      <!-- PEP & Risk -->
+      <div class="isec">
+        <h3 data-i18n="pepRisk">PEP & Risk Bilgileri</h3>
+        <div class="igrid">
+          <div class="iitem"><div class="ilabel" data-i18n="pepStatus">PEP Durumu</div><div class="ival" data-i18n="pepNo">Hayır</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="sourceOfFunds">Fon Kaynağı</div><div class="ival" data-i18n="salary">Maaş / İstihdam</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="riskLevel">Risk Seviyesi</div><div class="ival" style="color:var(--success)" data-i18n="riskLow">Düşük (15/100)</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="monthlyVol">Aylık Hacim</div><div class="ival" data-i18n="vol10k">10.000 € altı</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: BELGELER -->
+    <div class="tbc" id="tb-docs">
+      <div class="card">
+        <h3 data-i18n="myDocuments">Yüklenen Belgeler</h3>
+        <div class="table-wrap" style="margin-top:.75rem">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="docType">Belge Türü</th>
+                <th data-i18n="docFile">Dosya Adı</th>
+                <th data-i18n="docSize">Boyut</th>
+                <th data-i18n="docStatus">Durum</th>
+                <th data-i18n="docDate">Tarih</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-i18n="docIdentity">Kimlik Belgesi</td>
+                <td style="color:var(--text2)">passport_maria_schmidt.pdf</td>
+                <td style="color:var(--text3)">2.4 MB</td>
+                <td><span class="badge bs" data-i18n="approved">Onaylandı</span></td>
+                <td style="color:var(--text3)">09.04.2026</td>
+              </tr>
+              <tr>
+                <td data-i18n="docAddress">Adres Belgesi</td>
+                <td style="color:var(--text2)">electricity_bill_march.pdf</td>
+                <td style="color:var(--text3)">1.1 MB</td>
+                <td><span class="badge bs" data-i18n="approved">Onaylandı</span></td>
+                <td style="color:var(--text3)">09.04.2026</td>
+              </tr>
+              <tr>
+                <td data-i18n="docTax">Vergi Belgesi</td>
+                <td style="color:var(--text2)">tax_id_germany.pdf</td>
+                <td style="color:var(--text3)">0.8 MB</td>
+                <td><span class="badge bs" data-i18n="approved">Onaylandı</span></td>
+                <td style="color:var(--text3)">09.04.2026</td>
+              </tr>
+              <tr>
+                <td data-i18n="docSelfie">Özçekim / Liveness</td>
+                <td style="color:var(--text2)">liveness_check_video.mp4</td>
+                <td style="color:var(--text3)">8.2 MB</td>
+                <td><span class="badge bs" data-i18n="approved">Onaylandı</span></td>
+                <td style="color:var(--text3)">09.04.2026</td>
+              </tr>
+              <tr>
+                <td data-i18n="docSignature">İmza Örneği</td>
+                <td style="color:var(--text2)">signature_sample.png</td>
+                <td style="color:var(--text3)">0.3 MB</td>
+                <td><span class="badge bs" data-i18n="approved">Onaylandı</span></td>
+                <td style="color:var(--text3)">09.04.2026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: DOĞRULAMA -->
+    <div class="tbc" id="tb-verify">
+      <div class="vc">
+        <div class="vc-icon pass">🪪</div>
+        <div class="vc-body">
+          <div class="vc-head">
+            <span class="vc-title" data-i18n="kycTitle">Kimlik Doğrulama (KYC)</span>
+            <span class="badge bs" data-i18n="passed">Geçti</span>
+          </div>
+          <div class="vc-desc" data-i18n="kycDesc">Pasaportunuz ve liveness kontrolünüz başarıyla doğrulandı. Eşleşme skoru: %99.1</div>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="vc-icon pass">🛡️</div>
+        <div class="vc-body">
+          <div class="vc-head">
+            <span class="vc-title" data-i18n="amlTitle">AML Tarama</span>
+            <span class="badge bs" data-i18n="clear">Temiz</span>
+          </div>
+          <div class="vc-desc" data-i18n="amlDesc">Yaptırım listeleri, PEP veritabanları ve olumsuz medya taraması tamamlandı — herhangi bir eşleşme bulunamadı.</div>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="vc-icon info">⚡</div>
+        <div class="vc-body">
+          <div class="vc-head">
+            <span class="vc-title" data-i18n="riskTitle">Risk Değerlendirmesi</span>
+            <span class="badge bs" data-i18n="riskLowBadge">Düşük Risk</span>
+          </div>
+          <div class="vc-desc" data-i18n="riskDesc">Risk skoru: 15/100. AB ikameti, temiz geçmiş ve düşük işlem hacmi dikkate alınarak otomatik onaya yönlendirildi.</div>
+        </div>
+      </div>
+      <div class="vc">
+        <div class="vc-icon pass">✅</div>
+        <div class="vc-body">
+          <div class="vc-head">
+            <span class="vc-title" data-i18n="decisionTitle">Nihai Karar</span>
+            <span class="badge bs" data-i18n="statusApproved">✓ Onaylandı</span>
+          </div>
+          <div class="vc-desc" data-i18n="decisionDesc">Başvurunuz tüm doğrulama aşamalarını geçti ve 09.04.2026 tarihinde onaylandı. Tebrikler!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: MESAJLAR -->
+    <div class="tbc" id="tb-chat">
+      <div class="chat-wrap">
+        <div class="chat-hdr">
+          <div class="chat-hdr-av">AB</div>
+          <div>
+            <div class="chat-hdr-name">Allboard Danışman</div>
+            <div class="chat-hdr-sub" data-i18n="chatSub">Onboarding Uzmanı</div>
+          </div>
+          <div class="online-dot" title="Çevrimiçi"></div>
+        </div>
+        <div class="chat-msgs" id="chatMsgs">
+          <!-- Staff message 1 -->
+          <div class="cmsg stf">
+            <div class="cav">AB</div>
+            <div>
+              <div class="cbub" data-i18n="msg1">Merhaba Maria! Başvurunuzu aldık ve inceleme sürecini başlattık. Herhangi bir sorunuz olursa burada iletişime geçebilirsiniz.</div>
+              <div class="cmeta">Allboard Danışman · 09.04.2026 10:15</div>
+            </div>
+          </div>
+          <!-- Client message 1 -->
+          <div class="cmsg cli">
+            <div class="cav">MS</div>
+            <div>
+              <div class="cbub" data-i18n="msg2">Merhaba, belgelerimi yükledim. Süreç ne kadar sürer?</div>
+              <div class="cmeta" data-i18n="you">Siz</div>
+            </div>
+          </div>
+          <!-- Staff message 2 -->
+          <div class="cmsg stf">
+            <div class="cav">AB</div>
+            <div>
+              <div class="cbub" data-i18n="msg3">Belgeleriniz eksiksiz görünüyor, teşekkürler. KYC ve AML doğrulamaları genellikle 1-2 iş günü içinde tamamlanır. Sürecinizi profilinizden takip edebilirsiniz.</div>
+              <div class="cmeta">Allboard Danışman · 09.04.2026 10:32</div>
+            </div>
+          </div>
+          <!-- Staff message 3 -->
+          <div class="cmsg stf">
+            <div class="cav">AB</div>
+            <div>
+              <div class="cbub" data-i18n="msg4">Harika haber! 🎉 Başvurunuz tüm doğrulama aşamalarını başarıyla geçti ve onaylandı. Artık onaylı bir üyesiniz!</div>
+              <div class="cmeta">Allboard Danışman · 09.04.2026 14:07</div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-inp-area">
+          <textarea class="chat-inp" id="chatInp" rows="1" placeholder="Mesajınızı yazın..." onkeydown="chatKey(event)"></textarea>
+          <button class="btn btn-primary btn-sm" onclick="sendMsg()" data-i18n="sendBtn">Gönder ↑</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /pf-body -->
+</div><!-- /pf-wrap -->
+</div><!-- /pf-wrap -->
+
+
+<script>
+// ── i18n ──────────────────────────────────────────────
+var currentLang = 'tr';
+var T = {
+  tr:{
+    demoBanner:'Bu bir demo hesabıdır — veriler gerçek değildir',
+    demoLabel:'Demo',
+    backToSite:'← Ana Sayfa',
+    accountType:'Bireysel Hesap',
+    statusApproved:'✓ Onaylandı',
+    submittedLabel:'Başvuru Tarihi',
+    tabSummary:'Özet',
+    tabDocs:'Belgeler',
+    tabVerify:'Doğrulama',
+    tabChat:'Mesajlar',
+    processStatus:'Onboarding Süreci',
+    processComplete:'Tamamlandı ✓',
+    step1:'Başvuru',step2:'Belgeler',step3:'KYC',step4:'AML',step5:'Karar',
+    personalInfo:'Kişisel Bilgiler',
+    fullName:'Ad Soyad',dob:'Doğum Tarihi',nationality:'Uyruk',
+    german:'Alman',nationalId:'Kimlik No',phone:'Telefon',email:'E-posta',
+    address:'Adres',street:'Sokak / Cadde',city:'Şehir',postal:'Posta Kodu',
+    country:'Ülke',germany:'Almanya',
+    pepRisk:'PEP & Risk Bilgileri',pepStatus:'PEP Durumu',pepNo:'Hayır',
+    sourceOfFunds:'Fon Kaynağı',salary:'Maaş / İstihdam',
+    riskLevel:'Risk Seviyesi',riskLow:'Düşük (15/100)',
+    monthlyVol:'Aylık Hacim',vol10k:'10.000 € altı',
+    myDocuments:'Yüklenen Belgeler',
+    docType:'Belge Türü',docFile:'Dosya Adı',docSize:'Boyut',docStatus:'Durum',docDate:'Tarih',
+    docIdentity:'Kimlik Belgesi',docAddress:'Adres Belgesi',docTax:'Vergi Belgesi',
+    docSelfie:'Özçekim / Liveness',docSignature:'İmza Örneği',
+    approved:'Onaylandı',
+    kycTitle:'Kimlik Doğrulama (KYC)',passed:'Geçti',
+    kycDesc:'Pasaportunuz ve liveness kontrolünüz başarıyla doğrulandı. Eşleşme skoru: %99.1',
+    amlTitle:'AML Tarama',clear:'Temiz',
+    amlDesc:'Yaptırım listeleri, PEP veritabanları ve olumsuz medya taraması tamamlandı — herhangi bir eşleşme bulunamadı.',
+    riskTitle:'Risk Değerlendirmesi',riskLowBadge:'Düşük Risk',
+    riskDesc:'Risk skoru: 15/100. AB ikameti, temiz geçmiş ve düşük işlem hacmi dikkate alınarak otomatik onaya yönlendirildi.',
+    decisionTitle:'Nihai Karar',
+    decisionDesc:'Başvurunuz tüm doğrulama aşamalarını geçti ve 09.04.2026 tarihinde onaylandı. Tebrikler!',
+    chatSub:'Onboarding Uzmanı',
+    msg1:'Merhaba Maria! Başvurunuzu aldık ve inceleme sürecini başlattık. Herhangi bir sorunuz olursa burada iletişime geçebilirsiniz.',
+    msg2:'Merhaba, belgelerimi yükledim. Süreç ne kadar sürer?',
+    msg3:'Belgeleriniz eksiksiz görünüyor, teşekkürler. KYC ve AML doğrulamaları genellikle 1-2 iş günü içinde tamamlanır. Sürecinizi profilinizden takip edebilirsiniz.',
+    msg4:'Harika haber! 🎉 Başvurunuz tüm doğrulama aşamalarını başarıyla geçti ve onaylandı. Artık onaylı bir üyesiniz!',
+    you:'Siz',
+    sendBtn:'Gönder ↑',
+    chatPlaceholder:'Mesajınızı yazın...'
+  },
+  en:{
+    demoBanner:'This is a demo account — data is not real',
+    demoLabel:'Demo',
+    backToSite:'← Home',
+    accountType:'Individual Account',
+    statusApproved:'✓ Approved',
+    submittedLabel:'Application Date',
+    tabSummary:'Summary',
+    tabDocs:'Documents',
+    tabVerify:'Verification',
+    tabChat:'Messages',
+    processStatus:'Onboarding Process',
+    processComplete:'Completed ✓',
+    step1:'Apply',step2:'Docs',step3:'KYC',step4:'AML',step5:'Decision',
+    personalInfo:'Personal Information',
+    fullName:'Full Name',dob:'Date of Birth',nationality:'Nationality',
+    german:'German',nationalId:'ID Number',phone:'Phone',email:'Email',
+    address:'Address',street:'Street',city:'City',postal:'Postal Code',
+    country:'Country',germany:'Germany',
+    pepRisk:'PEP & Risk Information',pepStatus:'PEP Status',pepNo:'No',
+    sourceOfFunds:'Source of Funds',salary:'Salary / Employment',
+    riskLevel:'Risk Level',riskLow:'Low (15/100)',
+    monthlyVol:'Monthly Volume',vol10k:'Under €10,000',
+    myDocuments:'Uploaded Documents',
+    docType:'Document Type',docFile:'File Name',docSize:'Size',docStatus:'Status',docDate:'Date',
+    docIdentity:'Identity Document',docAddress:'Proof of Address',docTax:'Tax Document',
+    docSelfie:'Selfie / Liveness Check',docSignature:'Signature Sample',
+    approved:'Approved',
+    kycTitle:'Identity Verification (KYC)',passed:'Passed',
+    kycDesc:'Your passport and liveness check were successfully verified. Match score: 99.1%',
+    amlTitle:'AML Screening',clear:'Clear',
+    amlDesc:'Sanctions lists, PEP databases and adverse media screening completed — no matches found.',
+    riskTitle:'Risk Assessment',riskLowBadge:'Low Risk',
+    riskDesc:'Risk score: 15/100. EU residency, clean history and low transaction volume resulted in automatic approval.',
+    decisionTitle:'Final Decision',
+    decisionDesc:'Your application passed all verification stages and was approved on 09.04.2026. Congratulations!',
+    chatSub:'Onboarding Specialist',
+    msg1:'Hello Maria! We received your application and started the review process. Feel free to reach out here if you have any questions.',
+    msg2:'Hi, I uploaded my documents. How long will the process take?',
+    msg3:'Your documents look complete, thank you. KYC and AML verifications typically complete within 1-2 business days. You can track your process from your profile.',
+    msg4:'Great news! 🎉 Your application passed all verification stages and has been approved. You are now a verified member!',
+    you:'You',
+    sendBtn:'Send ↑',
+    chatPlaceholder:'Type your message...'
+  }
+};
+
+function setLang(l){
+  currentLang=l;
+  document.getElementById('btnTR').classList.toggle('active',l==='tr');
+  document.getElementById('btnEN').classList.toggle('active',l==='en');
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n');
+    if(T[l]&&T[l][k]!==undefined)el.textContent=T[l][k];
+  });
+  var inp=document.getElementById('chatInp');
+  if(inp)inp.placeholder=T[l].chatPlaceholder||'';
+}
+
+// ── TAB SWITCHING ─────────────────────────────────────
+function pfTab(t,el){
+  document.querySelectorAll('.tbc').forEach(function(c){c.classList.remove('active');});
+  document.querySelectorAll('.pf-tab').forEach(function(b){b.classList.remove('active');});
+  var tb=document.getElementById('tb-'+t);
+  if(tb)tb.classList.add('active');
+  if(el)el.classList.add('active');
+  if(t==='chat'){
+    var msgs=document.getElementById('chatMsgs');
+    if(msgs)msgs.scrollTop=msgs.scrollHeight;
+  }
+}
+
+// ── CHAT ──────────────────────────────────────────────
+function sendMsg(){
+  var inp=document.getElementById('chatInp');
+  var txt=(inp.value||'').trim();
+  if(!txt)return;
+  inp.value='';
+  var msgs=document.getElementById('chatMsgs');
+  if(!msgs)return;
+  var now=new Date();
+  var ts=pad(now.getDate())+'.'+pad(now.getMonth()+1)+'.'+now.getFullYear()+' '+pad(now.getHours())+':'+pad(now.getMinutes());
+  var div=document.createElement('div');
+  div.className='cmsg cli';
+  div.innerHTML='<div class="cav" style="background:rgba(20,71,230,.12);color:var(--blue)">MS</div><div><div class="cbub">'+esc(txt)+'</div><div class="cmeta">'+(T[currentLang].you||'Siz')+' · '+ts+'</div></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+  // Simulated reply after 1.5s
+  setTimeout(function(){
+    var rep=document.createElement('div');
+    rep.className='cmsg stf';
+    var replies=currentLang==='tr'
+      ?['Mesajınız alındı, en kısa sürede dönüş yapacağız.','Teşekkürler! Danışmanınız en geç 1 iş günü içinde yanıt verecektir.','Notunuz kayıt altına alındı. Başka bir sorunuz var mı?']
+      :['Your message has been received, we will get back to you shortly.','Thank you! Your advisor will respond within 1 business day.','Your note has been recorded. Do you have any other questions?'];
+    var r=replies[Math.floor(Math.random()*replies.length)];
+    rep.innerHTML='<div class="cav" style="background:var(--bg3);color:var(--text2)">AB</div><div><div class="cbub">'+esc(r)+'</div><div class="cmeta">Allboard Danışman · '+ts+'</div></div>';
+    msgs.appendChild(rep);
+    msgs.scrollTop=msgs.scrollHeight;
+  },1500);
+}
+
+function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
+function esc(t){return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function pad(n){return String(n).padStart(2,'0');}
+</script>
+</body>
+</html>
