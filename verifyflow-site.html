@@ -129,6 +129,8 @@ a{color:var(--teal);text-decoration:none}
 .mtab.active{color:var(--teal);border-bottom-color:var(--teal)}
 @media(max-width:640px){.frow{grid-template-columns:1fr}.hero h1{font-size:1.8rem}.hero-stats{gap:1.5rem}.pf-tab{font-size:.8rem;padding:.6rem .9rem}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/supabase-config.js"></script>
 </head>
 <body>
 <nav class="nav" id="mainNav">
@@ -210,20 +212,19 @@ a{color:var(--teal);text-decoration:none}
     <div class="stitle">Kişisel Bilgiler / Personal Info</div>
     <div class="sdesc">Kimlik doğrulaması için kişisel bilgilerinizi girin / Enter your personal details for identity verification</div>
     <div class="frow">
-      <div class="fg"><label>Ad / First Name</label><input type="text" class="fi" placeholder="Ahmet"></div>
-      <div class="fg"><label>Soyad / Last Name</label><input type="text" class="fi" placeholder="Yılmaz"></div>
+      <div class="fg"><label>Ad / First Name</label><input type="text" class="fi" id="firstName" placeholder="Ahmet"></div>
+      <div class="fg"><label>Soyad / Last Name</label><input type="text" class="fi" id="lastName" placeholder="Yılmaz"></div>
     </div>
     <div class="frow">
-      <div class="fg"><label>Doğum Tarihi / Date of Birth</label><input type="date" class="fi"></div>
+      <div class="fg"><label>Doğum Tarihi / Date of Birth</label><input type="date" class="fi" id="dob"></div>
       <div class="fg"><label>Uyruk / Nationality</label>
-        <select class="fi"><option value="">Seçin / Select</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Hollanda</option><option>İspanya</option><option>İtalya</option><option>İngiltere</option><option>Amerika</option><option>Diğer / Other</option></select>
+        <select class="fi" id="nationality"><option value="">Seçin / Select</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Hollanda</option><option>İspanya</option><option>İtalya</option><option>İngiltere</option><option>Amerika</option><option>Diğer / Other</option></select>
       </div>
     </div>
     <div class="frow">
-      <div class="fg"><label>TC Kimlik No / National ID</label><input type="text" class="fi" placeholder="12345678901"></div>
-      <div class="fg"><label>Telefon / Phone</label><input type="tel" class="fi" placeholder="+90 555 000 00 00"></div>
+      <div class="fg"><label>TC Kimlik No / National ID</label><input type="text" class="fi" id="nationalId" placeholder="12345678901"></div>
+      <div class="fg"><label>Telefon / Phone</label><input type="tel" class="fi" id="phone" placeholder="+90 555 000 00 00"></div>
     </div>
-    <div class="fg"><label>E-posta / Email</label><input type="email" class="fi" placeholder="ahmet@ornek.com"></div>
     <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
   </div>
 
@@ -231,15 +232,15 @@ a{color:var(--teal);text-decoration:none}
   <div class="spane" id="s3">
     <div class="stitle">Adres Bilgileri / Address</div>
     <div class="sdesc">Güncel ikametgah adresinizi girin / Enter your current residential address</div>
-    <div class="fg"><label>Sokak / Street Address</label><input type="text" class="fi" placeholder="Atatürk Caddesi No:42"></div>
+    <div class="fg"><label>Sokak / Street Address</label><input type="text" class="fi" id="street" placeholder="Atatürk Caddesi No:42"></div>
     <div class="frow">
-      <div class="fg"><label>Şehir / City</label><input type="text" class="fi" placeholder="İstanbul"></div>
-      <div class="fg"><label>İlçe / District</label><input type="text" class="fi" placeholder="Beşiktaş"></div>
+      <div class="fg"><label>Şehir / City</label><input type="text" class="fi" id="city" placeholder="İstanbul"></div>
+      <div class="fg"><label>İlçe / District</label><input type="text" class="fi" id="district" placeholder="Beşiktaş"></div>
     </div>
     <div class="frow">
-      <div class="fg"><label>Posta Kodu / Postal Code</label><input type="text" class="fi" placeholder="34349"></div>
+      <div class="fg"><label>Posta Kodu / Postal Code</label><input type="text" class="fi" id="postalCode" placeholder="34349"></div>
       <div class="fg"><label>Ülke / Country</label>
-        <select class="fi"><option value="">Seçin / Select</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Hollanda</option><option>Diğer / Other</option></select>
+        <select class="fi" id="country"><option value="">Seçin / Select</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Hollanda</option><option>Diğer / Other</option></select>
       </div>
     </div>
     <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
@@ -250,13 +251,13 @@ a{color:var(--teal);text-decoration:none}
     <div class="stitle">PEP &amp; Risk Beyanı</div>
     <div class="sdesc">Aşağıdaki soruları dürüstçe yanıtlayın / Please answer the following questions honestly</div>
     <div class="fg"><label>Siyasi açıdan öneme sahip bir kişi (PEP) misiniz? / Are you a Politically Exposed Person?</label>
-      <select class="fi"><option value="">Seçin / Select</option><option>Hayır / No</option><option>Evet / Yes</option></select></div>
+      <select class="fi" id="pepStatus"><option value="">Seçin / Select</option><option value="no">Hayır / No</option><option value="yes">Evet / Yes</option></select></div>
     <div class="fg"><label>Birinci derece yakınınızda PEP var mı? / Do you have a close relative who is a PEP?</label>
-      <select class="fi"><option value="">Seçin / Select</option><option>Hayır / No</option><option>Evet / Yes</option></select></div>
+      <select class="fi" id="relStatus"><option value="">Seçin / Select</option><option value="no">Hayır / No</option><option value="yes">Evet / Yes</option></select></div>
     <div class="fg"><label>Fon Kaynağı / Source of Funds</label>
-      <select class="fi"><option value="">Seçin / Select</option><option>Maaş / Salary</option><option>Kira Geliri / Rental Income</option><option>Yatırım / Investments</option><option>Miras / Inheritance</option><option>İş Geliri / Business Income</option><option>Diğer / Other</option></select></div>
+      <select class="fi" id="sourceOfFunds"><option value="">Seçin / Select</option><option>Maaş / Salary</option><option>Kira Geliri / Rental Income</option><option>Yatırım / Investments</option><option>Miras / Inheritance</option><option>İş Geliri / Business Income</option><option>Diğer / Other</option></select></div>
     <div class="fg"><label>Aylık Tahmini İşlem Hacmi / Expected Monthly Transaction Volume</label>
-      <select class="fi"><option value="">Seçin / Select</option><option>€0 – €1,000</option><option>€1,000 – €10,000</option><option>€10,000 – €50,000</option><option>€50,000 – €250,000</option><option>€250,000+</option></select></div>
+      <select class="fi" id="monthlyVolume"><option value="">Seçin / Select</option><option>€0 – €1,000</option><option>€1,000 – €10,000</option><option>€10,000 – €50,000</option><option>€50,000 – €250,000</option><option>€250,000+</option></select></div>
     <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
   </div>
 
@@ -264,17 +265,17 @@ a{color:var(--teal);text-decoration:none}
   <div class="spane" id="s4biz">
     <div class="stitle">Şirket Bilgileri / Company Information</div>
     <div class="sdesc">Şirketinize ait temel bilgileri girin / Enter basic information about your company</div>
-    <div class="fg"><label>Şirket Adı / Company Name</label><input type="text" class="fi" placeholder="Örnek A.Ş."></div>
+    <div class="fg"><label>Şirket Adı / Company Name</label><input type="text" class="fi" id="companyName" placeholder="Örnek A.Ş."></div>
     <div class="frow">
-      <div class="fg"><label>Ticaret Sicil No / Trade Registry No</label><input type="text" class="fi" placeholder="12345-67890"></div>
+      <div class="fg"><label>Ticaret Sicil No / Trade Registry No</label><input type="text" class="fi" id="registryNo" placeholder="12345-67890"></div>
       <div class="fg"><label>Kuruluş Ülkesi / Country of Incorporation</label>
-        <select class="fi"><option value="">Seçin</option><option>Türkiye</option><option>Almanya</option><option>Hollanda</option><option>Lüksemburg</option><option>İrlanda</option><option>Diğer / Other</option></select></div>
+        <select class="fi" id="companyCountry"><option value="">Seçin</option><option>Türkiye</option><option>Almanya</option><option>Hollanda</option><option>Lüksemburg</option><option>İrlanda</option><option>Diğer / Other</option></select></div>
     </div>
     <div class="frow">
       <div class="fg"><label>Şirket Türü / Company Type</label>
-        <select class="fi"><option value="">Seçin</option><option>A.Ş.</option><option>Ltd. Şti.</option><option>GmbH</option><option>Ltd.</option><option>SAS</option><option>BV</option><option>Diğer</option></select></div>
+        <select class="fi" id="companyType"><option value="">Seçin</option><option>A.Ş.</option><option>Ltd. Şti.</option><option>GmbH</option><option>Ltd.</option><option>SAS</option><option>BV</option><option>Diğer</option></select></div>
       <div class="fg"><label>Faaliyet Alanı / Business Activity</label>
-        <select class="fi"><option value="">Seçin</option><option>Fintech / Ödeme</option><option>E-ticaret</option><option>Yazılım / Teknoloji</option><option>Danışmanlık</option><option>İmalat</option><option>Gayrimenkul</option><option>Diğer</option></select></div>
+        <select class="fi" id="companyActivity"><option value="">Seçin</option><option>Fintech / Ödeme</option><option>E-ticaret</option><option>Yazılım / Teknoloji</option><option>Danışmanlık</option><option>İmalat</option><option>Gayrimenkul</option><option>Diğer</option></select></div>
     </div>
     <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
   </div>
@@ -288,15 +289,15 @@ a{color:var(--teal);text-decoration:none}
       <label for="sameAddr">Kişisel adresimle aynı / Same as my personal address</label>
     </div>
     <div id="coAddrF">
-      <div class="fg"><label>Sokak / Street Address</label><input type="text" class="fi" placeholder="Ticari Cadde No:1"></div>
+      <div class="fg"><label>Sokak / Street Address</label><input type="text" class="fi" id="coStreet" placeholder="Ticari Cadde No:1"></div>
       <div class="frow">
-        <div class="fg"><label>Şehir / City</label><input type="text" class="fi" placeholder="İstanbul"></div>
-        <div class="fg"><label>İlçe / District</label><input type="text" class="fi" placeholder="Şişli"></div>
+        <div class="fg"><label>Şehir / City</label><input type="text" class="fi" id="coCity" placeholder="İstanbul"></div>
+        <div class="fg"><label>İlçe / District</label><input type="text" class="fi" id="coDistrict" placeholder="Şişli"></div>
       </div>
       <div class="frow">
-        <div class="fg"><label>Posta Kodu / Postal Code</label><input type="text" class="fi" placeholder="34394"></div>
+        <div class="fg"><label>Posta Kodu / Postal Code</label><input type="text" class="fi" id="coPostal" placeholder="34394"></div>
         <div class="fg"><label>Ülke / Country</label>
-          <select class="fi"><option value="">Seçin</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Diğer</option></select></div>
+          <select class="fi" id="coCountry"><option value="">Seçin</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Diğer</option></select></div>
       </div>
     </div>
     <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
@@ -310,13 +311,13 @@ a{color:var(--teal);text-decoration:none}
       <div class="ubo-item">
         <button class="ubo-rm" onclick="rmUBO(this)" title="Kaldır">✕</button>
         <div class="frow">
-          <div class="fg"><label>Ad Soyad / Full Name</label><input type="text" class="fi" placeholder="Klaus Weber"></div>
-          <div class="fg"><label>Sahiplik % / Ownership %</label><input type="number" class="fi" placeholder="60" min="0" max="100"></div>
+          <div class="fg"><label>Ad Soyad / Full Name</label><input type="text" class="fi" name="uboName" placeholder="Klaus Weber"></div>
+          <div class="fg"><label>Sahiplik % / Ownership %</label><input type="number" class="fi" name="uboPct" placeholder="60" min="0" max="100"></div>
         </div>
         <div class="frow">
-          <div class="fg"><label>Pozisyon / Position</label><input type="text" class="fi" placeholder="CEO / Kurucu"></div>
+          <div class="fg"><label>Pozisyon / Position</label><input type="text" class="fi" name="uboRole" placeholder="CEO / Kurucu"></div>
           <div class="fg"><label>Sahiplik Türü / Type</label>
-            <select class="fi"><option>Doğrudan / Direct</option><option>Dolaylı / Indirect</option></select></div>
+            <select class="fi" name="uboType"><option value="direct">Doğrudan / Direct</option><option value="indirect">Dolaylı / Indirect</option></select></div>
         </div>
       </div>
     </div>
@@ -329,13 +330,13 @@ a{color:var(--teal);text-decoration:none}
     <div class="stitle">PEP &amp; Risk Beyanı</div>
     <div class="sdesc">Yetkili temsilci olarak aşağıdaki soruları yanıtlayın / As the authorized representative, answer the following</div>
     <div class="fg"><label>Siyasi açıdan öneme sahip bir kişi (PEP) misiniz? / Are you a PEP?</label>
-      <select class="fi"><option value="">Seçin / Select</option><option>Hayır / No</option><option>Evet / Yes</option></select></div>
+      <select class="fi" id="pepStatus"><option value="">Seçin / Select</option><option value="no">Hayır / No</option><option value="yes">Evet / Yes</option></select></div>
     <div class="fg"><label>Şirket yöneticileri arasında PEP var mı? / Are any directors/officers PEPs?</label>
-      <select class="fi"><option value="">Seçin / Select</option><option>Hayır / No</option><option>Evet / Yes</option></select></div>
+      <select class="fi" id="relStatus"><option value="">Seçin / Select</option><option value="no">Hayır / No</option><option value="yes">Evet / Yes</option></select></div>
     <div class="fg"><label>Fon Kaynağı / Source of Funds</label>
-      <select class="fi"><option value="">Seçin</option><option>Ticari Gelir / Business Revenue</option><option>Yatırım / Investment</option><option>Kredi / Loan</option><option>Sermaye Artırımı / Capital Raise</option><option>Diğer / Other</option></select></div>
+      <select class="fi" id="sourceOfFunds"><option value="">Seçin</option><option>Ticari Gelir / Business Revenue</option><option>Yatırım / Investment</option><option>Kredi / Loan</option><option>Sermaye Artırımı / Capital Raise</option><option>Diğer / Other</option></select></div>
     <div class="fg"><label>Aylık Tahmini İşlem Hacmi / Expected Monthly Volume</label>
-      <select class="fi"><option value="">Seçin</option><option>€0 – €10,000</option><option>€10,000 – €100,000</option><option>€100,000 – €500,000</option><option>€500,000 – €2,000,000</option><option>€2,000,000+</option></select></div>
+      <select class="fi" id="monthlyVolume"><option value="">Seçin</option><option>€0 – €10,000</option><option>€10,000 – €100,000</option><option>€100,000 – €500,000</option><option>€500,000 – €2,000,000</option><option>€2,000,000+</option></select></div>
     <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
   </div>
 
@@ -414,7 +415,7 @@ a{color:var(--teal);text-decoration:none}
     <div class="co req"><input type="checkbox" id="c-tos"><label for="c-tos"><strong>Kullanım Şartları / Terms of Service</strong>VerifyFlow Kullanım Şartlarını okudum ve kabul ediyorum. / I have read and accept the VerifyFlow Terms of Service.</label></div>
     <div class="co req"><input type="checkbox" id="c-acc"><label for="c-acc"><strong>Doğruluk Beyanı / Accuracy Declaration</strong>Sağladığım tüm bilgilerin doğru, eksiksiz ve güncel olduğunu beyan ediyorum. / I declare that all information provided is accurate, complete and up to date.</label></div>
     <div class="co"><input type="checkbox" id="c-mon"><label for="c-mon"><strong>Süregelen İzleme / Ongoing Monitoring <span style="font-weight:400">(İsteğe bağlı / Optional)</span></strong>Hesabımda değişiklik olması durumunda yeniden tarama yapılmasına onay veriyorum.</label></div>
-    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="submitApp()">Başvuruyu Gönder / Submit ✓</button></div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" id="submitBtn" onclick="submitApp()">Başvuruyu Gönder / Submit ✓</button></div>
   </div>
 
   <!-- TAMAMLANDI -->
@@ -440,21 +441,31 @@ a{color:var(--teal);text-decoration:none}
 <!-- ===== PROFİL ===== -->
 <div data-view="profile" id="view-profile">
 <div class="pf-wrap">
+  <!-- No application message -->
+  <div id="pfNoApp" style="display:none;text-align:center;padding:4rem 2rem">
+    <div style="font-size:3rem;margin-bottom:1rem">📋</div>
+    <h2 style="margin-bottom:.5rem">Henüz başvuru yok / No Application Yet</h2>
+    <p style="color:var(--text2);margin-bottom:1.5rem">Başvurunuzu tamamlamak için onboarding formunu doldurun.</p>
+    <button class="btn btn-primary" onclick="startOB()">Başvuru Yap / Apply Now</button>
+  </div>
+  <!-- Has application -->
+  <div id="pfHasApp" style="display:none">
   <div class="pf-hdr">
     <div class="pf-hdr-top">
       <div style="display:flex;align-items:center;gap:.75rem;flex:1">
-        <div class="pf-av">AY</div>
+        <div class="pf-av" id="pfAvatar">—</div>
         <div class="pf-info">
-          <h2>Ahmet Yılmaz</h2>
-          <p>ahmet@ornek.com &nbsp;·&nbsp; <span class="badge bi">Bireysel / Individual</span></p>
+          <h2 id="pfName">—</h2>
+          <p><span id="pfType" class="badge bi">—</span> &nbsp;·&nbsp; <span id="pfStatus" class="badge bw">—</span></p>
           <div class="pf-status">
-            <span class="badge bw">KYC: İnceleniyor</span>
-            <span class="badge bi">AML: Taranıyor</span>
-            <span class="badge bn">Risk: Bekliyor</span>
+            <span>KYC: <span id="pfKyc" class="badge bw">—</span></span>
+            <span>AML: <span id="pfAml" class="badge bi">—</span></span>
+            <span>Risk: <span id="pfRisk" class="badge bn">—</span></span>
+            <span style="color:var(--text2);font-size:.8rem">Başvuru: <span id="pfSubmitted">—</span></span>
           </div>
         </div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="nav('landing')">← Çıkış / Log Out</button>
+      <button class="btn btn-ghost btn-sm" onclick="doLogout()">← Çıkış / Log Out</button>
     </div>
     <div class="pf-tabs">
       <div class="pf-tab active" onclick="pfTab('summary',this)">📋 Özet / Summary</div>
@@ -469,57 +480,50 @@ a{color:var(--teal);text-decoration:none}
     <div class="tbc active" id="tb-summary">
       <div class="isec"><h3>Kişisel Bilgiler / Personal Information</h3>
         <div class="igrid">
-          <div class="iitem"><div class="ilabel">Ad Soyad / Full Name</div><div class="ival">Ahmet Yılmaz</div></div>
-          <div class="iitem"><div class="ilabel">Doğum Tarihi / Date of Birth</div><div class="ival">15.03.1985</div></div>
-          <div class="iitem"><div class="ilabel">Uyruk / Nationality</div><div class="ival">Türkiye</div></div>
-          <div class="iitem"><div class="ilabel">TC Kimlik No / National ID</div><div class="ival">•••••678901</div></div>
-          <div class="iitem"><div class="ilabel">Telefon / Phone</div><div class="ival">+90 555 123 45 67</div></div>
-          <div class="iitem"><div class="ilabel">E-posta / Email</div><div class="ival">ahmet@ornek.com</div></div>
+          <div class="iitem"><div class="ilabel">Ad Soyad / Full Name</div><div class="ival" id="sumFullName">—</div></div>
+          <div class="iitem"><div class="ilabel">Doğum Tarihi / Date of Birth</div><div class="ival" id="sumDob">—</div></div>
+          <div class="iitem"><div class="ilabel">Uyruk / Nationality</div><div class="ival" id="sumNat">—</div></div>
+          <div class="iitem"><div class="ilabel">TC Kimlik No / National ID</div><div class="ival" id="sumId">—</div></div>
+          <div class="iitem"><div class="ilabel">Telefon / Phone</div><div class="ival" id="sumPhone">—</div></div>
+          <div class="iitem"><div class="ilabel">E-posta / Email</div><div class="ival" id="sumEmail">—</div></div>
         </div>
       </div>
       <div class="isec"><h3>Adres / Address</h3>
         <div class="igrid">
-          <div class="iitem"><div class="ilabel">Sokak / Street</div><div class="ival">Atatürk Cad. No:42</div></div>
-          <div class="iitem"><div class="ilabel">İlçe / District</div><div class="ival">Beşiktaş</div></div>
-          <div class="iitem"><div class="ilabel">Şehir / City</div><div class="ival">İstanbul</div></div>
-          <div class="iitem"><div class="ilabel">Posta Kodu</div><div class="ival">34349</div></div>
-          <div class="iitem"><div class="ilabel">Ülke / Country</div><div class="ival">Türkiye</div></div>
+          <div class="iitem"><div class="ilabel">Sokak / Street</div><div class="ival" id="sumStreet">—</div></div>
+          <div class="iitem"><div class="ilabel">İlçe / District</div><div class="ival" id="sumDistrict">—</div></div>
+          <div class="iitem"><div class="ilabel">Şehir / City</div><div class="ival" id="sumCity">—</div></div>
+          <div class="iitem"><div class="ilabel">Posta Kodu</div><div class="ival" id="sumPostal">—</div></div>
+          <div class="iitem"><div class="ilabel">Ülke / Country</div><div class="ival" id="sumCountry">—</div></div>
         </div>
       </div>
       <div class="isec"><h3>PEP &amp; Risk Beyanı</h3>
         <div class="igrid">
-          <div class="iitem"><div class="ilabel">PEP Durumu</div><div class="ival">Hayır / No</div></div>
-          <div class="iitem"><div class="ilabel">Yakın PEP</div><div class="ival">Hayır / No</div></div>
-          <div class="iitem"><div class="ilabel">Fon Kaynağı</div><div class="ival">Maaş / Salary</div></div>
-          <div class="iitem"><div class="ilabel">İşlem Hacmi / Volume</div><div class="ival">€1,000 – €10,000</div></div>
+          <div class="iitem"><div class="ilabel">PEP Durumu</div><div class="ival" id="sumPep">—</div></div>
+          <div class="iitem"><div class="ilabel">Yakın PEP</div><div class="ival" id="sumRel">—</div></div>
+          <div class="iitem"><div class="ilabel">Fon Kaynağı</div><div class="ival" id="sumSof">—</div></div>
+          <div class="iitem"><div class="ilabel">İşlem Hacmi / Volume</div><div class="ival" id="sumVol">—</div></div>
         </div>
       </div>
     </div>
 
     <!-- BELGELER -->
     <div class="tbc" id="tb-docs">
-      <div class="dli"><div class="dli-icon">📄</div><div class="dli-info"><div class="dli-name">Kimlik Belgesi / Identity Document</div><div class="dli-meta">passport_ahmet_yilmaz.pdf · 2.4 MB · Yüklendi 12.04.2026</div></div><span class="badge bw">İncelemede</span></div>
-      <div class="dli"><div class="dli-icon">🏠</div><div class="dli-info"><div class="dli-name">İkametgah Belgesi / Proof of Address</div><div class="dli-meta">ikametgah_2026.pdf · 1.1 MB · Yüklendi 12.04.2026</div></div><span class="badge bw">İncelemede</span></div>
-      <div class="dli"><div class="dli-icon">📋</div><div class="dli-info"><div class="dli-name">Vergi Levhası / Tax Certificate</div><div class="dli-meta">Mevcut değil / Not available</div></div><span class="badge bn">Mevcut Değil</span></div>
+      <p style="color:var(--text2);text-align:center;padding:2rem">Yükleniyor... / Loading...</p>
     </div>
 
     <!-- DOĞRULAMA -->
     <div class="tbc" id="tb-verify">
-      <div class="vc"><div class="vc-icon review">🔍</div><div class="vc-info"><div class="vc-title">KYC Kimlik Doğrulama / Identity Verification</div><div class="vc-desc">Belge incelemesi devam ediyor. Sonuç 1-2 iş günü içinde bildirilecektir. / Document review in progress. Result within 1-2 business days.</div></div><span class="badge bw">İncelemede</span></div>
-      <div class="vc"><div class="vc-icon review">🛡️</div><div class="vc-info"><div class="vc-title">AML Tarama / AML Screening</div><div class="vc-desc">Yaptırım listeleri ve PEP veritabanları taranıyor. / Screening against sanctions lists and PEP databases.</div></div><span class="badge bi">Taranıyor</span></div>
-      <div class="vc"><div class="vc-icon pend">⚡</div><div class="vc-info"><div class="vc-title">Risk Değerlendirmesi / Risk Assessment</div><div class="vc-desc">KYC ve AML tamamlandıktan sonra risk skoru hesaplanacaktır. / Risk score calculated after KYC and AML completion.</div></div><span class="badge bn">Bekliyor</span></div>
-      <div class="vc"><div class="vc-icon pend">✅</div><div class="vc-info"><div class="vc-title">Nihai Karar / Final Decision</div><div class="vc-desc">Tüm incelemeler tamamlandıktan sonra nihai karar verilecektir. / Final decision after all reviews are completed.</div></div><span class="badge bn">Bekliyor</span></div>
+      <div class="vc"><div class="vc-icon review">🔍</div><div class="vc-info"><div class="vc-title">KYC Kimlik Doğrulama / Identity Verification</div><div class="vc-desc">Belge incelemesi devam ediyor. Sonuç 1-2 iş günü içinde bildirilecektir. / Document review in progress. Result within 1-2 business days.</div></div><span id="vcKyc" class="badge bw">İncelemede</span></div>
+      <div class="vc"><div class="vc-icon review">🛡️</div><div class="vc-info"><div class="vc-title">AML Tarama / AML Screening</div><div class="vc-desc">Yaptırım listeleri ve PEP veritabanları taranıyor. / Screening against sanctions lists and PEP databases.</div></div><span id="vcAml" class="badge bi">Taranıyor</span></div>
+      <div class="vc"><div class="vc-icon pend">⚡</div><div class="vc-info"><div class="vc-title">Risk Değerlendirmesi / Risk Assessment</div><div class="vc-desc">KYC ve AML tamamlandıktan sonra risk skoru hesaplanacaktır. / Risk score calculated after KYC and AML completion.</div></div><span id="vcRisk" class="badge bn">Bekliyor</span></div>
+      <div class="vc"><div class="vc-icon pend">✅</div><div class="vc-info"><div class="vc-title">Nihai Karar / Final Decision</div><div class="vc-desc">Tüm incelemeler tamamlandıktan sonra nihai karar verilecektir. / Final decision after all reviews are completed.</div></div><span id="vcFinal" class="badge bn">Bekliyor</span></div>
     </div>
 
     <!-- MESAJLAR / CHAT -->
     <div class="tbc" id="tb-chat">
       <div class="chat-wrap">
-        <div class="chat-msgs" id="chatMsgs">
-          <div class="cmsg stf"><div class="cav">VF</div><div><div class="cbub">Merhaba! Başvurunuzu aldık ve incelemeye başladık. Herhangi bir sorunuz olursa burada yanıt alabilirsiniz.<br><em style="font-size:.78rem;opacity:.8">Hello! We received your application and started the review. Feel free to ask questions here.</em></div><div class="cmeta">VerifyFlow Compliance · 12 Nis 2026, 09:15</div></div></div>
-          <div class="cmsg cli"><div class="cav">AY</div><div><div class="cbub">Teşekkürler! Belgelerimi yükledim. Ne kadar süreceğini öğrenebilir miyim?</div><div class="cmeta">12 Nis 2026, 09:22</div></div></div>
-          <div class="cmsg stf"><div class="cav">VF</div><div><div class="cbub">Belgeleriniz alındı. Normal koşullarda inceleme 1-2 iş günü içinde tamamlanır. Sonucu e-posta ile de bildireceğiz.<br><em style="font-size:.78rem;opacity:.8">Documents received. Review typically takes 1-2 business days. We will notify you by email too.</em></div><div class="cmeta">VerifyFlow Compliance · 12 Nis 2026, 09:30</div></div></div>
-          <div class="cmsg stf"><div class="cav">VF</div><div><div class="cbub">Bilgi: Kimlik belgenizin arka yüzünü de yüklemeniz gerekmektedir. Lütfen Belgeler sekmesinden ekleyiniz.<br><em style="font-size:.78rem;opacity:.8">Note: We also need the back side of your identity document. Please add it from the Documents tab.</em></div><div class="cmeta">VerifyFlow Compliance · 12 Nis 2026, 10:45</div></div></div>
-        </div>
+        <div class="chat-msgs" id="chatMsgs"></div>
         <div class="chat-inp-area">
           <textarea class="chat-inp" id="chatInp" placeholder="Mesajınızı yazın / Type your message..." rows="1" onkeydown="chatKey(event)"></textarea>
           <button class="btn btn-primary btn-sm" onclick="sendMsg()">Gönder ↑</button>
@@ -528,6 +532,7 @@ a{color:var(--teal);text-decoration:none}
     </div>
 
   </div><!-- .pf-body -->
+  </div><!-- #pfHasApp -->
 </div><!-- .pf-wrap -->
 </div><!-- /profile -->
 
@@ -542,20 +547,17 @@ a{color:var(--teal);text-decoration:none}
     <div id="aLogin">
       <h2>Tekrar Hoşgeldiniz</h2>
       <p class="msub">Hesabınıza giriş yapın / Sign in to your account</p>
-      <div class="fg"><label>E-posta / Email</label><input type="email" class="fi" placeholder="siz@ornek.com"></div>
-      <div class="fg"><label>Şifre / Password</label><input type="password" class="fi" placeholder="Şifrenizi girin"></div>
+      <div class="fg"><label>E-posta / Email</label><input type="email" class="fi" id="lEmail" placeholder="siz@ornek.com"></div>
+      <div class="fg"><label>Şifre / Password</label><input type="password" class="fi" id="lPass" placeholder="Şifrenizi girin"></div>
       <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doLogin()">Giriş Yap / Log In</button>
-      <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)">Hesabınız yok mu? <a href="#" onclick="authTab('register',null);return false">Kayıt olun</a></div>
+      <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)">Hesabınız yok mu? <a href="#" onclick="authTab('register');return false">Kayıt olun</a></div>
     </div>
     <div id="aReg" style="display:none">
       <h2>Hesap Oluştur</h2>
       <p class="msub">Ücretsiz hesap oluşturun / Create your free account</p>
-      <div class="frow">
-        <div class="fg"><label>Ad / First Name</label><input type="text" class="fi" placeholder="Ahmet"></div>
-        <div class="fg"><label>Soyad / Last Name</label><input type="text" class="fi" placeholder="Yılmaz"></div>
-      </div>
-      <div class="fg"><label>E-posta / Email</label><input type="email" class="fi" placeholder="siz@ornek.com"></div>
-      <div class="fg"><label>Şifre / Password</label><input type="password" class="fi" placeholder="Min. 8 karakter"></div>
+      <div class="fg"><label>Ad Soyad / Full Name</label><input type="text" class="fi" id="rName" placeholder="Ahmet Yılmaz"></div>
+      <div class="fg"><label>E-posta / Email</label><input type="email" class="fi" id="rEmail" placeholder="siz@ornek.com"></div>
+      <div class="fg"><label>Şifre / Password</label><input type="password" class="fi" id="rPass" placeholder="Min. 6 karakter"></div>
       <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doRegister()">Kayıt Ol / Register</button>
       <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)">Kayıt olarak <a href="#">Şartları</a> kabul etmiş olursunuz.</div>
     </div>
@@ -563,31 +565,82 @@ a{color:var(--teal);text-decoration:none}
 </div>
 
 <script>
+// ── GLOBALS ───────────────────────────────────────────
+var currentClient = null;
+var chatChannel = null;
+
+// ── UTILS ─────────────────────────────────────────────
+function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function pad(n){return String(n).padStart(2,'0');}
+function fmtDate(d){if(!d)return '—';var dt=new Date(d);return dt.getDate()+'/'+pad(dt.getMonth()+1)+'/'+dt.getFullYear();}
+function fmtSize(b){if(!b)return '';var n=parseInt(b);if(n>1048576)return (n/1048576).toFixed(1)+' MB';if(n>1024)return (n/1024).toFixed(0)+' KB';return n+' B';}
+
 // ── SPA NAVIGASYON ────────────────────────────────────
 function nav(v){
-  document.querySelectorAll('[data-view]').forEach(el=>{el.classList.remove('active');el.style.display='none';});
+  document.querySelectorAll('[data-view]').forEach(function(el){el.classList.remove('active');el.style.display='none';});
   var t=document.getElementById('view-'+v);t.style.display='block';t.classList.add('active');
   window.scrollTo(0,0);
+  updateNav(v);
+  if(v==='profile') loadProfile();
+}
+
+async function updateNav(v){
   var na=document.getElementById('navAct');
   if(v==='profile'){
-    na.innerHTML='<span style="font-size:.85rem;color:var(--text2);font-weight:500">Ahmet Yılmaz</span><button class="btn btn-ghost btn-sm" onclick="nav(\'landing\')">Çıkış / Logout</button>';
+    var session=await getSession();
+    var name=session&&session.user&&session.user.user_metadata&&session.user.user_metadata.full_name||session&&session.user&&session.user.email||'Hesabım';
+    na.innerHTML='<span style="font-size:.85rem;color:var(--text2);font-weight:500">'+esc(name)+'</span><button class="btn btn-ghost btn-sm" onclick="doLogout()">Çıkış / Logout</button>';
   } else {
     na.innerHTML='<button class="btn btn-outline btn-sm" onclick="showAuth(\'login\')">Giriş Yap / Log In</button><button class="btn btn-primary btn-sm" onclick="showAuth(\'register\')">Kayıt Ol / Register</button>';
   }
 }
-document.addEventListener('DOMContentLoaded',function(){document.getElementById('view-landing').style.display='block';});
+
+document.addEventListener('DOMContentLoaded', async function(){
+  document.getElementById('view-landing').style.display='block';
+  var session=await getSession();
+  if(session) updateNav('profile');
+  document.getElementById('authMod').addEventListener('click',function(e){if(e.target===e.currentTarget)closeAuth();});
+});
 
 // ── AUTH MODAL ────────────────────────────────────────
-function showAuth(t){document.getElementById('authMod').classList.add('show');authTab(t,null);}
+function showAuth(t){document.getElementById('authMod').classList.add('show');authTab(t);}
 function closeAuth(){document.getElementById('authMod').classList.remove('show');}
-function authTab(t,el){
+function authTab(t){
   document.querySelectorAll('.mtab').forEach(function(m,i){m.classList.toggle('active',(t==='login'&&i===0)||(t==='register'&&i===1));});
   document.getElementById('aLogin').style.display=t==='login'?'block':'none';
   document.getElementById('aReg').style.display=t==='register'?'block':'none';
 }
-function doLogin(){closeAuth();nav('profile');}
-function doRegister(){closeAuth();startOB();}
-document.getElementById('authMod').addEventListener('click',function(e){if(e.target===e.currentTarget)closeAuth();});
+
+async function doLogin(){
+  var email=document.getElementById('lEmail').value.trim();
+  var password=document.getElementById('lPass').value;
+  if(!email||!password){alert('E-posta ve şifre gerekli.');return;}
+  var btn=document.querySelector('#aLogin .btn-primary');btn.textContent='Giriş yapılıyor...';btn.disabled=true;
+  var {data,error}=await sb.auth.signInWithPassword({email,password});
+  btn.textContent='Giriş Yap / Log In';btn.disabled=false;
+  if(error){alert('Hata: '+error.message);return;}
+  closeAuth();nav('profile');
+}
+
+async function doRegister(){
+  var email=document.getElementById('rEmail').value.trim();
+  var password=document.getElementById('rPass').value;
+  var name=document.getElementById('rName')?document.getElementById('rName').value.trim():'';
+  if(!email||!password){alert('E-posta ve şifre gerekli.');return;}
+  if(password.length<6){alert('Şifre en az 6 karakter olmalı.');return;}
+  var btn=document.querySelector('#aReg .btn-primary');btn.textContent='Kayıt olunuyor...';btn.disabled=true;
+  var {data,error}=await sb.auth.signUp({email,password,options:{data:{full_name:name}}});
+  btn.textContent='Kayıt Ol / Register';btn.disabled=false;
+  if(error){alert('Hata: '+error.message);return;}
+  closeAuth();startOB();
+}
+
+async function doLogout(){
+  if(chatChannel){sb.removeChannel(chatChannel);chatChannel=null;}
+  await sb.auth.signOut();
+  currentClient=null;
+  nav('landing');
+}
 
 // ── ONBOARDING ────────────────────────────────────────
 var IND_STEPS=['s1','s2','s3','s4ind','sDocs','sAml','sComplete'];
@@ -613,7 +666,6 @@ function goNext(){
   if(idx<steps.length-1){idx++;showS(idx);}
 }
 function goPrev(){if(idx>0){idx--;showS(idx);}}
-function submitApp(){idx=steps.length-1;showS(idx);}
 
 // ── FORM YARDIMCILARI ─────────────────────────────────
 function pickRo(el){
@@ -631,33 +683,218 @@ function addUBO(){
   t.querySelectorAll('input,select').forEach(function(el){el.value='';});l.appendChild(t);
 }
 function rmUBO(btn){var l=document.getElementById('uboList');if(l.children.length>1)btn.closest('.ubo-item').remove();}
+function gv(id){var el=document.getElementById(id);return el?el.value.trim():'';}
+function selVal(rg){var s=document.querySelector('#'+rg+' .ro.sel');return s?s.querySelector('.rl strong').textContent:'';}
+
+// ── SUBMIT APP ────────────────────────────────────────
+async function submitApp(){
+  var session=await getSession();
+  if(!session){alert('Lütfen önce giriş yapın.');return;}
+  var btn=document.getElementById('submitBtn');
+  if(btn){btn.textContent='Gönderiliyor...';btn.disabled=true;}
+
+  // Build client data
+  var clientData={
+    user_id: session.user.id,
+    type: acType==='biz'?'business':'individual',
+    status: 'pending',
+    personal:{
+      firstName:gv('firstName'),lastName:gv('lastName'),
+      dob:gv('dob'),nationality:gv('nationality'),
+      nationalId:gv('nationalId'),phone:gv('phone'),
+      email:session.user.email
+    },
+    address:{
+      street:gv('street'),city:gv('city'),
+      district:gv('district'),postalCode:gv('postalCode'),
+      country:gv('country')
+    },
+    pep:{
+      isPep:gv('pepStatus')==='yes',
+      hasRelative:gv('relStatus')==='yes',
+      sourceOfFunds:gv('sourceOfFunds'),
+      monthlyVolume:gv('monthlyVolume')
+    }
+  };
+  if(acType==='biz'){
+    clientData.company={
+      name:gv('companyName'),registryNo:gv('registryNo'),
+      country:gv('companyCountry'),type:gv('companyType'),
+      activity:gv('companyActivity')
+    };
+    clientData.co_address={
+      street:gv('coStreet'),city:gv('coCity'),
+      postalCode:gv('coPostal'),country:gv('coCountry')
+    };
+  }
+
+  var {data:client,error:ce}=await sb.from('clients').insert(clientData).select().single();
+  if(ce){if(btn){btn.textContent='Gönder';btn.disabled=false;}alert('Kayıt hatası: '+ce.message);return;}
+
+  // Save UBOs (business only)
+  if(acType==='biz'){
+    var uboItems=document.querySelectorAll('.ubo-item');
+    var ubos=[];
+    uboItems.forEach(function(item){
+      var fn=item.querySelector('[name="uboName"]');var op=item.querySelector('[name="uboPct"]');
+      if(fn&&fn.value.trim())ubos.push({client_id:client.id,full_name:fn.value.trim(),ownership_pct:parseFloat(op?op.value:0)||0,position:item.querySelector('[name="uboRole"]')?item.querySelector('[name="uboRole"]').value:'',ownership_type:item.querySelector('[name="uboType"]')?item.querySelector('[name="uboType"]').value:'direct'});
+    });
+    if(ubos.length)await sb.from('ubos').insert(ubos);
+  }
+
+  // Upload documents
+  var docDefs=[
+    {inputId:'fi-id',naId:'na-id',type:'identity'},
+    {inputId:'fi-addr',naId:'na-addr',type:'address'},
+    {inputId:'fi-tax',naId:'na-tax',type:'tax'},
+    {inputId:'fi-reg',naId:'na-reg',type:'registry'},
+    {inputId:'fi-aoa',naId:'na-aoa',type:'aoa'},
+    {inputId:'fi-sig',naId:'na-sig',type:'signature'},
+    {inputId:'fi-cgs',naId:'na-cgs',type:'cgs'}
+  ];
+  for(var d of docDefs){
+    var inp=document.getElementById(d.inputId);
+    var naCb=document.getElementById(d.naId);
+    if(naCb&&naCb.checked){
+      await sb.from('documents').insert({client_id:client.id,doc_type:d.type,available:false,file_name:'N/A',file_size:'0'});
+    } else if(inp&&inp.files&&inp.files.length){
+      var file=inp.files[0];
+      var path='clients/'+client.id+'/'+d.type+'/'+Date.now()+'_'+file.name;
+      var {error:ue}=await sb.storage.from('documents').upload(path,file);
+      if(!ue)await sb.from('documents').insert({client_id:client.id,doc_type:d.type,file_path:path,file_name:file.name,file_size:String(file.size),available:true});
+    }
+  }
+
+  // Welcome message
+  var fname=clientData.personal.firstName||session.user.email;
+  await sb.from('chat_messages').insert({client_id:client.id,sender_type:'staff',sender_name:'VerifyFlow',text:'Merhaba '+fname+', başvurunuz alındı. Belgeleriniz incelemeye alınmıştır. / Hello '+fname+', your application has been received. Your documents are under review.'});
+
+  currentClient=client;
+  if(btn){btn.textContent='Gönder';btn.disabled=false;}
+  idx=steps.length-1;showS(idx);
+}
+
+// ── PROFİL YÜKLEMESİ ─────────────────────────────────
+async function loadProfile(){
+  var session=await getSession();
+  if(!session){nav('landing');return;}
+
+  var {data:client,error}=await sb.from('clients').select('*').eq('user_id',session.user.id).order('created_at',{ascending:false}).limit(1).single();
+  if(error||!client){
+    document.getElementById('pfNoApp').style.display='block';
+    document.getElementById('pfHasApp').style.display='none';
+    return;
+  }
+  currentClient=client;
+  document.getElementById('pfNoApp').style.display='none';
+  document.getElementById('pfHasApp').style.display='block';
+
+  // Summary tab
+  var p=client.personal||{};var a=client.address||{};var pep=client.pep||{};
+  var fullName=(p.firstName||'')+' '+(p.lastName||'');
+  var initials=((p.firstName||'?')[0]+(p.lastName||'?')[0]).toUpperCase();
+  document.getElementById('pfAvatar').textContent=initials;
+  document.getElementById('pfName').textContent=fullName.trim()||session.user.email;
+  document.getElementById('pfType').textContent=client.type==='business'?'Kurumsal / Business':'Bireysel / Individual';
+  document.getElementById('pfStatus').textContent=statusLabel(client.status);
+  document.getElementById('pfStatus').className='badge '+statusClass(client.status);
+  document.getElementById('pfSubmitted').textContent=fmtDate(client.submitted_at);
+  document.getElementById('pfKyc').textContent=statusLabel(client.kyc_status);
+  document.getElementById('pfAml').textContent=statusLabel(client.aml_status);
+  document.getElementById('pfRisk').textContent=client.risk_score!=null?client.risk_score+' / 100':'—';
+  // Populate summary fields
+  document.getElementById('sumFullName').textContent=fullName.trim()||'—';
+  document.getElementById('sumDob').textContent=p.dob||'—';
+  document.getElementById('sumNat').textContent=p.nationality||'—';
+  document.getElementById('sumId').textContent=p.nationalId?'•••••'+String(p.nationalId).slice(-5):'—';
+  document.getElementById('sumPhone').textContent=p.phone||'—';
+  document.getElementById('sumEmail').textContent=p.email||session.user.email;
+  document.getElementById('sumStreet').textContent=a.street||'—';
+  document.getElementById('sumDistrict').textContent=a.district||'—';
+  document.getElementById('sumCity').textContent=a.city||'—';
+  document.getElementById('sumPostal').textContent=a.postalCode||'—';
+  document.getElementById('sumCountry').textContent=a.country||'—';
+  document.getElementById('sumPep').textContent=pep.isPep?'Evet / Yes':'Hayır / No';
+  document.getElementById('sumRel').textContent=pep.hasRelative?'Evet / Yes':'Hayır / No';
+  document.getElementById('sumSof').textContent=pep.sourceOfFunds||'—';
+  document.getElementById('sumVol').textContent=pep.monthlyVolume||'—';
+  // Verify tab
+  if(document.getElementById('vcKyc'))document.getElementById('vcKyc').textContent=statusLabel(client.kyc_status);
+  if(document.getElementById('vcAml'))document.getElementById('vcAml').textContent=statusLabel(client.aml_status);
+
+  pfTab('summary');
+  loadChatTab();
+}
+
+function statusLabel(s){
+  var m={pending:'Beklemede',in_review:'İncelemede',approved:'Onaylandı',rejected:'Reddedildi'};
+  return m[s]||s||'—';
+}
+function statusClass(s){
+  var m={pending:'bw',in_review:'bi',approved:'bs',rejected:'bd'};
+  return m[s]||'bw';
+}
 
 // ── PROFİL SEKMELERI ──────────────────────────────────
 function pfTab(t,el){
   document.querySelectorAll('.tbc').forEach(function(c){c.classList.remove('active');});
-  document.getElementById('tb-'+t).classList.add('active');
+  var tb=document.getElementById('tb-'+t);if(tb)tb.classList.add('active');
   document.querySelectorAll('.pf-tab').forEach(function(tab){tab.classList.remove('active');});
   if(el)el.classList.add('active');
+  if(t==='docs')loadDocsTab();
+  if(t==='chat')loadChatTab();
+}
+
+async function loadDocsTab(){
+  if(!currentClient)return;
+  var {data:docs}=await sb.from('documents').select('*').eq('client_id',currentClient.id);
+  var cont=document.getElementById('tb-docs');
+  if(!docs||!docs.length){cont.innerHTML='<p style="color:var(--text2);text-align:center;padding:2rem">Belge bulunamadı.</p>';return;}
+  var typeLabels={identity:'Kimlik / Identity',address:'Adres Beyanı / Address',tax:'Vergi Levhası / Tax',registry:'Sicil Belgesi / Registry',aoa:'Ana Sözleşme / AoA',signature:'İmza Sirküleri / Signature',cgs:'Faaliyet Belgesi / CGS'};
+  var rows=docs.map(function(d){
+    var dl='';
+    if(d.available&&d.file_path){var {data:u}=sb.storage.from('documents').getPublicUrl(d.file_path);dl='<a href="'+esc(u.publicUrl)+'" target="_blank" style="color:var(--teal);font-size:.8rem">İndir</a>';}
+    return '<tr><td>'+(typeLabels[d.doc_type]||d.doc_type)+'</td><td>'+(d.available?esc(d.file_name||'—'):'Mevcut Değil')+'</td><td>'+fmtSize(d.file_size)+'</td><td><span class="badge '+statusClass(d.status)+'">'+statusLabel(d.status)+'</span></td><td>'+dl+'</td></tr>';
+  }).join('');
+  cont.innerHTML='<table style="width:100%;border-collapse:collapse;font-size:.85rem"><thead><tr style="color:var(--text2)"><th style="padding:.5rem;text-align:left">Tür</th><th style="padding:.5rem;text-align:left">Dosya</th><th style="padding:.5rem;text-align:left">Boyut</th><th style="padding:.5rem;text-align:left">Durum</th><th style="padding:.5rem;text-align:left">İndir</th></tr></thead><tbody>'+rows+'</tbody></table>';
 }
 
 // ── CHAT ─────────────────────────────────────────────
-var REPLIES=['Mesajınız alındı, ilgili ekibimize iletildi. / Your message has been received and forwarded to our team.','Teşekkür ederiz, en kısa sürede dönüş yapacağız. / Thank you, we will get back to you shortly.','Bilginize sunulur. İnceleme süreciniz devam etmektedir. / Your review is ongoing.'];
-function sendMsg(){
+async function loadChatTab(){
+  if(!currentClient)return;
+  var {data:msgs}=await sb.from('chat_messages').select('*').eq('client_id',currentClient.id).order('created_at',{ascending:true});
+  var cont=document.getElementById('chatMsgs');
+  if(cont){cont.innerHTML='';(msgs||[]).forEach(function(m){appendMsg(m);});}
+  subscribeChat();
+}
+
+function subscribeChat(){
+  if(!currentClient)return;
+  if(chatChannel){sb.removeChannel(chatChannel);}
+  chatChannel=sb.channel('chat_client_'+currentClient.id)
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'chat_messages',filter:'client_id=eq.'+currentClient.id},function(payload){appendMsg(payload.new);})
+    .subscribe();
+}
+
+function appendMsg(m){
+  var cont=document.getElementById('chatMsgs');if(!cont)return;
+  var isClient=m.sender_type==='client';
+  var initials=isClient?'SZ':'VF';
+  var now=new Date(m.created_at);
+  var ts=pad(now.getDate())+'.'+pad(now.getMonth()+1)+' '+pad(now.getHours())+':'+pad(now.getMinutes());
+  var div=document.createElement('div');div.className='cmsg '+(isClient?'cli':'stf');
+  div.innerHTML='<div class="cav">'+initials+'</div><div><div class="cbub">'+esc(m.text)+'</div><div class="cmeta">'+(isClient?'Siz':'VerifyFlow Compliance')+' · '+ts+'</div></div>';
+  cont.appendChild(div);cont.scrollTop=cont.scrollHeight;
+}
+
+async function sendMsg(){
+  if(!currentClient){alert('Aktif başvuru bulunamadı.');return;}
   var inp=document.getElementById('chatInp'),txt=inp.value.trim();if(!txt)return;
-  var msgs=document.getElementById('chatMsgs');
-  var now=new Date(),ts=now.getDate()+' Nis 2026, '+pad(now.getHours())+':'+pad(now.getMinutes());
-  var m=document.createElement('div');m.className='cmsg cli';
-  m.innerHTML='<div class="cav">AY</div><div><div class="cbub">'+esc(txt)+'</div><div class="cmeta">'+ts+'</div></div>';
-  msgs.appendChild(m);inp.value='';msgs.scrollTop=msgs.scrollHeight;
-  setTimeout(function(){
-    var r=document.createElement('div');r.className='cmsg stf';
-    r.innerHTML='<div class="cav">VF</div><div><div class="cbub">'+REPLIES[Math.floor(Math.random()*REPLIES.length)]+'</div><div class="cmeta">VerifyFlow Compliance · '+ts+'</div></div>';
-    msgs.appendChild(r);msgs.scrollTop=msgs.scrollHeight;
-  },1200);
+  inp.value='';
+  var {error}=await sb.from('chat_messages').insert({client_id:currentClient.id,sender_type:'client',sender_name:'Müşteri',text:txt});
+  if(error)console.error('Chat error:',error);
 }
 function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
-function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function pad(n){return String(n).padStart(2,'0');}
 </script>
 </body>
 </html>

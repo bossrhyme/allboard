@@ -125,6 +125,10 @@ tr:hover td{background:rgba(0,229,195,.02)}
 .chat-inp-row{border-top:1px solid var(--border);padding:.75rem;display:flex;gap:.5rem}
 .chat-inp{flex:1;padding:.6rem .9rem;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.875rem;font-family:inherit}
 .chat-inp:focus{outline:none;border-color:var(--teal)}
+/* Info grid */
+.igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem}
+.iitem .ilabel{font-size:.75rem;color:var(--text2);margin-bottom:.15rem}
+.iitem .ival{font-size:.88rem;font-weight:500}
 /* Interview */
 .int-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:1rem}
 .int-card .int-icon{font-size:1.5rem;flex-shrink:0}
@@ -132,9 +136,22 @@ tr:hover td{background:rgba(0,229,195,.02)}
 .int-card .int-meta{font-size:.78rem;color:var(--text2);margin-top:.15rem}
 .int-card .int-actions{display:flex;gap:.5rem}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/supabase-config.js"></script>
 </head>
 <body>
-<div class="demo-layout">
+<!-- Admin Login Overlay -->
+<div id="adminLoginOverlay" style="display:none;position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:100%;max-width:400px">
+    <h2 style="margin-bottom:.25rem">VerifyFlow Admin</h2>
+    <p style="color:var(--text2);font-size:.88rem;margin-bottom:1.5rem">Yönetici girişi / Admin login</p>
+    <div style="margin-bottom:1rem"><label style="display:block;font-size:.83rem;margin-bottom:.35rem;color:var(--text2)">E-posta / Email</label><input type="email" id="adminEmail" class="fi" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.6rem .9rem;color:var(--text);font-size:.9rem" placeholder="admin@ornek.com"></div>
+    <div style="margin-bottom:1.5rem"><label style="display:block;font-size:.83rem;margin-bottom:.35rem;color:var(--text2)">Şifre / Password</label><input type="password" id="adminPass" class="fi" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.6rem .9rem;color:var(--text);font-size:.9rem" placeholder="••••••••" onkeydown="if(event.key==='Enter')adminLogin()"></div>
+    <button onclick="adminLogin()" style="width:100%;background:var(--teal);color:var(--bg);border:none;border-radius:8px;padding:.7rem;font-weight:600;font-size:.95rem;cursor:pointer" id="adminLoginBtn">Giriş Yap / Sign In</button>
+    <p id="adminLoginErr" style="color:var(--danger);font-size:.82rem;margin-top:.75rem;display:none"></p>
+  </div>
+</div>
+<div class="demo-layout" id="adminDashboard" style="display:none">
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
@@ -159,7 +176,7 @@ tr:hover td{background:rgba(0,229,195,.02)}
       <div class="nav-item" onclick="showPanel('workflow')"><span class="icon">🔄</span>Workflows</div>
       <div class="nav-item" onclick="showPanel('notifications')"><span class="icon">🔔</span>Notifications</div>
       <div class="nav-item" onclick="showPanel('settings')"><span class="icon">⚙️</span>Settings</div>
-      <div style="padding:1.5rem"><a href="/" class="btn btn-outline" style="width:100%;justify-content:center;font-size:.8rem">← Back to Site</a></div>
+      <div style="padding:1.5rem;display:flex;flex-direction:column;gap:.5rem"><a href="/" class="btn btn-outline" style="width:100%;justify-content:center;font-size:.8rem">← Back to Site</a><button onclick="adminLogout()" class="btn btn-ghost" style="width:100%;justify-content:center;font-size:.8rem;color:var(--danger)">Çıkış Yap / Logout</button></div>
     </nav>
   </aside>
 
@@ -179,10 +196,10 @@ tr:hover td{background:rgba(0,229,195,.02)}
     <!-- Dashboard Panel -->
     <div class="panel active" id="panel-dashboard">
       <div class="stats-row">
-        <div class="stat-card"><div class="label">Total Clients</div><div class="value" id="s-clients">1,247</div><div class="change">↑ 12% this month</div></div>
-        <div class="stat-card"><div class="label">Pending Reviews</div><div class="value" id="s-pending">23</div><div class="change down">↑ 3 from yesterday</div></div>
-        <div class="stat-card"><div class="label">Approval Rate</div><div class="value" id="s-approval">94.2%</div><div class="change">↑ 1.5% this month</div></div>
-        <div class="stat-card"><div class="label">Avg. Time</div><div class="value" id="s-time">2.8m</div><div class="change">↓ 0.4m improvement</div></div>
+        <div class="stat-card"><div class="label">Total Clients</div><div class="value" id="s-clients">—</div><div class="change">Toplam kayıt</div></div>
+        <div class="stat-card"><div class="label">İncelemede / In Review</div><div class="value" id="s-review">—</div><div class="change down">Aktif inceleme</div></div>
+        <div class="stat-card"><div class="label">Onaylanan / Approved</div><div class="value" id="s-approved">—</div><div class="change">Onaylanmış</div></div>
+        <div class="stat-card"><div class="label">Bekleyen / Pending</div><div class="value" id="s-pending">—</div><div class="change down">Bekleyen başvuru</div></div>
       </div>
       <div class="card">
         <h3>Recent Onboarding Activity</h3>
@@ -204,18 +221,15 @@ tr:hover td{background:rgba(0,229,195,.02)}
     <!-- Clients Panel -->
     <div class="panel" id="panel-clients">
       <div class="card">
-        <h3>Client Directory</h3>
-        <p style="margin-bottom:1rem">All onboarded and pending clients</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+          <div><h3>Client Directory</h3><p style="margin-top:.25rem;color:var(--text2);font-size:.85rem">Tüm müşteri başvuruları</p></div>
+          <button class="btn btn-outline btn-sm" onclick="loadClients()">↺ Yenile</button>
+        </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Name</th><th>Email</th><th>Type</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
-            <tbody>
-              <tr><td>Maria Schmidt</td><td>maria@example.com</td><td>Individual</td><td><span class="badge badge-success">Active</span></td><td>2026-03-15</td><td><a href="#" style="font-size:.8rem">View</a></td></tr>
-              <tr><td>TechStart GmbH</td><td>admin@techstart.de</td><td>Business</td><td><span class="badge badge-info">In Review</span></td><td>2026-04-01</td><td><a href="#" style="font-size:.8rem">Review</a></td></tr>
-              <tr><td>Ahmed Yilmaz</td><td>ahmed@example.com</td><td>Individual</td><td><span class="badge badge-info">In Review</span></td><td>2026-04-02</td><td><a href="#" style="font-size:.8rem">Review</a></td></tr>
-              <tr><td>FinServe Ltd</td><td>info@finserve.co</td><td>Business</td><td><span class="badge badge-danger">Rejected</span></td><td>2026-03-28</td><td><a href="#" style="font-size:.8rem">View</a></td></tr>
-              <tr><td>Sophie Dupont</td><td>sophie@example.fr</td><td>Individual</td><td><span class="badge badge-success">Active</span></td><td>2026-03-10</td><td><a href="#" style="font-size:.8rem">View</a></td></tr>
-              <tr><td>Nordic Pay Oy</td><td>ops@nordicpay.fi</td><td>Business</td><td><span class="badge badge-success">Active</span></td><td>2026-02-20</td><td><a href="#" style="font-size:.8rem">View</a></td></tr>
+            <thead><tr><th>Ad Soyad</th><th>E-posta</th><th>Tür</th><th>Tarih</th><th>Durum</th><th>KYC</th><th>Aksiyon</th></tr></thead>
+            <tbody id="clientsTableBody">
+              <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text2)">Yükleniyor... / Loading...</td></tr>
             </tbody>
           </table>
         </div>
@@ -394,103 +408,48 @@ tr:hover td{background:rgba(0,229,195,.02)}
 
     <!-- Client Profile Panel -->
     <div class="panel" id="panel-clientprofile">
-      <div class="card" style="display:flex;align-items:center;gap:1rem;padding:1.5rem">
-        <div style="width:64px;height:64px;background:rgba(0,229,195,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;color:var(--teal);flex-shrink:0">AY</div>
-        <div style="flex:1">
-          <h2 style="font-size:1.2rem;margin-bottom:.2rem">Ahmet Yılmaz</h2>
-          <p style="font-size:.83rem;color:var(--text2)">ahmet@ornek.com &nbsp;·&nbsp; +90 555 123 45 67</p>
-          <div style="display:flex;gap:.5rem;margin-top:.4rem;flex-wrap:wrap">
-            <span class="badge badge-warning">KYC: İncelemede</span>
-            <span class="badge badge-info">AML: Taranıyor</span>
-            <span class="badge badge-neutral">Risk: Bekliyor</span>
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:.5rem">
-          <button class="btn btn-primary" style="font-size:.8rem;padding:.4rem 1rem" onclick="approveKYC(this)">KYC Onayla</button>
-          <button class="btn btn-outline" style="font-size:.8rem;padding:.4rem 1rem">Reddet</button>
-          <button class="btn btn-outline" style="font-size:.8rem;padding:.4rem 1rem" onclick="showPanel('staffchat')">💬 Mesaj Gönder</button>
-        </div>
+      <!-- Dynamic header injected by openClientProfile() -->
+      <div class="card" id="cpHeader" style="padding:1.25rem">
+        <p style="color:var(--text2)">Bir müşteri seçin / Select a client from the Clients panel</p>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-        <div class="card">
-          <h3 style="font-size:.85rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)">Kişisel Bilgiler</h3>
-          <div style="display:grid;gap:.6rem;font-size:.85rem">
-            <div><span style="color:var(--text2);font-size:.75rem">Ad Soyad</span><div style="font-weight:500">Ahmet Yılmaz</div></div>
-            <div><span style="color:var(--text2);font-size:.75rem">Doğum Tarihi</span><div style="font-weight:500">15.03.1985</div></div>
-            <div><span style="color:var(--text2);font-size:.75rem">Uyruk</span><div style="font-weight:500">Türkiye</div></div>
-            <div><span style="color:var(--text2);font-size:.75rem">TC Kimlik No</span><div style="font-weight:500">•••••678901</div></div>
-          </div>
-        </div>
-        <div class="card">
-          <h3 style="font-size:.85rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)">Risk & PEP</h3>
-          <div style="display:grid;gap:.6rem;font-size:.85rem">
-            <div><span style="color:var(--text2);font-size:.75rem">PEP Durumu</span><div style="font-weight:500">Hayır</div></div>
-            <div><span style="color:var(--text2);font-size:.75rem">Yakın PEP</span><div style="font-weight:500">Hayır</div></div>
-            <div><span style="color:var(--text2);font-size:.75rem">Fon Kaynağı</span><div style="font-weight:500">Maaş / Salary</div></div>
-            <div><span style="color:var(--text2);font-size:.75rem">İşlem Hacmi</span><div style="font-weight:500">€1,000 – €10,000</div></div>
-          </div>
-        </div>
-      </div>
+      <!-- Actions -->
+      <div id="cpActions"></div>
+      <!-- Info grid -->
       <div class="card">
-        <h3>Belgeler / Documents</h3>
-        <div class="table-wrap" style="margin-top:.75rem">
-          <table>
-            <thead><tr><th>Belge</th><th>Dosya</th><th>Boyut</th><th>Durum</th><th>İşlem</th></tr></thead>
-            <tbody>
-              <tr><td>Kimlik / Passport</td><td>passport_ahmet.pdf</td><td>2.4 MB</td><td><span class="badge badge-warning">İncelemede</span></td><td><button class="btn btn-outline" style="padding:.25rem .6rem;font-size:.75rem">Görüntüle</button></td></tr>
-              <tr><td>İkametgah / Address</td><td>ikametgah_2026.pdf</td><td>1.1 MB</td><td><span class="badge badge-warning">İncelemede</span></td><td><button class="btn btn-outline" style="padding:.25rem .6rem;font-size:.75rem">Görüntüle</button></td></tr>
-              <tr><td>Vergi Levhası / Tax</td><td>—</td><td>—</td><td><span class="badge badge-neutral">Mevcut Değil</span></td><td>—</td></tr>
-            </tbody>
-          </table>
+        <h3 style="font-size:.85rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)">Detaylar / Details</h3>
+        <div class="igrid" id="cpInfo" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;font-size:.85rem">
+          <p style="color:var(--text2)">—</p>
         </div>
       </div>
+      <!-- Documents -->
       <div class="card">
-        <h3>Workflow Geçmişi / Event Log</h3>
-        <div class="timeline" style="margin-top:.75rem">
-          <div class="timeline-item done"><div class="time">12 Nis 2026, 08:30</div><div class="desc">Başvuru alındı — Bireysel KYC</div></div>
-          <div class="timeline-item done"><div class="time">12 Nis 2026, 08:31</div><div class="desc">Belgeler yüklendi (2/3)</div></div>
-          <div class="timeline-item active"><div class="time">12 Nis 2026, 09:00</div><div class="desc">Belge incelemesi başlatıldı</div></div>
-          <div class="timeline-item"><div class="time">Bekleniyor</div><div class="desc">AML taraması</div></div>
-          <div class="timeline-item"><div class="time">Bekleniyor</div><div class="desc">Risk değerlendirmesi</div></div>
-          <div class="timeline-item"><div class="time">Bekleniyor</div><div class="desc">Nihai karar</div></div>
-        </div>
+        <h3 style="margin-bottom:.75rem">Belgeler / Documents</h3>
+        <div id="cpDocs"><p style="color:var(--text2)">—</p></div>
       </div>
+      <!-- UBOs (hidden by default) -->
+      <div class="card" id="cpUbos" style="display:none"></div>
     </div>
 
     <!-- Staff Chat Panel -->
     <div class="panel" id="panel-staffchat">
       <div style="display:grid;grid-template-columns:280px 1fr;gap:1rem;height:calc(100vh - 200px)">
         <div class="card" style="overflow-y:auto;padding:1rem">
-          <h3 style="font-size:.85rem;margin-bottom:.75rem">Aktif Konuşmalar</h3>
-          <div onclick="selectChat(this,'Ahmet Yılmaz','AY')" style="display:flex;align-items:center;gap:.75rem;padding:.75rem;border-radius:8px;cursor:pointer;background:rgba(0,229,195,.05);border:1px solid rgba(0,229,195,.3);margin-bottom:.5rem">
-            <div style="width:36px;height:36px;border-radius:50%;background:rgba(0,229,195,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--teal);flex-shrink:0">AY</div>
-            <div style="flex:1;min-width:0"><div style="font-size:.85rem;font-weight:600">Ahmet Yılmaz</div><div style="font-size:.75rem;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Belgelerimi yükledim...</div></div>
-            <div style="font-size:.7rem;color:var(--text2)">09:22</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+            <h3 style="font-size:.85rem">Konuşmalar</h3>
+            <button class="btn btn-outline" style="font-size:.7rem;padding:.2rem .5rem" onclick="loadChatConversations()">↺</button>
           </div>
-          <div onclick="selectChat(this,'Maria Schmidt','MS')" style="display:flex;align-items:center;gap:.75rem;padding:.75rem;border-radius:8px;cursor:pointer;border:1px solid var(--border);margin-bottom:.5rem">
-            <div style="width:36px;height:36px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--text2);flex-shrink:0">MS</div>
-            <div style="flex:1;min-width:0"><div style="font-size:.85rem;font-weight:600">Maria Schmidt</div><div style="font-size:.75rem;color:var(--text2)">Approved ✓</div></div>
-            <div style="font-size:.7rem;color:var(--text2)">Dün</div>
-          </div>
-          <div onclick="selectChat(this,'TechStart GmbH','TS')" style="display:flex;align-items:center;gap:.75rem;padding:.75rem;border-radius:8px;cursor:pointer;border:1px solid var(--border)">
-            <div style="width:36px;height:36px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--text2);flex-shrink:0">TS</div>
-            <div style="flex:1;min-width:0"><div style="font-size:.85rem;font-weight:600">TechStart GmbH</div><div style="font-size:.75rem;color:var(--text2)">UBO belgesi lazım...</div></div>
-            <div style="font-size:.7rem;color:var(--text2)">2g</div>
+          <div id="chatConvList">
+            <p style="color:var(--text2);font-size:.83rem">Yükleniyor...</p>
           </div>
         </div>
         <div class="card" style="display:flex;flex-direction:column;padding:0;overflow:hidden">
           <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem">
-            <div id="chatClientAv" style="width:36px;height:36px;border-radius:50%;background:rgba(0,229,195,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--teal)">AY</div>
-            <div><div id="chatClientName" style="font-size:.9rem;font-weight:600">Ahmet Yılmaz</div><div style="font-size:.75rem;color:var(--success)">● Çevrimiçi</div></div>
-            <button class="btn btn-outline" style="margin-left:auto;font-size:.78rem;padding:.35rem .8rem" onclick="showPanel('clientprofile')">Profili Aç →</button>
+            <div id="chatClientAv" style="width:36px;height:36px;border-radius:50%;background:rgba(0,229,195,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--teal)">—</div>
+            <div><div id="chatClientName" style="font-size:.9rem;font-weight:600">Bir konuşma seçin</div></div>
           </div>
-          <div class="chat-msgs" id="staffChatMsgs" style="flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem">
-            <div class="cmsg cli"><div class="cav">AY</div><div><div class="cbub">Belgelerimi yükledim. Ne kadar süreceğini öğrenebilir miyim?</div><div class="cmeta">09:22</div></div></div>
-            <div class="cmsg stf"><div class="cav">VF</div><div><div class="cbub">Belgeleriniz alındı. Normal koşullarda inceleme 1-2 iş günü içinde tamamlanır.</div><div class="cmeta">Siz · 09:30</div></div></div>
-            <div class="cmsg cli"><div class="cav">AY</div><div><div class="cbub">Kimlik belgesinin arka yüzünü yüklemem gerekiyor mu?</div><div class="cmeta">10:40</div></div></div>
-          </div>
+          <div class="chat-msgs" id="staffChatMsgs" style="flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem"></div>
           <div class="chat-inp-row">
-            <input type="text" class="chat-inp" id="staffChatInp" placeholder="Müşteriye mesaj yazın..." onkeydown="if(event.key==='Enter')staffSend()">
+            <input type="text" class="chat-inp" id="staffChatInp" placeholder="Müşteriye mesaj yazın..." onkeydown="staffChatKey(event)">
             <button class="btn btn-primary btn-sm" onclick="staffSend()">Gönder ↑</button>
           </div>
         </div>
@@ -510,52 +469,7 @@ tr:hover td{background:rgba(0,229,195,.02)}
           <button class="btn btn-primary btn-sm" onclick="scheduleInterview()">+ Görüşme Planla</button>
         </div>
         <div id="interviewList">
-          <div class="int-card">
-            <div class="int-icon">📅</div>
-            <div class="int-info">
-              <div class="int-name">Ahmet Yılmaz — KYC Görüşmesi</div>
-              <div class="int-meta">14 Nis 2026, Pazartesi 14:00 · Video Call · Compliance: Sara Demir</div>
-            </div>
-            <span class="badge badge-info">Planlandı</span>
-            <div class="int-actions">
-              <button class="btn btn-outline" style="font-size:.75rem;padding:.3rem .7rem">Düzenle</button>
-              <button class="btn btn-primary" style="font-size:.75rem;padding:.3rem .7rem" onclick="completeInterview(this)">Tamamlandı ✓</button>
-            </div>
-          </div>
-          <div class="int-card">
-            <div class="int-icon">📅</div>
-            <div class="int-info">
-              <div class="int-name">TechStart GmbH — KYB UBO Görüşmesi</div>
-              <div class="int-meta">15 Nis 2026, Salı 10:30 · Video Call · Compliance: Mehmet Yıldız</div>
-            </div>
-            <span class="badge badge-info">Planlandı</span>
-            <div class="int-actions">
-              <button class="btn btn-outline" style="font-size:.75rem;padding:.3rem .7rem">Düzenle</button>
-              <button class="btn btn-primary" style="font-size:.75rem;padding:.3rem .7rem" onclick="completeInterview(this)">Tamamlandı ✓</button>
-            </div>
-          </div>
-          <div class="int-card" style="opacity:.7">
-            <div class="int-icon">✅</div>
-            <div class="int-info">
-              <div class="int-name">Sophie Dupont — KYC Görüşmesi</div>
-              <div class="int-meta">10 Nis 2026, Perşembe 15:00 · Video Call · Compliance: Sara Demir</div>
-            </div>
-            <span class="badge badge-success">Tamamlandı</span>
-            <div class="int-actions">
-              <button class="btn btn-outline" style="font-size:.75rem;padding:.3rem .7rem">Notlar</button>
-            </div>
-          </div>
-          <div class="int-card">
-            <div class="int-icon">🕐</div>
-            <div class="int-info">
-              <div class="int-name">Hans Mueller — Belge Görüşmesi</div>
-              <div class="int-meta">Tarih belirlenmedi · Müşteri ile koordinasyon gerekli</div>
-            </div>
-            <span class="badge badge-warning">Planlanacak</span>
-            <div class="int-actions">
-              <button class="btn btn-primary" style="font-size:.75rem;padding:.3rem .7rem" onclick="scheduleInterview()">Planla</button>
-            </div>
-          </div>
+          <p style="color:var(--text2);padding:1rem">Yükleniyor... / Loading...</p>
         </div>
       </div>
     </div>
@@ -601,81 +515,232 @@ tr:hover td{background:rgba(0,229,195,.02)}
 </div>
 
 <script>
-function showPanel(id){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  if(event&&event.currentTarget)event.currentTarget.classList.add('active');
-  const titles={dashboard:'Dashboard Overview',clients:'Client Directory',kyc:'KYC Verification',kyb:'KYB Verification',aml:'AML Screening',risk:'Risk Assessment',workflow:'Workflow Manager',notifications:'Notifications',settings:'Platform Settings',clientprofile:'Client Profile Detail',staffchat:'Messaging / Chat',interview:'Interview Management'};
-  document.getElementById('panelTitle').textContent=titles[id]||id;
-  document.getElementById('panelHeading').textContent=titles[id]||id;
+// ── GLOBALS ───────────────────────────────────────────
+var adminChatChannel = null;
+var activeChatClientId = null;
+var activeClientId = null;
+
+// ── UTILS ─────────────────────────────────────────────
+function esc(t){return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function pad(n){return String(n).padStart(2,'0');}
+function fmtDate(d){if(!d)return '—';var dt=new Date(d);return pad(dt.getDate())+'.'+pad(dt.getMonth()+1)+'.'+dt.getFullYear();}
+function fmtTs(d){if(!d)return '';var dt=new Date(d);return pad(dt.getDate())+'.'+pad(dt.getMonth()+1)+' '+pad(dt.getHours())+':'+pad(dt.getMinutes());}
+function statusLabel(s){var m={pending:'Beklemede',in_review:'İncelemede',approved:'Onaylandı',rejected:'Reddedildi',to_schedule:'Planlanacak',planned:'Planlandı',completed:'Tamamlandı'};return m[s]||s||'—';}
+function statusBadge(s){var m={pending:'badge-warning',in_review:'badge-info',approved:'badge-success',rejected:'badge-danger',to_schedule:'badge-warning',planned:'badge-info',completed:'badge-success'};return 'badge '+(m[s]||'badge-secondary');}
+
+// ── AUTH ──────────────────────────────────────────────
+async function adminLogin(){
+  var email=document.getElementById('adminEmail').value.trim();
+  var pass=document.getElementById('adminPass').value;
+  if(!email||!pass){showErr('E-posta ve şifre gerekli.');return;}
+  var btn=document.getElementById('adminLoginBtn');
+  btn.textContent='Giriş yapılıyor...';btn.disabled=true;
+  var {data,error}=await sb.auth.signInWithPassword({email,password:pass});
+  btn.textContent='Giriş Yap / Sign In';btn.disabled=false;
+  if(error){showErr('Hata: '+error.message);return;}
+  showDashboard();
+}
+function showErr(msg){var el=document.getElementById('adminLoginErr');el.textContent=msg;el.style.display='block';}
+async function adminLogout(){
+  if(adminChatChannel){sb.removeChannel(adminChatChannel);adminChatChannel=null;}
+  await sb.auth.signOut();
+  document.getElementById('adminDashboard').style.display='none';
+  document.getElementById('adminLoginOverlay').style.display='flex';
+}
+function showDashboard(){
+  document.getElementById('adminLoginOverlay').style.display='none';
+  document.getElementById('adminDashboard').style.display='grid';
+  loadDashboardStats();
 }
 
+document.addEventListener('DOMContentLoaded',async function(){
+  var {data:{session}}=await sb.auth.getSession();
+  if(session){
+    showDashboard();
+  } else {
+    document.getElementById('adminLoginOverlay').style.display='flex';
+  }
+});
+
+// ── PANEL NAV ─────────────────────────────────────────
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('panel-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  if(event&&event.currentTarget)event.currentTarget.classList.add('active');
+  var titles={dashboard:'Dashboard Overview',clients:'Client Directory',kyc:'KYC Verification',kyb:'KYB Verification',aml:'AML Screening',risk:'Risk Assessment',workflow:'Workflow Manager',notifications:'Notifications',settings:'Platform Settings',clientprofile:'Client Profile Detail',staffchat:'Messaging / Chat',interview:'Interview Management'};
+  var t=titles[id]||id;
+  document.getElementById('panelTitle').textContent=t;
+  document.getElementById('panelHeading').textContent=t;
+  if(id==='clients')loadClients();
+  if(id==='staffchat')loadChatConversations();
+  if(id==='interview')loadInterviews();
+  if(id==='dashboard')loadDashboardStats();
+}
+
+// ── DASHBOARD STATS ───────────────────────────────────
+async function loadDashboardStats(){
+  var {count:total}=await sb.from('clients').select('*',{count:'exact',head:true});
+  var {count:inReview}=await sb.from('clients').select('*',{count:'exact',head:true}).eq('status','in_review');
+  var {count:approved}=await sb.from('clients').select('*',{count:'exact',head:true}).eq('status','approved');
+  var {count:pending}=await sb.from('clients').select('*',{count:'exact',head:true}).eq('status','pending');
+  if(document.getElementById('s-clients'))document.getElementById('s-clients').textContent=(total||0).toLocaleString();
+  if(document.getElementById('s-review'))document.getElementById('s-review').textContent=(inReview||0);
+  if(document.getElementById('s-approved'))document.getElementById('s-approved').textContent=(approved||0);
+  if(document.getElementById('s-pending'))document.getElementById('s-pending').textContent=(pending||0);
+}
+
+// ── CLIENTS TABLE ─────────────────────────────────────
+async function loadClients(){
+  var {data:clients,error}=await sb.from('clients').select('id,type,status,personal,submitted_at,kyc_status,aml_status').order('submitted_at',{ascending:false});
+  var tbody=document.getElementById('clientsTableBody');
+  if(!tbody)return;
+  if(error||!clients||!clients.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text2)">Henüz müşteri yok / No clients yet</td></tr>';return;}
+  tbody.innerHTML=clients.map(function(c){
+    var p=c.personal||{};
+    var name=esc((p.firstName||'')+' '+(p.lastName||'')).trim()||'—';
+    var email=esc(p.email||'—');
+    var type=c.type==='business'?'Kurumsal':'Bireysel';
+    return '<tr><td>'+name+'</td><td>'+email+'</td><td>'+type+'</td><td>'+fmtDate(c.submitted_at)+'</td><td><span class="'+statusBadge(c.status)+'">'+statusLabel(c.status)+'</span></td><td><span class="'+statusBadge(c.kyc_status)+'">'+statusLabel(c.kyc_status)+'</span></td><td><button class="btn btn-outline btn-sm" onclick="openClientProfile(\''+c.id+'\')">Görüntüle</button></td></tr>';
+  }).join('');
+}
+
+// ── CLIENT PROFILE ────────────────────────────────────
+async function openClientProfile(id){
+  activeClientId=id;
+  showPanel('clientprofile');
+  var {data:client}=await sb.from('clients').select('*').eq('id',id).single();
+  var {data:docs}=await sb.from('documents').select('*').eq('client_id',id);
+  var {data:ubos}=await sb.from('ubos').select('*').eq('client_id',id);
+  if(!client)return;
+  var p=client.personal||{};var a=client.address||{};var co=client.company||{};var pep=client.pep||{};
+  var name=(p.firstName||'')+' '+(p.lastName||'');
+  // Header
+  var hdr=document.getElementById('cpHeader');
+  if(hdr)hdr.innerHTML='<div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><div style="width:48px;height:48px;border-radius:50%;background:rgba(0,229,195,.15);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--teal)">'+esc((p.firstName||'?')[0]+(p.lastName||'?')[0]).toUpperCase()+'</div><div><div style="font-weight:700;font-size:1.05rem">'+esc(name.trim()||'—')+'</div><div style="color:var(--text2);font-size:.83rem">'+esc(p.email||'—')+' &nbsp;·&nbsp; '+(client.type==='business'?'Kurumsal':'Bireysel')+'</div></div><div style="margin-left:auto;display:flex;gap:.5rem"><span class="'+statusBadge(client.status)+'">'+statusLabel(client.status)+'</span><button class="btn btn-outline btn-sm" onclick="adminOpenChat(\''+id+'\',\''+esc(name.trim())+'\')">Mesaj Gönder</button></div></div>';
+  // Personal info grid
+  var info=document.getElementById('cpInfo');
+  if(info){
+    var rows=[['Ad Soyad',esc(name.trim()||'—')],['Doğum Tarihi',esc(p.dob||'—')],['Uyruk',esc(p.nationality||'—')],['Kimlik No',p.nationalId?'•••••'+String(p.nationalId).slice(-5):'—'],['Telefon',esc(p.phone||'—')],['E-posta',esc(p.email||'—')],['Adres',esc((a.street||'')+' '+esc(a.city||'')).trim()||'—'],['Ülke',esc(a.country||'—')],['PEP',pep.isPep?'Evet':'Hayır'],['Fon Kaynağı',esc(pep.sourceOfFunds||'—')]];
+    if(client.type==='business')rows=rows.concat([['Şirket',esc(co.name||'—')],['Sicil No',esc(co.registryNo||'—')],['Faaliyet',esc(co.activity||'—')]]);
+    info.innerHTML=rows.map(function(r){return '<div class="iitem"><div class="ilabel">'+r[0]+'</div><div class="ival">'+r[1]+'</div></div>';}).join('');
+  }
+  // KYC/AML actions
+  var actions=document.getElementById('cpActions');
+  if(actions)actions.innerHTML='<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem"><button class="btn btn-primary btn-sm" onclick="updateClientStatus(\''+id+'\',\'approved\')">✓ Onayla</button><button class="btn btn-outline btn-sm" onclick="updateClientStatus(\''+id+'\',\'rejected\')" style="border-color:var(--danger);color:var(--danger)">✕ Reddet</button><button class="btn btn-outline btn-sm" onclick="updateKycStatus(\''+id+'\',\'approved\')">KYC Onayla</button><button class="btn btn-outline btn-sm" onclick="updateAmlStatus(\''+id+'\',\'approved\')">AML Onayla</button></div>';
+  // Documents
+  var docsCont=document.getElementById('cpDocs');
+  if(docsCont&&docs){
+    var typeLabels={identity:'Kimlik',address:'Adres',tax:'Vergi',registry:'Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet'};
+    docsCont.innerHTML=docs.length?'<table style="width:100%;border-collapse:collapse;font-size:.83rem"><thead><tr style="color:var(--text2)"><th style="padding:.4rem">Tür</th><th style="padding:.4rem">Dosya</th><th style="padding:.4rem">Durum</th><th style="padding:.4rem">Aksiyon</th></tr></thead><tbody>'+docs.map(function(d){var dl='';if(d.file_path){var {data:u}=sb.storage.from('documents').getPublicUrl(d.file_path);dl='<a href="'+esc(u.publicUrl)+'" target="_blank" style="color:var(--teal)">İndir</a>';}return '<tr><td>'+(typeLabels[d.doc_type]||d.doc_type)+'</td><td>'+esc(d.file_name||'N/A')+'</td><td><span class="'+statusBadge(d.status)+'">'+statusLabel(d.status)+'</span></td><td>'+dl+' <button class="btn btn-outline" style="font-size:.72rem;padding:.2rem .5rem" onclick="approveDoc(\''+d.id+'\')">Onayla</button></td></tr>';}).join('')+'</tbody></table>':'<p style="color:var(--text2);padding:1rem">Belge yok</p>';
+  }
+  // UBOs
+  var ubosCont=document.getElementById('cpUbos');
+  if(ubosCont&&ubos&&ubos.length){
+    ubosCont.style.display='block';
+    ubosCont.innerHTML='<h4 style="margin-bottom:.75rem">Gerçek Faydalanıcılar / UBOs</h4>'+ubos.map(function(u){return '<div style="display:flex;gap:1rem;padding:.5rem;border:1px solid var(--border);border-radius:8px;margin-bottom:.5rem"><div><div style="font-weight:600">'+esc(u.full_name||'—')+'</div><div style="font-size:.8rem;color:var(--text2)">'+esc(u.position||'—')+' &nbsp;·&nbsp; %'+esc(u.ownership_pct||0)+'</div></div></div>';}).join('');
+  } else if(ubosCont){ubosCont.style.display='none';}
+}
+
+async function updateClientStatus(id,status){
+  await sb.from('clients').update({status}).eq('id',id);
+  openClientProfile(id);
+}
+async function updateKycStatus(id,status){
+  await sb.from('clients').update({kyc_status:status}).eq('id',id);
+  openClientProfile(id);
+}
+async function updateAmlStatus(id,status){
+  await sb.from('clients').update({aml_status:status}).eq('id',id);
+  openClientProfile(id);
+}
+async function approveDoc(docId){
+  await sb.from('documents').update({status:'approved'}).eq('id',docId);
+  if(activeClientId)openClientProfile(activeClientId);
+}
+
+// ── ADMIN CHAT ────────────────────────────────────────
+async function loadChatConversations(){
+  var {data:clients}=await sb.from('clients').select('id,personal').order('submitted_at',{ascending:false}).limit(20);
+  var list=document.getElementById('chatConvList');
+  if(!list||!clients)return;
+  list.innerHTML=clients.map(function(c){
+    var p=c.personal||{};
+    var name=((p.firstName||'')+' '+(p.lastName||'')).trim()||p.email||'Müşteri';
+    var init=((p.firstName||'?')[0]+(p.lastName||'?')[0]).toUpperCase();
+    return '<div style="display:flex;align-items:center;gap:.75rem;padding:.75rem;border:1px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:.5rem" onclick="adminSelectChat(\''+c.id+'\',\''+esc(name)+'\',\''+init+'\',this)"><div style="width:36px;height:36px;border-radius:50%;background:rgba(0,229,195,.15);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--teal);font-size:.8rem">'+init+'</div><div style="font-size:.85rem;font-weight:600">'+esc(name)+'</div></div>';
+  }).join('');
+}
+
+async function adminSelectChat(clientId,name,initials,el){
+  activeChatClientId=clientId;
+  document.querySelectorAll('#chatConvList > div').forEach(function(d){d.style.background='';d.style.borderColor='var(--border)';});
+  if(el){el.style.background='rgba(0,229,195,.05)';el.style.borderColor='rgba(0,229,195,.3)';}
+  if(document.getElementById('chatClientName'))document.getElementById('chatClientName').textContent=name;
+  if(document.getElementById('chatClientAv'))document.getElementById('chatClientAv').textContent=initials;
+  // Load messages
+  var {data:msgs}=await sb.from('chat_messages').select('*').eq('client_id',clientId).order('created_at',{ascending:true});
+  var cont=document.getElementById('staffChatMsgs');
+  if(cont){cont.innerHTML='';(msgs||[]).forEach(appendAdminMsg);}
+  // Subscribe
+  if(adminChatChannel){sb.removeChannel(adminChatChannel);}
+  adminChatChannel=sb.channel('admin_chat_'+clientId)
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'chat_messages',filter:'client_id=eq.'+clientId},function(payload){appendAdminMsg(payload.new);})
+    .subscribe();
+}
+
+function appendAdminMsg(m){
+  var cont=document.getElementById('staffChatMsgs');if(!cont)return;
+  var isStaff=m.sender_type==='staff';
+  var init=isStaff?'VF':(m.sender_name||'M')[0].toUpperCase();
+  var div=document.createElement('div');div.className='cmsg '+(isStaff?'stf':'cli');
+  div.innerHTML='<div class="cav" style="'+(isStaff?'':'background:rgba(0,229,195,.15);color:var(--teal)')+'">'+init+'</div><div><div class="cbub">'+esc(m.text)+'</div><div class="cmeta">'+(isStaff?'Siz':'Müşteri')+' · '+fmtTs(m.created_at)+'</div></div>';
+  cont.appendChild(div);cont.scrollTop=cont.scrollHeight;
+}
+
+async function staffSend(){
+  if(!activeChatClientId){alert('Önce bir müşteri seçin.');return;}
+  var inp=document.getElementById('staffChatInp'),txt=inp.value.trim();if(!txt)return;
+  inp.value='';
+  await sb.from('chat_messages').insert({client_id:activeChatClientId,sender_type:'staff',sender_name:'VerifyFlow Compliance',text:txt});
+}
+
+function staffChatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();staffSend();}}
+
+// ── INTERVIEWS ────────────────────────────────────────
+async function loadInterviews(){
+  var {data:interviews}=await sb.from('interviews').select('*').order('scheduled_at',{ascending:true});
+  var list=document.getElementById('interviewList');
+  if(!list)return;
+  list.innerHTML=(interviews||[]).map(function(iv){
+    var sc=iv.scheduled_at?fmtDate(iv.scheduled_at)+' '+pad(new Date(iv.scheduled_at).getHours())+':'+pad(new Date(iv.scheduled_at).getMinutes()):'Tarih belirlenmedi';
+    return '<div class="int-card" data-id="'+iv.id+'"><div class="int-icon">'+(iv.status==='completed'?'✅':'📅')+'</div><div class="int-info"><div class="int-name">'+esc(iv.client_name||'—')+' — '+esc(iv.interview_type||'Görüşme')+'</div><div class="int-meta">'+sc+(iv.staff_name?' · '+esc(iv.staff_name):'')+'</div></div><span class="'+statusBadge(iv.status)+'">'+statusLabel(iv.status)+'</span><div class="int-actions">'+(iv.status!=='completed'?'<button class="btn btn-outline" style="font-size:.75rem;padding:.3rem .7rem" onclick="completeInterview(this,\''+iv.id+'\')">Tamamlandı</button>':'')+'</div></div>';
+  }).join('')||'<p style="color:var(--text2);padding:1rem">Henüz görüşme yok / No interviews yet</p>';
+}
+
+async function scheduleInterview(){
+  var clientName=prompt('Müşteri adı / Client name:');
+  if(!clientName)return;
+  var dateStr=prompt('Tarih (YYYY-MM-DD HH:MM) / Date:');
+  var intType=prompt('Görüşme türü / Interview type (video/in-person):','video');
+  var {error}=await sb.from('interviews').insert({client_name:clientName,interview_type:intType||'video',scheduled_at:dateStr?new Date(dateStr).toISOString():null,status:'planned'});
+  if(!error)loadInterviews();
+}
+
+async function completeInterview(btn,id){
+  await sb.from('interviews').update({status:'completed'}).eq('id',id);
+  loadInterviews();
+}
+
+// ── LEGACY HELPERS ────────────────────────────────────
 function approveKYC(btn){
   const row=btn.closest('tr');
-  row.querySelector('td:nth-child(5) .badge').className='badge badge-success';
-  row.querySelector('td:nth-child(5) .badge').textContent='Approved';
+  if(row){row.querySelector('td:nth-child(5) .badge').className='badge badge-success';row.querySelector('td:nth-child(5) .badge').textContent='Approved';}
   btn.textContent='Done';btn.disabled=true;btn.style.opacity='.5';
 }
-
 function simulateData(){
   const el=document.getElementById('s-clients');
-  const n=parseInt(el.textContent.replace(',',''))+Math.floor(Math.random()*5);
-  el.textContent=n.toLocaleString();
-}
-
-function runDemo(){
-  const panels=['clients','kyc','aml','risk','workflow','notifications'];
-  let i=0;
-  const items=document.querySelectorAll('.nav-item');
-  function next(){
-    if(i>=panels.length)return;
-    items.forEach(n=>n.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-    const id=panels[i];
-    document.getElementById('panel-'+id).classList.add('active');
-    const titles={clients:'Client Directory',kyc:'KYC Verification',aml:'AML Screening',risk:'Risk Assessment',workflow:'Workflow Manager',notifications:'Notifications'};
-    document.getElementById('panelTitle').textContent=titles[id];
-    document.getElementById('panelHeading').textContent=titles[id];
-    items.forEach(n=>{if(n.textContent.toLowerCase().includes(id.substring(0,3)))n.classList.add('active')});
-    i++;
-    setTimeout(next,2500);
-  }
-  next();
-}
-
-// Staff chat
-function staffSend(){
-  const inp=document.getElementById('staffChatInp'),txt=inp.value.trim();if(!txt)return;
-  const msgs=document.getElementById('staffChatMsgs');
-  const now=new Date(),ts=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-  const m=document.createElement('div');m.className='cmsg stf';
-  m.innerHTML='<div class="cav">VF</div><div><div class="cbub">'+txt.replace(/</g,'&lt;')+'</div><div class="cmeta">Siz · '+ts+'</div></div>';
-  msgs.appendChild(m);inp.value='';msgs.scrollTop=msgs.scrollHeight;
-  setTimeout(()=>{
-    const r=document.createElement('div');r.className='cmsg cli';
-    r.innerHTML='<div class="cav" style="background:rgba(0,229,195,.2);color:var(--teal)">M</div><div><div class="cbub">Teşekkürler, anlıyorum.</div><div class="cmeta">Müşteri · '+ts+'</div></div>';
-    msgs.appendChild(r);msgs.scrollTop=msgs.scrollHeight;
-  },1500);
-}
-function selectChat(el,name,initials){
-  document.querySelectorAll('[data-chat]').forEach(c=>{c.style.background='';c.style.border='1px solid var(--border)';});
-  el.dataset.chat='active';el.style.background='rgba(0,229,195,.05)';el.style.border='1px solid rgba(0,229,195,.3)';
-  document.getElementById('chatClientName').textContent=name;
-  const av=document.getElementById('chatClientAv');av.textContent=initials;
-}
-function scheduleInterview(){
-  const list=document.getElementById('interviewList');
-  const item=document.createElement('div');item.className='int-card';
-  item.innerHTML='<div class="int-icon">📅</div><div class="int-info"><div class="int-name">Yeni Görüşme — Tarih belirleniyor</div><div class="int-meta">Planlanıyor...</div></div><span class="badge badge-warning">Planlanacak</span><div class="int-actions"><button class="btn btn-outline" style="font-size:.75rem;padding:.3rem .7rem">Düzenle</button></div>';
-  list.insertBefore(item,list.firstChild);
-}
-function completeInterview(btn){
-  const card=btn.closest('.int-card');
-  card.querySelector('.badge').className='badge badge-success';
-  card.querySelector('.badge').textContent='Tamamlandı';
-  card.style.opacity='.7';btn.remove();
-  card.querySelector('.int-icon').textContent='✅';
+  if(el){const n=parseInt(el.textContent.replace(',',''))+Math.floor(Math.random()*5);el.textContent=n.toLocaleString();}
 }
 </script>
 </body>
