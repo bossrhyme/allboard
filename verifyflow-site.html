@@ -180,8 +180,8 @@ a{color:var(--blue);text-decoration:none}
   <div class="nav-logo" onclick="nav('landing')">All<span>board</span></div>
   <div class="nav-actions" id="navAct">
     <div class="lang-toggle">
-      <button class="lang-btn active" id="btnTR" onclick="setLang('tr')">🇹🇷 TR</button>
-      <button class="lang-btn" id="btnEN" onclick="setLang('en')">🇬🇧 EN</button>
+      <button class="lang-btn active" id="btnTR" onclick="setLang('tr')">TR</button>
+      <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
     </div>
     <button class="btn btn-outline btn-sm" onclick="showAuth('login')" data-i18n="navLogin">Giriş Yap</button>
     <button class="btn btn-primary btn-sm" onclick="showAuth('register')" data-i18n="navApply">Başvuru Yap →</button>
@@ -903,9 +903,9 @@ async function updateNav(v){
   if(v==='profile'){
     var session=await getSession();
     var name=session&&session.user&&session.user.user_metadata&&session.user.user_metadata.full_name||session&&session.user&&session.user.email||'Hesabım';
-    na.innerHTML='<div class="lang-toggle"><button class="lang-btn '+(currentLang==='tr'?'active':'')+'" id="btnTR" onclick="setLang(\'tr\')">🇹🇷 TR</button><button class="lang-btn '+(currentLang==='en'?'active':'')+'" id="btnEN" onclick="setLang(\'en\')">🇬🇧 EN</button></div><span style="font-size:.85rem;color:var(--text2);font-weight:500">'+esc(name)+'</span><button class="btn btn-ghost btn-sm" onclick="doLogout()" data-i18n="navLogout">'+L.navLogout+'</button>';
+    na.innerHTML='<div class="lang-toggle"><button class="lang-btn '+(currentLang==='tr'?'active':'')+'" id="btnTR" onclick="setLang(\'tr\')">TR</button><button class="lang-btn '+(currentLang==='en'?'active':'')+'" id="btnEN" onclick="setLang(\'en\')">EN</button></div><span style="font-size:.85rem;color:var(--text2);font-weight:500">'+esc(name)+'</span><button class="btn btn-ghost btn-sm" onclick="doLogout()" data-i18n="navLogout">'+L.navLogout+'</button>';
   } else {
-    na.innerHTML='<div class="lang-toggle"><button class="lang-btn '+(currentLang==='tr'?'active':'')+'" id="btnTR" onclick="setLang(\'tr\')">🇹🇷 TR</button><button class="lang-btn '+(currentLang==='en'?'active':'')+'" id="btnEN" onclick="setLang(\'en\')">🇬🇧 EN</button></div><button class="btn btn-outline btn-sm" onclick="showAuth(\'login\')" data-i18n="navLogin">'+L.navLogin+'</button><button class="btn btn-primary btn-sm" onclick="showAuth(\'register\')" data-i18n="navApply">'+L.navApply+'</button>';
+    na.innerHTML='<div class="lang-toggle"><button class="lang-btn '+(currentLang==='tr'?'active':'')+'" id="btnTR" onclick="setLang(\'tr\')">TR</button><button class="lang-btn '+(currentLang==='en'?'active':'')+'" id="btnEN" onclick="setLang(\'en\')">EN</button></div><button class="btn btn-outline btn-sm" onclick="showAuth(\'login\')" data-i18n="navLogin">'+L.navLogin+'</button><button class="btn btn-primary btn-sm" onclick="showAuth(\'register\')" data-i18n="navApply">'+L.navApply+'</button>';
   }
 }
 
