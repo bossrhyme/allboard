@@ -8,11 +8,10 @@
 // 4. Dashboard > Auth > Users > Admin kullanıcısı davet et
 // 5. Aşağıdaki değerleri kendi projenle güncelle
 
-const SUPABASE_URL  = 'https://PROJE_ID.supabase.co';  // <-- değiştir
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ANON_KEY';  // <-- değiştir
+const SUPABASE_URL  = 'https://REDACTED_SUPABASE_URL';
+const SUPABASE_ANON = 'REDACTED_ANON_KEY';
 
-// Admin e-postası (migrations.sql'deki app.admin_email ile eşleşmeli)
-const ADMIN_EMAIL = 'admin@seninsirket.com';  // <-- değiştir
+const ADMIN_EMAIL = 'REDACTED_EMAIL';
 
 // Supabase istemcisi oluştur
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
