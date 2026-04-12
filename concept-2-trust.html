@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VerifyFlow — Konsept 2: Clean Trust</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f1f3d;--navy2:#1a3260;--blue:#1447e6;--blue2:#2563eb;
+  --teal:#00c4a7;--bg:#ffffff;--bg2:#f8faff;--bg3:#f1f5fd;
+  --text:#0f172a;--text2:#475569;--text3:#64748b;
+  --border:#e2e8f0;--border2:#cbd5e1;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 3rem;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.logo{font-size:1.3rem;font-weight:800;color:var(--navy);letter-spacing:-.02em}
+.logo span{color:var(--blue)}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{color:var(--text2);font-size:.85rem;font-weight:500;text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--navy)}
+.nav-actions{display:flex;gap:.75rem;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1.2rem;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .18s;text-decoration:none;border:none;font-family:inherit}
+.btn-ghost{background:transparent;color:var(--text2);border:1.5px solid var(--border2)}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue2);transform:translateY(-1px);box-shadow:0 4px 14px rgba(20,71,230,.25)}
+
+/* HERO */
+.hero{
+  padding:10rem 3rem 5rem;
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;
+}
+.hero-left{}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.35rem 1rem;border-radius:100px;
+  background:rgba(20,71,230,.06);border:1px solid rgba(20,71,230,.12);
+  font-size:.75rem;font-weight:700;color:var(--blue);letter-spacing:.04em;
+  text-transform:uppercase;margin-bottom:2rem;
+}
+.hero-eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal)}
+.hero h1{
+  font-size:clamp(2rem,3.8vw,3.2rem);font-weight:800;
+  line-height:1.15;letter-spacing:-.03em;
+  color:var(--navy);margin-bottom:1.4rem;
+}
+.hero h1 strong{color:var(--blue)}
+.hero p{font-size:1.02rem;color:var(--text2);line-height:1.75;max-width:440px;margin-bottom:2.5rem}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.hero-btns .btn{padding:.7rem 1.6rem;font-size:.92rem}
+.hero-note{font-size:.78rem;color:var(--text3);display:flex;align-items:center;gap:.4rem}
+.hero-note::before{content:'✓';color:var(--teal);font-weight:700}
+
+/* Hero right — mockup */
+.hero-right{
+  background:var(--bg2);border-radius:20px;border:1px solid var(--border);
+  overflow:hidden;box-shadow:0 24px 60px rgba(15,31,61,.08);
+}
+.mockup-bar{
+  background:var(--bg);border-bottom:1px solid var(--border);
+  padding:.75rem 1.25rem;display:flex;align-items:center;gap:.75rem;
+}
+.mockup-dots{display:flex;gap:.4rem}
+.mockup-dots span{width:10px;height:10px;border-radius:50%}
+.mockup-dots span:nth-child(1){background:#ff5f57}
+.mockup-dots span:nth-child(2){background:#febc2e}
+.mockup-dots span:nth-child(3){background:#28c840}
+.mockup-url{
+  flex:1;background:var(--bg2);border:1px solid var(--border);
+  border-radius:6px;padding:.25rem .75rem;font-size:.72rem;color:var(--text3);
+  display:flex;align-items:center;gap:.4rem;
+}
+.mockup-url::before{content:'🔒';font-size:.65rem}
+.mockup-body{padding:1.75rem}
+.mock-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:.75rem}
+.mock-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.mock-card-head h4{font-size:.88rem;font-weight:700;color:var(--navy)}
+.mock-badge{display:inline-block;padding:.2rem .6rem;border-radius:6px;font-size:.7rem;font-weight:600}
+.mb-success{background:#dcfce7;color:#15803d}
+.mb-warn{background:#fef3c7;color:#b45309}
+.mb-info{background:#dbeafe;color:#1d4ed8}
+.mock-prog{height:6px;background:#f1f5f9;border-radius:3px;overflow:hidden;margin-bottom:.5rem}
+.mock-prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--blue),var(--teal))}
+.mock-prog-label{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text3)}
+.mock-list{display:flex;flex-direction:column;gap:.5rem}
+.mock-list-item{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.6rem .75rem;border-radius:8px;background:var(--bg2);
+}
+.mock-avatar{
+  width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--teal));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;font-weight:700;color:#fff;flex-shrink:0;
+}
+.mock-info{flex:1}
+.mock-info-name{font-size:.78rem;font-weight:600;color:var(--navy)}
+.mock-info-sub{font-size:.68rem;color:var(--text3)}
+
+/* TRUST BAR */
+.trust-bar{
+  background:var(--navy);
+  padding:1.25rem 3rem;
+  display:flex;align-items:center;justify-content:center;gap:3.5rem;
+  flex-wrap:wrap;
+}
+.trust-item{display:flex;align-items:center;gap:.6rem;color:rgba(255,255,255,.7);font-size:.78rem;font-weight:500}
+.trust-item span:first-child{font-size:1.1rem}
+.trust-sep{width:1px;height:20px;background:rgba(255,255,255,.15)}
+
+/* HOW IT WORKS */
+.hiw{background:var(--bg2);padding:6rem 3rem}
+.hiw-inner{max-width:1100px;margin:0 auto}
+.section-header{text-align:center;margin-bottom:4rem}
+.section-eyebrow{
+  display:inline-block;padding:.25rem .75rem;border-radius:6px;
+  background:rgba(20,71,230,.08);font-size:.72rem;font-weight:700;
+  color:var(--blue);letter-spacing:.06em;text-transform:uppercase;
+  margin-bottom:.75rem;
+}
+.section-header h2{
+  font-size:2rem;font-weight:800;letter-spacing:-.025em;
+  color:var(--navy);margin-bottom:.75rem;
+}
+.section-header p{font-size:.95rem;color:var(--text2);max-width:450px;margin:0 auto;line-height:1.7}
+
+.hiw-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;position:relative}
+.hiw-steps::before{
+  content:'';position:absolute;top:28px;left:calc(12.5% + 1rem);right:calc(12.5% + 1rem);
+  height:1px;background:var(--border2);z-index:0;
+}
+.hiw-step{position:relative;z-index:1;text-align:center}
+.hiw-icon{
+  width:56px;height:56px;border-radius:14px;
+  background:var(--bg);border:1.5px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.35rem;margin:0 auto 1rem;
+  box-shadow:0 2px 12px rgba(15,31,61,.06);
+}
+.hiw-step h3{font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:.4rem}
+.hiw-step p{font-size:.78rem;color:var(--text2);line-height:1.6}
+
+/* FEATURES */
+.features{padding:6rem 3rem;max-width:1100px;margin:0 auto}
+.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+.features-left{}
+.features-left h2{font-size:1.9rem;font-weight:800;letter-spacing:-.025em;color:var(--navy);margin-bottom:1rem;line-height:1.2}
+.features-left p{font-size:.93rem;color:var(--text2);line-height:1.7;margin-bottom:2rem;max-width:380px}
+.feat-list{display:flex;flex-direction:column;gap:.75rem}
+.feat-row{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.85rem 1rem;border-radius:10px;
+  border:1.5px solid var(--border);background:var(--bg);
+  cursor:pointer;transition:all .18s;
+}
+.feat-row:hover,.feat-row.active{border-color:var(--blue);background:rgba(20,71,230,.03)}
+.feat-row-icon{
+  width:36px;height:36px;border-radius:8px;background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+}
+.feat-row-title{font-size:.87rem;font-weight:600;color:var(--navy)}
+.feat-row-sub{font-size:.77rem;color:var(--text3)}
+.feat-row-arr{margin-left:auto;color:var(--blue);font-size:.8rem;opacity:0;transition:opacity .18s}
+.feat-row:hover .feat-row-arr,.feat-row.active .feat-row-arr{opacity:1}
+
+.features-right{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:20px;padding:2rem;
+  box-shadow:0 16px 48px rgba(15,31,61,.07);
+}
+.feat-preview h3{font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:.5rem}
+.feat-preview p{font-size:.85rem;color:var(--text2);line-height:1.6;margin-bottom:1.5rem}
+.feat-preview-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+.fpcard-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem}
+.fpcard-head h4{font-size:.85rem;font-weight:700;color:var(--navy)}
+.fpc-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem}
+.fpc-field{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.6rem .85rem}
+.fpc-field label{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);display:block;margin-bottom:.2rem}
+.fpc-field span{font-size:.82rem;font-weight:600;color:var(--navy)}
+
+/* CTA */
+.cta{background:var(--navy);padding:6rem 3rem}
+.cta-inner{max-width:700px;margin:0 auto;text-align:center}
+.cta h2{font-size:2.2rem;font-weight:800;letter-spacing:-.03em;color:#fff;margin-bottom:1rem;line-height:1.2}
+.cta h2 span{color:var(--teal)}
+.cta p{color:rgba(255,255,255,.6);font-size:.95rem;line-height:1.7;margin-bottom:2.5rem}
+.cta-form{display:flex;gap:.75rem;max-width:420px;margin:0 auto 1rem}
+.cta-input{
+  flex:1;padding:.75rem 1rem;border-radius:8px;
+  background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);
+  color:#fff;font-size:.88rem;font-family:inherit;outline:none;
+}
+.cta-input::placeholder{color:rgba(255,255,255,.35)}
+.cta-input:focus{border-color:var(--teal)}
+.cta-note{font-size:.75rem;color:rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;gap:.4rem}
+.cta-note::before{content:'✓';color:var(--teal)}
+
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:3.5rem 3rem 2rem}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand{font-size:1.25rem;font-weight:800;color:var(--navy);margin-bottom:.75rem}
+.footer-brand span{color:var(--blue)}
+.footer-tagline{font-size:.82rem;color:var(--text2);line-height:1.6;max-width:220px}
+.footer-col h5{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:.9rem}
+.footer-col a{display:block;font-size:.82rem;color:var(--text2);text-decoration:none;margin-bottom:.45rem;transition:color .18s}
+.footer-col a:hover{color:var(--navy)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;border-top:1px solid var(--border)}
+.footer-bottom p{font-size:.78rem;color:var(--text3)}
+.footer-badges{display:flex;gap:.5rem}
+.fbadge{
+  padding:.22rem .55rem;border-radius:5px;font-size:.68rem;font-weight:700;
+  background:var(--bg);border:1px solid var(--border2);color:var(--text3);
+}
+
+/* Concept label */
+.concept-label{
+  position:fixed;top:80px;right:1.5rem;z-index:200;
+  background:rgba(20,71,230,.08);border:1px solid rgba(20,71,230,.2);
+  color:var(--blue);padding:.4rem .9rem;border-radius:8px;
+  font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  backdrop-filter:blur(12px);
+}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:3rem}
+  .hero-right{max-width:500px}
+  .hiw-steps{grid-template-columns:repeat(2,1fr)}
+  .features-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .footer-col:first-child{grid-column:span 2}
+}
+@media(max-width:600px){
+  nav{padding:.9rem 1.5rem}
+  .nav-links{display:none}
+  .hiw-steps{grid-template-columns:1fr}
+  .cta-form{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="concept-label">Konsept 2 — Clean Trust</div>
+
+<nav>
+  <div class="logo">Verify<span>Flow</span></div>
+  <div class="nav-links">
+    <a href="#">Platform</a>
+    <a href="#">Çözümler</a>
+    <a href="#">Fiyatlandırma</a>
+    <a href="#">Entegrasyonlar</a>
+    <a href="#">Şirket</a>
+  </div>
+  <div class="nav-actions">
+    <a href="#" class="btn btn-ghost">Giriş Yap</a>
+    <a href="#" class="btn btn-primary">Ücretsiz Deneyin →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow"><span></span>KYC / KYB Uyum Platformu</div>
+    <h1>Müşterilerinizi hızlı ve <strong>güvenle</strong> onboard edin</h1>
+    <p>Dijital onboarding süreçlerinizi otomatikleştirin. KVKK, GDPR ve FATF standartlarına tam uyumluluk ile müşteri deneyimini mükemmelleştirin.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn btn-primary">Ücretsiz Başlayın →</a>
+      <a href="#" class="btn btn-ghost">Demo İzle ▶</a>
+    </div>
+    <div class="hero-note">Kredi kartı gerekmez &nbsp;·&nbsp; ✓ 5 dakikada kurulum &nbsp;·&nbsp; ✓ 30 gün ücretsiz</div>
+  </div>
+
+  <div class="hero-right">
+    <div class="mockup-bar">
+      <div class="mockup-dots"><span></span><span></span><span></span></div>
+      <div class="mockup-url">app.verifyflow.io/dashboard</div>
+    </div>
+    <div class="mockup-body">
+      <div class="mock-card">
+        <div class="mock-card-head">
+          <h4>Başvuru Durumu</h4>
+          <span class="mock-badge mb-info">İncelemede</span>
+        </div>
+        <div class="mock-prog">
+          <div class="mock-prog-fill" style="width:65%"></div>
+        </div>
+        <div class="mock-prog-label">
+          <span>KYC: Tamamlandı</span>
+          <span>AML: Devam ediyor</span>
+        </div>
+      </div>
+      <div class="mock-card" style="margin-bottom:0">
+        <div class="mock-card-head">
+          <h4>Son Başvurular</h4>
+          <span style="font-size:.72rem;color:#2563eb;cursor:pointer;font-weight:600">Tümü →</span>
+        </div>
+        <div class="mock-list">
+          <div class="mock-list-item">
+            <div class="mock-avatar">AY</div>
+            <div class="mock-info">
+              <div class="mock-info-name">Ahmet Yılmaz</div>
+              <div class="mock-info-sub">Bireysel · 12 dk önce</div>
+            </div>
+            <span class="mock-badge mb-success" style="font-size:.67rem">Onaylı</span>
+          </div>
+          <div class="mock-list-item">
+            <div class="mock-avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">TK</div>
+            <div class="mock-info">
+              <div class="mock-info-name">Tekno A.Ş.</div>
+              <div class="mock-info-sub">Kurumsal · 1 saat önce</div>
+            </div>
+            <span class="mock-badge mb-warn" style="font-size:.67rem">İncelemede</span>
+          </div>
+          <div class="mock-list-item">
+            <div class="mock-avatar" style="background:linear-gradient(135deg,#8b5cf6,#3b82f6)">SD</div>
+            <div class="mock-info">
+              <div class="mock-info-name">Selin Demir</div>
+              <div class="mock-info-sub">Bireysel · 3 saat önce</div>
+            </div>
+            <span class="mock-badge mb-info" style="font-size:.67rem">Bekliyor</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><span>🏛️</span> BDDK Uyumlu</div>
+  <div class="trust-sep"></div>
+  <div class="trust-item"><span>🇪🇺</span> GDPR Sertifikalı</div>
+  <div class="trust-sep"></div>
+  <div class="trust-item"><span>🔐</span> ISO 27001</div>
+  <div class="trust-sep"></div>
+  <div class="trust-item"><span>🛡️</span> SOC 2 Type II</div>
+  <div class="trust-sep"></div>
+  <div class="trust-item"><span>⚖️</span> FATF AML Standartları</div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="hiw">
+  <div class="hiw-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Nasıl Çalışır?</div>
+      <h2>Dört adımda mükemmel uyum</h2>
+      <p>Karmaşık regülasyon gereksinimlerini basit, kullanıcı dostu bir akışa dönüştürüyoruz.</p>
+    </div>
+    <div class="hiw-steps">
+      <div class="hiw-step">
+        <div class="hiw-icon">📝</div>
+        <h3>Kayıt & Başvuru</h3>
+        <p>Müşteri bilgilerini adım adım girer, form validasyonu anlık geri bildirim sağlar.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-icon">📎</div>
+        <h3>Belge Yükleme</h3>
+        <p>Kimlik ve şirket belgeleri güvenli şifrelenmiş depolama alanına yüklenir.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-icon">🔍</div>
+        <h3>Uzman İnceleme</h3>
+        <p>Uyum ekibiniz başvuruyu inceler, gerekirse ek bilgi talep eder.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-icon">✅</div>
+        <h3>Onay & Aktivasyon</h3>
+        <p>Tek tıkla onay, müşteri anında bilgilendirilir ve hizmet aktif olur.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="features-grid">
+    <div class="features-left">
+      <div class="section-eyebrow">Platform Özellikleri</div>
+      <h2>İhtiyacınız olan her şey, tek yerde</h2>
+      <p>Dağınık araçlarla zaman kaybetmeyin. Onboarding'den raporlamaya kadar tüm süreç tek platformda.</p>
+      <div class="feat-list">
+        <div class="feat-row active">
+          <div class="feat-row-icon">🔍</div>
+          <div>
+            <div class="feat-row-title">KYC Bireysel Doğrulama</div>
+            <div class="feat-row-sub">Kimlik, adres, PEP ve AML taraması</div>
+          </div>
+          <span class="feat-row-arr">→</span>
+        </div>
+        <div class="feat-row">
+          <div class="feat-row-icon">🏢</div>
+          <div>
+            <div class="feat-row-title">KYB Kurumsal Onboarding</div>
+            <div class="feat-row-sub">Şirket tescil, UBO ve imza yetkisi</div>
+          </div>
+          <span class="feat-row-arr">→</span>
+        </div>
+        <div class="feat-row">
+          <div class="feat-row-icon">⚠️</div>
+          <div>
+            <div class="feat-row-title">AML Risk Motoru</div>
+            <div class="feat-row-sub">Otomatik risk skoru ve kara liste</div>
+          </div>
+          <span class="feat-row-arr">→</span>
+        </div>
+        <div class="feat-row">
+          <div class="feat-row-icon">💬</div>
+          <div>
+            <div class="feat-row-title">Gerçek Zamanlı İletişim</div>
+            <div class="feat-row-sub">Müşteri ile anlık chat ve bildirimler</div>
+          </div>
+          <span class="feat-row-arr">→</span>
+        </div>
+      </div>
+    </div>
+    <div class="features-right">
+      <div class="feat-preview">
+        <h3>KYC Bireysel Doğrulama</h3>
+        <p>Müşteri bilgileri toplanır, belgeler doğrulanır ve risk değerlendirmesi yapılır.</p>
+        <div class="feat-preview-card">
+          <div class="fpcard-head">
+            <h4>Müşteri Profili</h4>
+            <span class="mock-badge mb-success">KYC Onaylı</span>
+          </div>
+          <div class="fpc-row">
+            <div class="fpc-field"><label>Ad Soyad</label><span>Ahmet Yılmaz</span></div>
+            <div class="fpc-field"><label>TC Kimlik</label><span>••••••3421</span></div>
+            <div class="fpc-field"><label>Risk Skoru</label><span style="color:#15803d">Düşük (12)</span></div>
+            <div class="fpc-field"><label>PEP Durumu</label><span>Hayır</span></div>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem">
+            <span class="mock-badge mb-success">✓ Kimlik</span>
+            <span class="mock-badge mb-success">✓ Adres</span>
+            <span class="mock-badge mb-success">✓ Vergi</span>
+            <span class="mock-badge mb-warn">⏳ AML Tarama</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-inner">
+    <h2>Uyum sürecinizi <span>bugün</span> dönüştürün</h2>
+    <p>Yüzlerce fintech ve banka VerifyFlow ile onboarding maliyetlerini %60 düşürdü. Siz de başlayın.</p>
+    <div class="cta-form">
+      <input type="email" class="cta-input" placeholder="iş-emailiniz@sirket.com">
+      <a href="#" class="btn btn-primary" style="white-space:nowrap;padding:.75rem 1.4rem">Başlayın →</a>
+    </div>
+    <div class="cta-note">Kredi kartı gerekmez · 30 gün ücretsiz deneme</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">Verify<span>Flow</span></div>
+        <p class="footer-tagline">Modern finansal kurumlar için KYC/KYB uyum platformu.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Ürün</h5>
+        <a href="#">KYC Platform</a>
+        <a href="#">KYB Onboarding</a>
+        <a href="#">AML Screening</a>
+        <a href="#">API</a>
+      </div>
+      <div class="footer-col">
+        <h5>Şirket</h5>
+        <a href="#">Hakkında</a>
+        <a href="#">Blog</a>
+        <a href="#">Kariyer</a>
+        <a href="#">İletişim</a>
+      </div>
+      <div class="footer-col">
+        <h5>Yasal</h5>
+        <a href="#">KVKK Politikası</a>
+        <a href="#">Gizlilik</a>
+        <a href="#">Kullanım Şartları</a>
+        <a href="#">Güvenlik</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 VerifyFlow Teknoloji A.Ş.</p>
+      <div class="footer-badges">
+        <span class="fbadge">KVKK</span>
+        <span class="fbadge">GDPR</span>
+        <span class="fbadge">ISO 27001</span>
+        <span class="fbadge">SOC 2</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
