@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VerifyFlow — KYC/KYB Onboarding Platformu</title>
+<title>Allboard — KYC/KYB Onboarding Platformu</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#0f1f3d;--blue:#1447e6;--blue2:#2563eb;--teal:#00c4a7;--bg:#ffffff;--bg2:#f8faff;--bg3:#f1f5fd;--card:#ffffff;--text:#0f172a;--text2:#475569;--text3:#64748b;--border:#e2e8f0;--border2:#cbd5e1;--danger:#ef4444;--warn:#f59e0b;--success:#10b981;--radius:10px}
@@ -174,7 +174,7 @@ a{color:var(--blue);text-decoration:none}
 </head>
 <body>
 <nav class="nav" id="mainNav">
-  <div class="nav-logo" onclick="nav('landing')">Verify<span>Flow</span></div>
+  <div class="nav-logo" onclick="nav('landing')">All<span>board</span></div>
   <div class="nav-actions" id="navAct">
     <button class="btn btn-outline btn-sm" onclick="showAuth('login')">Giriş Yap</button>
     <button class="btn btn-primary btn-sm" onclick="showAuth('register')">Başvuru Yap →</button>
@@ -197,7 +197,7 @@ a{color:var(--blue);text-decoration:none}
   <div class="hero-right">
     <div class="mockup-bar">
       <div class="mockup-dots"><span></span><span></span><span></span></div>
-      <div class="mockup-url">🔒 app.verifyflow.io/dashboard</div>
+      <div class="mockup-url">🔒 app.allboard.io/dashboard</div>
     </div>
     <div class="mockup-body">
       <div class="mock-card">
@@ -257,7 +257,7 @@ a{color:var(--blue);text-decoration:none}
 <footer class="vf-footer">
   <div class="vf-footer-grid">
     <div>
-      <div class="vf-footer-brand">Verify<span>Flow</span></div>
+      <div class="vf-footer-brand">All<span>board</span></div>
       <p class="vf-footer-desc">Bireyler ve şirketler için profesyonel onboarding yönetim hizmeti. Siz başvurun, biz yönetelim.</p>
     </div>
     <div class="vf-footer-col">
@@ -282,7 +282,7 @@ a{color:var(--blue);text-decoration:none}
     </div>
   </div>
   <div class="vf-footer-bottom">
-    <p>&copy; 2026 VerifyFlow. Tüm hakları saklıdır.</p>
+    <p>&copy; 2026 Allboard. Tüm hakları saklıdır.</p>
     <div class="vf-footer-badges">
       <span class="vf-fbadge">KVKK</span>
       <span class="vf-fbadge">GDPR</span>
@@ -526,9 +526,9 @@ a{color:var(--blue);text-decoration:none}
   <div class="spane" id="sAml">
     <div class="stitle">AML Onayı &amp; Şartlar / AML Consent &amp; Terms</div>
     <div class="sdesc">Başvurunuzu tamamlamak için aşağıdaki onayları verin / Grant the following consents to complete your application</div>
-    <div class="co req"><input type="checkbox" id="c-aml"><label for="c-aml"><strong>AML Tarama Onayı / AML Screening Consent</strong>VerifyFlow'un yaptırım listeleri, PEP veritabanları ve olumsuz medya kaynaklarında AML taraması yapmasına izin veriyorum. / I consent to VerifyFlow conducting AML screening against sanctions lists, PEP databases and adverse media sources.</label></div>
-    <div class="co req"><input type="checkbox" id="c-prv"><label for="c-prv"><strong>Gizlilik Politikası / Privacy Policy</strong>Kişisel verilerimin VerifyFlow Gizlilik Politikası kapsamında işlenmesini kabul ediyorum. / I accept the processing of my personal data under the VerifyFlow Privacy Policy.</label></div>
-    <div class="co req"><input type="checkbox" id="c-tos"><label for="c-tos"><strong>Kullanım Şartları / Terms of Service</strong>VerifyFlow Kullanım Şartlarını okudum ve kabul ediyorum. / I have read and accept the VerifyFlow Terms of Service.</label></div>
+    <div class="co req"><input type="checkbox" id="c-aml"><label for="c-aml"><strong>AML Tarama Onayı / AML Screening Consent</strong>Allboard'un yaptırım listeleri, PEP veritabanları ve olumsuz medya kaynaklarında AML taraması yapmasına izin veriyorum. / I consent to Allboard conducting AML screening against sanctions lists, PEP databases and adverse media sources.</label></div>
+    <div class="co req"><input type="checkbox" id="c-prv"><label for="c-prv"><strong>Gizlilik Politikası / Privacy Policy</strong>Kişisel verilerimin Allboard Gizlilik Politikası kapsamında işlenmesini kabul ediyorum. / I accept the processing of my personal data under the Allboard Privacy Policy.</label></div>
+    <div class="co req"><input type="checkbox" id="c-tos"><label for="c-tos"><strong>Kullanım Şartları / Terms of Service</strong>Allboard Kullanım Şartlarını okudum ve kabul ediyorum. / I have read and accept the Allboard Terms of Service.</label></div>
     <div class="co req"><input type="checkbox" id="c-acc"><label for="c-acc"><strong>Doğruluk Beyanı / Accuracy Declaration</strong>Sağladığım tüm bilgilerin doğru, eksiksiz ve güncel olduğunu beyan ediyorum. / I declare that all information provided is accurate, complete and up to date.</label></div>
     <div class="co"><input type="checkbox" id="c-mon"><label for="c-mon"><strong>Süregelen İzleme / Ongoing Monitoring <span style="font-weight:400">(İsteğe bağlı / Optional)</span></strong>Hesabımda değişiklik olması durumunda yeniden tarama yapılmasına onay veriyorum.</label></div>
     <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" id="submitBtn" onclick="submitApp()">Başvuruyu Gönder / Submit ✓</button></div>
@@ -883,7 +883,7 @@ async function submitApp(){
 
   // Welcome message
   var fname=clientData.personal.firstName||session.user.email;
-  await sb.from('chat_messages').insert({client_id:client.id,sender_type:'staff',sender_name:'VerifyFlow',text:'Merhaba '+fname+', başvurunuz alındı. Belgeleriniz incelemeye alınmıştır. / Hello '+fname+', your application has been received. Your documents are under review.'});
+  await sb.from('chat_messages').insert({client_id:client.id,sender_type:'staff',sender_name:'Allboard',text:'Merhaba '+fname+', başvurunuz alındı. Belgeleriniz incelemeye alınmıştır. / Hello '+fname+', your application has been received. Your documents are under review.'});
 
   currentClient=client;
   if(btn){btn.textContent='Gönder';btn.disabled=false;}
@@ -999,7 +999,7 @@ function appendMsg(m){
   var now=new Date(m.created_at);
   var ts=pad(now.getDate())+'.'+pad(now.getMonth()+1)+' '+pad(now.getHours())+':'+pad(now.getMinutes());
   var div=document.createElement('div');div.className='cmsg '+(isClient?'cli':'stf');
-  div.innerHTML='<div class="cav">'+initials+'</div><div><div class="cbub">'+esc(m.text)+'</div><div class="cmeta">'+(isClient?'Siz':'VerifyFlow Compliance')+' · '+ts+'</div></div>';
+  div.innerHTML='<div class="cav">'+initials+'</div><div><div class="cbub">'+esc(m.text)+'</div><div class="cmeta">'+(isClient?'Siz':'Allboard Compliance')+' · '+ts+'</div></div>';
   cont.appendChild(div);cont.scrollTop=cont.scrollHeight;
 }
 

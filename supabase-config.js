@@ -1,4 +1,4 @@
-// VerifyFlow — Supabase Konfigürasyonu
+// Allboard — Supabase Konfigürasyonu
 // Supabase Dashboard > Project Settings > API > buradan al
 //
 // KURULUM:

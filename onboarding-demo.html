@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VerifyFlow — Onboarding Demo</title>
+<title>Allboard — Onboarding Demo</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--teal:#00e5c3;--teal-dark:#00b89b;--bg:#0a0e17;--bg2:#111827;--bg3:#1a2035;--card:#151b2e;--text:#e2e8f0;--text2:#94a3b8;--border:#1e293b;--danger:#ef4444;--warn:#f59e0b;--success:#10b981;--radius:12px}
@@ -143,7 +143,7 @@ tr:hover td{background:rgba(0,229,195,.02)}
 <!-- Admin Login Overlay -->
 <div id="adminLoginOverlay" style="display:none;position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center">
   <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:100%;max-width:400px">
-    <h2 style="margin-bottom:.25rem">VerifyFlow Admin</h2>
+    <h2 style="margin-bottom:.25rem">Allboard Admin</h2>
     <p style="color:var(--text2);font-size:.88rem;margin-bottom:1.5rem">Yönetici girişi / Admin login</p>
     <div style="margin-bottom:1rem"><label style="display:block;font-size:.83rem;margin-bottom:.35rem;color:var(--text2)">E-posta / Email</label><input type="email" id="adminEmail" class="fi" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.6rem .9rem;color:var(--text);font-size:.9rem" placeholder="admin@ornek.com"></div>
     <div style="margin-bottom:1.5rem"><label style="display:block;font-size:.83rem;margin-bottom:.35rem;color:var(--text2)">Şifre / Password</label><input type="password" id="adminPass" class="fi" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.6rem .9rem;color:var(--text);font-size:.9rem" placeholder="••••••••" onkeydown="if(event.key==='Enter')adminLogin()"></div>
@@ -155,7 +155,7 @@ tr:hover td{background:rgba(0,229,195,.02)}
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <h1>Verify<span>Flow</span></h1>
+      <h1>All<span>board</span></h1>
       <p>Admin Dashboard Demo</p>
     </div>
     <nav class="sidebar-nav">
@@ -702,7 +702,7 @@ async function staffSend(){
   if(!activeChatClientId){alert('Önce bir müşteri seçin.');return;}
   var inp=document.getElementById('staffChatInp'),txt=inp.value.trim();if(!txt)return;
   inp.value='';
-  await sb.from('chat_messages').insert({client_id:activeChatClientId,sender_type:'staff',sender_name:'VerifyFlow Compliance',text:txt});
+  await sb.from('chat_messages').insert({client_id:activeChatClientId,sender_type:'staff',sender_name:'Allboard Compliance',text:txt});
 }
 
 function staffChatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();staffSend();}}

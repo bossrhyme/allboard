@@ -1,4 +1,4 @@
--- VerifyFlow — Supabase Database Migrations
+-- Allboard — Supabase Database Migrations
 -- Supabase Dashboard > SQL Editor > Bu dosyayı yapıştır ve çalıştır
 
 -- ============================================================
