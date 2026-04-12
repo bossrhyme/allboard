@@ -225,16 +225,16 @@ td:first-child{font-weight:600;color:var(--navy)}
         <div class="stat-card"><div class="label" data-i18n="statPending">Bekleyen</div><div class="value" id="s-pending">—</div><div class="change down" data-i18n="statPendingSub">Bekleyen başvuru</div></div>
       </div>
       <div class="card">
-        <h3>Recent Onboarding Activity</h3>
+        <h3 data-i18n="dashRecentActivity">Son Onboarding Aktivitesi</h3>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Client</th><th>Type</th><th>KYC</th><th>AML</th><th>Risk</th><th>Status</th><th>Date</th></tr></thead>
+            <thead><tr><th data-i18n="thClient">Müşteri</th><th data-i18n="thType">Tür</th><th>KYC</th><th>AML</th><th data-i18n="thRisk">Risk</th><th data-i18n="thStatus">Durum</th><th data-i18n="thDate">Tarih</th></tr></thead>
             <tbody id="dashboardTable">
-              <tr><td>Maria Schmidt</td><td>Individual</td><td><span class="badge badge-success">Passed</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-success">Low</span></td><td><span class="badge badge-success">Approved</span></td><td>2026-04-09</td></tr>
-              <tr><td>TechStart GmbH</td><td>Business</td><td><span class="badge badge-warning">Review</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-warning">Medium</span></td><td><span class="badge badge-info">In Review</span></td><td>2026-04-09</td></tr>
-              <tr><td>Ahmed Yilmaz</td><td>Individual</td><td><span class="badge badge-success">Passed</span></td><td><span class="badge badge-warning">Review</span></td><td><span class="badge badge-warning">Medium</span></td><td><span class="badge badge-info">In Review</span></td><td>2026-04-08</td></tr>
-              <tr><td>FinServe Ltd</td><td>Business</td><td><span class="badge badge-danger">Failed</span></td><td><span class="badge badge-neutral">Pending</span></td><td><span class="badge badge-danger">High</span></td><td><span class="badge badge-danger">Rejected</span></td><td>2026-04-08</td></tr>
-              <tr><td>Sophie Dupont</td><td>Individual</td><td><span class="badge badge-success">Passed</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-success">Low</span></td><td><span class="badge badge-success">Approved</span></td><td>2026-04-07</td></tr>
+              <tr><td>Maria Schmidt</td><td data-i18n="typeInd">Bireysel</td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-success" data-i18n="badgeLow">Düşük</span></td><td><span class="badge badge-success" data-i18n="badgeApproved">Onaylandı</span></td><td>2026-04-09</td></tr>
+              <tr><td>TechStart GmbH</td><td data-i18n="typeBiz">Kurumsal</td><td><span class="badge badge-warning" data-i18n="badgeReview">İnceleme</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-warning" data-i18n="badgeMedium">Orta</span></td><td><span class="badge badge-info" data-i18n="badgeInReview">İncelemede</span></td><td>2026-04-09</td></tr>
+              <tr><td>Ahmed Yilmaz</td><td data-i18n="typeInd">Bireysel</td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td><td><span class="badge badge-warning" data-i18n="badgeReview">İnceleme</span></td><td><span class="badge badge-warning" data-i18n="badgeMedium">Orta</span></td><td><span class="badge badge-info" data-i18n="badgeInReview">İncelemede</span></td><td>2026-04-08</td></tr>
+              <tr><td>FinServe Ltd</td><td data-i18n="typeBiz">Kurumsal</td><td><span class="badge badge-danger" data-i18n="badgeFailed">Başarısız</span></td><td><span class="badge badge-neutral" data-i18n="badgePending">Beklemede</span></td><td><span class="badge badge-danger" data-i18n="badgeHigh">Yüksek</span></td><td><span class="badge badge-danger" data-i18n="badgeRejected">Reddedildi</span></td><td>2026-04-08</td></tr>
+              <tr><td>Sophie Dupont</td><td data-i18n="typeInd">Bireysel</td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-success" data-i18n="badgeLow">Düşük</span></td><td><span class="badge badge-success" data-i18n="badgeApproved">Onaylandı</span></td><td>2026-04-07</td></tr>
             </tbody>
           </table>
         </div>
@@ -245,7 +245,7 @@ td:first-child{font-weight:600;color:var(--navy)}
     <div class="panel" id="panel-clients">
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
-          <div><h3>Client Directory</h3><p style="margin-top:.25rem;color:var(--text2);font-size:.85rem">Tüm müşteri başvuruları</p></div>
+          <div><h3 data-i18n="ph_clients">Başvurular</h3><p style="margin-top:.25rem;color:var(--text2);font-size:.85rem" data-i18n="allApplications">Tüm müşteri başvuruları</p></div>
           <button class="btn btn-outline btn-sm" onclick="loadClients()">↺ Yenile</button>
         </div>
         <div class="table-wrap">
@@ -262,30 +262,30 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- KYC Panel -->
     <div class="panel" id="panel-kyc">
       <div class="stats-row">
-        <div class="stat-card"><div class="label">Pending KYC</div><div class="value">8</div></div>
-        <div class="stat-card"><div class="label">Passed Today</div><div class="value">12</div></div>
-        <div class="stat-card"><div class="label">Failed Today</div><div class="value">1</div></div>
+        <div class="stat-card"><div class="label" data-i18n="kycPendingKyc">Bekleyen KYC</div><div class="value">8</div></div>
+        <div class="stat-card"><div class="label" data-i18n="kycPassedToday">Bugün Geçen</div><div class="value">12</div></div>
+        <div class="stat-card"><div class="label" data-i18n="kycFailedToday">Bugün Başarısız</div><div class="value">1</div></div>
       </div>
       <div class="card">
-        <h3>KYC Review Queue</h3>
+        <h3 data-i18n="kycReviewQueue">KYC İnceleme Kuyruğu</h3>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Client</th><th>Document</th><th>Liveness</th><th>Match Score</th><th>Status</th><th>Action</th></tr></thead>
+            <thead><tr><th data-i18n="thClient">Müşteri</th><th data-i18n="thDocument">Belge</th><th data-i18n="thLiveness">Canlılık</th><th data-i18n="thMatchScore">Eşleşme Skoru</th><th data-i18n="thStatus">Durum</th><th data-i18n="thAction">Aksiyon</th></tr></thead>
             <tbody>
-              <tr><td>Ahmed Yilmaz</td><td><span class="badge badge-success">Verified</span></td><td><span class="badge badge-success">Pass</span></td><td>96.5%</td><td><span class="badge badge-warning">Manual Review</span></td><td><button class="btn btn-primary" style="padding:.3rem .8rem;font-size:.75rem" onclick="approveKYC(this)">Approve</button></td></tr>
-              <tr><td>Hans Mueller</td><td><span class="badge badge-warning">Unclear</span></td><td><span class="badge badge-success">Pass</span></td><td>78.2%</td><td><span class="badge badge-warning">Manual Review</span></td><td><button class="btn btn-primary" style="padding:.3rem .8rem;font-size:.75rem" onclick="approveKYC(this)">Approve</button></td></tr>
-              <tr><td>Elena Rossi</td><td><span class="badge badge-success">Verified</span></td><td><span class="badge badge-danger">Fail</span></td><td>45.1%</td><td><span class="badge badge-danger">Rejected</span></td><td><button class="btn btn-outline" style="padding:.3rem .8rem;font-size:.75rem">Retry</button></td></tr>
+              <tr><td>Ahmed Yilmaz</td><td><span class="badge badge-success" data-i18n="badgeVerified">Doğrulandı</span></td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td><td>96.5%</td><td><span class="badge badge-warning" data-i18n="badgeManualReview">Manuel İnceleme</span></td><td><button class="btn btn-primary" style="padding:.3rem .8rem;font-size:.75rem" onclick="approveKYC(this)" data-i18n="btnApprove">Onayla</button></td></tr>
+              <tr><td>Hans Mueller</td><td><span class="badge badge-warning" data-i18n="badgeUnclear">Belirsiz</span></td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td><td>78.2%</td><td><span class="badge badge-warning" data-i18n="badgeManualReview">Manuel İnceleme</span></td><td><button class="btn btn-primary" style="padding:.3rem .8rem;font-size:.75rem" onclick="approveKYC(this)" data-i18n="btnApprove">Onayla</button></td></tr>
+              <tr><td>Elena Rossi</td><td><span class="badge badge-success" data-i18n="badgeVerified">Doğrulandı</span></td><td><span class="badge badge-danger" data-i18n="badgeFailed">Başarısız</span></td><td>45.1%</td><td><span class="badge badge-danger" data-i18n="badgeRejected">Reddedildi</span></td><td><button class="btn btn-outline" style="padding:.3rem .8rem;font-size:.75rem" data-i18n="btnRetry">Tekrar Dene</button></td></tr>
             </tbody>
           </table>
         </div>
       </div>
       <div class="card">
-        <h3>Onfido Integration Status</h3>
-        <p>Connected to Onfido sandbox environment</p>
+        <h3 data-i18n="onfidoStatus">Onfido Entegrasyon Durumu</h3>
+        <p data-i18n="onfidoDesc">Onfido sandbox ortamına bağlı</p>
         <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap">
-          <span class="badge badge-success">API Connected</span>
-          <span class="badge badge-info">Sandbox Mode</span>
-          <span class="badge badge-success">Webhooks Active</span>
+          <span class="badge badge-success" data-i18n="badgeApiConnected">API Bağlı</span>
+          <span class="badge badge-info" data-i18n="badgeSandboxMode">Sandbox Modu</span>
+          <span class="badge badge-success" data-i18n="badgeWebhooks">Webhooks Aktif</span>
         </div>
       </div>
     </div>
@@ -293,26 +293,26 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- KYB Panel -->
     <div class="panel" id="panel-kyb">
       <div class="card">
-        <h3>Business Verification Queue</h3>
+        <h3 data-i18n="kybBizVerifQueue">Şirket Doğrulama Kuyruğu</h3>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Company</th><th>Registration</th><th>UBOs</th><th>Structure</th><th>Status</th></tr></thead>
+            <thead><tr><th data-i18n="thCompany">Şirket</th><th data-i18n="thRegistration">Sicil</th><th>UBOs</th><th data-i18n="thStructure">Yapı</th><th data-i18n="thStatus">Durum</th></tr></thead>
             <tbody>
-              <tr><td>TechStart GmbH</td><td><span class="badge badge-success">Verified</span></td><td>2 identified</td><td><span class="badge badge-success">Simple</span></td><td><span class="badge badge-info">In Review</span></td></tr>
-              <tr><td>Nordic Pay Oy</td><td><span class="badge badge-success">Verified</span></td><td>3 identified</td><td><span class="badge badge-warning">Complex</span></td><td><span class="badge badge-success">Approved</span></td></tr>
-              <tr><td>FinServe Ltd</td><td><span class="badge badge-danger">Mismatch</span></td><td>0 identified</td><td><span class="badge badge-danger">Unknown</span></td><td><span class="badge badge-danger">Rejected</span></td></tr>
+              <tr><td>TechStart GmbH</td><td><span class="badge badge-success" data-i18n="badgeVerified">Doğrulandı</span></td><td data-i18n="kybUbo2">2 tespit edildi</td><td><span class="badge badge-success" data-i18n="badgeSimple">Basit</span></td><td><span class="badge badge-info" data-i18n="badgeInReview">İncelemede</span></td></tr>
+              <tr><td>Nordic Pay Oy</td><td><span class="badge badge-success" data-i18n="badgeVerified">Doğrulandı</span></td><td data-i18n="kybUbo3">3 tespit edildi</td><td><span class="badge badge-warning" data-i18n="badgeComplex">Karmaşık</span></td><td><span class="badge badge-success" data-i18n="badgeApproved">Onaylandı</span></td></tr>
+              <tr><td>FinServe Ltd</td><td><span class="badge badge-danger" data-i18n="badgeMismatch">Uyuşmazlık</span></td><td data-i18n="kybUbo0">0 tespit edildi</td><td><span class="badge badge-danger" data-i18n="badgeUnknown">Bilinmiyor</span></td><td><span class="badge badge-danger" data-i18n="badgeRejected">Reddedildi</span></td></tr>
             </tbody>
           </table>
         </div>
       </div>
       <div class="card">
-        <h3>Beneficial Owners — TechStart GmbH</h3>
+        <h3 data-i18n="kybBeneficialOwners">Gerçek Faydalanıcılar — TechStart GmbH</h3>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Name</th><th>Ownership %</th><th>Role</th><th>KYC Status</th></tr></thead>
+            <thead><tr><th data-i18n="thName">Ad</th><th data-i18n="thOwnership">Sahiplik %</th><th data-i18n="thRole">Unvan</th><th data-i18n="thKycStatus">KYC Durumu</th></tr></thead>
             <tbody>
-              <tr><td>Klaus Weber</td><td>60%</td><td>CEO / Founder</td><td><span class="badge badge-success">Passed</span></td></tr>
-              <tr><td>Anna Fischer</td><td>40%</td><td>CTO / Co-founder</td><td><span class="badge badge-warning">Pending</span></td></tr>
+              <tr><td>Klaus Weber</td><td>60%</td><td>CEO / Kurucu</td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td></tr>
+              <tr><td>Anna Fischer</td><td>40%</td><td>CTO / Kurucu Ortak</td><td><span class="badge badge-warning" data-i18n="badgePending">Beklemede</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -322,30 +322,30 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- AML Panel -->
     <div class="panel" id="panel-aml">
       <div class="stats-row">
-        <div class="stat-card"><div class="label">Screenings Today</div><div class="value">34</div></div>
-        <div class="stat-card"><div class="label">Matches Found</div><div class="value">2</div></div>
-        <div class="stat-card"><div class="label">False Positives</div><div class="value">1</div></div>
+        <div class="stat-card"><div class="label" data-i18n="amlScreeningsToday">Bugünkü Taramalar</div><div class="value">34</div></div>
+        <div class="stat-card"><div class="label" data-i18n="amlMatchesFound">Bulunan Eşleşmeler</div><div class="value">2</div></div>
+        <div class="stat-card"><div class="label" data-i18n="amlFalsePositives">Yanlış Pozitifler</div><div class="value">1</div></div>
       </div>
       <div class="card">
-        <h3>AML Screening Results</h3>
+        <h3 data-i18n="amlResults">AML Tarama Sonuçları</h3>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Client</th><th>Sanctions</th><th>PEP</th><th>Adverse Media</th><th>Result</th></tr></thead>
+            <thead><tr><th data-i18n="thClient">Müşteri</th><th data-i18n="thSanctions">Yaptırım</th><th>PEP</th><th data-i18n="thAdverseMedia">Olumsuz Medya</th><th data-i18n="thResult">Sonuç</th></tr></thead>
             <tbody>
-              <tr><td>Maria Schmidt</td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-success">Pass</span></td></tr>
-              <tr><td>Ahmed Yilmaz</td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-warning">Match</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-warning">Review</span></td></tr>
-              <tr><td>FinServe Ltd</td><td><span class="badge badge-danger">Match</span></td><td><span class="badge badge-success">Clear</span></td><td><span class="badge badge-danger">Match</span></td><td><span class="badge badge-danger">Fail</span></td></tr>
+              <tr><td>Maria Schmidt</td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td></tr>
+              <tr><td>Ahmed Yilmaz</td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-warning" data-i18n="badgeMatch">Eşleşme</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-warning" data-i18n="badgeReview">İnceleme</span></td></tr>
+              <tr><td>FinServe Ltd</td><td><span class="badge badge-danger" data-i18n="badgeMatch">Eşleşme</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-danger" data-i18n="badgeMatch">Eşleşme</span></td><td><span class="badge badge-danger" data-i18n="badgeFailed">Başarısız</span></td></tr>
             </tbody>
           </table>
         </div>
       </div>
       <div class="card">
-        <h3>ComplyAdvantage Integration</h3>
-        <p>Connected to ComplyAdvantage for ongoing AML monitoring</p>
+        <h3 data-i18n="complyAdvantageTitle">ComplyAdvantage Entegrasyonu</h3>
+        <p data-i18n="complyAdvantageDesc">Süregelen AML izleme için ComplyAdvantage'a bağlı</p>
         <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap">
-          <span class="badge badge-success">API Connected</span>
-          <span class="badge badge-info">Ongoing Monitoring</span>
-          <span class="badge badge-success">Daily Rescreening</span>
+          <span class="badge badge-success" data-i18n="badgeApiConnected">API Bağlı</span>
+          <span class="badge badge-info" data-i18n="badgeOngoingMonitoring">Sürekli İzleme</span>
+          <span class="badge badge-success" data-i18n="badgeDailyRescrening">Günlük Yeniden Tarama</span>
         </div>
       </div>
     </div>
@@ -353,26 +353,26 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- Risk Panel -->
     <div class="panel" id="panel-risk">
       <div class="card">
-        <h3>Risk Assessment Engine</h3>
-        <p style="margin-bottom:1.5rem">Automated risk scoring based on configurable rules</p>
+        <h3 data-i18n="riskEngineTitle">Risk Değerlendirme Motoru</h3>
+        <p style="margin-bottom:1.5rem" data-i18n="riskEngineDesc">Yapılandırılabilir kurallara dayalı otomatik risk puanlama</p>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Client</th><th>Risk Score</th><th>Level</th><th>Factors</th><th>Decision</th></tr></thead>
+            <thead><tr><th data-i18n="thClient">Müşteri</th><th data-i18n="thRiskScore">Risk Skoru</th><th data-i18n="thLevel">Seviye</th><th data-i18n="thFactors">Faktörler</th><th data-i18n="thDecision">Karar</th></tr></thead>
             <tbody>
-              <tr><td>Maria Schmidt</td><td>15/100</td><td><span class="badge badge-success">Low</span></td><td>Clean history, EU resident</td><td>Auto-approved</td></tr>
-              <tr><td>Ahmed Yilmaz</td><td>52/100</td><td><span class="badge badge-warning">Medium</span></td><td>PEP match (relative)</td><td>Manual review</td></tr>
-              <tr><td>TechStart GmbH</td><td>38/100</td><td><span class="badge badge-warning">Medium</span></td><td>New company, pending UBO KYC</td><td>Manual review</td></tr>
-              <tr><td>FinServe Ltd</td><td>87/100</td><td><span class="badge badge-danger">High</span></td><td>Sanctions match, adverse media</td><td>Auto-rejected</td></tr>
+              <tr><td>Maria Schmidt</td><td>15/100</td><td><span class="badge badge-success" data-i18n="badgeLow">Düşük</span></td><td data-i18n="riskFactor1">Temiz geçmiş, AB sakini</td><td data-i18n="riskDecision1">Otomatik onaylandı</td></tr>
+              <tr><td>Ahmed Yilmaz</td><td>52/100</td><td><span class="badge badge-warning" data-i18n="badgeMedium">Orta</span></td><td data-i18n="riskFactor2">PEP eşleşmesi (yakın)</td><td data-i18n="riskDecision2">Manuel inceleme</td></tr>
+              <tr><td>TechStart GmbH</td><td>38/100</td><td><span class="badge badge-warning" data-i18n="badgeMedium">Orta</span></td><td data-i18n="riskFactor3">Yeni şirket, bekleyen UBO KYC</td><td data-i18n="riskDecision2">Manuel inceleme</td></tr>
+              <tr><td>FinServe Ltd</td><td>87/100</td><td><span class="badge badge-danger" data-i18n="badgeHigh">Yüksek</span></td><td data-i18n="riskFactor4">Yaptırım eşleşmesi, olumsuz medya</td><td data-i18n="riskDecision3">Otomatik reddedildi</td></tr>
             </tbody>
           </table>
         </div>
       </div>
       <div class="card">
-        <h3>Risk Thresholds</h3>
+        <h3 data-i18n="riskThresholds">Risk Eşikleri</h3>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-top:1rem">
-          <div><div style="font-size:.8rem;color:var(--text2);margin-bottom:.5rem">Low Risk (0-30)</div><div class="risk-bar"><div class="risk-fill risk-low" style="width:30%"></div></div><div style="font-size:.75rem;color:var(--success);margin-top:.25rem">→ Auto-approve</div></div>
-          <div><div style="font-size:.8rem;color:var(--text2);margin-bottom:.5rem">Medium Risk (31-70)</div><div class="risk-bar"><div class="risk-fill risk-med" style="width:70%"></div></div><div style="font-size:.75rem;color:var(--warn);margin-top:.25rem">→ Manual review</div></div>
-          <div><div style="font-size:.8rem;color:var(--text2);margin-bottom:.5rem">High Risk (71-100)</div><div class="risk-bar"><div class="risk-fill risk-high" style="width:100%"></div></div><div style="font-size:.75rem;color:var(--danger);margin-top:.25rem">→ Auto-reject</div></div>
+          <div><div style="font-size:.8rem;color:var(--text2);margin-bottom:.5rem" data-i18n="riskLowLabel">Düşük Risk (0-30)</div><div class="risk-bar"><div class="risk-fill risk-low" style="width:30%"></div></div><div style="font-size:.75rem;color:var(--success);margin-top:.25rem" data-i18n="riskLowAction">→ Otomatik Onayla</div></div>
+          <div><div style="font-size:.8rem;color:var(--text2);margin-bottom:.5rem" data-i18n="riskMedLabel">Orta Risk (31-70)</div><div class="risk-bar"><div class="risk-fill risk-med" style="width:70%"></div></div><div style="font-size:.75rem;color:var(--warn);margin-top:.25rem" data-i18n="riskMedAction">→ Manuel İnceleme</div></div>
+          <div><div style="font-size:.8rem;color:var(--text2);margin-bottom:.5rem" data-i18n="riskHighLabel">Yüksek Risk (71-100)</div><div class="risk-bar"><div class="risk-fill risk-high" style="width:100%"></div></div><div style="font-size:.75rem;color:var(--danger);margin-top:.25rem" data-i18n="riskHighAction">→ Otomatik Reddet</div></div>
         </div>
       </div>
     </div>
@@ -380,37 +380,37 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- Workflow Panel -->
     <div class="panel" id="panel-workflow">
       <div class="card">
-        <h3>Individual Onboarding Workflow</h3>
+        <h3 data-i18n="wfIndividual">Bireysel Onboarding İş Akışı</h3>
         <div class="workflow-steps">
-          <div class="wf-step done">✓ Registration</div><span class="wf-arrow">→</span>
-          <div class="wf-step done">✓ KYC Submit</div><span class="wf-arrow">→</span>
-          <div class="wf-step active">● Doc Verify</div><span class="wf-arrow">→</span>
-          <div class="wf-step pending">○ AML Screen</div><span class="wf-arrow">→</span>
-          <div class="wf-step pending">○ Risk Score</div><span class="wf-arrow">→</span>
-          <div class="wf-step pending">○ Decision</div>
+          <div class="wf-step done">✓ <span data-i18n="wfRegistration">Kayıt</span></div><span class="wf-arrow">→</span>
+          <div class="wf-step done">✓ <span data-i18n="wfKycSubmit">KYC Gönder</span></div><span class="wf-arrow">→</span>
+          <div class="wf-step active">● <span data-i18n="wfDocVerify">Belge Doğrulama</span></div><span class="wf-arrow">→</span>
+          <div class="wf-step pending">○ <span data-i18n="wfAmlScreen">AML Tarama</span></div><span class="wf-arrow">→</span>
+          <div class="wf-step pending">○ <span data-i18n="wfRiskScore">Risk Puanlama</span></div><span class="wf-arrow">→</span>
+          <div class="wf-step pending">○ <span data-i18n="wfDecision">Karar</span></div>
         </div>
       </div>
       <div class="card">
-        <h3>Business Onboarding Workflow</h3>
+        <h3 data-i18n="wfBusiness">Kurumsal Onboarding İş Akışı</h3>
         <div class="workflow-steps">
-          <div class="wf-step done">✓ Registration</div><span class="wf-arrow">→</span>
-          <div class="wf-step done">✓ KYB Submit</div><span class="wf-arrow">→</span>
-          <div class="wf-step done">✓ Registry Check</div><span class="wf-arrow">→</span>
-          <div class="wf-step active">● UBO KYC</div><span class="wf-arrow">→</span>
-          <div class="wf-step pending">○ AML Screen</div><span class="wf-arrow">→</span>
-          <div class="wf-step pending">○ Risk Score</div><span class="wf-arrow">→</span>
-          <div class="wf-step pending">○ Decision</div>
+          <div class="wf-step done">✓ <span data-i18n="wfRegistration">Kayıt</span></div><span class="wf-arrow">→</span>
+          <div class="wf-step done">✓ <span data-i18n="wfKybSubmit">KYB Gönder</span></div><span class="wf-arrow">→</span>
+          <div class="wf-step done">✓ <span data-i18n="wfRegistryCheck">Sicil Kontrolü</span></div><span class="wf-arrow">→</span>
+          <div class="wf-step active">● <span data-i18n="wfUboKyc">UBO KYC</span></div><span class="wf-arrow">→</span>
+          <div class="wf-step pending">○ <span data-i18n="wfAmlScreen">AML Tarama</span></div><span class="wf-arrow">→</span>
+          <div class="wf-step pending">○ <span data-i18n="wfRiskScore">Risk Puanlama</span></div><span class="wf-arrow">→</span>
+          <div class="wf-step pending">○ <span data-i18n="wfDecision">Karar</span></div>
         </div>
       </div>
       <div class="card">
-        <h3>Workflow Event Log</h3>
+        <h3 data-i18n="wfEventLog">İş Akışı Olay Günlüğü</h3>
         <div class="timeline">
-          <div class="timeline-item done"><div class="time">09:42 — Maria Schmidt</div><div class="desc">Application auto-approved (risk score: 15)</div></div>
-          <div class="timeline-item done"><div class="time">09:38 — Maria Schmidt</div><div class="desc">AML screening completed — all clear</div></div>
-          <div class="timeline-item done"><div class="time">09:35 — Maria Schmidt</div><div class="desc">KYC document verified (passport, score: 99.1%)</div></div>
-          <div class="timeline-item active"><div class="time">09:30 — Ahmed Yilmaz</div><div class="desc">PEP match flagged — escalated to manual review</div></div>
-          <div class="timeline-item done"><div class="time">09:22 — TechStart GmbH</div><div class="desc">Company registry verified — 2 UBOs identified</div></div>
-          <div class="timeline-item done"><div class="time">09:15 — FinServe Ltd</div><div class="desc">Application auto-rejected (sanctions match)</div></div>
+          <div class="timeline-item done"><div class="time">09:42 — Maria Schmidt</div><div class="desc" data-i18n="wfLog1">Başvuru otomatik onaylandı (risk skoru: 15)</div></div>
+          <div class="timeline-item done"><div class="time">09:38 — Maria Schmidt</div><div class="desc" data-i18n="wfLog2">AML taraması tamamlandı — temiz</div></div>
+          <div class="timeline-item done"><div class="time">09:35 — Maria Schmidt</div><div class="desc" data-i18n="wfLog3">KYC belgesi doğrulandı (pasaport, skor: 99.1%)</div></div>
+          <div class="timeline-item active"><div class="time">09:30 — Ahmed Yilmaz</div><div class="desc" data-i18n="wfLog4">PEP eşleşmesi işaretlendi — manuel incelemeye yönlendirildi</div></div>
+          <div class="timeline-item done"><div class="time">09:22 — TechStart GmbH</div><div class="desc" data-i18n="wfLog5">Şirket sicili doğrulandı — 2 UBO tespit edildi</div></div>
+          <div class="timeline-item done"><div class="time">09:15 — FinServe Ltd</div><div class="desc" data-i18n="wfLog6">Başvuru otomatik reddedildi (yaptırım eşleşmesi)</div></div>
         </div>
       </div>
     </div>
@@ -418,13 +418,13 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- Notifications Panel -->
     <div class="panel" id="panel-notifications">
       <div class="card">
-        <h3>Recent Notifications</h3>
+        <h3 data-i18n="notifRecent">Son Bildirimler</h3>
         <div style="margin-top:1rem">
-          <div class="notif"><div class="dot green"></div><div><strong>KYC Approved</strong> — Maria Schmidt's identity verified<br><span style="font-size:.75rem;color:var(--text2)">2 minutes ago</span></div></div>
-          <div class="notif"><div class="dot yellow"></div><div><strong>Manual Review Required</strong> — Ahmed Yilmaz flagged as PEP relative<br><span style="font-size:.75rem;color:var(--text2)">15 minutes ago</span></div></div>
-          <div class="notif"><div class="dot red"></div><div><strong>Application Rejected</strong> — FinServe Ltd matched sanctions list<br><span style="font-size:.75rem;color:var(--text2)">1 hour ago</span></div></div>
-          <div class="notif"><div class="dot blue"></div><div><strong>New Application</strong> — TechStart GmbH started business onboarding<br><span style="font-size:.75rem;color:var(--text2)">2 hours ago</span></div></div>
-          <div class="notif"><div class="dot green"></div><div><strong>AML Clear</strong> — Sophie Dupont passed all compliance checks<br><span style="font-size:.75rem;color:var(--text2)">3 hours ago</span></div></div>
+          <div class="notif"><div class="dot green"></div><div><strong data-i18n="notif1Title">KYC Onaylandı</strong> <span data-i18n="notif1Desc">— Maria Schmidt'in kimliği doğrulandı</span><br><span style="font-size:.75rem;color:var(--text2)" data-i18n="notif1Time">2 dakika önce</span></div></div>
+          <div class="notif"><div class="dot yellow"></div><div><strong data-i18n="notif2Title">Manuel İnceleme Gerekli</strong> <span data-i18n="notif2Desc">— Ahmed Yilmaz PEP yakını olarak işaretlendi</span><br><span style="font-size:.75rem;color:var(--text2)" data-i18n="notif2Time">15 dakika önce</span></div></div>
+          <div class="notif"><div class="dot red"></div><div><strong data-i18n="notif3Title">Başvuru Reddedildi</strong> <span data-i18n="notif3Desc">— FinServe Ltd yaptırım listesiyle eşleşti</span><br><span style="font-size:.75rem;color:var(--text2)" data-i18n="notif3Time">1 saat önce</span></div></div>
+          <div class="notif"><div class="dot blue"></div><div><strong data-i18n="notif4Title">Yeni Başvuru</strong> <span data-i18n="notif4Desc">— TechStart GmbH kurumsal onboarding başlattı</span><br><span style="font-size:.75rem;color:var(--text2)" data-i18n="notif4Time">2 saat önce</span></div></div>
+          <div class="notif"><div class="dot green"></div><div><strong data-i18n="notif5Title">AML Temiz</strong> <span data-i18n="notif5Desc">— Sophie Dupont tüm uyum kontrollerini geçti</span><br><span style="font-size:.75rem;color:var(--text2)" data-i18n="notif5Time">3 saat önce</span></div></div>
         </div>
       </div>
     </div>
@@ -439,14 +439,14 @@ td:first-child{font-weight:600;color:var(--navy)}
       <div id="cpActions"></div>
       <!-- Info grid -->
       <div class="card">
-        <h3 style="font-size:.85rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)">Detaylar / Details</h3>
+        <h3 style="font-size:.85rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)" data-i18n="cpDetails">Detaylar</h3>
         <div class="igrid" id="cpInfo" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;font-size:.85rem">
           <p style="color:var(--text2)">—</p>
         </div>
       </div>
       <!-- Documents -->
       <div class="card">
-        <h3 style="margin-bottom:.75rem">Belgeler / Documents</h3>
+        <h3 style="margin-bottom:.75rem" data-i18n="cpDocuments">Belgeler</h3>
         <div id="cpDocs"><p style="color:var(--text2)">—</p></div>
       </div>
       <!-- UBOs (hidden by default) -->
@@ -468,7 +468,7 @@ td:first-child{font-weight:600;color:var(--navy)}
         <div class="card" style="display:flex;flex-direction:column;padding:0;overflow:hidden">
           <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem">
             <div id="chatClientAv" style="width:36px;height:36px;border-radius:50%;background:rgba(20,71,230,.12);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--blue)">—</div>
-            <div><div id="chatClientName" style="font-size:.9rem;font-weight:600">Bir konuşma seçin</div></div>
+            <div><div id="chatClientName" style="font-size:.9rem;font-weight:600" data-i18n="selectConv">Bir konuşma seçin</div></div>
           </div>
           <div class="chat-msgs" id="staffChatMsgs" style="flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem"></div>
           <div class="chat-inp-row">
@@ -500,36 +500,36 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- Settings Panel -->
     <div class="panel" id="panel-settings">
       <div class="card">
-        <h3>Platform Settings</h3>
+        <h3 data-i18n="settingsTitle">Platform Ayarları</h3>
         <div style="display:grid;gap:1rem;margin-top:1rem">
           <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
-            <div><strong style="font-size:.9rem">Auto-approve low risk</strong><br><span style="font-size:.8rem;color:var(--text2)">Automatically approve clients with risk score &lt; 30</span></div>
+            <div><strong style="font-size:.9rem" data-i18n="settingAutoApproveTitle">Düşük riski otomatik onayla</strong><br><span style="font-size:.8rem;color:var(--text2)" data-i18n="settingAutoApproveDesc">Risk skoru 30'un altındaki müşterileri otomatik olarak onayla</span></div>
             <div style="width:44px;height:24px;background:var(--blue);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
-            <div><strong style="font-size:.9rem">Auto-reject high risk</strong><br><span style="font-size:.8rem;color:var(--text2)">Automatically reject clients with risk score &gt; 70</span></div>
+            <div><strong style="font-size:.9rem" data-i18n="settingAutoRejectTitle">Yüksek riski otomatik reddet</strong><br><span style="font-size:.8rem;color:var(--text2)" data-i18n="settingAutoRejectDesc">Risk skoru 70'in üzerindeki müşterileri otomatik olarak reddet</span></div>
             <div style="width:44px;height:24px;background:var(--blue);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
-            <div><strong style="font-size:.9rem">Ongoing AML monitoring</strong><br><span style="font-size:.8rem;color:var(--text2)">Rescreen approved clients daily for changes</span></div>
+            <div><strong style="font-size:.9rem" data-i18n="settingAmlMonitorTitle">Süregelen AML izleme</strong><br><span style="font-size:.8rem;color:var(--text2)" data-i18n="settingAmlMonitorDesc">Onaylanan müşterileri değişiklikler için günlük olarak yeniden tara</span></div>
             <div style="width:44px;height:24px;background:var(--blue);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
-            <div><strong style="font-size:.9rem">Email notifications</strong><br><span style="font-size:.8rem;color:var(--text2)">Send email alerts for flagged applications</span></div>
+            <div><strong style="font-size:.9rem" data-i18n="settingEmailNotifTitle">E-posta bildirimleri</strong><br><span style="font-size:.8rem;color:var(--text2)" data-i18n="settingEmailNotifDesc">İşaretlenen başvurular için e-posta uyarıları gönder</span></div>
             <div style="width:44px;height:24px;background:var(--border);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
           </div>
         </div>
       </div>
       <div class="card">
-        <h3>API Keys</h3>
+        <h3 data-i18n="settingApiKeysTitle">API Anahtarları</h3>
         <div style="margin-top:1rem">
           <div style="display:flex;align-items:center;gap:1rem;padding:.75rem;background:var(--bg);border-radius:8px;margin-bottom:.5rem">
             <code style="font-size:.8rem;color:var(--blue);flex:1">vf_live_sk_••••••••••••••••</code>
-            <span class="badge badge-success">Active</span>
+            <span class="badge badge-success" data-i18n="badgeActive">Aktif</span>
           </div>
           <div style="display:flex;align-items:center;gap:1rem;padding:.75rem;background:var(--bg);border-radius:8px">
             <code style="font-size:.8rem;color:var(--text2);flex:1">vf_test_sk_••••••••••••••••</code>
-            <span class="badge badge-info">Sandbox</span>
+            <span class="badge badge-info" data-i18n="badgeSandbox">Sandbox</span>
           </div>
         </div>
       </div>
@@ -562,7 +562,77 @@ var T = {
     statTotal:'Toplam Başvuru',statTotalSub:'Kayıtlı müşteri',
     statReview:'İncelemede',statReviewSub:'Aktif inceleme',
     statApproved:'Onaylanan',statApprovedSub:'Onaylanmış',
-    statPending:'Bekleyen',statPendingSub:'Bekleyen başvuru'
+    statPending:'Bekleyen',statPendingSub:'Bekleyen başvuru',
+    // Dashboard
+    dashRecentActivity:'Son Onboarding Aktivitesi',
+    thClient:'Müşteri',thType:'Tür',thRisk:'Risk',thStatus:'Durum',thDate:'Tarih',thAction:'Aksiyon',
+    thDocument:'Belge',thLiveness:'Canlılık',thMatchScore:'Eşleşme Skoru',
+    thCompany:'Şirket',thRegistration:'Sicil',thStructure:'Yapı',
+    thSanctions:'Yaptırım',thAdverseMedia:'Olumsuz Medya',thResult:'Sonuç',
+    thName:'Ad',thOwnership:'Sahiplik %',thRole:'Unvan',thKycStatus:'KYC Durumu',
+    thRiskScore:'Risk Skoru',thLevel:'Seviye',thFactors:'Faktörler',thDecision:'Karar',
+    typeInd:'Bireysel',typeBiz:'Kurumsal',
+    // Badges
+    badgePassed:'Geçti',badgeFailed:'Başarısız',badgeClear:'Temiz',
+    badgeLow:'Düşük',badgeMedium:'Orta',badgeHigh:'Yüksek',
+    badgeApproved:'Onaylandı',badgeRejected:'Reddedildi',
+    badgeInReview:'İncelemede',badgePending:'Beklemede',
+    badgeReview:'İnceleme',badgeManualReview:'Manuel İnceleme',
+    badgeVerified:'Doğrulandı',badgeUnclear:'Belirsiz',badgeMatch:'Eşleşme',
+    badgeSimple:'Basit',badgeComplex:'Karmaşık',badgeMismatch:'Uyuşmazlık',badgeUnknown:'Bilinmiyor',
+    badgeActive:'Aktif',badgeSandbox:'Sandbox',
+    badgeApiConnected:'API Bağlı',badgeSandboxMode:'Sandbox Modu',badgeWebhooks:'Webhooks Aktif',
+    badgeOngoingMonitoring:'Sürekli İzleme',badgeDailyRescrening:'Günlük Yeniden Tarama',
+    btnApprove:'Onayla',btnRetry:'Tekrar Dene',
+    // KYC
+    kycPendingKyc:'Bekleyen KYC',kycPassedToday:'Bugün Geçen',kycFailedToday:'Bugün Başarısız',
+    kycReviewQueue:'KYC İnceleme Kuyruğu',
+    onfidoStatus:'Onfido Entegrasyon Durumu',onfidoDesc:'Onfido sandbox ortamına bağlı',
+    // KYB
+    kybBizVerifQueue:'Şirket Doğrulama Kuyruğu',kybBeneficialOwners:'Gerçek Faydalanıcılar — TechStart GmbH',
+    kybUbo2:'2 tespit edildi',kybUbo3:'3 tespit edildi',kybUbo0:'0 tespit edildi',
+    // AML
+    amlScreeningsToday:'Bugünkü Taramalar',amlMatchesFound:'Bulunan Eşleşmeler',amlFalsePositives:'Yanlış Pozitifler',
+    amlResults:'AML Tarama Sonuçları',
+    complyAdvantageTitle:'ComplyAdvantage Entegrasyonu',complyAdvantageDesc:'Süregelen AML izleme için ComplyAdvantage\'a bağlı',
+    // Risk
+    riskEngineTitle:'Risk Değerlendirme Motoru',riskEngineDesc:'Yapılandırılabilir kurallara dayalı otomatik risk puanlama',
+    riskThresholds:'Risk Eşikleri',
+    riskLowLabel:'Düşük Risk (0-30)',riskLowAction:'→ Otomatik Onayla',
+    riskMedLabel:'Orta Risk (31-70)',riskMedAction:'→ Manuel İnceleme',
+    riskHighLabel:'Yüksek Risk (71-100)',riskHighAction:'→ Otomatik Reddet',
+    riskFactor1:'Temiz geçmiş, AB sakini',riskDecision1:'Otomatik onaylandı',
+    riskFactor2:'PEP eşleşmesi (yakın)',riskDecision2:'Manuel inceleme',
+    riskFactor3:'Yeni şirket, bekleyen UBO KYC',riskFactor4:'Yaptırım eşleşmesi, olumsuz medya',
+    riskDecision3:'Otomatik reddedildi',
+    // Workflow
+    wfIndividual:'Bireysel Onboarding İş Akışı',wfBusiness:'Kurumsal Onboarding İş Akışı',
+    wfEventLog:'İş Akışı Olay Günlüğü',
+    wfRegistration:'Kayıt',wfKycSubmit:'KYC Gönder',wfDocVerify:'Belge Doğrulama',
+    wfAmlScreen:'AML Tarama',wfRiskScore:'Risk Puanlama',wfDecision:'Karar',
+    wfKybSubmit:'KYB Gönder',wfRegistryCheck:'Sicil Kontrolü',wfUboKyc:'UBO KYC',
+    wfLog1:'Başvuru otomatik onaylandı (risk skoru: 15)',
+    wfLog2:'AML taraması tamamlandı — temiz',
+    wfLog3:'KYC belgesi doğrulandı (pasaport, skor: 99.1%)',
+    wfLog4:'PEP eşleşmesi işaretlendi — manuel incelemeye yönlendirildi',
+    wfLog5:'Şirket sicili doğrulandı — 2 UBO tespit edildi',
+    wfLog6:'Başvuru otomatik reddedildi (yaptırım eşleşmesi)',
+    // Notifications
+    notifRecent:'Son Bildirimler',
+    notif1Title:'KYC Onaylandı',notif1Desc:'— Maria Schmidt\'in kimliği doğrulandı',notif1Time:'2 dakika önce',
+    notif2Title:'Manuel İnceleme Gerekli',notif2Desc:'— Ahmed Yilmaz PEP yakını olarak işaretlendi',notif2Time:'15 dakika önce',
+    notif3Title:'Başvuru Reddedildi',notif3Desc:'— FinServe Ltd yaptırım listesiyle eşleşti',notif3Time:'1 saat önce',
+    notif4Title:'Yeni Başvuru',notif4Desc:'— TechStart GmbH kurumsal onboarding başlattı',notif4Time:'2 saat önce',
+    notif5Title:'AML Temiz',notif5Desc:'— Sophie Dupont tüm uyum kontrollerini geçti',notif5Time:'3 saat önce',
+    // Settings
+    settingsTitle:'Platform Ayarları',settingApiKeysTitle:'API Anahtarları',
+    settingAutoApproveTitle:'Düşük riski otomatik onayla',settingAutoApproveDesc:'Risk skoru 30\'un altındaki müşterileri otomatik olarak onayla',
+    settingAutoRejectTitle:'Yüksek riski otomatik reddet',settingAutoRejectDesc:'Risk skoru 70\'in üzerindeki müşterileri otomatik olarak reddet',
+    settingAmlMonitorTitle:'Süregelen AML izleme',settingAmlMonitorDesc:'Onaylanan müşterileri değişiklikler için günlük olarak yeniden tara',
+    settingEmailNotifTitle:'E-posta bildirimleri',settingEmailNotifDesc:'İşaretlenen başvurular için e-posta uyarıları gönder',
+    // Client Panel
+    allApplications:'Tüm müşteri başvuruları',cpDetails:'Detaylar',cpDocuments:'Belgeler',
+    selectConv:'Bir konuşma seçin'
   },
   en:{
     adminPanel:'Admin Panel',overview:'Overview',dashboard:'Dashboard',
@@ -580,7 +650,77 @@ var T = {
     statTotal:'Total Applications',statTotalSub:'Registered clients',
     statReview:'In Review',statReviewSub:'Active reviews',
     statApproved:'Approved',statApprovedSub:'Approved clients',
-    statPending:'Pending',statPendingSub:'Awaiting review'
+    statPending:'Pending',statPendingSub:'Awaiting review',
+    // Dashboard
+    dashRecentActivity:'Recent Onboarding Activity',
+    thClient:'Client',thType:'Type',thRisk:'Risk',thStatus:'Status',thDate:'Date',thAction:'Action',
+    thDocument:'Document',thLiveness:'Liveness',thMatchScore:'Match Score',
+    thCompany:'Company',thRegistration:'Registration',thStructure:'Structure',
+    thSanctions:'Sanctions',thAdverseMedia:'Adverse Media',thResult:'Result',
+    thName:'Name',thOwnership:'Ownership %',thRole:'Role',thKycStatus:'KYC Status',
+    thRiskScore:'Risk Score',thLevel:'Level',thFactors:'Factors',thDecision:'Decision',
+    typeInd:'Individual',typeBiz:'Business',
+    // Badges
+    badgePassed:'Passed',badgeFailed:'Failed',badgeClear:'Clear',
+    badgeLow:'Low',badgeMedium:'Medium',badgeHigh:'High',
+    badgeApproved:'Approved',badgeRejected:'Rejected',
+    badgeInReview:'In Review',badgePending:'Pending',
+    badgeReview:'Review',badgeManualReview:'Manual Review',
+    badgeVerified:'Verified',badgeUnclear:'Unclear',badgeMatch:'Match',
+    badgeSimple:'Simple',badgeComplex:'Complex',badgeMismatch:'Mismatch',badgeUnknown:'Unknown',
+    badgeActive:'Active',badgeSandbox:'Sandbox',
+    badgeApiConnected:'API Connected',badgeSandboxMode:'Sandbox Mode',badgeWebhooks:'Webhooks Active',
+    badgeOngoingMonitoring:'Ongoing Monitoring',badgeDailyRescrening:'Daily Rescreening',
+    btnApprove:'Approve',btnRetry:'Retry',
+    // KYC
+    kycPendingKyc:'Pending KYC',kycPassedToday:'Passed Today',kycFailedToday:'Failed Today',
+    kycReviewQueue:'KYC Review Queue',
+    onfidoStatus:'Onfido Integration Status',onfidoDesc:'Connected to Onfido sandbox environment',
+    // KYB
+    kybBizVerifQueue:'Business Verification Queue',kybBeneficialOwners:'Beneficial Owners — TechStart GmbH',
+    kybUbo2:'2 identified',kybUbo3:'3 identified',kybUbo0:'0 identified',
+    // AML
+    amlScreeningsToday:'Screenings Today',amlMatchesFound:'Matches Found',amlFalsePositives:'False Positives',
+    amlResults:'AML Screening Results',
+    complyAdvantageTitle:'ComplyAdvantage Integration',complyAdvantageDesc:'Connected to ComplyAdvantage for ongoing AML monitoring',
+    // Risk
+    riskEngineTitle:'Risk Assessment Engine',riskEngineDesc:'Automated risk scoring based on configurable rules',
+    riskThresholds:'Risk Thresholds',
+    riskLowLabel:'Low Risk (0-30)',riskLowAction:'→ Auto-approve',
+    riskMedLabel:'Medium Risk (31-70)',riskMedAction:'→ Manual review',
+    riskHighLabel:'High Risk (71-100)',riskHighAction:'→ Auto-reject',
+    riskFactor1:'Clean history, EU resident',riskDecision1:'Auto-approved',
+    riskFactor2:'PEP match (relative)',riskDecision2:'Manual review',
+    riskFactor3:'New company, pending UBO KYC',riskFactor4:'Sanctions match, adverse media',
+    riskDecision3:'Auto-rejected',
+    // Workflow
+    wfIndividual:'Individual Onboarding Workflow',wfBusiness:'Business Onboarding Workflow',
+    wfEventLog:'Workflow Event Log',
+    wfRegistration:'Registration',wfKycSubmit:'KYC Submit',wfDocVerify:'Doc Verify',
+    wfAmlScreen:'AML Screen',wfRiskScore:'Risk Score',wfDecision:'Decision',
+    wfKybSubmit:'KYB Submit',wfRegistryCheck:'Registry Check',wfUboKyc:'UBO KYC',
+    wfLog1:'Application auto-approved (risk score: 15)',
+    wfLog2:'AML screening completed — all clear',
+    wfLog3:'KYC document verified (passport, score: 99.1%)',
+    wfLog4:'PEP match flagged — escalated to manual review',
+    wfLog5:'Company registry verified — 2 UBOs identified',
+    wfLog6:'Application auto-rejected (sanctions match)',
+    // Notifications
+    notifRecent:'Recent Notifications',
+    notif1Title:'KYC Approved',notif1Desc:'— Maria Schmidt\'s identity verified',notif1Time:'2 minutes ago',
+    notif2Title:'Manual Review Required',notif2Desc:'— Ahmed Yilmaz flagged as PEP relative',notif2Time:'15 minutes ago',
+    notif3Title:'Application Rejected',notif3Desc:'— FinServe Ltd matched sanctions list',notif3Time:'1 hour ago',
+    notif4Title:'New Application',notif4Desc:'— TechStart GmbH started business onboarding',notif4Time:'2 hours ago',
+    notif5Title:'AML Clear',notif5Desc:'— Sophie Dupont passed all compliance checks',notif5Time:'3 hours ago',
+    // Settings
+    settingsTitle:'Platform Settings',settingApiKeysTitle:'API Keys',
+    settingAutoApproveTitle:'Auto-approve low risk',settingAutoApproveDesc:'Automatically approve clients with risk score < 30',
+    settingAutoRejectTitle:'Auto-reject high risk',settingAutoRejectDesc:'Automatically reject clients with risk score > 70',
+    settingAmlMonitorTitle:'Ongoing AML monitoring',settingAmlMonitorDesc:'Rescreen approved clients daily for changes',
+    settingEmailNotifTitle:'Email notifications',settingEmailNotifDesc:'Send email alerts for flagged applications',
+    // Client Panel
+    allApplications:'All client applications',cpDetails:'Details',cpDocuments:'Documents',
+    selectConv:'Select a conversation'
   }
 };
 
@@ -599,7 +739,12 @@ function esc(t){return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 function pad(n){return String(n).padStart(2,'0');}
 function fmtDate(d){if(!d)return '—';var dt=new Date(d);return pad(dt.getDate())+'.'+pad(dt.getMonth()+1)+'.'+dt.getFullYear();}
 function fmtTs(d){if(!d)return '';var dt=new Date(d);return pad(dt.getDate())+'.'+pad(dt.getMonth()+1)+' '+pad(dt.getHours())+':'+pad(dt.getMinutes());}
-function statusLabel(s){var m={pending:'Beklemede',in_review:'İncelemede',approved:'Onaylandı',rejected:'Reddedildi',to_schedule:'Planlanacak',planned:'Planlandı',completed:'Tamamlandı'};return m[s]||s||'—';}
+function statusLabel(s){
+  var m_tr={pending:'Beklemede',in_review:'İncelemede',approved:'Onaylandı',rejected:'Reddedildi',to_schedule:'Planlanacak',planned:'Planlandı',completed:'Tamamlandı'};
+  var m_en={pending:'Pending',in_review:'In Review',approved:'Approved',rejected:'Rejected',to_schedule:'To Schedule',planned:'Planned',completed:'Completed'};
+  var m=currentLang==='en'?m_en:m_tr;
+  return m[s]||s||'—';
+}
 function statusBadge(s){var m={pending:'badge-warning',in_review:'badge-info',approved:'badge-success',rejected:'badge-danger',to_schedule:'badge-warning',planned:'badge-info',completed:'badge-success'};return 'badge '+(m[s]||'badge-secondary');}
 
 // ── AUTH ──────────────────────────────────────────────
@@ -674,8 +819,9 @@ async function loadClients(){
     var p=c.personal||{};
     var name=esc((p.firstName||'')+' '+(p.lastName||'')).trim()||'—';
     var email=esc(p.email||'—');
-    var type=c.type==='business'?'Kurumsal':'Bireysel';
-    return '<tr><td>'+name+'</td><td>'+email+'</td><td>'+type+'</td><td>'+fmtDate(c.submitted_at)+'</td><td><span class="'+statusBadge(c.status)+'">'+statusLabel(c.status)+'</span></td><td><span class="'+statusBadge(c.kyc_status)+'">'+statusLabel(c.kyc_status)+'</span></td><td><button class="btn btn-outline btn-sm" onclick="openClientProfile(\''+c.id+'\')">Görüntüle</button></td></tr>';
+    var type=c.type==='business'?(T[currentLang].typeBiz||'Kurumsal'):(T[currentLang].typeInd||'Bireysel');
+    var viewBtn=currentLang==='en'?'View':'Görüntüle';
+    return '<tr><td>'+name+'</td><td>'+email+'</td><td>'+type+'</td><td>'+fmtDate(c.submitted_at)+'</td><td><span class="'+statusBadge(c.status)+'">'+statusLabel(c.status)+'</span></td><td><span class="'+statusBadge(c.kyc_status)+'">'+statusLabel(c.kyc_status)+'</span></td><td><button class="btn btn-outline btn-sm" onclick="openClientProfile(\''+c.id+'\')">'+viewBtn+'</button></td></tr>';
   }).join('');
 }
 
@@ -695,18 +841,23 @@ async function openClientProfile(id){
   // Personal info grid
   var info=document.getElementById('cpInfo');
   if(info){
-    var rows=[['Ad Soyad',esc(name.trim()||'—')],['Doğum Tarihi',esc(p.dob||'—')],['Uyruk',esc(p.nationality||'—')],['Kimlik No',p.nationalId?'•••••'+String(p.nationalId).slice(-5):'—'],['Telefon',esc(p.phone||'—')],['E-posta',esc(p.email||'—')],['Adres',esc((a.street||'')+' '+esc(a.city||'')).trim()||'—'],['Ülke',esc(a.country||'—')],['PEP',pep.isPep?'Evet':'Hayır'],['Fon Kaynağı',esc(pep.sourceOfFunds||'—')]];
-    if(client.type==='business')rows=rows.concat([['Şirket',esc(co.name||'—')],['Sicil No',esc(co.registryNo||'—')],['Faaliyet',esc(co.activity||'—')]]);
+    var L=T[currentLang];var isEn=currentLang==='en';
+    var rows=[[isEn?'Full Name':'Ad Soyad',esc(name.trim()||'—')],[isEn?'Date of Birth':'Doğum Tarihi',esc(p.dob||'—')],[isEn?'Nationality':'Uyruk',esc(p.nationality||'—')],[isEn?'ID Number':'Kimlik No',p.nationalId?'•••••'+String(p.nationalId).slice(-5):'—'],[isEn?'Phone':'Telefon',esc(p.phone||'—')],[isEn?'Email':'E-posta',esc(p.email||'—')],[isEn?'Address':'Adres',esc((a.street||'')+' '+esc(a.city||'')).trim()||'—'],[isEn?'Country':'Ülke',esc(a.country||'—')],['PEP',pep.isPep?(isEn?'Yes':'Evet'):(isEn?'No':'Hayır')],[isEn?'Source of Funds':'Fon Kaynağı',esc(pep.sourceOfFunds||'—')]];
+    if(client.type==='business')rows=rows.concat([[isEn?'Company':'Şirket',esc(co.name||'—')],[isEn?'Registry No':'Sicil No',esc(co.registryNo||'—')],[isEn?'Activity':'Faaliyet',esc(co.activity||'—')]]);
     info.innerHTML=rows.map(function(r){return '<div class="iitem"><div class="ilabel">'+r[0]+'</div><div class="ival">'+r[1]+'</div></div>';}).join('');
   }
   // KYC/AML actions
   var actions=document.getElementById('cpActions');
-  if(actions)actions.innerHTML='<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem"><button class="btn btn-primary btn-sm" onclick="updateClientStatus(\''+id+'\',\'approved\')">✓ Onayla</button><button class="btn btn-outline btn-sm" onclick="updateClientStatus(\''+id+'\',\'rejected\')" style="border-color:var(--danger);color:var(--danger)">✕ Reddet</button><button class="btn btn-outline btn-sm" onclick="updateKycStatus(\''+id+'\',\'approved\')">KYC Onayla</button><button class="btn btn-outline btn-sm" onclick="updateAmlStatus(\''+id+'\',\'approved\')">AML Onayla</button></div>';
+  var isEn=currentLang==='en';
+  if(actions)actions.innerHTML='<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem"><button class="btn btn-primary btn-sm" onclick="updateClientStatus(\''+id+'\',\'approved\')">✓ '+(isEn?'Approve':'Onayla')+'</button><button class="btn btn-outline btn-sm" onclick="updateClientStatus(\''+id+'\',\'rejected\')" style="border-color:var(--danger);color:var(--danger)">✕ '+(isEn?'Reject':'Reddet')+'</button><button class="btn btn-outline btn-sm" onclick="updateKycStatus(\''+id+'\',\'approved\')">KYC '+(isEn?'Approve':'Onayla')+'</button><button class="btn btn-outline btn-sm" onclick="updateAmlStatus(\''+id+'\',\'approved\')">AML '+(isEn?'Approve':'Onayla')+'</button></div>';
   // Documents
   var docsCont=document.getElementById('cpDocs');
   if(docsCont&&docs){
-    var typeLabels={identity:'Kimlik',address:'Adres',tax:'Vergi',registry:'Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet'};
-    docsCont.innerHTML=docs.length?'<table style="width:100%;border-collapse:collapse;font-size:.83rem"><thead><tr style="color:var(--text2)"><th style="padding:.4rem">Tür</th><th style="padding:.4rem">Dosya</th><th style="padding:.4rem">Durum</th><th style="padding:.4rem">Aksiyon</th></tr></thead><tbody>'+docs.map(function(d){var dl='';if(d.file_path){var {data:u}=sb.storage.from('documents').getPublicUrl(d.file_path);dl='<a href="'+esc(u.publicUrl)+'" target="_blank" style="color:var(--blue)">İndir</a>';}return '<tr><td>'+(typeLabels[d.doc_type]||d.doc_type)+'</td><td>'+esc(d.file_name||'N/A')+'</td><td><span class="'+statusBadge(d.status)+'">'+statusLabel(d.status)+'</span></td><td>'+dl+' <button class="btn btn-outline" style="font-size:.72rem;padding:.2rem .5rem" onclick="approveDoc(\''+d.id+'\')">Onayla</button></td></tr>';}).join('')+'</tbody></table>':'<p style="color:var(--text2);padding:1rem">Belge yok</p>';
+    var isEn2=currentLang==='en';
+    var typeLabels=isEn2?{identity:'Identity',address:'Address',tax:'Tax',registry:'Registry',aoa:'Articles of Association',signature:'Signature Circular',cgs:'Activity Certificate'}:{identity:'Kimlik',address:'Adres',tax:'Vergi',registry:'Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet'};
+    var docHdrs=isEn2?['Type','File','Status','Action']:['Tür','Dosya','Durum','Aksiyon'];
+    var dlLabel=isEn2?'Download':'İndir';var approveLabel=isEn2?'Approve':'Onayla';var noDocs=isEn2?'No documents':'Belge yok';
+    docsCont.innerHTML=docs.length?'<table style="width:100%;border-collapse:collapse;font-size:.83rem"><thead><tr style="color:var(--text2)">'+docHdrs.map(function(h){return '<th style="padding:.4rem">'+h+'</th>';}).join('')+'</tr></thead><tbody>'+docs.map(function(d){var dl='';if(d.file_path){var {data:u}=sb.storage.from('documents').getPublicUrl(d.file_path);dl='<a href="'+esc(u.publicUrl)+'" target="_blank" style="color:var(--blue)">'+dlLabel+'</a>';}return '<tr><td>'+(typeLabels[d.doc_type]||d.doc_type)+'</td><td>'+esc(d.file_name||'N/A')+'</td><td><span class="'+statusBadge(d.status)+'">'+statusLabel(d.status)+'</span></td><td>'+dl+' <button class="btn btn-outline" style="font-size:.72rem;padding:.2rem .5rem" onclick="approveDoc(\''+d.id+'\')">'+approveLabel+'</button></td></tr>';}).join('')+'</tbody></table>':'<p style="color:var(--text2);padding:1rem">'+noDocs+'</p>';
   }
   // UBOs
   var ubosCont=document.getElementById('cpUbos');
@@ -768,7 +919,8 @@ function appendAdminMsg(m){
   var isStaff=m.sender_type==='staff';
   var init=isStaff?'VF':(m.sender_name||'M')[0].toUpperCase();
   var div=document.createElement('div');div.className='cmsg '+(isStaff?'stf':'cli');
-  div.innerHTML='<div class="cav" style="'+(isStaff?'':'background:rgba(20,71,230,.1);color:var(--blue)')+'">'+init+'</div><div><div class="cbub">'+esc(m.text)+'</div><div class="cmeta">'+(isStaff?'Siz':'Müşteri')+' · '+fmtTs(m.created_at)+'</div></div>';
+  var you=currentLang==='en'?'You':'Siz';var customer=currentLang==='en'?'Client':'Müşteri';
+  div.innerHTML='<div class="cav" style="'+(isStaff?'':'background:rgba(20,71,230,.1);color:var(--blue)')+'">'+init+'</div><div><div class="cbub">'+esc(m.text)+'</div><div class="cmeta">'+(isStaff?you:customer)+' · '+fmtTs(m.created_at)+'</div></div>';
   cont.appendChild(div);cont.scrollTop=cont.scrollHeight;
 }
 
