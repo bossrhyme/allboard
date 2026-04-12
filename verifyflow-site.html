@@ -176,8 +176,8 @@ a{color:var(--blue);text-decoration:none}
 <nav class="nav" id="mainNav">
   <div class="nav-logo" onclick="nav('landing')">Verify<span>Flow</span></div>
   <div class="nav-actions" id="navAct">
-    <button class="btn btn-outline btn-sm" onclick="showAuth('login')">Giriş Yap / Log In</button>
-    <button class="btn btn-primary btn-sm" onclick="showAuth('register')">Kayıt Ol / Register</button>
+    <button class="btn btn-outline btn-sm" onclick="showAuth('login')">Giriş Yap</button>
+    <button class="btn btn-primary btn-sm" onclick="showAuth('register')">Başvuru Yap →</button>
   </div>
 </nav>
 
@@ -185,14 +185,14 @@ a{color:var(--blue);text-decoration:none}
 <div data-view="landing" class="active" id="view-landing">
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow">KYC · KYB · AML Uyum Platformu</div>
-    <h1>Müşterilerinizi hızlı ve <strong>güvenle</strong> onboard edin</h1>
-    <p>Bireysel ve kurumsal müşteriler için KYC/KYB süreçlerini dijitalleştirin. KVKK ve GDPR'a tam uyumlu, dakikalar içinde tamamlanan onboarding akışı.</p>
+    <div class="hero-eyebrow">Bireysel & Kurumsal Onboarding Hizmeti</div>
+    <h1>Onboarding sürecinizi <strong>sizin adınıza</strong> yönetiyoruz</h1>
+    <p>Siz bilgilerinizi ve belgelerinizi bir kez gönderin — uzman ekibimiz onboarding sürecinizi baştan sona takip etsin, koordine etsin ve sonuçlandırsın.</p>
     <div class="hero-btns">
-      <button class="btn btn-primary" onclick="showAuth('register')" style="padding:.75rem 1.8rem">Ücretsiz Başlayın →</button>
+      <button class="btn btn-primary" onclick="showAuth('register')" style="padding:.75rem 1.8rem">Başvuru Yap →</button>
       <button class="btn btn-outline" onclick="showAuth('login')" style="padding:.75rem 1.6rem">Giriş Yap</button>
     </div>
-    <div class="hero-note"><span>✓</span> Kredi kartı gerekmez &nbsp;·&nbsp; <span>✓</span> 5 dakikada kurulum &nbsp;·&nbsp; <span>✓</span> 30 gün ücretsiz</div>
+    <div class="hero-note"><span>✓</span> Ücretsiz başvuru &nbsp;·&nbsp; <span>✓</span> Uzman ekip desteği &nbsp;·&nbsp; <span>✓</span> Şeffaf süreç takibi</div>
   </div>
   <div class="hero-right">
     <div class="mockup-bar">
@@ -201,27 +201,27 @@ a{color:var(--blue);text-decoration:none}
     </div>
     <div class="mockup-body">
       <div class="mock-card">
-        <div class="mock-card-head"><h4>Başvuru Durumu</h4><span class="mock-badge mb-info">İncelemede</span></div>
+        <div class="mock-card-head"><h4>Onboarding Sürecim</h4><span class="mock-badge mb-info">Devam Ediyor</span></div>
         <div class="mock-prog"><div class="mock-prog-fill" style="width:65%"></div></div>
-        <div class="mock-prog-label"><span>KYC: Tamamlandı</span><span>AML: Devam ediyor</span></div>
+        <div class="mock-prog-label"><span>Belgeler: Tamamlandı</span><span>İnceleme: Devam ediyor</span></div>
       </div>
       <div class="mock-card">
-        <div class="mock-card-head"><h4>Son Başvurular</h4><span style="font-size:.7rem;color:var(--blue);cursor:pointer;font-weight:600">Tümü →</span></div>
+        <div class="mock-card-head"><h4>Son Güncellemeler</h4><span style="font-size:.7rem;color:var(--blue);cursor:pointer;font-weight:600">Tümü →</span></div>
         <div class="mock-list">
           <div class="mock-list-item">
-            <div class="mock-avatar">AY</div>
-            <div class="mock-info"><div class="mock-info-name">Ahmet Yılmaz</div><div class="mock-info-sub">Bireysel · 12 dk önce</div></div>
-            <span class="mock-badge mb-success">Onaylı</span>
+            <div class="mock-avatar" style="background:linear-gradient(135deg,#1447e6,#00c4a7)">✓</div>
+            <div class="mock-info"><div class="mock-info-name">Belgeleriniz alındı</div><div class="mock-info-sub">Ekip incelemeye başladı · Az önce</div></div>
+            <span class="mock-badge mb-success">Tamam</span>
           </div>
           <div class="mock-list-item">
-            <div class="mock-avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">TK</div>
-            <div class="mock-info"><div class="mock-info-name">Tekno A.Ş.</div><div class="mock-info-sub">Kurumsal · 1 saat önce</div></div>
-            <span class="mock-badge mb-warn">İncelemede</span>
+            <div class="mock-avatar" style="background:linear-gradient(135deg,#f59e0b,#fb923c)">!</div>
+            <div class="mock-info"><div class="mock-info-name">Ek belge talebi</div><div class="mock-info-sub">İmza sirküleri bekleniyor · 2 sa önce</div></div>
+            <span class="mock-badge mb-warn">Aksiyon</span>
           </div>
           <div class="mock-list-item">
-            <div class="mock-avatar" style="background:linear-gradient(135deg,#8b5cf6,#3b82f6)">SD</div>
-            <div class="mock-info"><div class="mock-info-name">Selin Demir</div><div class="mock-info-sub">Bireysel · 3 saat önce</div></div>
-            <span class="mock-badge mb-info">Bekliyor</span>
+            <div class="mock-avatar" style="background:linear-gradient(135deg,#8b5cf6,#3b82f6)">💬</div>
+            <div class="mock-info"><div class="mock-info-name">Danışmanınızdan mesaj</div><div class="mock-info-sub">Süreç hakkında bilgi · Dün</div></div>
+            <span class="mock-badge mb-info">Yeni</span>
           </div>
         </div>
       </div>
@@ -229,49 +229,49 @@ a{color:var(--blue);text-decoration:none}
   </div>
 </section>
 <div class="trust-bar">
-  <div class="trust-item"><span>🏛️</span> BDDK Uyumlu</div>
+  <div class="trust-item"><span>🤝</span> Adınıza Tam Yönetim</div>
   <div class="trust-sep"></div>
-  <div class="trust-item"><span>🇪🇺</span> GDPR Sertifikalı</div>
+  <div class="trust-item"><span>⚡</span> Hızlı Süreç Takibi</div>
   <div class="trust-sep"></div>
-  <div class="trust-item"><span>🔐</span> ISO 27001</div>
+  <div class="trust-item"><span>🔐</span> Güvenli Veri İşleme</div>
   <div class="trust-sep"></div>
-  <div class="trust-item"><span>🛡️</span> SOC 2 Type II</div>
+  <div class="trust-item"><span>👥</span> Uzman Danışman Ekibi</div>
   <div class="trust-sep"></div>
-  <div class="trust-item"><span>⚖️</span> FATF Standartları</div>
+  <div class="trust-item"><span>✅</span> Yüksek Onay Oranı</div>
 </div>
 <div class="features">
   <div class="ftitle">
-    <div class="ftitle-eyebrow">Platform Özellikleri</div>
-    <h2>İhtiyacınız olan her şey, tek platformda</h2>
-    <p>Kimlik doğrulamadan risk analizine kadar tüm uyum süreçleri VerifyFlow'da</p>
+    <div class="ftitle-eyebrow">Nasıl Çalışır?</div>
+    <h2>Siz başvurun, gerisini biz halledelim</h2>
+    <p>Onboarding sürecinde her adımı sizin adınıza takip eder, koordine eder ve sonuçlandırırız</p>
   </div>
   <div class="fgrid">
-    <div class="fcard"><div class="fcard-icon">🔍</div><h3>KYC Kimlik Doğrulama</h3><p>Bireysel müşteriler için kimlik, adres ve PEP taramasını tek akışta tamamlayın.</p></div>
-    <div class="fcard"><div class="fcard-icon">🏢</div><h3>KYB Kurumsal Onboarding</h3><p>Şirket tescili, gerçek faydalanıcı tespiti ve kurumsal yapı analizi.</p></div>
-    <div class="fcard"><div class="fcard-icon">🛡️</div><h3>AML Tarama</h3><p>Gerçek zamanlı yaptırım listeleri, PEP veritabanı ve olumsuz medya taraması.</p></div>
-    <div class="fcard"><div class="fcard-icon">⚡</div><h3>Risk Değerlendirmesi</h3><p>Dinamik risk skorlaması ve yapılandırılabilir otomatik karar akışları.</p></div>
-    <div class="fcard"><div class="fcard-icon">💬</div><h3>Gerçek Zamanlı Chat</h3><p>Müşteri ile uyum ekibi arasında anlık, kayıt altında mesajlaşma.</p></div>
-    <div class="fcard"><div class="fcard-icon">📊</div><h3>Admin Dashboard</h3><p>Tüm başvuruları tek ekrandan yönetin. İstatistikler, filtreler, aksiyon butonları.</p></div>
+    <div class="fcard"><div class="fcard-icon">📋</div><h3>Tek Seferlik Başvuru</h3><p>Bilgilerinizi ve belgelerinizi bir kez girin. Uzman ekibimiz her şeyi oradan devralır.</p></div>
+    <div class="fcard"><div class="fcard-icon">📁</div><h3>Belge Yönetimi</h3><p>Hangi belgelerin gerektiğini biliriz. Eksik veya hatalı belgeler için sizi yönlendiririz.</p></div>
+    <div class="fcard"><div class="fcard-icon">🔄</div><h3>Anlık Süreç Takibi</h3><p>Başvurunuzun hangi aşamada olduğunu profilinizden gerçek zamanlı takip edin.</p></div>
+    <div class="fcard"><div class="fcard-icon">💬</div><h3>Doğrudan İletişim</h3><p>Sorularınız için size atanan danışmanınızla platform üzerinden anlık iletişime geçin.</p></div>
+    <div class="fcard"><div class="fcard-icon">🤝</div><h3>Kurum Koordinasyonu</h3><p>İlgili kurum ve kuruluşlarla yazışmaları, takipleri sizin adınıza yürütürüz.</p></div>
+    <div class="fcard"><div class="fcard-icon">✅</div><h3>Bireysel & Kurumsal</h3><p>Gerçek kişiler ve tüzel kişiler için ayrı ayrı özelleştirilmiş onboarding akışları.</p></div>
   </div>
 </div>
 <footer class="vf-footer">
   <div class="vf-footer-grid">
     <div>
       <div class="vf-footer-brand">Verify<span>Flow</span></div>
-      <p class="vf-footer-desc">Modern finansal kurumlar için KYC/KYB uyum platformu. Hızlı, güvenli, mevzuata uygun.</p>
+      <p class="vf-footer-desc">Bireyler ve şirketler için profesyonel onboarding yönetim hizmeti. Siz başvurun, biz yönetelim.</p>
     </div>
     <div class="vf-footer-col">
-      <h5>Ürün</h5>
-      <a href="#">KYC Platform</a>
-      <a href="#">KYB Onboarding</a>
-      <a href="#">AML Tarama</a>
-      <a href="/demo">Admin Demo</a>
+      <h5>Hizmetler</h5>
+      <a href="#">Bireysel Onboarding</a>
+      <a href="#">Kurumsal Onboarding</a>
+      <a href="#">Belge Yönetimi</a>
+      <a href="#">Başvuru Takibi</a>
     </div>
     <div class="vf-footer-col">
-      <h5>Geliştirici</h5>
-      <a href="/data-structures">API Docs</a>
-      <a href="#">Entegrasyonlar</a>
-      <a href="#">Webhook</a>
+      <h5>Süreç</h5>
+      <a href="#">Nasıl Çalışır?</a>
+      <a href="#">Sık Sorulan Sorular</a>
+      <a href="#">Referanslar</a>
     </div>
     <div class="vf-footer-col">
       <h5>Yasal</h5>
