@@ -629,9 +629,10 @@ function showDashboard(){
 
 document.addEventListener('DOMContentLoaded',async function(){
   var {data:{session}}=await sb.auth.getSession();
-  if(session){
+  if(session && session.user.email===ADMIN_EMAIL){
     showDashboard();
   } else {
+    if(session) await sb.auth.signOut();
     document.getElementById('adminLoginOverlay').style.display='flex';
   }
 });
