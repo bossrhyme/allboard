@@ -166,6 +166,9 @@ a{color:var(--blue);text-decoration:none}
 .mtabs{display:flex;margin-bottom:1.4rem;border-bottom:1px solid var(--border)}
 .mtab{flex:1;padding:.6rem;text-align:center;cursor:pointer;font-size:.86rem;font-weight:600;color:var(--text2);border-bottom:2px solid transparent;transition:all .18s}
 .mtab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.lang-toggle{display:flex;gap:.2rem;background:var(--bg2);border-radius:8px;padding:.2rem;border:1px solid var(--border)}
+.lang-btn{padding:.25rem .55rem;border-radius:6px;font-size:.72rem;font-weight:700;border:none;cursor:pointer;background:transparent;color:var(--text3);transition:all .15s;font-family:inherit}
+.lang-btn.active{background:#fff;color:var(--blue);box-shadow:0 1px 4px rgba(0,0,0,.08)}
 @media(max-width:900px){.hero{grid-template-columns:1fr;gap:3rem;padding-top:7rem}.hero-right{max-width:500px}.vf-footer-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.frow{grid-template-columns:1fr}.hero h1{font-size:1.8rem}.pf-tab{font-size:.78rem;padding:.6rem .85rem}.nav{padding:0 1.25rem}.trust-bar{gap:1.5rem;padding:1rem 1.5rem}}
 </style>
@@ -176,8 +179,12 @@ a{color:var(--blue);text-decoration:none}
 <nav class="nav" id="mainNav">
   <div class="nav-logo" onclick="nav('landing')">All<span>board</span></div>
   <div class="nav-actions" id="navAct">
-    <button class="btn btn-outline btn-sm" onclick="showAuth('login')">Giriş Yap</button>
-    <button class="btn btn-primary btn-sm" onclick="showAuth('register')">Başvuru Yap →</button>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btnTR" onclick="setLang('tr')">🇹🇷 TR</button>
+      <button class="lang-btn" id="btnEN" onclick="setLang('en')">🇬🇧 EN</button>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="showAuth('login')" data-i18n="navLogin">Giriş Yap</button>
+    <button class="btn btn-primary btn-sm" onclick="showAuth('register')" data-i18n="navApply">Başvuru Yap →</button>
   </div>
 </nav>
 
@@ -185,14 +192,14 @@ a{color:var(--blue);text-decoration:none}
 <div data-view="landing" class="active" id="view-landing">
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow">Bireysel & Kurumsal Onboarding Hizmeti</div>
-    <h1>Onboarding sürecinizi <strong>sizin adınıza</strong> yönetiyoruz</h1>
-    <p>Siz bilgilerinizi ve belgelerinizi bir kez gönderin — uzman ekibimiz onboarding sürecinizi baştan sona takip etsin, koordine etsin ve sonuçlandırsın.</p>
+    <div class="hero-eyebrow" data-i18n="heroEyebrow">Bireysel & Kurumsal Onboarding Hizmeti</div>
+    <h1 data-i18n="heroTitle">Onboarding sürecinizi <strong>sizin adınıza</strong> yönetiyoruz</h1>
+    <p data-i18n="heroDesc">Siz bilgilerinizi ve belgelerinizi bir kez gönderin — uzman ekibimiz onboarding sürecinizi baştan sona takip etsin, koordine etsin ve sonuçlandırsın.</p>
     <div class="hero-btns">
-      <button class="btn btn-primary" onclick="showAuth('register')" style="padding:.75rem 1.8rem">Başvuru Yap →</button>
-      <button class="btn btn-outline" onclick="showAuth('login')" style="padding:.75rem 1.6rem">Giriş Yap</button>
+      <button class="btn btn-primary" onclick="showAuth('register')" style="padding:.75rem 1.8rem" data-i18n="heroApply">Başvuru Yap →</button>
+      <button class="btn btn-outline" onclick="showAuth('login')" style="padding:.75rem 1.6rem" data-i18n="heroLogin">Giriş Yap</button>
     </div>
-    <div class="hero-note"><span>✓</span> Ücretsiz başvuru &nbsp;·&nbsp; <span>✓</span> Uzman ekip desteği &nbsp;·&nbsp; <span>✓</span> Şeffaf süreç takibi</div>
+    <div class="hero-note"><span>✓</span> <span data-i18n="heroNote1">Ücretsiz başvuru</span> &nbsp;·&nbsp; <span>✓</span> <span data-i18n="heroNote2">Uzman ekip desteği</span> &nbsp;·&nbsp; <span>✓</span> <span data-i18n="heroNote3">Şeffaf süreç takibi</span></div>
   </div>
   <div class="hero-right">
     <div class="mockup-bar">
@@ -229,29 +236,29 @@ a{color:var(--blue);text-decoration:none}
   </div>
 </section>
 <div class="trust-bar">
-  <div class="trust-item"><span>🤝</span> Adınıza Tam Yönetim</div>
+  <div class="trust-item"><span>🤝</span> <span data-i18n="trust1">Adınıza Tam Yönetim</span></div>
   <div class="trust-sep"></div>
-  <div class="trust-item"><span>⚡</span> Hızlı Süreç Takibi</div>
+  <div class="trust-item"><span>⚡</span> <span data-i18n="trust2">Hızlı Süreç Takibi</span></div>
   <div class="trust-sep"></div>
-  <div class="trust-item"><span>🔐</span> Güvenli Veri İşleme</div>
+  <div class="trust-item"><span>🔐</span> <span data-i18n="trust3">Güvenli Veri İşleme</span></div>
   <div class="trust-sep"></div>
-  <div class="trust-item"><span>👥</span> Uzman Danışman Ekibi</div>
+  <div class="trust-item"><span>👥</span> <span data-i18n="trust4">Uzman Danışman Ekibi</span></div>
   <div class="trust-sep"></div>
-  <div class="trust-item"><span>✅</span> Yüksek Onay Oranı</div>
+  <div class="trust-item"><span>✅</span> <span data-i18n="trust5">Yüksek Onay Oranı</span></div>
 </div>
 <div class="features">
   <div class="ftitle">
-    <div class="ftitle-eyebrow">Nasıl Çalışır?</div>
-    <h2>Siz başvurun, gerisini biz halledelim</h2>
-    <p>Onboarding sürecinde her adımı sizin adınıza takip eder, koordine eder ve sonuçlandırırız</p>
+    <div class="ftitle-eyebrow" data-i18n="featEyebrow">Nasıl Çalışır?</div>
+    <h2 data-i18n="featTitle">Siz başvurun, gerisini biz halledelim</h2>
+    <p data-i18n="featDesc">Onboarding sürecinde her adımı sizin adınıza takip eder, koordine eder ve sonuçlandırırız</p>
   </div>
   <div class="fgrid">
-    <div class="fcard"><div class="fcard-icon">📋</div><h3>Tek Seferlik Başvuru</h3><p>Bilgilerinizi ve belgelerinizi bir kez girin. Uzman ekibimiz her şeyi oradan devralır.</p></div>
-    <div class="fcard"><div class="fcard-icon">📁</div><h3>Belge Yönetimi</h3><p>Hangi belgelerin gerektiğini biliriz. Eksik veya hatalı belgeler için sizi yönlendiririz.</p></div>
-    <div class="fcard"><div class="fcard-icon">🔄</div><h3>Anlık Süreç Takibi</h3><p>Başvurunuzun hangi aşamada olduğunu profilinizden gerçek zamanlı takip edin.</p></div>
-    <div class="fcard"><div class="fcard-icon">💬</div><h3>Doğrudan İletişim</h3><p>Sorularınız için size atanan danışmanınızla platform üzerinden anlık iletişime geçin.</p></div>
-    <div class="fcard"><div class="fcard-icon">🤝</div><h3>Kurum Koordinasyonu</h3><p>İlgili kurum ve kuruluşlarla yazışmaları, takipleri sizin adınıza yürütürüz.</p></div>
-    <div class="fcard"><div class="fcard-icon">✅</div><h3>Bireysel & Kurumsal</h3><p>Gerçek kişiler ve tüzel kişiler için ayrı ayrı özelleştirilmiş onboarding akışları.</p></div>
+    <div class="fcard"><div class="fcard-icon">📋</div><h3 data-i18n="f1t">Tek Seferlik Başvuru</h3><p data-i18n="f1d">Bilgilerinizi ve belgelerinizi bir kez girin. Uzman ekibimiz her şeyi oradan devralır.</p></div>
+    <div class="fcard"><div class="fcard-icon">📁</div><h3 data-i18n="f2t">Belge Yönetimi</h3><p data-i18n="f2d">Hangi belgelerin gerektiğini biliriz. Eksik veya hatalı belgeler için sizi yönlendiririz.</p></div>
+    <div class="fcard"><div class="fcard-icon">🔄</div><h3 data-i18n="f3t">Anlık Süreç Takibi</h3><p data-i18n="f3d">Başvurunuzun hangi aşamada olduğunu profilinizden gerçek zamanlı takip edin.</p></div>
+    <div class="fcard"><div class="fcard-icon">💬</div><h3 data-i18n="f4t">Doğrudan İletişim</h3><p data-i18n="f4d">Sorularınız için size atanan danışmanınızla platform üzerinden anlık iletişime geçin.</p></div>
+    <div class="fcard"><div class="fcard-icon">🤝</div><h3 data-i18n="f5t">Kurum Koordinasyonu</h3><p data-i18n="f5d">İlgili kurum ve kuruluşlarla yazışmaları, takipleri sizin adınıza yürütürüz.</p></div>
+    <div class="fcard"><div class="fcard-icon">✅</div><h3 data-i18n="f6t">Bireysel & Kurumsal</h3><p data-i18n="f6d">Gerçek kişiler ve tüzel kişiler için ayrı ayrı özelleştirilmiş onboarding akışları.</p></div>
   </div>
 </div>
 <footer class="vf-footer">
@@ -261,24 +268,24 @@ a{color:var(--blue);text-decoration:none}
       <p class="vf-footer-desc">Bireyler ve şirketler için profesyonel onboarding yönetim hizmeti. Siz başvurun, biz yönetelim.</p>
     </div>
     <div class="vf-footer-col">
-      <h5>Hizmetler</h5>
-      <a href="#">Bireysel Onboarding</a>
-      <a href="#">Kurumsal Onboarding</a>
-      <a href="#">Belge Yönetimi</a>
-      <a href="#">Başvuru Takibi</a>
+      <h5 data-i18n="fcolServices">Hizmetler</h5>
+      <a href="#" data-i18n="fcolS1">Bireysel Onboarding</a>
+      <a href="#" data-i18n="fcolS2">Kurumsal Onboarding</a>
+      <a href="#" data-i18n="fcolS3">Belge Yönetimi</a>
+      <a href="#" data-i18n="fcolS4">Başvuru Takibi</a>
     </div>
     <div class="vf-footer-col">
-      <h5>Süreç</h5>
-      <a href="#">Nasıl Çalışır?</a>
-      <a href="#">Sık Sorulan Sorular</a>
-      <a href="#">Referanslar</a>
+      <h5 data-i18n="fcolProcess">Süreç</h5>
+      <a href="#" data-i18n="fcolP1">Nasıl Çalışır?</a>
+      <a href="#" data-i18n="fcolP2">Sık Sorulan Sorular</a>
+      <a href="#" data-i18n="fcolP3">Referanslar</a>
     </div>
     <div class="vf-footer-col">
-      <h5>Yasal</h5>
-      <a href="#">KVKK Politikası</a>
-      <a href="#">Gizlilik</a>
-      <a href="#">Kullanım Şartları</a>
-      <a href="#">Güvenlik</a>
+      <h5 data-i18n="fcolLegal">Yasal</h5>
+      <a href="#" data-i18n="fcolL1">KVKK Politikası</a>
+      <a href="#" data-i18n="fcolL2">Gizlilik</a>
+      <a href="#" data-i18n="fcolL3">Kullanım Şartları</a>
+      <a href="#" data-i18n="fcolL4">Güvenlik</a>
     </div>
   </div>
   <div class="vf-footer-bottom">
@@ -298,255 +305,254 @@ a{color:var(--blue);text-decoration:none}
 <div class="ob-wrap">
   <div class="ob-header">
     <div class="ob-hd-left">
-      <h2>Hesap Oluştur / Create Account</h2>
+      <h2 data-i18n="obTitle">Hesap Oluştur</h2>
       <div class="ob-prog-bar"><div class="ob-prog-fill" id="obProg" style="width:14%"></div></div>
     </div>
-    <span class="ob-step-lbl" id="obLbl">Adım 1 / 7</span>
-    <button class="btn btn-ghost btn-sm" onclick="nav('landing')">✕ Çıkış</button>
+    <span class="ob-step-lbl" id="obLbl"></span>
+    <button class="btn btn-ghost btn-sm" onclick="nav('landing')" data-i18n="obExit">✕ Çıkış</button>
   </div>
   <div class="ob-body">
 
   <!-- ADIM 1: Hesap Türü -->
   <div class="spane active" id="s1">
-    <div class="stitle">Hesap Türü / Account Type</div>
-    <div class="sdesc">Oluşturmak istediğiniz hesap türünü seçin / Select the type of account you wish to create</div>
+    <div class="stitle" data-i18n="s1title">Hesap Türü</div>
+    <div class="sdesc" data-i18n="s1desc">Oluşturmak istediğiniz hesap türünü seçin</div>
     <div class="rg">
       <label class="ro" onclick="pickRo(this)">
         <div class="rdot"></div>
-        <div class="rl"><strong>Bireysel / Individual</strong><span>Kişisel KYC doğrulaması · Personal KYC verification (7 adım)</span></div>
+        <div class="rl"><strong data-i18n="typeInd">Bireysel</strong><span data-i18n="typeIndDesc">Kişisel kimlik doğrulaması (7 adım)</span></div>
       </label>
       <label class="ro" onclick="pickRo(this)">
         <div class="rdot"></div>
-        <div class="rl"><strong>Kurumsal / Business</strong><span>Şirket KYB + KYC doğrulaması · Company KYB + KYC verification (10 adım)</span></div>
+        <div class="rl"><strong data-i18n="typeBiz">Kurumsal</strong><span data-i18n="typeBizDesc">Şirket doğrulaması + KYC (10 adım)</span></div>
       </label>
     </div>
-    <div class="snav"><div></div><button class="btn btn-primary" onclick="goNext()">Devam / Continue →</button></div>
+    <div class="snav"><div></div><button class="btn btn-primary" onclick="goNext()" data-i18n="btnContinue">Devam →</button></div>
   </div>
 
   <!-- ADIM 2: Kişisel Bilgiler -->
   <div class="spane" id="s2">
-    <div class="stitle">Kişisel Bilgiler / Personal Info</div>
-    <div class="sdesc">Kimlik doğrulaması için kişisel bilgilerinizi girin / Enter your personal details for identity verification</div>
+    <div class="stitle" data-i18n="s2title">Kişisel Bilgiler</div>
+    <div class="sdesc" data-i18n="s2desc">Kimlik doğrulaması için kişisel bilgilerinizi girin</div>
     <div class="frow">
-      <div class="fg"><label>Ad / First Name</label><input type="text" class="fi" id="firstName" placeholder="Ahmet"></div>
-      <div class="fg"><label>Soyad / Last Name</label><input type="text" class="fi" id="lastName" placeholder="Yılmaz"></div>
+      <div class="fg"><label data-i18n="lFirstName">Ad</label><input type="text" class="fi" id="firstName" placeholder="Ahmet"></div>
+      <div class="fg"><label data-i18n="lLastName">Soyad</label><input type="text" class="fi" id="lastName" placeholder="Yılmaz"></div>
     </div>
     <div class="frow">
-      <div class="fg"><label>Doğum Tarihi / Date of Birth</label><input type="date" class="fi" id="dob"></div>
-      <div class="fg"><label>Uyruk / Nationality</label>
-        <select class="fi" id="nationality"><option value="">Seçin / Select</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Hollanda</option><option>İspanya</option><option>İtalya</option><option>İngiltere</option><option>Amerika</option><option>Diğer / Other</option></select>
+      <div class="fg"><label data-i18n="lDob">Doğum Tarihi</label><input type="date" class="fi" id="dob"></div>
+      <div class="fg"><label data-i18n="lNationality">Uyruk</label>
+        <select class="fi" id="nationality"><option value="" data-i18n="optSelect">Seçin</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Hollanda</option><option>İspanya</option><option>İtalya</option><option>İngiltere</option><option>Amerika</option><option data-i18n="optOther">Diğer</option></select>
       </div>
     </div>
     <div class="frow">
-      <div class="fg"><label>TC Kimlik No / National ID</label><input type="text" class="fi" id="nationalId" placeholder="12345678901"></div>
-      <div class="fg"><label>Telefon / Phone</label><input type="tel" class="fi" id="phone" placeholder="+90 555 000 00 00"></div>
+      <div class="fg"><label data-i18n="lNationalId">TC Kimlik No</label><input type="text" class="fi" id="nationalId" placeholder="12345678901"></div>
+      <div class="fg"><label data-i18n="lPhone">Telefon</label><input type="tel" class="fi" id="phone" placeholder="+90 555 000 00 00"></div>
     </div>
-    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()" data-i18n="btnBack">← Geri</button><button class="btn btn-primary" onclick="goNext()" data-i18n="btnContinue">Devam →</button></div>
   </div>
 
   <!-- ADIM 3: Adres -->
   <div class="spane" id="s3">
-    <div class="stitle">Adres Bilgileri / Address</div>
-    <div class="sdesc">Güncel ikametgah adresinizi girin / Enter your current residential address</div>
-    <div class="fg"><label>Sokak / Street Address</label><input type="text" class="fi" id="street" placeholder="Atatürk Caddesi No:42"></div>
+    <div class="stitle" data-i18n="s3title">Adres Bilgileri</div>
+    <div class="sdesc" data-i18n="s3desc">Güncel ikametgah adresinizi girin</div>
+    <div class="fg"><label data-i18n="lStreet">Sokak / Cadde</label><input type="text" class="fi" id="street" placeholder="Atatürk Caddesi No:42"></div>
     <div class="frow">
-      <div class="fg"><label>Şehir / City</label><input type="text" class="fi" id="city" placeholder="İstanbul"></div>
-      <div class="fg"><label>İlçe / District</label><input type="text" class="fi" id="district" placeholder="Beşiktaş"></div>
+      <div class="fg"><label data-i18n="lCity">Şehir</label><input type="text" class="fi" id="city" placeholder="İstanbul"></div>
+      <div class="fg"><label data-i18n="lDistrict">İlçe</label><input type="text" class="fi" id="district" placeholder="Beşiktaş"></div>
     </div>
     <div class="frow">
-      <div class="fg"><label>Posta Kodu / Postal Code</label><input type="text" class="fi" id="postalCode" placeholder="34349"></div>
-      <div class="fg"><label>Ülke / Country</label>
-        <select class="fi" id="country"><option value="">Seçin / Select</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Hollanda</option><option>Diğer / Other</option></select>
+      <div class="fg"><label data-i18n="lPostal">Posta Kodu</label><input type="text" class="fi" id="postalCode" placeholder="34349"></div>
+      <div class="fg"><label data-i18n="lCountry">Ülke</label>
+        <select class="fi" id="country"><option value="" data-i18n="optSelect">Seçin</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Hollanda</option><option data-i18n="optOther">Diğer</option></select>
       </div>
     </div>
-    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()" data-i18n="btnBack">← Geri</button><button class="btn btn-primary" onclick="goNext()" data-i18n="btnContinue">Devam →</button></div>
   </div>
 
   <!-- ADIM 4-BİREYSEL: PEP & Risk -->
   <div class="spane" id="s4ind">
-    <div class="stitle">PEP &amp; Risk Beyanı</div>
-    <div class="sdesc">Aşağıdaki soruları dürüstçe yanıtlayın / Please answer the following questions honestly</div>
-    <div class="fg"><label>Siyasi açıdan öneme sahip bir kişi (PEP) misiniz? / Are you a Politically Exposed Person?</label>
-      <select class="fi" id="pepStatus"><option value="">Seçin / Select</option><option value="no">Hayır / No</option><option value="yes">Evet / Yes</option></select></div>
-    <div class="fg"><label>Birinci derece yakınınızda PEP var mı? / Do you have a close relative who is a PEP?</label>
-      <select class="fi" id="relStatus"><option value="">Seçin / Select</option><option value="no">Hayır / No</option><option value="yes">Evet / Yes</option></select></div>
-    <div class="fg"><label>Fon Kaynağı / Source of Funds</label>
-      <select class="fi" id="sourceOfFunds"><option value="">Seçin / Select</option><option>Maaş / Salary</option><option>Kira Geliri / Rental Income</option><option>Yatırım / Investments</option><option>Miras / Inheritance</option><option>İş Geliri / Business Income</option><option>Diğer / Other</option></select></div>
-    <div class="fg"><label>Aylık Tahmini İşlem Hacmi / Expected Monthly Transaction Volume</label>
-      <select class="fi" id="monthlyVolume"><option value="">Seçin / Select</option><option>€0 – €1,000</option><option>€1,000 – €10,000</option><option>€10,000 – €50,000</option><option>€50,000 – €250,000</option><option>€250,000+</option></select></div>
-    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+    <div class="stitle" data-i18n="s4title">PEP & Risk Beyanı</div>
+    <div class="sdesc" data-i18n="s4desc">Aşağıdaki soruları dürüstçe yanıtlayın</div>
+    <div class="fg"><label data-i18n="lPepQ1">Siyasi açıdan öneme sahip bir kişi (PEP) misiniz?</label>
+      <select class="fi" id="pepStatus"><option value="" data-i18n="optSelect">Seçin</option><option value="no" data-i18n="optNo">Hayır</option><option value="yes" data-i18n="optYes">Evet</option></select></div>
+    <div class="fg"><label data-i18n="lPepQ2">Birinci derece yakınınızda PEP var mı?</label>
+      <select class="fi" id="relStatus"><option value="" data-i18n="optSelect">Seçin</option><option value="no" data-i18n="optNo">Hayır</option><option value="yes" data-i18n="optYes">Evet</option></select></div>
+    <div class="fg"><label data-i18n="lSof">Fon Kaynağı</label>
+      <select class="fi" id="sourceOfFunds"><option value="" data-i18n="optSelect">Seçin</option><option data-i18n="sofSalary">Maaş</option><option data-i18n="sofRental">Kira Geliri</option><option data-i18n="sofInvest">Yatırım</option><option data-i18n="sofInherit">Miras</option><option data-i18n="sofBusiness">İş Geliri</option><option data-i18n="optOther">Diğer</option></select></div>
+    <div class="fg"><label data-i18n="lVolume">Aylık Tahmini İşlem Hacmi</label>
+      <select class="fi" id="monthlyVolume"><option value="" data-i18n="optSelect">Seçin</option><option>€0 – €1,000</option><option>€1,000 – €10,000</option><option>€10,000 – €50,000</option><option>€50,000 – €250,000</option><option>€250,000+</option></select></div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()" data-i18n="btnBack">← Geri</button><button class="btn btn-primary" onclick="goNext()" data-i18n="btnContinue">Devam →</button></div>
   </div>
 
   <!-- ADIM 4-KURUMSAL: Şirket Bilgileri -->
   <div class="spane" id="s4biz">
-    <div class="stitle">Şirket Bilgileri / Company Information</div>
-    <div class="sdesc">Şirketinize ait temel bilgileri girin / Enter basic information about your company</div>
-    <div class="fg"><label>Şirket Adı / Company Name</label><input type="text" class="fi" id="companyName" placeholder="Örnek A.Ş."></div>
+    <div class="stitle" data-i18n="s4bizTitle">Şirket Bilgileri</div>
+    <div class="sdesc" data-i18n="s4bizDesc">Şirketinize ait temel bilgileri girin</div>
+    <div class="fg"><label data-i18n="lCompanyName">Şirket Adı</label><input type="text" class="fi" id="companyName" placeholder="Örnek A.Ş."></div>
     <div class="frow">
-      <div class="fg"><label>Ticaret Sicil No / Trade Registry No</label><input type="text" class="fi" id="registryNo" placeholder="12345-67890"></div>
-      <div class="fg"><label>Kuruluş Ülkesi / Country of Incorporation</label>
-        <select class="fi" id="companyCountry"><option value="">Seçin</option><option>Türkiye</option><option>Almanya</option><option>Hollanda</option><option>Lüksemburg</option><option>İrlanda</option><option>Diğer / Other</option></select></div>
+      <div class="fg"><label data-i18n="lRegistryNo">Ticaret Sicil No</label><input type="text" class="fi" id="registryNo" placeholder="12345-67890"></div>
+      <div class="fg"><label data-i18n="lCompanyCountry">Kuruluş Ülkesi</label>
+        <select class="fi" id="companyCountry"><option value="" data-i18n="optSelect">Seçin</option><option>Türkiye</option><option>Almanya</option><option>Hollanda</option><option>Lüksemburg</option><option>İrlanda</option><option data-i18n="optOther">Diğer</option></select></div>
     </div>
     <div class="frow">
-      <div class="fg"><label>Şirket Türü / Company Type</label>
-        <select class="fi" id="companyType"><option value="">Seçin</option><option>A.Ş.</option><option>Ltd. Şti.</option><option>GmbH</option><option>Ltd.</option><option>SAS</option><option>BV</option><option>Diğer</option></select></div>
-      <div class="fg"><label>Faaliyet Alanı / Business Activity</label>
-        <select class="fi" id="companyActivity"><option value="">Seçin</option><option>Fintech / Ödeme</option><option>E-ticaret</option><option>Yazılım / Teknoloji</option><option>Danışmanlık</option><option>İmalat</option><option>Gayrimenkul</option><option>Diğer</option></select></div>
+      <div class="fg"><label data-i18n="lCompanyType">Şirket Türü</label>
+        <select class="fi" id="companyType"><option value="" data-i18n="optSelect">Seçin</option><option>A.Ş.</option><option>Ltd. Şti.</option><option>GmbH</option><option>Ltd.</option><option>SAS</option><option>BV</option><option data-i18n="optOther">Diğer</option></select></div>
+      <div class="fg"><label data-i18n="lActivity">Faaliyet Alanı</label>
+        <select class="fi" id="companyActivity"><option value="" data-i18n="optSelect">Seçin</option><option data-i18n="actFintech">Fintech / Ödeme</option><option data-i18n="actEcom">E-ticaret</option><option data-i18n="actSoftware">Yazılım / Teknoloji</option><option data-i18n="actConsult">Danışmanlık</option><option data-i18n="actManuf">İmalat</option><option data-i18n="actRealty">Gayrimenkul</option><option data-i18n="optOther">Diğer</option></select></div>
     </div>
-    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()" data-i18n="btnBack">← Geri</button><button class="btn btn-primary" onclick="goNext()" data-i18n="btnContinue">Devam →</button></div>
   </div>
 
   <!-- ADIM 5-KURUMSAL: Şirket Adresi -->
   <div class="spane" id="s5biz">
-    <div class="stitle">Şirket Adresi / Company Address</div>
-    <div class="sdesc">Şirketin kayıtlı adresini girin / Enter the registered company address</div>
+    <div class="stitle" data-i18n="s5bizTitle">Şirket Adresi</div>
+    <div class="sdesc" data-i18n="s5bizDesc">Şirketin kayıtlı adresini girin</div>
     <div class="co" style="margin-bottom:1.25rem;border-left:none">
       <input type="checkbox" id="sameAddr" onchange="document.getElementById('coAddrF').style.display=this.checked?'none':'block'">
-      <label for="sameAddr">Kişisel adresimle aynı / Same as my personal address</label>
+      <label for="sameAddr" data-i18n="lSameAddr">Kişisel adresimle aynı</label>
     </div>
     <div id="coAddrF">
-      <div class="fg"><label>Sokak / Street Address</label><input type="text" class="fi" id="coStreet" placeholder="Ticari Cadde No:1"></div>
+      <div class="fg"><label data-i18n="lStreet">Sokak / Cadde</label><input type="text" class="fi" id="coStreet" placeholder="Ticari Cadde No:1"></div>
       <div class="frow">
-        <div class="fg"><label>Şehir / City</label><input type="text" class="fi" id="coCity" placeholder="İstanbul"></div>
-        <div class="fg"><label>İlçe / District</label><input type="text" class="fi" id="coDistrict" placeholder="Şişli"></div>
+        <div class="fg"><label data-i18n="lCity">Şehir</label><input type="text" class="fi" id="coCity" placeholder="İstanbul"></div>
+        <div class="fg"><label data-i18n="lDistrict">İlçe</label><input type="text" class="fi" id="coDistrict" placeholder="Şişli"></div>
       </div>
       <div class="frow">
-        <div class="fg"><label>Posta Kodu / Postal Code</label><input type="text" class="fi" id="coPostal" placeholder="34394"></div>
-        <div class="fg"><label>Ülke / Country</label>
-          <select class="fi" id="coCountry"><option value="">Seçin</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option>Diğer</option></select></div>
+        <div class="fg"><label data-i18n="lPostal">Posta Kodu</label><input type="text" class="fi" id="coPostal" placeholder="34394"></div>
+        <div class="fg"><label data-i18n="lCountry">Ülke</label>
+          <select class="fi" id="coCountry"><option value="" data-i18n="optSelect">Seçin</option><option>Türkiye</option><option>Almanya</option><option>Fransa</option><option data-i18n="optOther">Diğer</option></select></div>
       </div>
     </div>
-    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()" data-i18n="btnBack">← Geri</button><button class="btn btn-primary" onclick="goNext()" data-i18n="btnContinue">Devam →</button></div>
   </div>
 
   <!-- ADIM 6-KURUMSAL: UBO -->
   <div class="spane" id="s6biz">
-    <div class="stitle">Gerçek Faydalanıcılar / Beneficial Owners</div>
-    <div class="sdesc">%25 veya daha fazla hisseye sahip tüm gerçek faydalanıcıları ekleyin / Add all beneficial owners with 25%+ ownership</div>
+    <div class="stitle" data-i18n="s6bizTitle">Gerçek Faydalanıcılar</div>
+    <div class="sdesc" data-i18n="s6bizDesc">%25 veya daha fazla hisseye sahip tüm gerçek faydalanıcıları ekleyin</div>
     <div id="uboList">
       <div class="ubo-item">
         <button class="ubo-rm" onclick="rmUBO(this)" title="Kaldır">✕</button>
         <div class="frow">
-          <div class="fg"><label>Ad Soyad / Full Name</label><input type="text" class="fi" name="uboName" placeholder="Klaus Weber"></div>
-          <div class="fg"><label>Sahiplik % / Ownership %</label><input type="number" class="fi" name="uboPct" placeholder="60" min="0" max="100"></div>
+          <div class="fg"><label data-i18n="lUboName">Ad Soyad</label><input type="text" class="fi" name="uboName" placeholder="Klaus Weber"></div>
+          <div class="fg"><label data-i18n="lUboPct">Sahiplik %</label><input type="number" class="fi" name="uboPct" placeholder="60" min="0" max="100"></div>
         </div>
         <div class="frow">
-          <div class="fg"><label>Pozisyon / Position</label><input type="text" class="fi" name="uboRole" placeholder="CEO / Kurucu"></div>
-          <div class="fg"><label>Sahiplik Türü / Type</label>
-            <select class="fi" name="uboType"><option value="direct">Doğrudan / Direct</option><option value="indirect">Dolaylı / Indirect</option></select></div>
+          <div class="fg"><label data-i18n="lUboRole">Pozisyon</label><input type="text" class="fi" name="uboRole" placeholder="CEO / Kurucu"></div>
+          <div class="fg"><label data-i18n="lUboType">Sahiplik Türü</label>
+            <select class="fi" name="uboType"><option value="direct" data-i18n="uboDirect">Doğrudan</option><option value="indirect" data-i18n="uboIndirect">Dolaylı</option></select></div>
         </div>
       </div>
     </div>
-    <button class="btn btn-outline btn-sm" onclick="addUBO()" style="margin-bottom:1rem">+ Faydalanıcı Ekle / Add UBO</button>
-    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+    <button class="btn btn-outline btn-sm" onclick="addUBO()" style="margin-bottom:1rem" data-i18n="btnAddUbo">+ Faydalanıcı Ekle</button>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()" data-i18n="btnBack">← Geri</button><button class="btn btn-primary" onclick="goNext()" data-i18n="btnContinue">Devam →</button></div>
   </div>
 
   <!-- ADIM 7-KURUMSAL: PEP & Risk -->
   <div class="spane" id="s7biz">
-    <div class="stitle">PEP &amp; Risk Beyanı</div>
-    <div class="sdesc">Yetkili temsilci olarak aşağıdaki soruları yanıtlayın / As the authorized representative, answer the following</div>
-    <div class="fg"><label>Siyasi açıdan öneme sahip bir kişi (PEP) misiniz? / Are you a PEP?</label>
-      <select class="fi" id="pepStatus"><option value="">Seçin / Select</option><option value="no">Hayır / No</option><option value="yes">Evet / Yes</option></select></div>
-    <div class="fg"><label>Şirket yöneticileri arasında PEP var mı? / Are any directors/officers PEPs?</label>
-      <select class="fi" id="relStatus"><option value="">Seçin / Select</option><option value="no">Hayır / No</option><option value="yes">Evet / Yes</option></select></div>
-    <div class="fg"><label>Fon Kaynağı / Source of Funds</label>
-      <select class="fi" id="sourceOfFunds"><option value="">Seçin</option><option>Ticari Gelir / Business Revenue</option><option>Yatırım / Investment</option><option>Kredi / Loan</option><option>Sermaye Artırımı / Capital Raise</option><option>Diğer / Other</option></select></div>
-    <div class="fg"><label>Aylık Tahmini İşlem Hacmi / Expected Monthly Volume</label>
-      <select class="fi" id="monthlyVolume"><option value="">Seçin</option><option>€0 – €10,000</option><option>€10,000 – €100,000</option><option>€100,000 – €500,000</option><option>€500,000 – €2,000,000</option><option>€2,000,000+</option></select></div>
-    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+    <div class="stitle" data-i18n="s4title">PEP & Risk Beyanı</div>
+    <div class="sdesc" data-i18n="s7bizDesc">Yetkili temsilci olarak aşağıdaki soruları yanıtlayın</div>
+    <div class="fg"><label data-i18n="lBizPepQ1">Yetkili temsilci olarak PEP misiniz?</label>
+      <select class="fi" id="pepStatus2"><option value="" data-i18n="optSelect">Seçin</option><option value="no" data-i18n="optNo">Hayır</option><option value="yes" data-i18n="optYes">Evet</option></select></div>
+    <div class="fg"><label data-i18n="lBizPepQ2">Şirket yöneticileri arasında PEP var mı?</label>
+      <select class="fi" id="relStatus2"><option value="" data-i18n="optSelect">Seçin</option><option value="no" data-i18n="optNo">Hayır</option><option value="yes" data-i18n="optYes">Evet</option></select></div>
+    <div class="fg"><label data-i18n="lSof">Fon Kaynağı</label>
+      <select class="fi" id="sourceOfFunds2"><option value="" data-i18n="optSelect">Seçin</option><option data-i18n="sofBizRev">Ticari Gelir</option><option data-i18n="sofInvest">Yatırım</option><option data-i18n="sofLoan">Kredi</option><option data-i18n="sofCapital">Sermaye Artırımı</option><option data-i18n="optOther">Diğer</option></select></div>
+    <div class="fg"><label data-i18n="lVolume">Aylık Tahmini İşlem Hacmi</label>
+      <select class="fi" id="monthlyVolume2"><option value="" data-i18n="optSelect">Seçin</option><option>€0 – €10,000</option><option>€10,000 – €100,000</option><option>€100,000 – €500,000</option><option>€500,000 – €2,000,000</option><option>€2,000,000+</option></select></div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()" data-i18n="btnBack">← Geri</button><button class="btn btn-primary" onclick="goNext()" data-i18n="btnContinue">Devam →</button></div>
   </div>
 
   <!-- ADIM BELGELER -->
   <div class="spane" id="sDocs">
-    <div class="stitle">Belge Yükleme / Document Upload</div>
-    <div class="sdesc">Gerekli belgeleri yükleyin. Mevcut olmayan belgeler için kutuyu işaretleyin. / Upload required docs. Check box for unavailable documents.</div>
+    <div class="stitle" data-i18n="sDocsTitle">Belge Yükleme</div>
+    <div class="sdesc" data-i18n="sDocsDesc">Gerekli belgeleri yükleyin. Mevcut olmayan belgeler için kutuyu işaretleyin.</div>
 
     <div class="dug">
-      <div class="dlabel">Kimlik Belgesi / Identity Document <span class="badge bd">Zorunlu</span></div>
+      <div class="dlabel"><span data-i18n="docIdentity">Kimlik Belgesi</span> <span class="badge bd" data-i18n="badgeRequired">Zorunlu</span></div>
       <div class="rg" style="flex-direction:row;gap:.5rem;margin-bottom:.6rem">
-        <label class="ro sel" onclick="pickRo(this)" style="flex:1;padding:.5rem .75rem"><div class="rdot"></div><div class="rl"><strong style="font-size:.8rem">Pasaport</strong></div></label>
-        <label class="ro" onclick="pickRo(this)" style="flex:1;padding:.5rem .75rem"><div class="rdot"></div><div class="rl"><strong style="font-size:.8rem">TC Kimlik</strong></div></label>
-        <label class="ro" onclick="pickRo(this)" style="flex:1;padding:.5rem .75rem"><div class="rdot"></div><div class="rl"><strong style="font-size:.8rem">Ehliyet</strong></div></label>
+        <label class="ro sel" onclick="pickRo(this)" style="flex:1;padding:.5rem .75rem"><div class="rdot"></div><div class="rl"><strong style="font-size:.8rem" data-i18n="docPassport">Pasaport</strong></div></label>
+        <label class="ro" onclick="pickRo(this)" style="flex:1;padding:.5rem .75rem"><div class="rdot"></div><div class="rl"><strong style="font-size:.8rem" data-i18n="docNationalId">TC Kimlik</strong></div></label>
+        <label class="ro" onclick="pickRo(this)" style="flex:1;padding:.5rem .75rem"><div class="rdot"></div><div class="rl"><strong style="font-size:.8rem" data-i18n="docDrivingLic">Ehliyet</strong></div></label>
       </div>
       <div class="fdrop" id="dd-id" onclick="trigF('fi-id')">
-        <div style="font-size:1.4rem">📄</div><p><strong style="color:var(--blue)">Dosya seç</strong> veya sürükle bırak — PNG, JPG, PDF max 10MB</p>
+        <div style="font-size:1.4rem">📄</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> <span data-i18n="fileOrDrag">veya sürükle bırak</span> — PNG, JPG, PDF max 10MB</p>
         <input type="file" id="fi-id" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-id')">
       </div>
       <div class="fst" id="fs-id"></div>
-      <div class="na"><input type="checkbox" id="na-id" onchange="togNA(this,'dd-id')"><label for="na-id">Bu belge mevcut değil / This document is not available</label></div>
+      <div class="na"><input type="checkbox" id="na-id" onchange="togNA(this,'dd-id')"><label for="na-id" data-i18n="docNA">Bu belge mevcut değil</label></div>
     </div>
 
     <div class="dug">
-      <div class="dlabel">İkametgah Belgesi / Proof of Address <span class="badge bd">Zorunlu</span></div>
+      <div class="dlabel"><span data-i18n="docAddress">İkametgah Belgesi</span> <span class="badge bd" data-i18n="badgeRequired">Zorunlu</span></div>
       <div class="fdrop" id="dd-addr" onclick="trigF('fi-addr')">
-        <div style="font-size:1.4rem">🏠</div><p><strong style="color:var(--blue)">Dosya seç</strong> — Fatura, banka ekstresi, max 10MB</p>
+        <div style="font-size:1.4rem">🏠</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — <span data-i18n="docAddrHint">Fatura, banka ekstresi, max 10MB</span></p>
         <input type="file" id="fi-addr" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-addr')">
       </div>
       <div class="fst" id="fs-addr"></div>
-      <div class="na"><input type="checkbox" id="na-addr" onchange="togNA(this,'dd-addr')"><label for="na-addr">Bu belge mevcut değil / This document is not available</label></div>
+      <div class="na"><input type="checkbox" id="na-addr" onchange="togNA(this,'dd-addr')"><label for="na-addr" data-i18n="docNA">Bu belge mevcut değil</label></div>
     </div>
 
     <div class="dug">
-      <div class="dlabel">Vergi Levhası / Tax Certificate <span class="badge bn">İsteğe bağlı</span></div>
+      <div class="dlabel"><span data-i18n="docTax">Vergi Levhası</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
       <div class="fdrop" id="dd-tax" onclick="trigF('fi-tax')">
-        <div style="font-size:1.4rem">📋</div><p><strong style="color:var(--blue)">Dosya seç</strong> — PDF max 10MB</p>
+        <div style="font-size:1.4rem">📋</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p>
         <input type="file" id="fi-tax" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-tax')">
       </div>
       <div class="fst" id="fs-tax"></div>
-      <div class="na"><input type="checkbox" id="na-tax" onchange="togNA(this,'dd-tax')"><label for="na-tax">Bu belge mevcut değil / This document is not available</label></div>
+      <div class="na"><input type="checkbox" id="na-tax" onchange="togNA(this,'dd-tax')"><label for="na-tax" data-i18n="docNA">Bu belge mevcut değil</label></div>
     </div>
 
     <div id="bizDocs" style="display:none">
       <div class="dug">
-        <div class="dlabel">Ticaret Sicil Belgesi / Trade Registry Certificate</div>
-        <div class="fdrop" id="dd-reg" onclick="trigF('fi-reg')"><div style="font-size:1.4rem">🏛️</div><p><strong style="color:var(--blue)">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-reg" accept=".pdf" style="display:none" onchange="onFile(this,'fs-reg')"></div>
-        <div class="fst" id="fs-reg"></div><div class="na"><input type="checkbox" id="na-reg" onchange="togNA(this,'dd-reg')"><label for="na-reg">Bu belge mevcut değil / Not available</label></div>
+        <div class="dlabel" data-i18n="docRegistry">Ticaret Sicil Belgesi</div>
+        <div class="fdrop" id="dd-reg" onclick="trigF('fi-reg')"><div style="font-size:1.4rem">🏛️</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-reg" accept=".pdf" style="display:none" onchange="onFile(this,'fs-reg')"></div>
+        <div class="fst" id="fs-reg"></div><div class="na"><input type="checkbox" id="na-reg" onchange="togNA(this,'dd-reg')"><label for="na-reg" data-i18n="docNA">Bu belge mevcut değil</label></div>
       </div>
       <div class="dug">
-        <div class="dlabel">Ana Sözleşme / Articles of Association</div>
-        <div class="fdrop" id="dd-aoa" onclick="trigF('fi-aoa')"><div style="font-size:1.4rem">📜</div><p><strong style="color:var(--blue)">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-aoa" accept=".pdf" style="display:none" onchange="onFile(this,'fs-aoa')"></div>
-        <div class="fst" id="fs-aoa"></div><div class="na"><input type="checkbox" id="na-aoa" onchange="togNA(this,'dd-aoa')"><label for="na-aoa">Bu belge mevcut değil / Not available</label></div>
+        <div class="dlabel" data-i18n="docAoa">Ana Sözleşme</div>
+        <div class="fdrop" id="dd-aoa" onclick="trigF('fi-aoa')"><div style="font-size:1.4rem">📜</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-aoa" accept=".pdf" style="display:none" onchange="onFile(this,'fs-aoa')"></div>
+        <div class="fst" id="fs-aoa"></div><div class="na"><input type="checkbox" id="na-aoa" onchange="togNA(this,'dd-aoa')"><label for="na-aoa" data-i18n="docNA">Bu belge mevcut değil</label></div>
       </div>
       <div class="dug">
-        <div class="dlabel">İmza Sirküleri / Signature Circular</div>
-        <div class="fdrop" id="dd-sig" onclick="trigF('fi-sig')"><div style="font-size:1.4rem">✍️</div><p><strong style="color:var(--blue)">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-sig" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-sig')"></div>
-        <div class="fst" id="fs-sig"></div><div class="na"><input type="checkbox" id="na-sig" onchange="togNA(this,'dd-sig')"><label for="na-sig">Bu belge mevcut değil / Not available</label></div>
+        <div class="dlabel" data-i18n="docSig">İmza Sirküleri</div>
+        <div class="fdrop" id="dd-sig" onclick="trigF('fi-sig')"><div style="font-size:1.4rem">✍️</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-sig" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-sig')"></div>
+        <div class="fst" id="fs-sig"></div><div class="na"><input type="checkbox" id="na-sig" onchange="togNA(this,'dd-sig')"><label for="na-sig" data-i18n="docNA">Bu belge mevcut değil</label></div>
       </div>
       <div class="dug">
-        <div class="dlabel">Faaliyet Belgesi / Certificate of Good Standing</div>
-        <div class="fdrop" id="dd-cgs" onclick="trigF('fi-cgs')"><div style="font-size:1.4rem">✅</div><p><strong style="color:var(--blue)">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-cgs" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-cgs')"></div>
-        <div class="fst" id="fs-cgs"></div><div class="na"><input type="checkbox" id="na-cgs" onchange="togNA(this,'dd-cgs')"><label for="na-cgs">Bu belge mevcut değil / Not available</label></div>
+        <div class="dlabel" data-i18n="docCgs">Faaliyet Belgesi</div>
+        <div class="fdrop" id="dd-cgs" onclick="trigF('fi-cgs')"><div style="font-size:1.4rem">✅</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-cgs" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-cgs')"></div>
+        <div class="fst" id="fs-cgs"></div><div class="na"><input type="checkbox" id="na-cgs" onchange="togNA(this,'dd-cgs')"><label for="na-cgs" data-i18n="docNA">Bu belge mevcut değil</label></div>
       </div>
     </div>
 
-    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" onclick="goNext()">Devam →</button></div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()" data-i18n="btnBack">← Geri</button><button class="btn btn-primary" onclick="goNext()" data-i18n="btnContinue">Devam →</button></div>
   </div>
 
   <!-- AML ONAYI -->
   <div class="spane" id="sAml">
-    <div class="stitle">AML Onayı &amp; Şartlar / AML Consent &amp; Terms</div>
-    <div class="sdesc">Başvurunuzu tamamlamak için aşağıdaki onayları verin / Grant the following consents to complete your application</div>
-    <div class="co req"><input type="checkbox" id="c-aml"><label for="c-aml"><strong>AML Tarama Onayı / AML Screening Consent</strong>Allboard'un yaptırım listeleri, PEP veritabanları ve olumsuz medya kaynaklarında AML taraması yapmasına izin veriyorum. / I consent to Allboard conducting AML screening against sanctions lists, PEP databases and adverse media sources.</label></div>
-    <div class="co req"><input type="checkbox" id="c-prv"><label for="c-prv"><strong>Gizlilik Politikası / Privacy Policy</strong>Kişisel verilerimin Allboard Gizlilik Politikası kapsamında işlenmesini kabul ediyorum. / I accept the processing of my personal data under the Allboard Privacy Policy.</label></div>
-    <div class="co req"><input type="checkbox" id="c-tos"><label for="c-tos"><strong>Kullanım Şartları / Terms of Service</strong>Allboard Kullanım Şartlarını okudum ve kabul ediyorum. / I have read and accept the Allboard Terms of Service.</label></div>
-    <div class="co req"><input type="checkbox" id="c-acc"><label for="c-acc"><strong>Doğruluk Beyanı / Accuracy Declaration</strong>Sağladığım tüm bilgilerin doğru, eksiksiz ve güncel olduğunu beyan ediyorum. / I declare that all information provided is accurate, complete and up to date.</label></div>
-    <div class="co"><input type="checkbox" id="c-mon"><label for="c-mon"><strong>Süregelen İzleme / Ongoing Monitoring <span style="font-weight:400">(İsteğe bağlı / Optional)</span></strong>Hesabımda değişiklik olması durumunda yeniden tarama yapılmasına onay veriyorum.</label></div>
-    <div class="snav"><button class="btn btn-outline" onclick="goPrev()">← Geri</button><button class="btn btn-primary" id="submitBtn" onclick="submitApp()">Başvuruyu Gönder / Submit ✓</button></div>
+    <div class="stitle" data-i18n="sAmlTitle">AML Onayı & Şartlar</div>
+    <div class="sdesc" data-i18n="sAmlDesc">Başvurunuzu tamamlamak için aşağıdaki onayları verin</div>
+    <div class="co req"><input type="checkbox" id="c-aml"><label for="c-aml"><strong data-i18n="conAmlTitle">AML Tarama Onayı</strong><span data-i18n="conAmlText">Allboard'un yaptırım listeleri, PEP veritabanları ve olumsuz medya kaynaklarında AML taraması yapmasına izin veriyorum.</span></label></div>
+    <div class="co req"><input type="checkbox" id="c-prv"><label for="c-prv"><strong data-i18n="conPrivTitle">Gizlilik Politikası</strong><span data-i18n="conPrivText">Kişisel verilerimin Allboard Gizlilik Politikası kapsamında işlenmesini kabul ediyorum.</span></label></div>
+    <div class="co req"><input type="checkbox" id="c-tos"><label for="c-tos"><strong data-i18n="conTosTitle">Kullanım Şartları</strong><span data-i18n="conTosText">Allboard Kullanım Şartlarını okudum ve kabul ediyorum.</span></label></div>
+    <div class="co req"><input type="checkbox" id="c-acc"><label for="c-acc"><strong data-i18n="conAccTitle">Doğruluk Beyanı</strong><span data-i18n="conAccText">Sağladığım tüm bilgilerin doğru, eksiksiz ve güncel olduğunu beyan ediyorum.</span></label></div>
+    <div class="co"><input type="checkbox" id="c-mon"><label for="c-mon"><strong data-i18n="conMonTitle">Süregelen İzleme <span style="font-weight:400" data-i18n="optionalLabel">(İsteğe bağlı)</span></strong><span data-i18n="conMonText">Hesabımda değişiklik olması durumunda yeniden tarama yapılmasına onay veriyorum.</span></label></div>
+    <div class="snav"><button class="btn btn-outline" onclick="goPrev()" data-i18n="btnBack">← Geri</button><button class="btn btn-primary" id="submitBtn" onclick="submitApp()" data-i18n="btnSubmit">Başvuruyu Gönder ✓</button></div>
   </div>
 
   <!-- TAMAMLANDI -->
   <div class="spane" id="sComplete">
     <div style="text-align:center;padding:3rem 0">
       <div style="width:80px;height:80px;background:rgba(20,71,230,.08);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 1.5rem;border:2px solid rgba(20,71,230,.15)">✓</div>
-      <h2 style="font-size:1.5rem;font-weight:800;color:var(--navy);margin-bottom:.4rem">Başvurunuz Alındı!</h2>
-      <p style="color:var(--text2);font-size:.9rem">Your Application Has Been Received!</p>
-      <p style="color:var(--text2);max-width:400px;margin:1rem auto;font-size:.86rem;line-height:1.6">Ekibimiz belgelerinizi inceleyecek ve en kısa sürede sizinle iletişime geçecektir.</p>
+      <h2 style="font-size:1.5rem;font-weight:800;color:var(--navy);margin-bottom:.4rem" data-i18n="completeTitle">Başvurunuz Alındı!</h2>
+      <p style="color:var(--text2);max-width:400px;margin:1rem auto;font-size:.86rem;line-height:1.6" data-i18n="completeDesc">Ekibimiz belgelerinizi inceleyecek ve en kısa sürede sizinle iletişime geçecektir.</p>
       <div style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin:1.5rem 0">
-        <span class="badge bi">KYC: İşleniyor</span>
-        <span class="badge bw">AML: Taranıyor</span>
-        <span class="badge bn">Risk: Değerlendiriliyor</span>
+        <span class="badge bi" data-i18n="kycProcessing">KYC: İşleniyor</span>
+        <span class="badge bw" data-i18n="amlScanning">AML: Taranıyor</span>
+        <span class="badge bn" data-i18n="riskEval">Risk: Değerlendiriliyor</span>
       </div>
-      <button class="btn btn-primary" onclick="nav('profile')" style="margin-top:.5rem;padding:.75rem 1.8rem">Profilimi Görüntüle →</button>
+      <button class="btn btn-primary" onclick="nav('profile')" style="margin-top:.5rem;padding:.75rem 1.8rem" data-i18n="btnViewProfile">Profilimi Görüntüle →</button>
     </div>
   </div>
 
@@ -560,9 +566,9 @@ a{color:var(--blue);text-decoration:none}
   <!-- No application message -->
   <div id="pfNoApp" style="display:none;text-align:center;padding:5rem 2rem">
     <div style="font-size:2.8rem;margin-bottom:1.25rem">📋</div>
-    <h2 style="margin-bottom:.4rem;font-size:1.3rem;font-weight:800;color:var(--navy)">Henüz başvuru yok</h2>
-    <p style="color:var(--text2);margin-bottom:1.5rem;font-size:.9rem">Onboarding formunu doldurarak başvurunuzu tamamlayın.</p>
-    <button class="btn btn-primary" onclick="startOB()" style="padding:.7rem 1.8rem">Başvuru Yap →</button>
+    <h2 style="margin-bottom:.4rem;font-size:1.3rem;font-weight:800;color:var(--navy)" data-i18n="noApp">Henüz başvuru yok</h2>
+    <p style="color:var(--text2);margin-bottom:1.5rem;font-size:.9rem" data-i18n="noAppDesc">Onboarding formunu doldurarak başvurunuzu tamamlayın.</p>
+    <button class="btn btn-primary" onclick="startOB()" style="padding:.7rem 1.8rem" data-i18n="noAppBtn">Başvuru Yap →</button>
   </div>
   <!-- Has application -->
   <div id="pfHasApp" style="display:none">
@@ -584,41 +590,41 @@ a{color:var(--blue);text-decoration:none}
       <button class="btn btn-ghost btn-sm" onclick="doLogout()">← Çıkış / Log Out</button>
     </div>
     <div class="pf-tabs">
-      <div class="pf-tab active" onclick="pfTab('summary',this)">📋 Özet / Summary</div>
-      <div class="pf-tab" onclick="pfTab('docs',this)">📁 Belgeler / Documents</div>
-      <div class="pf-tab" onclick="pfTab('verify',this)">🛡️ Doğrulama / Verification</div>
-      <div class="pf-tab" onclick="pfTab('chat',this)">💬 Mesajlar / Messages</div>
+      <div class="pf-tab active" onclick="pfTab('summary',this)">📋 <span data-i18n="tabSummary">Özet</span></div>
+      <div class="pf-tab" onclick="pfTab('docs',this)">📁 <span data-i18n="tabDocs">Belgeler</span></div>
+      <div class="pf-tab" onclick="pfTab('verify',this)">🛡️ <span data-i18n="tabVerify">Doğrulama</span></div>
+      <div class="pf-tab" onclick="pfTab('chat',this)">💬 <span data-i18n="tabChat">Mesajlar</span></div>
     </div>
   </div>
   <div class="pf-body">
 
     <!-- ÖZET -->
     <div class="tbc active" id="tb-summary">
-      <div class="isec"><h3>Kişisel Bilgiler / Personal Information</h3>
+      <div class="isec"><h3 data-i18n="secPersonal">Kişisel Bilgiler</h3>
         <div class="igrid">
-          <div class="iitem"><div class="ilabel">Ad Soyad / Full Name</div><div class="ival" id="sumFullName">—</div></div>
-          <div class="iitem"><div class="ilabel">Doğum Tarihi / Date of Birth</div><div class="ival" id="sumDob">—</div></div>
-          <div class="iitem"><div class="ilabel">Uyruk / Nationality</div><div class="ival" id="sumNat">—</div></div>
-          <div class="iitem"><div class="ilabel">TC Kimlik No / National ID</div><div class="ival" id="sumId">—</div></div>
-          <div class="iitem"><div class="ilabel">Telefon / Phone</div><div class="ival" id="sumPhone">—</div></div>
-          <div class="iitem"><div class="ilabel">E-posta / Email</div><div class="ival" id="sumEmail">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lFullName">Ad Soyad</div><div class="ival" id="sumFullName">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lDob">Doğum Tarihi</div><div class="ival" id="sumDob">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lNationality">Uyruk</div><div class="ival" id="sumNat">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lNationalId">Kimlik No</div><div class="ival" id="sumId">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lPhone">Telefon</div><div class="ival" id="sumPhone">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lEmail">E-posta</div><div class="ival" id="sumEmail">—</div></div>
         </div>
       </div>
-      <div class="isec"><h3>Adres / Address</h3>
+      <div class="isec"><h3 data-i18n="secAddress">Adres</h3>
         <div class="igrid">
-          <div class="iitem"><div class="ilabel">Sokak / Street</div><div class="ival" id="sumStreet">—</div></div>
-          <div class="iitem"><div class="ilabel">İlçe / District</div><div class="ival" id="sumDistrict">—</div></div>
-          <div class="iitem"><div class="ilabel">Şehir / City</div><div class="ival" id="sumCity">—</div></div>
-          <div class="iitem"><div class="ilabel">Posta Kodu</div><div class="ival" id="sumPostal">—</div></div>
-          <div class="iitem"><div class="ilabel">Ülke / Country</div><div class="ival" id="sumCountry">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lStreet">Sokak</div><div class="ival" id="sumStreet">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lDistrict">İlçe</div><div class="ival" id="sumDistrict">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lCity">Şehir</div><div class="ival" id="sumCity">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lPostal">Posta Kodu</div><div class="ival" id="sumPostal">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lCountry">Ülke</div><div class="ival" id="sumCountry">—</div></div>
         </div>
       </div>
-      <div class="isec"><h3>PEP &amp; Risk Beyanı</h3>
+      <div class="isec"><h3 data-i18n="secPep">PEP & Risk Beyanı</h3>
         <div class="igrid">
-          <div class="iitem"><div class="ilabel">PEP Durumu</div><div class="ival" id="sumPep">—</div></div>
-          <div class="iitem"><div class="ilabel">Yakın PEP</div><div class="ival" id="sumRel">—</div></div>
-          <div class="iitem"><div class="ilabel">Fon Kaynağı</div><div class="ival" id="sumSof">—</div></div>
-          <div class="iitem"><div class="ilabel">İşlem Hacmi / Volume</div><div class="ival" id="sumVol">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lPepStatus">PEP Durumu</div><div class="ival" id="sumPep">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lRelPep">Yakın PEP</div><div class="ival" id="sumRel">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lSof">Fon Kaynağı</div><div class="ival" id="sumSof">—</div></div>
+          <div class="iitem"><div class="ilabel" data-i18n="lVolume">İşlem Hacmi</div><div class="ival" id="sumVol">—</div></div>
         </div>
       </div>
     </div>
@@ -630,10 +636,10 @@ a{color:var(--blue);text-decoration:none}
 
     <!-- DOĞRULAMA -->
     <div class="tbc" id="tb-verify">
-      <div class="vc"><div class="vc-icon review">🔍</div><div class="vc-info"><div class="vc-title">KYC Kimlik Doğrulama / Identity Verification</div><div class="vc-desc">Belge incelemesi devam ediyor. Sonuç 1-2 iş günü içinde bildirilecektir. / Document review in progress. Result within 1-2 business days.</div></div><span id="vcKyc" class="badge bw">İncelemede</span></div>
-      <div class="vc"><div class="vc-icon review">🛡️</div><div class="vc-info"><div class="vc-title">AML Tarama / AML Screening</div><div class="vc-desc">Yaptırım listeleri ve PEP veritabanları taranıyor. / Screening against sanctions lists and PEP databases.</div></div><span id="vcAml" class="badge bi">Taranıyor</span></div>
-      <div class="vc"><div class="vc-icon pend">⚡</div><div class="vc-info"><div class="vc-title">Risk Değerlendirmesi / Risk Assessment</div><div class="vc-desc">KYC ve AML tamamlandıktan sonra risk skoru hesaplanacaktır. / Risk score calculated after KYC and AML completion.</div></div><span id="vcRisk" class="badge bn">Bekliyor</span></div>
-      <div class="vc"><div class="vc-icon pend">✅</div><div class="vc-info"><div class="vc-title">Nihai Karar / Final Decision</div><div class="vc-desc">Tüm incelemeler tamamlandıktan sonra nihai karar verilecektir. / Final decision after all reviews are completed.</div></div><span id="vcFinal" class="badge bn">Bekliyor</span></div>
+      <div class="vc"><div class="vc-icon review">🔍</div><div class="vc-info"><div class="vc-title" data-i18n="vcKycTitle">KYC Kimlik Doğrulama</div><div class="vc-desc" data-i18n="vcKycDesc">Belge incelemesi devam ediyor. Sonuç 1-2 iş günü içinde bildirilecektir.</div></div><span id="vcKyc" class="badge bw" data-i18n="statusReview">İncelemede</span></div>
+      <div class="vc"><div class="vc-icon review">🛡️</div><div class="vc-info"><div class="vc-title" data-i18n="vcAmlTitle">AML Tarama</div><div class="vc-desc" data-i18n="vcAmlDesc">Yaptırım listeleri ve PEP veritabanları taranıyor.</div></div><span id="vcAml" class="badge bi" data-i18n="statusScanning">Taranıyor</span></div>
+      <div class="vc"><div class="vc-icon pend">⚡</div><div class="vc-info"><div class="vc-title" data-i18n="vcRiskTitle">Risk Değerlendirmesi</div><div class="vc-desc" data-i18n="vcRiskDesc">KYC ve AML tamamlandıktan sonra risk skoru hesaplanacaktır.</div></div><span id="vcRisk" class="badge bn" data-i18n="statusPending">Bekliyor</span></div>
+      <div class="vc"><div class="vc-icon pend">✅</div><div class="vc-info"><div class="vc-title" data-i18n="vcFinalTitle">Nihai Karar</div><div class="vc-desc" data-i18n="vcFinalDesc">Tüm incelemeler tamamlandıktan sonra nihai karar verilecektir.</div></div><span id="vcFinal" class="badge bn" data-i18n="statusPending">Bekliyor</span></div>
     </div>
 
     <!-- MESAJLAR / CHAT -->
@@ -641,8 +647,8 @@ a{color:var(--blue);text-decoration:none}
       <div class="chat-wrap">
         <div class="chat-msgs" id="chatMsgs"></div>
         <div class="chat-inp-area">
-          <textarea class="chat-inp" id="chatInp" placeholder="Mesajınızı yazın / Type your message..." rows="1" onkeydown="chatKey(event)"></textarea>
-          <button class="btn btn-primary btn-sm" onclick="sendMsg()">Gönder ↑</button>
+          <textarea class="chat-inp" id="chatInp" placeholder="Mesajınızı yazın..." rows="1" onkeydown="chatKey(event)"></textarea>
+          <button class="btn btn-primary btn-sm" onclick="sendMsg()" data-i18n="btnSend">Gönder ↑</button>
         </div>
       </div>
     </div>
@@ -657,25 +663,25 @@ a{color:var(--blue);text-decoration:none}
   <div class="modal">
     <button class="modal-x" onclick="closeAuth()">✕</button>
     <div class="mtabs">
-      <div class="mtab active" onclick="authTab('login',this)">Giriş Yap / Log In</div>
-      <div class="mtab" onclick="authTab('register',this)">Kayıt Ol / Register</div>
+      <div class="mtab active" onclick="authTab('login',this)" data-i18n="navLogin">Giriş Yap</div>
+      <div class="mtab" onclick="authTab('register',this)" data-i18n="navRegister">Kayıt Ol</div>
     </div>
     <div id="aLogin">
-      <h2>Tekrar Hoşgeldiniz</h2>
-      <p class="msub">Hesabınıza giriş yapın / Sign in to your account</p>
-      <div class="fg"><label>E-posta / Email</label><input type="email" class="fi" id="lEmail" placeholder="siz@ornek.com"></div>
-      <div class="fg"><label>Şifre / Password</label><input type="password" class="fi" id="lPass" placeholder="Şifrenizi girin"></div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doLogin()">Giriş Yap / Log In</button>
-      <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)">Hesabınız yok mu? <a href="#" onclick="authTab('register');return false">Kayıt olun</a></div>
+      <h2 data-i18n="loginTitle">Tekrar Hoşgeldiniz</h2>
+      <p class="msub" data-i18n="loginSub">Hesabınıza giriş yapın</p>
+      <div class="fg"><label data-i18n="lEmail">E-posta</label><input type="email" class="fi" id="lEmail" placeholder="siz@ornek.com"></div>
+      <div class="fg"><label data-i18n="lPassword">Şifre</label><input type="password" class="fi" id="lPass" placeholder="••••••••"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doLogin()" data-i18n="navLogin">Giriş Yap</button>
+      <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)"><span data-i18n="noAccount">Hesabınız yok mu?</span> <a href="#" onclick="authTab('register');return false" data-i18n="registerLink">Kayıt olun</a></div>
     </div>
     <div id="aReg" style="display:none">
-      <h2>Hesap Oluştur</h2>
-      <p class="msub">Ücretsiz hesap oluşturun / Create your free account</p>
-      <div class="fg"><label>Ad Soyad / Full Name</label><input type="text" class="fi" id="rName" placeholder="Ahmet Yılmaz"></div>
-      <div class="fg"><label>E-posta / Email</label><input type="email" class="fi" id="rEmail" placeholder="siz@ornek.com"></div>
-      <div class="fg"><label>Şifre / Password</label><input type="password" class="fi" id="rPass" placeholder="Min. 6 karakter"></div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doRegister()">Kayıt Ol / Register</button>
-      <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)">Kayıt olarak <a href="#">Şartları</a> kabul etmiş olursunuz.</div>
+      <h2 data-i18n="registerTitle">Hesap Oluştur</h2>
+      <p class="msub" data-i18n="registerSub">Ücretsiz başvurun</p>
+      <div class="fg"><label data-i18n="lFullName">Ad Soyad</label><input type="text" class="fi" id="rName" placeholder="Ahmet Yılmaz"></div>
+      <div class="fg"><label data-i18n="lEmail">E-posta</label><input type="email" class="fi" id="rEmail" placeholder="siz@ornek.com"></div>
+      <div class="fg"><label data-i18n="lPassword">Şifre</label><input type="password" class="fi" id="rPass" placeholder="Min. 6 karakter"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doRegister()" data-i18n="navRegister">Kayıt Ol</button>
+      <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)"><span data-i18n="agreeTerms">Kayıt olarak</span> <a href="#" data-i18n="termsLink">Şartları</a> <span data-i18n="agreeTerms2">kabul etmiş olursunuz.</span></div>
     </div>
   </div>
 </div>
@@ -684,6 +690,197 @@ a{color:var(--blue);text-decoration:none}
 // ── GLOBALS ───────────────────────────────────────────
 var currentClient = null;
 var chatChannel = null;
+var currentLang = 'tr';
+
+// ── i18n ──────────────────────────────────────────────
+var T = {
+  tr:{
+    navLogin:'Giriş Yap', navApply:'Başvuru Yap →', navRegister:'Kayıt Ol', navLogout:'Çıkış',
+    heroEyebrow:'Bireysel & Kurumsal Onboarding Hizmeti',
+    heroTitle:'Onboarding sürecinizi <strong>sizin adınıza</strong> yönetiyoruz',
+    heroDesc:'Siz bilgilerinizi ve belgelerinizi bir kez gönderin — uzman ekibimiz onboarding sürecinizi baştan sona takip etsin, koordine etsin ve sonuçlandırsın.',
+    heroApply:'Başvuru Yap →', heroLogin:'Giriş Yap',
+    heroNote1:'Ücretsiz başvuru', heroNote2:'Uzman ekip desteği', heroNote3:'Şeffaf süreç takibi',
+    trust1:'Adınıza Tam Yönetim', trust2:'Hızlı Süreç Takibi', trust3:'Güvenli Veri İşleme', trust4:'Uzman Danışman Ekibi', trust5:'Yüksek Onay Oranı',
+    featEyebrow:'Nasıl Çalışır?', featTitle:'Siz başvurun, gerisini biz halledelim',
+    featDesc:'Onboarding sürecinde her adımı sizin adınıza takip eder, koordine eder ve sonuçlandırırız',
+    f1t:'Tek Seferlik Başvuru', f1d:'Bilgilerinizi ve belgelerinizi bir kez girin. Uzman ekibimiz her şeyi oradan devralır.',
+    f2t:'Belge Yönetimi', f2d:'Hangi belgelerin gerektiğini biliriz. Eksik veya hatalı belgeler için sizi yönlendiririz.',
+    f3t:'Anlık Süreç Takibi', f3d:'Başvurunuzun hangi aşamada olduğunu profilinizden gerçek zamanlı takip edin.',
+    f4t:'Doğrudan İletişim', f4d:'Sorularınız için size atanan danışmanınızla platform üzerinden anlık iletişime geçin.',
+    f5t:'Kurum Koordinasyonu', f5d:'İlgili kurum ve kuruluşlarla yazışmaları, takipleri sizin adınıza yürütürüz.',
+    f6t:'Bireysel & Kurumsal', f6d:'Gerçek kişiler ve tüzel kişiler için ayrı ayrı özelleştirilmiş onboarding akışları.',
+    fcolServices:'Hizmetler', fcolS1:'Bireysel Onboarding', fcolS2:'Kurumsal Onboarding', fcolS3:'Belge Yönetimi', fcolS4:'Başvuru Takibi',
+    fcolProcess:'Süreç', fcolP1:'Nasıl Çalışır?', fcolP2:'Sık Sorulan Sorular', fcolP3:'Referanslar',
+    fcolLegal:'Yasal', fcolL1:'KVKK Politikası', fcolL2:'Gizlilik', fcolL3:'Kullanım Şartları', fcolL4:'Güvenlik',
+    obTitle:'Hesap Oluştur', obExit:'✕ Çıkış', stepLabel:'Adım',
+    s1title:'Hesap Türü', s1desc:'Oluşturmak istediğiniz hesap türünü seçin',
+    typeInd:'Bireysel', typeIndDesc:'Kişisel kimlik doğrulaması (7 adım)',
+    typeBiz:'Kurumsal', typeBizDesc:'Şirket doğrulaması + KYC (10 adım)',
+    s2title:'Kişisel Bilgiler', s2desc:'Kimlik doğrulaması için kişisel bilgilerinizi girin',
+    lFirstName:'Ad', lLastName:'Soyad', lDob:'Doğum Tarihi', lNationality:'Uyruk',
+    lNationalId:'TC Kimlik No', lPhone:'Telefon', lEmail:'E-posta', lPassword:'Şifre', lFullName:'Ad Soyad',
+    s3title:'Adres Bilgileri', s3desc:'Güncel ikametgah adresinizi girin',
+    lStreet:'Sokak / Cadde', lCity:'Şehir', lDistrict:'İlçe', lPostal:'Posta Kodu', lCountry:'Ülke',
+    s4title:'PEP & Risk Beyanı', s4desc:'Aşağıdaki soruları dürüstçe yanıtlayın',
+    lPepQ1:'Siyasi açıdan öneme sahip bir kişi (PEP) misiniz?', lPepQ2:'Birinci derece yakınınızda PEP var mı?',
+    lSof:'Fon Kaynağı', lVolume:'Aylık Tahmini İşlem Hacmi',
+    sofSalary:'Maaş', sofRental:'Kira Geliri', sofInvest:'Yatırım', sofInherit:'Miras', sofBusiness:'İş Geliri',
+    sofBizRev:'Ticari Gelir', sofLoan:'Kredi', sofCapital:'Sermaye Artırımı',
+    s4bizTitle:'Şirket Bilgileri', s4bizDesc:'Şirketinize ait temel bilgileri girin',
+    lCompanyName:'Şirket Adı', lRegistryNo:'Ticaret Sicil No', lCompanyCountry:'Kuruluş Ülkesi',
+    lCompanyType:'Şirket Türü', lActivity:'Faaliyet Alanı',
+    actFintech:'Fintech / Ödeme', actEcom:'E-ticaret', actSoftware:'Yazılım / Teknoloji',
+    actConsult:'Danışmanlık', actManuf:'İmalat', actRealty:'Gayrimenkul',
+    s5bizTitle:'Şirket Adresi', s5bizDesc:'Şirketin kayıtlı adresini girin', lSameAddr:'Kişisel adresimle aynı',
+    s6bizTitle:'Gerçek Faydalanıcılar', s6bizDesc:'%25 veya daha fazla hisseye sahip tüm gerçek faydalanıcıları ekleyin',
+    lUboName:'Ad Soyad', lUboPct:'Sahiplik %', lUboRole:'Pozisyon', lUboType:'Sahiplik Türü',
+    uboDirect:'Doğrudan', uboIndirect:'Dolaylı', btnAddUbo:'+ Faydalanıcı Ekle',
+    s7bizDesc:'Yetkili temsilci olarak aşağıdaki soruları yanıtlayın',
+    lBizPepQ1:'Yetkili temsilci olarak PEP misiniz?', lBizPepQ2:'Şirket yöneticileri arasında PEP var mı?',
+    sDocsTitle:'Belge Yükleme', sDocsDesc:'Gerekli belgeleri yükleyin. Mevcut olmayan belgeler için kutuyu işaretleyin.',
+    docIdentity:'Kimlik Belgesi', docAddress:'İkametgah Belgesi', docTax:'Vergi Levhası',
+    docRegistry:'Ticaret Sicil Belgesi', docAoa:'Ana Sözleşme', docSig:'İmza Sirküleri', docCgs:'Faaliyet Belgesi',
+    docPassport:'Pasaport', docNationalId:'TC Kimlik', docDrivingLic:'Ehliyet',
+    fileSelect:'Dosya seç', fileOrDrag:'veya sürükle bırak', docNA:'Bu belge mevcut değil',
+    badgeRequired:'Zorunlu', badgeOptional:'İsteğe bağlı',
+    docAddrHint:'Fatura, banka ekstresi, max 10MB',
+    sAmlTitle:'AML Onayı & Şartlar', sAmlDesc:'Başvurunuzu tamamlamak için aşağıdaki onayları verin',
+    conAmlTitle:'AML Tarama Onayı', conAmlText:"Allboard'un yaptırım listeleri, PEP veritabanları ve olumsuz medya kaynaklarında AML taraması yapmasına izin veriyorum.",
+    conPrivTitle:'Gizlilik Politikası', conPrivText:"Kişisel verilerimin Allboard Gizlilik Politikası kapsamında işlenmesini kabul ediyorum.",
+    conTosTitle:'Kullanım Şartları', conTosText:'Allboard Kullanım Şartlarını okudum ve kabul ediyorum.',
+    conAccTitle:'Doğruluk Beyanı', conAccText:'Sağladığım tüm bilgilerin doğru, eksiksiz ve güncel olduğunu beyan ediyorum.',
+    conMonTitle:'Süregelen İzleme', conMonText:'Hesabımda değişiklik olması durumunda yeniden tarama yapılmasına onay veriyorum.',
+    optionalLabel:'(İsteğe bağlı)',
+    completeTitle:'Başvurunuz Alındı!', completeDesc:'Ekibimiz belgelerinizi inceleyecek ve en kısa sürede sizinle iletişime geçecektir.',
+    kycProcessing:'KYC: İşleniyor', amlScanning:'AML: Taranıyor', riskEval:'Risk: Değerlendiriliyor',
+    btnViewProfile:'Profilimi Görüntüle →',
+    tabSummary:'Özet', tabDocs:'Belgeler', tabVerify:'Doğrulama', tabChat:'Mesajlar',
+    secPersonal:'Kişisel Bilgiler', secAddress:'Adres', secPep:'PEP & Risk Beyanı',
+    lPepStatus:'PEP Durumu', lRelPep:'Yakın PEP',
+    vcKycTitle:'KYC Kimlik Doğrulama', vcKycDesc:'Belge incelemesi devam ediyor. Sonuç 1-2 iş günü içinde bildirilecektir.',
+    vcAmlTitle:'AML Tarama', vcAmlDesc:'Yaptırım listeleri ve PEP veritabanları taranıyor.',
+    vcRiskTitle:'Risk Değerlendirmesi', vcRiskDesc:'KYC ve AML tamamlandıktan sonra risk skoru hesaplanacaktır.',
+    vcFinalTitle:'Nihai Karar', vcFinalDesc:'Tüm incelemeler tamamlandıktan sonra nihai karar verilecektir.',
+    statusReview:'İncelemede', statusScanning:'Taranıyor', statusPending:'Bekliyor',
+    btnSend:'Gönder ↑',
+    loginTitle:'Tekrar Hoşgeldiniz', loginSub:'Hesabınıza giriş yapın',
+    registerTitle:'Hesap Oluştur', registerSub:'Ücretsiz başvurun',
+    noAccount:'Hesabınız yok mu?', registerLink:'Kayıt olun',
+    agreeTerms:'Kayıt olarak', termsLink:'Şartları', agreeTerms2:'kabul etmiş olursunuz.',
+    btnContinue:'Devam →', btnBack:'← Geri', btnSubmit:'Başvuruyu Gönder ✓',
+    optSelect:'Seçin', optOther:'Diğer', optNo:'Hayır', optYes:'Evet',
+    noApp:'Henüz başvuru yok', noAppDesc:'Onboarding formunu doldurarak başvurunuzu tamamlayın.', noAppBtn:'Başvuru Yap →',
+    alertSelectType:'Lütfen hesap türü seçin', alertEmailPass:'E-posta ve şifre gerekli', alertMinPass:'Şifre en az 6 karakter olmalı',
+    alertLogin:'Lütfen önce giriş yapın.', uploading:'Yüklendi', submitting:'Gönderiliyor...',
+    chatPlaceholder:'Mesajınızı yazın...',
+    docTypeLabels:{identity:'Kimlik',address:'İkametgah',tax:'Vergi',registry:'Ticaret Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet'},
+    docStatusLabels:{pending:'Bekliyor',approved:'Onaylandı',rejected:'Reddedildi'},
+    statusLabels:{pending:'Beklemede',in_review:'İncelemede',approved:'Onaylandı',rejected:'Reddedildi'}
+  },
+  en:{
+    navLogin:'Log In', navApply:'Apply Now →', navRegister:'Register', navLogout:'Logout',
+    heroEyebrow:'Individual & Corporate Onboarding Service',
+    heroTitle:'We manage your onboarding process <strong>on your behalf</strong>',
+    heroDesc:'Submit your information and documents once — our expert team tracks, coordinates and finalises your onboarding from start to finish.',
+    heroApply:'Apply Now →', heroLogin:'Log In',
+    heroNote1:'Free application', heroNote2:'Expert team support', heroNote3:'Transparent process tracking',
+    trust1:'Full Management on Your Behalf', trust2:'Fast Process Tracking', trust3:'Secure Data Handling', trust4:'Expert Advisor Team', trust5:'High Approval Rate',
+    featEyebrow:'How It Works', featTitle:'You apply, we handle the rest',
+    featDesc:'We track, coordinate and finalise every step of the onboarding process on your behalf',
+    f1t:'Single Application', f1d:'Enter your information and documents once. Our expert team takes over from there.',
+    f2t:'Document Management', f2d:'We know which documents are required. We guide you for missing or incorrect documents.',
+    f3t:'Real-Time Tracking', f3d:'Track your application status in real time from your profile.',
+    f4t:'Direct Communication', f4d:'Instantly communicate with your assigned advisor through the platform for any questions.',
+    f5t:'Institution Coordination', f5d:'We handle correspondence and follow-ups with relevant institutions on your behalf.',
+    f6t:'Individual & Corporate', f6d:'Separately customised onboarding flows for natural persons and legal entities.',
+    fcolServices:'Services', fcolS1:'Individual Onboarding', fcolS2:'Corporate Onboarding', fcolS3:'Document Management', fcolS4:'Application Tracking',
+    fcolProcess:'Process', fcolP1:'How It Works', fcolP2:'FAQ', fcolP3:'References',
+    fcolLegal:'Legal', fcolL1:'GDPR Policy', fcolL2:'Privacy', fcolL3:'Terms of Service', fcolL4:'Security',
+    obTitle:'Create Account', obExit:'✕ Exit', stepLabel:'Step',
+    s1title:'Account Type', s1desc:'Select the type of account you wish to create',
+    typeInd:'Individual', typeIndDesc:'Personal identity verification (7 steps)',
+    typeBiz:'Corporate', typeBizDesc:'Company verification + KYC (10 steps)',
+    s2title:'Personal Information', s2desc:'Enter your personal details for identity verification',
+    lFirstName:'First Name', lLastName:'Last Name', lDob:'Date of Birth', lNationality:'Nationality',
+    lNationalId:'National ID', lPhone:'Phone', lEmail:'Email', lPassword:'Password', lFullName:'Full Name',
+    s3title:'Address', s3desc:'Enter your current residential address',
+    lStreet:'Street Address', lCity:'City', lDistrict:'District', lPostal:'Postal Code', lCountry:'Country',
+    s4title:'PEP & Risk Declaration', s4desc:'Please answer the following questions honestly',
+    lPepQ1:'Are you a Politically Exposed Person (PEP)?', lPepQ2:'Do you have a close relative who is a PEP?',
+    lSof:'Source of Funds', lVolume:'Expected Monthly Transaction Volume',
+    sofSalary:'Salary', sofRental:'Rental Income', sofInvest:'Investments', sofInherit:'Inheritance', sofBusiness:'Business Income',
+    sofBizRev:'Business Revenue', sofLoan:'Loan', sofCapital:'Capital Raise',
+    s4bizTitle:'Company Information', s4bizDesc:'Enter basic information about your company',
+    lCompanyName:'Company Name', lRegistryNo:'Trade Registry No', lCompanyCountry:'Country of Incorporation',
+    lCompanyType:'Company Type', lActivity:'Business Activity',
+    actFintech:'Fintech / Payments', actEcom:'E-commerce', actSoftware:'Software / Technology',
+    actConsult:'Consulting', actManuf:'Manufacturing', actRealty:'Real Estate',
+    s5bizTitle:'Company Address', s5bizDesc:'Enter the registered company address', lSameAddr:'Same as my personal address',
+    s6bizTitle:'Beneficial Owners', s6bizDesc:'Add all beneficial owners with 25%+ ownership',
+    lUboName:'Full Name', lUboPct:'Ownership %', lUboRole:'Position', lUboType:'Ownership Type',
+    uboDirect:'Direct', uboIndirect:'Indirect', btnAddUbo:'+ Add UBO',
+    s7bizDesc:'As the authorized representative, answer the following',
+    lBizPepQ1:'Are you a PEP as the authorized representative?', lBizPepQ2:'Are any directors/officers PEPs?',
+    sDocsTitle:'Document Upload', sDocsDesc:'Upload required documents. Check the box for unavailable documents.',
+    docIdentity:'Identity Document', docAddress:'Proof of Address', docTax:'Tax Certificate',
+    docRegistry:'Trade Registry Certificate', docAoa:'Articles of Association', docSig:'Signature Circular', docCgs:'Certificate of Good Standing',
+    docPassport:'Passport', docNationalId:'National ID Card', docDrivingLic:"Driver's Licence",
+    fileSelect:'Choose file', fileOrDrag:'or drag & drop', docNA:'This document is not available',
+    badgeRequired:'Required', badgeOptional:'Optional',
+    docAddrHint:'Utility bill, bank statement, max 10MB',
+    sAmlTitle:'AML Consent & Terms', sAmlDesc:'Grant the following consents to complete your application',
+    conAmlTitle:'AML Screening Consent', conAmlText:'I consent to Allboard conducting AML screening against sanctions lists, PEP databases and adverse media sources.',
+    conPrivTitle:'Privacy Policy', conPrivText:'I accept the processing of my personal data under the Allboard Privacy Policy.',
+    conTosTitle:'Terms of Service', conTosText:'I have read and accept the Allboard Terms of Service.',
+    conAccTitle:'Accuracy Declaration', conAccText:'I declare that all information provided is accurate, complete and up to date.',
+    conMonTitle:'Ongoing Monitoring', conMonText:'I consent to rescreening should changes occur to my account.',
+    optionalLabel:'(Optional)',
+    completeTitle:'Application Received!', completeDesc:'Our team will review your documents and contact you as soon as possible.',
+    kycProcessing:'KYC: Processing', amlScanning:'AML: Scanning', riskEval:'Risk: Evaluating',
+    btnViewProfile:'View My Profile →',
+    tabSummary:'Summary', tabDocs:'Documents', tabVerify:'Verification', tabChat:'Messages',
+    secPersonal:'Personal Information', secAddress:'Address', secPep:'PEP & Risk Declaration',
+    lPepStatus:'PEP Status', lRelPep:'Related PEP',
+    vcKycTitle:'KYC Identity Verification', vcKycDesc:'Document review in progress. Result within 1-2 business days.',
+    vcAmlTitle:'AML Screening', vcAmlDesc:'Screening against sanctions lists and PEP databases.',
+    vcRiskTitle:'Risk Assessment', vcRiskDesc:'Risk score calculated after KYC and AML completion.',
+    vcFinalTitle:'Final Decision', vcFinalDesc:'Final decision after all reviews are completed.',
+    statusReview:'Under Review', statusScanning:'Scanning', statusPending:'Pending',
+    btnSend:'Send ↑',
+    loginTitle:'Welcome Back', loginSub:'Sign in to your account',
+    registerTitle:'Create Account', registerSub:'Apply for free',
+    noAccount:"Don't have an account?", registerLink:'Register',
+    agreeTerms:'By registering you accept our', termsLink:'Terms', agreeTerms2:'.',
+    btnContinue:'Continue →', btnBack:'← Back', btnSubmit:'Submit Application ✓',
+    optSelect:'Select', optOther:'Other', optNo:'No', optYes:'Yes',
+    noApp:'No application yet', noAppDesc:'Complete the onboarding form to submit your application.', noAppBtn:'Apply Now →',
+    alertSelectType:'Please select an account type', alertEmailPass:'Email and password are required', alertMinPass:'Password must be at least 6 characters',
+    alertLogin:'Please log in first.', uploading:'Uploaded', submitting:'Submitting...',
+    chatPlaceholder:'Type your message...',
+    docTypeLabels:{identity:'Identity',address:'Address',tax:'Tax',registry:'Registry',aoa:'Articles',signature:'Signature',cgs:'Good Standing'},
+    docStatusLabels:{pending:'Pending',approved:'Approved',rejected:'Rejected'},
+    statusLabels:{pending:'Pending',in_review:'Under Review',approved:'Approved',rejected:'Rejected'}
+  }
+};
+
+function setLang(l){
+  currentLang=l;
+  document.getElementById('btnTR').classList.toggle('active',l==='tr');
+  document.getElementById('btnEN').classList.toggle('active',l==='en');
+  document.documentElement.lang=l==='tr'?'tr':'en';
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n');
+    if(!T[l]||T[l][k]===undefined)return;
+    if(k==='heroTitle'){el.innerHTML=T[l][k];return;}
+    el.textContent=T[l][k];
+  });
+  // Placeholders
+  var ci=document.getElementById('chatInp');if(ci)ci.placeholder=T[l].chatPlaceholder;
+  // Step label
+  document.getElementById('obLbl').textContent=T[l].stepLabel+' '+(idx+1)+' / '+steps.length;
+}
+
 
 // ── UTILS ─────────────────────────────────────────────
 function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -702,12 +899,13 @@ function nav(v){
 
 async function updateNav(v){
   var na=document.getElementById('navAct');
+  var L=T[currentLang];
   if(v==='profile'){
     var session=await getSession();
     var name=session&&session.user&&session.user.user_metadata&&session.user.user_metadata.full_name||session&&session.user&&session.user.email||'Hesabım';
-    na.innerHTML='<span style="font-size:.85rem;color:var(--text2);font-weight:500">'+esc(name)+'</span><button class="btn btn-ghost btn-sm" onclick="doLogout()">Çıkış / Logout</button>';
+    na.innerHTML='<div class="lang-toggle"><button class="lang-btn '+(currentLang==='tr'?'active':'')+'" id="btnTR" onclick="setLang(\'tr\')">🇹🇷 TR</button><button class="lang-btn '+(currentLang==='en'?'active':'')+'" id="btnEN" onclick="setLang(\'en\')">🇬🇧 EN</button></div><span style="font-size:.85rem;color:var(--text2);font-weight:500">'+esc(name)+'</span><button class="btn btn-ghost btn-sm" onclick="doLogout()" data-i18n="navLogout">'+L.navLogout+'</button>';
   } else {
-    na.innerHTML='<button class="btn btn-outline btn-sm" onclick="showAuth(\'login\')">Giriş Yap / Log In</button><button class="btn btn-primary btn-sm" onclick="showAuth(\'register\')">Kayıt Ol / Register</button>';
+    na.innerHTML='<div class="lang-toggle"><button class="lang-btn '+(currentLang==='tr'?'active':'')+'" id="btnTR" onclick="setLang(\'tr\')">🇹🇷 TR</button><button class="lang-btn '+(currentLang==='en'?'active':'')+'" id="btnEN" onclick="setLang(\'en\')">🇬🇧 EN</button></div><button class="btn btn-outline btn-sm" onclick="showAuth(\'login\')" data-i18n="navLogin">'+L.navLogin+'</button><button class="btn btn-primary btn-sm" onclick="showAuth(\'register\')" data-i18n="navApply">'+L.navApply+'</button>';
   }
 }
 
@@ -730,10 +928,10 @@ function authTab(t){
 async function doLogin(){
   var email=document.getElementById('lEmail').value.trim();
   var password=document.getElementById('lPass').value;
-  if(!email||!password){alert('E-posta ve şifre gerekli.');return;}
-  var btn=document.querySelector('#aLogin .btn-primary');btn.textContent='Giriş yapılıyor...';btn.disabled=true;
+  if(!email||!password){alert(T[currentLang].alertEmailPass);return;}
+  var btn=document.querySelector('#aLogin .btn-primary');btn.textContent='...';btn.disabled=true;
   var {data,error}=await sb.auth.signInWithPassword({email,password});
-  btn.textContent='Giriş Yap / Log In';btn.disabled=false;
+  btn.textContent=T[currentLang].navLogin;btn.disabled=false;
   if(error){alert('Hata: '+error.message);return;}
   closeAuth();nav('profile');
 }
@@ -742,11 +940,11 @@ async function doRegister(){
   var email=document.getElementById('rEmail').value.trim();
   var password=document.getElementById('rPass').value;
   var name=document.getElementById('rName')?document.getElementById('rName').value.trim():'';
-  if(!email||!password){alert('E-posta ve şifre gerekli.');return;}
-  if(password.length<6){alert('Şifre en az 6 karakter olmalı.');return;}
-  var btn=document.querySelector('#aReg .btn-primary');btn.textContent='Kayıt olunuyor...';btn.disabled=true;
+  if(!email||!password){alert(T[currentLang].alertEmailPass);return;}
+  if(password.length<6){alert(T[currentLang].alertMinPass);return;}
+  var btn=document.querySelector('#aReg .btn-primary');btn.textContent='...';btn.disabled=true;
   var {data,error}=await sb.auth.signUp({email,password,options:{data:{full_name:name}}});
-  btn.textContent='Kayıt Ol / Register';btn.disabled=false;
+  btn.textContent=T[currentLang].navRegister;btn.disabled=false;
   if(error){alert('Hata: '+error.message);return;}
   closeAuth();startOB();
 }
@@ -769,13 +967,13 @@ function showS(i){
   document.getElementById(steps[i]).classList.add('active');
   var pct=Math.round(((i+1)/steps.length)*100);
   document.getElementById('obProg').style.width=pct+'%';
-  document.getElementById('obLbl').textContent='Adım '+(i+1)+' / '+steps.length;
+  document.getElementById('obLbl').textContent=(T[currentLang].stepLabel||'Adım')+' '+(i+1)+' / '+steps.length;
   if(steps[i]==='sDocs')document.getElementById('bizDocs').style.display=acType==='biz'?'block':'none';
 }
 function goNext(){
   if(idx===0){
     var sel=document.querySelector('#s1 .ro.sel');
-    if(!sel){alert('Lütfen hesap türü seçin / Please select an account type');return;}
+    if(!sel){alert(T[currentLang].alertSelectType);return;}
     acType=sel.querySelector('.rl strong').textContent.indexOf('Bireysel')>=0?'ind':'biz';
     steps=acType==='biz'?BIZ_STEPS:IND_STEPS;
   }
@@ -790,7 +988,7 @@ function pickRo(el){
   el.classList.add('sel');
 }
 function onFile(inp,sid){
-  if(inp.files.length){var s=document.getElementById(sid);s.style.display='block';s.textContent='✓ '+inp.files[0].name+' yüklendi';}
+  if(inp.files.length){var s=document.getElementById(sid);s.style.display='block';s.textContent='✓ '+inp.files[0].name+' '+(T[currentLang].uploading||'yüklendi');}
 }
 function trigF(id){var el=document.getElementById(id);if(el&&!el.disabled)el.click();}
 function togNA(cb,dropId){document.getElementById(dropId).classList.toggle('dis',cb.checked);}
@@ -805,9 +1003,9 @@ function selVal(rg){var s=document.querySelector('#'+rg+' .ro.sel');return s?s.q
 // ── SUBMIT APP ────────────────────────────────────────
 async function submitApp(){
   var session=await getSession();
-  if(!session){alert('Lütfen önce giriş yapın.');return;}
+  if(!session){alert(T[currentLang].alertLogin);return;}
   var btn=document.getElementById('submitBtn');
-  if(btn){btn.textContent='Gönderiliyor...';btn.disabled=true;}
+  if(btn){btn.textContent=T[currentLang].submitting;btn.disabled=true;}
 
   // Build client data
   var clientData={
@@ -911,7 +1109,7 @@ async function loadProfile(){
   var initials=((p.firstName||'?')[0]+(p.lastName||'?')[0]).toUpperCase();
   document.getElementById('pfAvatar').textContent=initials;
   document.getElementById('pfName').textContent=fullName.trim()||session.user.email;
-  document.getElementById('pfType').textContent=client.type==='business'?'Kurumsal / Business':'Bireysel / Individual';
+  document.getElementById('pfType').textContent=client.type==='business'?T[currentLang].typeBiz:T[currentLang].typeInd;
   document.getElementById('pfStatus').textContent=statusLabel(client.status);
   document.getElementById('pfStatus').className='badge '+statusClass(client.status);
   document.getElementById('pfSubmitted').textContent=fmtDate(client.submitted_at);
@@ -930,8 +1128,8 @@ async function loadProfile(){
   document.getElementById('sumCity').textContent=a.city||'—';
   document.getElementById('sumPostal').textContent=a.postalCode||'—';
   document.getElementById('sumCountry').textContent=a.country||'—';
-  document.getElementById('sumPep').textContent=pep.isPep?'Evet / Yes':'Hayır / No';
-  document.getElementById('sumRel').textContent=pep.hasRelative?'Evet / Yes':'Hayır / No';
+  document.getElementById('sumPep').textContent=pep.isPep?T[currentLang].optYes:T[currentLang].optNo;
+  document.getElementById('sumRel').textContent=pep.hasRelative?T[currentLang].optYes:T[currentLang].optNo;
   document.getElementById('sumSof').textContent=pep.sourceOfFunds||'—';
   document.getElementById('sumVol').textContent=pep.monthlyVolume||'—';
   // Verify tab
@@ -943,7 +1141,7 @@ async function loadProfile(){
 }
 
 function statusLabel(s){
-  var m={pending:'Beklemede',in_review:'İncelemede',approved:'Onaylandı',rejected:'Reddedildi'};
+  var m=T[currentLang].statusLabels||{pending:'Beklemede',in_review:'İncelemede',approved:'Onaylandı',rejected:'Reddedildi'};
   return m[s]||s||'—';
 }
 function statusClass(s){
@@ -966,13 +1164,16 @@ async function loadDocsTab(){
   var {data:docs}=await sb.from('documents').select('*').eq('client_id',currentClient.id);
   var cont=document.getElementById('tb-docs');
   if(!docs||!docs.length){cont.innerHTML='<p style="color:var(--text2);text-align:center;padding:2rem">Belge bulunamadı.</p>';return;}
-  var typeLabels={identity:'Kimlik / Identity',address:'Adres Beyanı / Address',tax:'Vergi Levhası / Tax',registry:'Sicil Belgesi / Registry',aoa:'Ana Sözleşme / AoA',signature:'İmza Sirküleri / Signature',cgs:'Faaliyet Belgesi / CGS'};
+  var L=T[currentLang];
+  var typeLabels=L.docTypeLabels||{identity:'Kimlik',address:'Adres',tax:'Vergi',registry:'Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet'};
+  var notAvail=L.optNo==='No'?'Not Available':'Mevcut Değil';
   var rows=docs.map(function(d){
     var dl='';
-    if(d.available&&d.file_path){var {data:u}=sb.storage.from('documents').getPublicUrl(d.file_path);dl='<a href="'+esc(u.publicUrl)+'" target="_blank" style="color:var(--teal);font-size:.8rem">İndir</a>';}
-    return '<tr><td>'+(typeLabels[d.doc_type]||d.doc_type)+'</td><td>'+(d.available?esc(d.file_name||'—'):'Mevcut Değil')+'</td><td>'+fmtSize(d.file_size)+'</td><td><span class="badge '+statusClass(d.status)+'">'+statusLabel(d.status)+'</span></td><td>'+dl+'</td></tr>';
+    if(d.available&&d.file_path){var {data:u}=sb.storage.from('documents').getPublicUrl(d.file_path);dl='<a href="'+esc(u.publicUrl)+'" target="_blank" style="color:var(--blue);font-size:.8rem">'+L.fileSelect+'</a>';}
+    return '<tr><td>'+(typeLabels[d.doc_type]||d.doc_type)+'</td><td>'+(d.available?esc(d.file_name||'—'):notAvail)+'</td><td>'+fmtSize(d.file_size)+'</td><td><span class="badge '+statusClass(d.status)+'">'+statusLabel(d.status)+'</span></td><td>'+dl+'</td></tr>';
   }).join('');
-  cont.innerHTML='<table style="width:100%;border-collapse:collapse;font-size:.85rem"><thead><tr style="color:var(--text2)"><th style="padding:.5rem;text-align:left">Tür</th><th style="padding:.5rem;text-align:left">Dosya</th><th style="padding:.5rem;text-align:left">Boyut</th><th style="padding:.5rem;text-align:left">Durum</th><th style="padding:.5rem;text-align:left">İndir</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  var thLabels=[L.docIdentity||'Tür',L.docFile||'Dosya',L.docSize||'Boyut',L.docStatus||'Durum',''];
+  cont.innerHTML='<table style="width:100%;border-collapse:collapse;font-size:.85rem"><thead><tr style="color:var(--text2)">'+thLabels.map(function(h){return '<th style="padding:.5rem;text-align:left">'+h+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table>';
 }
 
 // ── CHAT ─────────────────────────────────────────────
@@ -999,7 +1200,8 @@ function appendMsg(m){
   var now=new Date(m.created_at);
   var ts=pad(now.getDate())+'.'+pad(now.getMonth()+1)+' '+pad(now.getHours())+':'+pad(now.getMinutes());
   var div=document.createElement('div');div.className='cmsg '+(isClient?'cli':'stf');
-  div.innerHTML='<div class="cav">'+initials+'</div><div><div class="cbub">'+esc(m.text)+'</div><div class="cmeta">'+(isClient?'Siz':'Allboard Compliance')+' · '+ts+'</div></div>';
+  var senderName=isClient?(T[currentLang].you||'Siz'):'Allboard';
+  div.innerHTML='<div class="cav">'+initials+'</div><div><div class="cbub">'+esc(m.text)+'</div><div class="cmeta">'+senderName+' · '+ts+'</div></div>';
   cont.appendChild(div);cont.scrollTop=cont.scrollHeight;
 }
 
