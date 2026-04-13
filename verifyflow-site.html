@@ -375,7 +375,7 @@ a{color:var(--blue);text-decoration:none}
   <div class="spane" id="s4ind">
     <div class="stitle" data-i18n="s4title">PEP & Risk Beyanı</div>
     <div class="sdesc" data-i18n="s4desc">Aşağıdaki soruları dürüstçe yanıtlayın</div>
-    <div class="fg"><label data-i18n="lPepQ1">Siyasi açıdan öneme sahip bir kişi (PEP) misiniz?</label>
+    <div class="fg"><label data-i18n="lPepQ1">Siyasi Nüfuz Sahibi Kişi (PEP) misiniz?</label>
       <select class="fi" id="pepStatus"><option value="" data-i18n="optSelect">Seçin</option><option value="no" data-i18n="optNo">Hayır</option><option value="yes" data-i18n="optYes">Evet</option></select></div>
     <div class="fg"><label data-i18n="lPepQ2">Birinci derece yakınınızda PEP var mı?</label>
       <select class="fi" id="relStatus"><option value="" data-i18n="optSelect">Seçin</option><option value="no" data-i18n="optNo">Hayır</option><option value="yes" data-i18n="optYes">Evet</option></select></div>
@@ -713,7 +713,7 @@ var T = {
     f4t:'Doğrudan İletişim', f4d:'Sorularınız için size atanan danışmanınızla platform üzerinden anlık iletişime geçin.',
     f5t:'Kurum Koordinasyonu', f5d:'İlgili kurum ve kuruluşlarla yazışmaları, takipleri sizin adınıza yürütürüz.',
     f6t:'Bireysel & Kurumsal', f6d:'Gerçek kişiler ve tüzel kişiler için ayrı ayrı özelleştirilmiş onboarding akışları.',
-    f7t:'Hukuki Destek', f7d:'Onaylı kopya (Certified Copy), apostil onayı, noter tasdiki ve diğer resmi belge işlemlerini sizin adınıza koordine eder, takip ederiz.',
+    f7t:'Hukuki Destek', f7d:'Tasdikli suret (Certified Copy), apostil onayı, noter tasdiki ve diğer resmi belge işlemlerini sizin adınıza koordine eder, takip ederiz.',
     f8t:'Yeminli Tercüman Hizmetleri', f8d:'Yabancı dilde düzenlenmiş belgelerinizi yetkili yeminli tercümanlar aracılığıyla resmi olarak tercüme ettirir, onay süreçlerini yönetiriz.',
     fcolServices:'Hizmetler', fcolS1:'Bireysel Onboarding', fcolS2:'Kurumsal Onboarding', fcolS3:'Belge Yönetimi', fcolS4:'Başvuru Takibi',
     fcolProcess:'Süreç', fcolP1:'Nasıl Çalışır?', fcolP2:'Sık Sorulan Sorular', fcolP3:'Referanslar',
@@ -728,10 +728,10 @@ var T = {
     s3title:'Adres Bilgileri', s3desc:'Güncel ikametgah adresinizi girin',
     lStreet:'Sokak / Cadde', lCity:'Şehir', lDistrict:'İlçe', lPostal:'Posta Kodu', lCountry:'Ülke',
     s4title:'PEP & Risk Beyanı', s4desc:'Aşağıdaki soruları dürüstçe yanıtlayın',
-    lPepQ1:'Siyasi açıdan öneme sahip bir kişi (PEP) misiniz?', lPepQ2:'Birinci derece yakınınızda PEP var mı?',
+    lPepQ1:'Siyasi Nüfuz Sahibi Kişi (PEP) misiniz?', lPepQ2:'Birinci derece yakınınızda PEP var mı?',
     lSof:'Fon Kaynağı', lVolume:'Aylık Tahmini İşlem Hacmi',
     sofSalary:'Maaş', sofRental:'Kira Geliri', sofInvest:'Yatırım', sofInherit:'Miras', sofBusiness:'İş Geliri',
-    sofBizRev:'Ticari Gelir', sofLoan:'Kredi', sofCapital:'Sermaye Artırımı',
+    sofBizRev:'Ticari Gelir', sofLoan:'Kredi', sofCapital:'Kayıtlı Sermaye',
     s4bizTitle:'Şirket Bilgileri', s4bizDesc:'Şirketinize ait temel bilgileri girin',
     lCompanyName:'Şirket Adı', lRegistryNo:'Ticaret Sicil No', lCompanyCountry:'Kuruluş Ülkesi',
     lCompanyType:'Şirket Türü', lActivity:'Faaliyet Alanı',
@@ -819,10 +819,10 @@ var T = {
     s3title:'Address', s3desc:'Enter your current residential address',
     lStreet:'Street Address', lCity:'City', lDistrict:'District', lPostal:'Postal Code', lCountry:'Country',
     s4title:'PEP & Risk Declaration', s4desc:'Please answer the following questions honestly',
-    lPepQ1:'Are you a Politically Exposed Person (PEP)?', lPepQ2:'Do you have a close relative who is a PEP?',
+    lPepQ1:'Are you a Politically Exposed Person (PEP)?', lPepQ2:'Do you have a close relative or associate who is a PEP?',
     lSof:'Source of Funds', lVolume:'Expected Monthly Transaction Volume',
     sofSalary:'Salary', sofRental:'Rental Income', sofInvest:'Investments', sofInherit:'Inheritance', sofBusiness:'Business Income',
-    sofBizRev:'Business Revenue', sofLoan:'Loan', sofCapital:'Capital Raise',
+    sofBizRev:'Business Revenue', sofLoan:'Loan', sofCapital:'Share Capital',
     s4bizTitle:'Company Information', s4bizDesc:'Enter basic information about your company',
     lCompanyName:'Company Name', lRegistryNo:'Trade Registry No', lCompanyCountry:'Country of Incorporation',
     lCompanyType:'Company Type', lActivity:'Business Activity',
@@ -836,7 +836,7 @@ var T = {
     lBizPepQ1:'Are you a PEP as the authorized representative?', lBizPepQ2:'Are any directors/officers PEPs?',
     sDocsTitle:'Document Upload', sDocsDesc:'Upload required documents. Check the box for unavailable documents.',
     docIdentity:'Identity Document', docAddress:'Proof of Address', docTax:'Tax Certificate',
-    docRegistry:'Trade Registry Certificate', docAoa:'Articles of Association', docSig:'Signature Circular', docCgs:'Certificate of Good Standing',
+    docRegistry:'Trade Registry Certificate', docAoa:'Articles of Association', docSig:'Authorised Signatory List', docCgs:'Certificate of Good Standing',
     docPassport:'Passport', docNationalId:'National ID Card', docDrivingLic:"Driver's Licence",
     fileSelect:'Choose file', fileOrDrag:'or drag & drop', docNA:'This document is not available',
     badgeRequired:'Required', badgeOptional:'Optional',
@@ -853,7 +853,7 @@ var T = {
     btnViewProfile:'View My Profile →',
     tabSummary:'Summary', tabDocs:'Documents', tabVerify:'Verification', tabChat:'Messages',
     secPersonal:'Personal Information', secAddress:'Address', secPep:'PEP & Risk Declaration',
-    lPepStatus:'PEP Status', lRelPep:'Related PEP',
+    lPepStatus:'PEP Status', lRelPep:'PEP Associate',
     vcKycTitle:'KYC Identity Verification', vcKycDesc:'Document review in progress. Result within 1-2 business days.',
     vcAmlTitle:'AML Screening', vcAmlDesc:'Screening against sanctions lists and PEP databases.',
     vcRiskTitle:'Risk Assessment', vcRiskDesc:'Risk score calculated after KYC and AML completion.',
@@ -872,10 +872,10 @@ var T = {
     alertNameRequired:'First and last name are required.', alertDobRequired:'Date of birth is required.',
     alertAge:'Applicants must be 18 or older.', alertPhone:'Please enter a valid phone number.',
     alertPctRange:'Ownership percentage must be between 0-100.', alertPctTotal:'Total ownership cannot exceed 100%.',
-    alertSubmitErr:'Submission error:', alertUboErr:'Partner record error:',
+    alertSubmitErr:'Submission error:', alertUboErr:'UBO record error:',
     alertFileSize:'File cannot exceed 10MB:', alertMsgCooldown:'Please wait 2 seconds.',
     chatPlaceholder:'Type your message...',
-    docTypeLabels:{identity:'Identity',address:'Address',tax:'Tax',registry:'Registry',aoa:'Articles',signature:'Signature',cgs:'Good Standing'},
+    docTypeLabels:{identity:'Identity',address:'Address',tax:'Tax',registry:'Registry',aoa:'Articles',signature:'Auth. Signatory',cgs:'Good Standing'},
     docStatusLabels:{pending:'Pending',approved:'Approved',rejected:'Rejected'},
     statusLabels:{pending:'Pending',in_review:'Under Review',approved:'Approved',rejected:'Rejected'}
   }
