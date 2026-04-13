@@ -86,79 +86,67 @@ alter publication supabase_realtime add table clients;
 -- 7. RLS POLİTİKALARI
 -- ============================================================
 
+-- ============================================================
+-- 8. ADMINS TABLOSU — admin email listesi (current_setting yerine)
+-- Supabase SQL Editor'da superuser yetkisi gerekmediği için
+-- current_setting() yaklaşımı yerine bu tablo kullanılır.
+-- ============================================================
+create table if not exists admins (
+  email text primary key
+);
+
+-- Admin emailini ekle
+insert into admins (email) values ('REDACTED_EMAIL') on conflict do nothing;
+
 -- CLIENTS
 alter table clients enable row level security;
 -- Müşteri kendi kaydını okuyabilir / yazabilir
 create policy "client_select" on clients for select using (auth.uid() = user_id);
 create policy "client_insert" on clients for insert with check (auth.uid() = user_id);
 create policy "client_update" on clients for update using (auth.uid() = user_id);
--- Admin tümünü okuyabilir / güncelleyebilir (email metadata'ya göre)
+-- Admin tümünü okuyabilir / güncelleyebilir (admins tablosuna göre)
 create policy "admin_all" on clients for all
-  using (auth.jwt() ->> 'email' = current_setting('app.admin_email', true));
+  using (auth.jwt() ->> 'email' in (select email from admins));
 
 -- UBOS
 alter table ubos enable row level security;
 create policy "ubo_owner" on ubos for all
   using (client_id in (select id from clients where user_id = auth.uid()));
 create policy "ubo_admin" on ubos for all
-  using (auth.jwt() ->> 'email' = current_setting('app.admin_email', true));
+  using (auth.jwt() ->> 'email' in (select email from admins));
 
 -- DOCUMENTS
 alter table documents enable row level security;
 create policy "doc_owner" on documents for all
   using (client_id in (select id from clients where user_id = auth.uid()));
 create policy "doc_admin" on documents for all
-  using (auth.jwt() ->> 'email' = current_setting('app.admin_email', true));
+  using (auth.jwt() ->> 'email' in (select email from admins));
 
 -- CHAT_MESSAGES
 alter table chat_messages enable row level security;
 create policy "chat_owner" on chat_messages for all
   using (client_id in (select id from clients where user_id = auth.uid()));
 create policy "chat_admin" on chat_messages for all
-  using (auth.jwt() ->> 'email' = current_setting('app.admin_email', true));
+  using (auth.jwt() ->> 'email' in (select email from admins));
 
 -- INTERVIEWS
 alter table interviews enable row level security;
 create policy "int_owner" on interviews for select
   using (client_id in (select id from clients where user_id = auth.uid()));
 create policy "int_admin" on interviews for all
-  using (auth.jwt() ->> 'email' = current_setting('app.admin_email', true));
-
--- ============================================================
--- 8. ADMIN E-POSTA AYARI
--- ⚠️  BU KOMUTU MUTLAKA ÇALIŞTIR — admin RLS policy'leri buna bağlı
--- Admin e-postanı aşağıya yaz ve komutu SQL Editor'da çalıştır:
--- ============================================================
-alter database postgres set app.admin_email = 'REDACTED_EMAIL';
+  using (auth.jwt() ->> 'email' in (select email from admins));
 
 -- ============================================================
 -- 9. STORAGE — documents bucket
 -- Dashboard > Storage > New Bucket > Name: "documents" > Private
--- Aşağıdaki policy'leri de çalıştır:
+-- Aşağıdaki policy'leri Storage > Policies bölümünden ekle:
+--   INSERT: (auth.uid())::text = (storage.foldername(name))[1]
+--   SELECT: (auth.uid())::text = (storage.foldername(name))[1]
+--           OR auth.jwt() ->> 'email' IN (SELECT email FROM admins)
 -- ============================================================
 
--- Müşteri kendi klasörüne belge yükleyebilir
-insert into storage.policies (name, bucket_id, operation, definition)
-values (
-  'client_upload',
-  'documents',
-  'INSERT',
-  '(auth.uid())::text = (storage.foldername(name))[1]'
-) on conflict do nothing;
-
--- Müşteri kendi belgelerini indirebilir; admin hepsini görebilir
-insert into storage.policies (name, bucket_id, operation, definition)
-values (
-  'client_or_admin_select',
-  'documents',
-  'SELECT',
-  '(auth.uid())::text = (storage.foldername(name))[1]
-   OR auth.jwt() ->> ''email'' = current_setting(''app.admin_email'', true)'
-) on conflict do nothing;
-
 -- ============================================================
--- 10. MEVCUT KURULUMDA RLS KONTROL
--- SQL Editor'da çalıştırarak policy'lerin çalıştığını doğrula:
+-- 10. DOĞRULAMA
 -- ============================================================
--- SELECT current_setting('app.admin_email', true);   -- admin emaili dönmeli
--- SELECT * FROM pg_policies WHERE tablename = 'clients';  -- policy listesi
+-- SELECT * FROM admins;                                 -- email listesi
+-- SELECT * FROM pg_policies WHERE tablename = 'clients'; -- policy listesi
