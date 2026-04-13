@@ -505,6 +505,36 @@ a{color:var(--blue);text-decoration:none}
       <div class="na"><input type="checkbox" id="na-tax" onchange="togNA(this,'dd-tax')"><label for="na-tax" data-i18n="docNA">Bu belge mevcut değil</label></div>
     </div>
 
+    <div class="dug">
+      <div class="dlabel"><span data-i18n="docNufus">Nüfus Kayıt Örneği</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+      <div class="fdrop" id="dd-nufus" onclick="trigF('fi-nufus')">
+        <div style="font-size:1.4rem">🪪</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF, JPG, PNG max 10MB</p>
+        <input type="file" id="fi-nufus" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-nufus')">
+      </div>
+      <div class="fst" id="fs-nufus"></div>
+      <div class="na"><input type="checkbox" id="na-nufus" onchange="togNA(this,'dd-nufus')"><label for="na-nufus" data-i18n="docNA">Bu belge mevcut değil</label></div>
+    </div>
+
+    <div class="dug">
+      <div class="dlabel"><span data-i18n="docBankPersonal">Banka Hesap Dökümü</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+      <div class="fdrop" id="dd-bank-personal" onclick="trigF('fi-bank-personal')">
+        <div style="font-size:1.4rem">🏦</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p>
+        <input type="file" id="fi-bank-personal" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-bank-personal')">
+      </div>
+      <div class="fst" id="fs-bank-personal"></div>
+      <div class="na"><input type="checkbox" id="na-bank-personal" onchange="togNA(this,'dd-bank-personal')"><label for="na-bank-personal" data-i18n="docNA">Bu belge mevcut değil</label></div>
+    </div>
+
+    <div class="dug">
+      <div class="dlabel"><span data-i18n="docSof">Fon Kaynağı Belgesi (SoF)</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+      <div class="fdrop" id="dd-sof" onclick="trigF('fi-sof')">
+        <div style="font-size:1.4rem">💰</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p>
+        <input type="file" id="fi-sof" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-sof')">
+      </div>
+      <div class="fst" id="fs-sof"></div>
+      <div class="na"><input type="checkbox" id="na-sof" onchange="togNA(this,'dd-sof')"><label for="na-sof" data-i18n="docNA">Bu belge mevcut değil</label></div>
+    </div>
+
     <div id="bizDocs" style="display:none">
       <div class="dug">
         <div class="dlabel" data-i18n="docRegistry">Ticaret Sicil Belgesi</div>
@@ -525,6 +555,82 @@ a{color:var(--blue);text-decoration:none}
         <div class="dlabel" data-i18n="docCgs">Faaliyet Belgesi</div>
         <div class="fdrop" id="dd-cgs" onclick="trigF('fi-cgs')"><div style="font-size:1.4rem">✅</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-cgs" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-cgs')"></div>
         <div class="fst" id="fs-cgs"></div><div class="na"><input type="checkbox" id="na-cgs" onchange="togNA(this,'dd-cgs')"><label for="na-cgs" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+
+      <div style="font-size:.78rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;padding:.9rem 0 .4rem;border-top:1px solid var(--border);margin-top:.5rem" data-i18n="bizDocsCompanyTitle">Şirkete Ait Belgeler</div>
+
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docRegistryGazette">Ticaret Sicil Gazetesi</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-registry-gazette" onclick="trigF('fi-registry-gazette')"><div style="font-size:1.4rem">📰</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-registry-gazette" accept=".pdf" style="display:none" onchange="onFile(this,'fs-registry-gazette')"></div>
+        <div class="fst" id="fs-registry-gazette"></div><div class="na"><input type="checkbox" id="na-registry-gazette" onchange="togNA(this,'dd-registry-gazette')"><label for="na-registry-gazette" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docTaxClearance">Vergi Borcu Yoktur Yazısı</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-tax-clearance" onclick="trigF('fi-tax-clearance')"><div style="font-size:1.4rem">✅</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-tax-clearance" accept=".pdf" style="display:none" onchange="onFile(this,'fs-tax-clearance')"></div>
+        <div class="fst" id="fs-tax-clearance"></div><div class="na"><input type="checkbox" id="na-tax-clearance" onchange="togNA(this,'dd-tax-clearance')"><label for="na-tax-clearance" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docSow">Servet Kaynağı Belgesi (SoW)</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-sow" onclick="trigF('fi-sow')"><div style="font-size:1.4rem">💎</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-sow" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-sow')"></div>
+        <div class="fst" id="fs-sow"></div><div class="na"><input type="checkbox" id="na-sow" onchange="togNA(this,'dd-sow')"><label for="na-sow" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docSofBiz">Fon Kaynağı Belgesi (SoF)</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-sof-biz" onclick="trigF('fi-sof-biz')"><div style="font-size:1.4rem">💰</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-sof-biz" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-sof-biz')"></div>
+        <div class="fst" id="fs-sof-biz"></div><div class="na"><input type="checkbox" id="na-sof-biz" onchange="togNA(this,'dd-sof-biz')"><label for="na-sof-biz" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docHazirun">Hazirun Cetveli</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-hazirun" onclick="trigF('fi-hazirun')"><div style="font-size:1.4rem">📋</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-hazirun" accept=".pdf" style="display:none" onchange="onFile(this,'fs-hazirun')"></div>
+        <div class="fst" id="fs-hazirun"></div><div class="na"><input type="checkbox" id="na-hazirun" onchange="togNA(this,'dd-hazirun')"><label for="na-hazirun" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docLease">Kira Sözleşmesi</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-lease" onclick="trigF('fi-lease')"><div style="font-size:1.4rem">🏢</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-lease" accept=".pdf" style="display:none" onchange="onFile(this,'fs-lease')"></div>
+        <div class="fst" id="fs-lease"></div><div class="na"><input type="checkbox" id="na-lease" onchange="togNA(this,'dd-lease')"><label for="na-lease" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docInvoiceBiz">Şirkete Ait Fatura</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-invoice-biz" onclick="trigF('fi-invoice-biz')"><div style="font-size:1.4rem">🧾</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-invoice-biz" accept=".pdf" style="display:none" onchange="onFile(this,'fs-invoice-biz')"></div>
+        <div class="fst" id="fs-invoice-biz"></div><div class="na"><input type="checkbox" id="na-invoice-biz" onchange="togNA(this,'dd-invoice-biz')"><label for="na-invoice-biz" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docBankBiz">TL/USD Hesap Dökümü</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-bank-biz" onclick="trigF('fi-bank-biz')"><div style="font-size:1.4rem">🏦</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-bank-biz" accept=".pdf" style="display:none" onchange="onFile(this,'fs-bank-biz')"></div>
+        <div class="fst" id="fs-bank-biz"></div><div class="na"><input type="checkbox" id="na-bank-biz" onchange="togNA(this,'dd-bank-biz')"><label for="na-bank-biz" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docIntentLetter">Niyet Mektubu</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-intent-letter" onclick="trigF('fi-intent-letter')"><div style="font-size:1.4rem">✉️</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-intent-letter" accept=".pdf" style="display:none" onchange="onFile(this,'fs-intent-letter')"></div>
+        <div class="fst" id="fs-intent-letter"></div><div class="na"><input type="checkbox" id="na-intent-letter" onchange="togNA(this,'dd-intent-letter')"><label for="na-intent-letter" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docShareholderForm">Hissedar Yapısını Gösterir Form</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-shareholder-form" onclick="trigF('fi-shareholder-form')"><div style="font-size:1.4rem">📊</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-shareholder-form" accept=".pdf" style="display:none" onchange="onFile(this,'fs-shareholder-form')"></div>
+        <div class="fst" id="fs-shareholder-form"></div><div class="na"><input type="checkbox" id="na-shareholder-form" onchange="togNA(this,'dd-shareholder-form')"><label for="na-shareholder-form" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docOwnershipForm">Sahiplik Yapısını Gösterir Form</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-ownership-form" onclick="trigF('fi-ownership-form')"><div style="font-size:1.4rem">🏗️</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-ownership-form" accept=".pdf" style="display:none" onchange="onFile(this,'fs-ownership-form')"></div>
+        <div class="fst" id="fs-ownership-form"></div><div class="na"><input type="checkbox" id="na-ownership-form" onchange="togNA(this,'dd-ownership-form')"><label for="na-ownership-form" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+
+      <div style="font-size:.78rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;padding:.9rem 0 .4rem;border-top:1px solid var(--border);margin-top:.5rem" data-i18n="bizDocsRepTitle">Temsile Yetkili Kişi Belgeleri</div>
+
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docRepNufus">Nüfus Kayıt Örneği (Temsilci)</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-rep-nufus" onclick="trigF('fi-rep-nufus')"><div style="font-size:1.4rem">🪪</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF, JPG, PNG max 10MB</p><input type="file" id="fi-rep-nufus" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-rep-nufus')"></div>
+        <div class="fst" id="fs-rep-nufus"></div><div class="na"><input type="checkbox" id="na-rep-nufus" onchange="togNA(this,'dd-rep-nufus')"><label for="na-rep-nufus" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docRepOccupation">İşyeri/Meslek Bilgisi Belgesi</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-rep-occupation" onclick="trigF('fi-rep-occupation')"><div style="font-size:1.4rem">💼</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-rep-occupation" accept=".png,.jpg,.jpeg,.pdf" style="display:none" onchange="onFile(this,'fs-rep-occupation')"></div>
+        <div class="fst" id="fs-rep-occupation"></div><div class="na"><input type="checkbox" id="na-rep-occupation" onchange="togNA(this,'dd-rep-occupation')"><label for="na-rep-occupation" data-i18n="docNA">Bu belge mevcut değil</label></div>
+      </div>
+      <div class="dug">
+        <div class="dlabel"><span data-i18n="docRepBank">Banka Hesap Dökümü (Temsilci)</span> <span class="badge bn" data-i18n="badgeOptional">İsteğe bağlı</span></div>
+        <div class="fdrop" id="dd-rep-bank" onclick="trigF('fi-rep-bank')"><div style="font-size:1.4rem">🏦</div><p><strong style="color:var(--blue)" data-i18n="fileSelect">Dosya seç</strong> — PDF max 10MB</p><input type="file" id="fi-rep-bank" accept=".pdf" style="display:none" onchange="onFile(this,'fs-rep-bank')"></div>
+        <div class="fst" id="fs-rep-bank"></div><div class="na"><input type="checkbox" id="na-rep-bank" onchange="togNA(this,'dd-rep-bank')"><label for="na-rep-bank" data-i18n="docNA">Bu belge mevcut değil</label></div>
       </div>
     </div>
 
@@ -784,7 +890,15 @@ var T = {
     alertSubmitErr:'Kayıt hatası:', alertUboErr:'Ortak kayıt hatası:',
     alertFileSize:'Dosya 10MB\'dan büyük olamaz:', alertMsgCooldown:'Lütfen 2 saniye bekleyin.',
     chatPlaceholder:'Mesajınızı yazın...',
-    docTypeLabels:{identity:'Kimlik',address:'İkametgah',tax:'Vergi',registry:'Ticaret Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet'},
+    docNufus:'Nüfus Kayıt Örneği', docBankPersonal:'Banka Hesap Dökümü', docSof:'Fon Kaynağı Belgesi (SoF)',
+    docRegistryGazette:'Ticaret Sicil Gazetesi', docTaxClearance:'Vergi Borcu Yoktur Yazısı',
+    docSow:'Servet Kaynağı Belgesi (SoW)', docSofBiz:'Fon Kaynağı Belgesi (SoF)',
+    docHazirun:'Hazirun Cetveli', docLease:'Kira Sözleşmesi', docInvoiceBiz:'Şirkete Ait Fatura',
+    docBankBiz:'TL/USD Hesap Dökümü', docIntentLetter:'Niyet Mektubu',
+    docShareholderForm:'Hissedar Yapısını Gösterir Form', docOwnershipForm:'Sahiplik Yapısını Gösterir Form',
+    docRepNufus:'Nüfus Kayıt Örneği (Temsilci)', docRepOccupation:'İşyeri/Meslek Bilgisi Belgesi', docRepBank:'Banka Hesap Dökümü (Temsilci)',
+    bizDocsCompanyTitle:'Şirkete Ait Belgeler', bizDocsRepTitle:'Temsile Yetkili Kişi Belgeleri',
+    docTypeLabels:{identity:'Kimlik',address:'İkametgah',tax:'Vergi',registry:'Ticaret Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet',nufus:'Nüfus',bank_personal:'Banka Dök.',sof:'SoF (Bireysel)',registry_gazette:'Sicil Gazetesi',tax_clearance:'Vergi Yoktur',sow:'SoW',sof_biz:'SoF (Şirket)',hazirun:'Hazirun',lease:'Kira',invoice_biz:'Fatura',bank_biz:'Hesap Dök.',intent_letter:'Niyet',shareholder_form:'Hissedar',ownership_form:'Sahiplik',rep_nufus:'Nüfus (Tem.)',rep_occupation:'Meslek',rep_bank:'Banka (Tem.)'},
     docStatusLabels:{pending:'Bekliyor',approved:'Onaylandı',rejected:'Reddedildi'},
     statusLabels:{pending:'Beklemede',in_review:'İncelemede',approved:'Onaylandı',rejected:'Reddedildi'}
   },
@@ -875,7 +989,15 @@ var T = {
     alertSubmitErr:'Submission error:', alertUboErr:'Partner record error:',
     alertFileSize:'File cannot exceed 10MB:', alertMsgCooldown:'Please wait 2 seconds.',
     chatPlaceholder:'Type your message...',
-    docTypeLabels:{identity:'Identity',address:'Address',tax:'Tax',registry:'Registry',aoa:'Articles',signature:'Signature',cgs:'Good Standing'},
+    docNufus:'Family Register', docBankPersonal:'Bank Account Statement', docSof:'Source of Funds (SoF)',
+    docRegistryGazette:'Trade Registry Gazette', docTaxClearance:'Tax Clearance Certificate',
+    docSow:'Source of Wealth (SoW)', docSofBiz:'Source of Funds (SoF)',
+    docHazirun:'Shareholder Attendance List', docLease:'Lease Agreement', docInvoiceBiz:'Business Invoice',
+    docBankBiz:'TRY/USD Account Statement', docIntentLetter:'Letter of Intent',
+    docShareholderForm:'Shareholder Structure Form', docOwnershipForm:'Ownership Structure Form',
+    docRepNufus:'Family Register (Representative)', docRepOccupation:'Occupation/Employment Certificate', docRepBank:'Bank Account Statement (Representative)',
+    bizDocsCompanyTitle:'Company Documents', bizDocsRepTitle:'Authorised Representative Documents',
+    docTypeLabels:{identity:'Identity',address:'Address',tax:'Tax',registry:'Registry',aoa:'Articles',signature:'Auth. Signatory',cgs:'Good Standing',nufus:'Family Reg.',bank_personal:'Bank Stmt.',sof:'SoF (Individual)',registry_gazette:'Registry Gazette',tax_clearance:'Tax Clearance',sow:'SoW',sof_biz:'SoF (Corporate)',hazirun:'Attendance List',lease:'Lease',invoice_biz:'Invoice',bank_biz:'Acct. Stmt.',intent_letter:'Letter of Intent',shareholder_form:'Shareholder Form',ownership_form:'Ownership Form',rep_nufus:'Family Reg. (Rep.)',rep_occupation:'Occupation',rep_bank:'Bank Stmt. (Rep.)'},
     docStatusLabels:{pending:'Pending',approved:'Approved',rejected:'Rejected'},
     statusLabels:{pending:'Pending',in_review:'Under Review',approved:'Approved',rejected:'Rejected'}
   }
@@ -1124,10 +1246,27 @@ async function submitApp(){
     {inputId:'fi-id',naId:'na-id',type:'identity'},
     {inputId:'fi-addr',naId:'na-addr',type:'address'},
     {inputId:'fi-tax',naId:'na-tax',type:'tax'},
+    {inputId:'fi-nufus',naId:'na-nufus',type:'nufus'},
+    {inputId:'fi-bank-personal',naId:'na-bank-personal',type:'bank_personal'},
+    {inputId:'fi-sof',naId:'na-sof',type:'sof'},
     {inputId:'fi-reg',naId:'na-reg',type:'registry'},
     {inputId:'fi-aoa',naId:'na-aoa',type:'aoa'},
     {inputId:'fi-sig',naId:'na-sig',type:'signature'},
-    {inputId:'fi-cgs',naId:'na-cgs',type:'cgs'}
+    {inputId:'fi-cgs',naId:'na-cgs',type:'cgs'},
+    {inputId:'fi-registry-gazette',naId:'na-registry-gazette',type:'registry_gazette'},
+    {inputId:'fi-tax-clearance',naId:'na-tax-clearance',type:'tax_clearance'},
+    {inputId:'fi-sow',naId:'na-sow',type:'sow'},
+    {inputId:'fi-sof-biz',naId:'na-sof-biz',type:'sof_biz'},
+    {inputId:'fi-hazirun',naId:'na-hazirun',type:'hazirun'},
+    {inputId:'fi-lease',naId:'na-lease',type:'lease'},
+    {inputId:'fi-invoice-biz',naId:'na-invoice-biz',type:'invoice_biz'},
+    {inputId:'fi-bank-biz',naId:'na-bank-biz',type:'bank_biz'},
+    {inputId:'fi-intent-letter',naId:'na-intent-letter',type:'intent_letter'},
+    {inputId:'fi-shareholder-form',naId:'na-shareholder-form',type:'shareholder_form'},
+    {inputId:'fi-ownership-form',naId:'na-ownership-form',type:'ownership_form'},
+    {inputId:'fi-rep-nufus',naId:'na-rep-nufus',type:'rep_nufus'},
+    {inputId:'fi-rep-occupation',naId:'na-rep-occupation',type:'rep_occupation'},
+    {inputId:'fi-rep-bank',naId:'na-rep-bank',type:'rep_bank'}
   ];
   for(var d of docDefs){
     var inp=document.getElementById(d.inputId);
@@ -1237,7 +1376,7 @@ async function loadDocsTab(){
   var cont=document.getElementById('tb-docs');
   if(!docs||!docs.length){cont.innerHTML='<p style="color:var(--text2);text-align:center;padding:2rem">Belge bulunamadı.</p>';return;}
   var L=T[currentLang];
-  var typeLabels=L.docTypeLabels||{identity:'Kimlik',address:'Adres',tax:'Vergi',registry:'Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet'};
+  var typeLabels=L.docTypeLabels||{identity:'Kimlik',address:'Adres',tax:'Vergi',registry:'Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet',nufus:'Nüfus',bank_personal:'Banka Dök.',sof:'SoF (Bireysel)',registry_gazette:'Sicil Gazetesi',tax_clearance:'Vergi Yoktur',sow:'SoW',sof_biz:'SoF (Şirket)',hazirun:'Hazirun',lease:'Kira',invoice_biz:'Fatura',bank_biz:'Hesap Dök.',intent_letter:'Niyet',shareholder_form:'Hissedar',ownership_form:'Sahiplik',rep_nufus:'Nüfus (Tem.)',rep_occupation:'Meslek',rep_bank:'Banka (Tem.)'};
   var notAvail=L.optNo==='No'?'Not Available':'Mevcut Değil';
   var rows=docs.map(function(d){
     var dl='';
