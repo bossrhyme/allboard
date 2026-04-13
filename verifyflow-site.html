@@ -837,6 +837,7 @@ var currentClient = null;
 var chatChannel = null;
 var currentLang = 'tr';
 var lastMsgTime = 0;
+var currentUser = null;
 
 // ── i18n ──────────────────────────────────────────────
 var T = {
@@ -1098,9 +1099,8 @@ async function updateNav(v){
   var isTR=currentLang==='tr';
   // Lang toggle HTML — no user data, safe to use innerHTML
   var lt='<div class="lang-toggle"><button class="lang-btn '+(isTR?'active':'')+'" id="btnTR" onclick="setLang(\'tr\')">TR</button><button class="lang-btn '+(!isTR?'active':'')+'" id="btnEN" onclick="setLang(\'en\')">EN</button></div>';
-  if(v==='profile'){
-    var session=await getSession();
-    var name=session&&session.user&&session.user.user_metadata&&session.user.user_metadata.full_name||session&&session.user&&session.user.email||'Hesabım';
+  if(currentUser){
+    var name=currentUser.user_metadata&&currentUser.user_metadata.full_name||currentUser.email||'Hesabım';
     // Use innerHTML only for structural HTML; set user data via textContent
     na.innerHTML=lt+'<span id="navUserName" style="font-size:.85rem;color:var(--text2);font-weight:500;cursor:pointer" onclick="nav(\'profile\')"></span><button class="btn btn-primary btn-sm" onclick="nav(\'profile\')" data-i18n="navProfile">'+L.navProfile+'</button><button class="btn btn-ghost btn-sm" onclick="doLogout()" data-i18n="navLogout">'+L.navLogout+'</button>';
     document.getElementById('navUserName').textContent=name; // XSS-safe
@@ -1120,7 +1120,7 @@ function updateHeroBtns(loggedIn){
 document.addEventListener('DOMContentLoaded', async function(){
   document.getElementById('view-landing').style.display='block';
   var session=await getSession();
-  if(session){updateNav('profile');updateHeroBtns(true);}
+  if(session){currentUser=session.user;updateNav('profile');updateHeroBtns(true);}
   document.getElementById('authMod').addEventListener('click',function(e){if(e.target===e.currentTarget)closeAuth();});
 });
 
@@ -1141,6 +1141,7 @@ async function doLogin(){
   var {data,error}=await sb.auth.signInWithPassword({email,password});
   btn.textContent=T[currentLang].navLogin;btn.disabled=false;
   if(error){alert('Hata: '+error.message);return;}
+  currentUser=data.user;
   closeAuth();nav('profile');
 }
 
@@ -1154,6 +1155,7 @@ async function doRegister(){
   var {data,error}=await sb.auth.signUp({email,password,options:{data:{full_name:name}}});
   btn.textContent=T[currentLang].navRegister;btn.disabled=false;
   if(error){alert('Hata: '+error.message);return;}
+  currentUser=data.user;
   closeAuth();startOB();
 }
 
@@ -1161,6 +1163,7 @@ async function doLogout(){
   if(chatChannel){sb.removeChannel(chatChannel);chatChannel=null;}
   await sb.auth.signOut();
   currentClient=null;
+  currentUser=null;
   nav('landing');
   updateHeroBtns(false);
 }
