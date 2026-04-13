@@ -65,6 +65,12 @@ a{color:var(--blue);text-decoration:none}
 .fcard-icon{width:44px;height:44px;border-radius:10px;background:rgba(20,71,230,.06);border:1px solid rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem}
 .fcard h3{font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:.4rem}.fcard p{font-size:.8rem;color:var(--text2);line-height:1.6}
 /* Footer */
+.stats{background:var(--navy);padding:4rem 2.5rem}
+.stats-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2.5rem;text-align:center}
+.stat-num{font-size:2.8rem;font-weight:800;color:#fff;letter-spacing:-.04em;line-height:1}
+.stat-num span{color:var(--teal)}
+.stat-label{font-size:.82rem;font-weight:600;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.08em;margin-top:.55rem}
+.stat-sub{font-size:.75rem;color:rgba(255,255,255,.35);margin-top:.2rem}
 .vf-footer{background:var(--bg2);border-top:1px solid var(--border);padding:3.5rem 2.5rem 2rem}
 .vf-footer-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
 .vf-footer-brand{font-size:1.2rem;font-weight:800;color:var(--navy);letter-spacing:-.02em;margin-bottom:.65rem}.vf-footer-brand span{color:var(--blue)}
@@ -263,6 +269,32 @@ a{color:var(--blue);text-decoration:none}
     <div class="fcard"><div class="fcard-icon">🌐</div><h3 data-i18n="f8t">Yeminli Tercüman Hizmetleri</h3><p data-i18n="f8d">Yabancı dilde düzenlenmiş belgelerinizi yetkili yeminli tercümanlar aracılığıyla resmi olarak tercüme ettirir, onay süreçlerini yönetiriz.</p></div>
   </div>
 </div>
+
+<div class="stats">
+  <div class="stats-inner">
+    <div>
+      <div class="stat-num">10<span>+</span></div>
+      <div class="stat-label" data-i18n="stat1label">Kurumsal Müşteri</div>
+      <div class="stat-sub" data-i18n="stat1sub">OTC, Exchange & Fintech</div>
+    </div>
+    <div>
+      <div class="stat-num">5<span>+</span></div>
+      <div class="stat-label" data-i18n="stat2label">Bireysel Müşteri</div>
+      <div class="stat-sub" data-i18n="stat2sub">Başarıyla onaylandı</div>
+    </div>
+    <div>
+      <div class="stat-num">30<span>+</span></div>
+      <div class="stat-label" data-i18n="stat3label">OTC & Exchange</div>
+      <div class="stat-sub" data-i18n="stat3sub">Farklı kurum & platform</div>
+    </div>
+    <div>
+      <div class="stat-num">100<span>+</span></div>
+      <div class="stat-label" data-i18n="stat4label">Hesap Onayı</div>
+      <div class="stat-sub" data-i18n="stat4sub">Tamamlanan onboarding</div>
+    </div>
+  </div>
+</div>
+
 <footer class="vf-footer">
   <div class="vf-footer-grid">
     <div>
@@ -715,6 +747,10 @@ var T = {
     f6t:'Bireysel & Kurumsal', f6d:'Gerçek kişiler ve tüzel kişiler için ayrı ayrı özelleştirilmiş onboarding akışları.',
     f7t:'Hukuki Destek', f7d:'Tasdikli suret (Certified Copy), apostil onayı, noter tasdiki ve diğer resmi belge işlemlerini sizin adınıza koordine eder, takip ederiz.',
     f8t:'Yeminli Tercüman Hizmetleri', f8d:'Yabancı dilde düzenlenmiş belgelerinizi yetkili yeminli tercümanlar aracılığıyla resmi olarak tercüme ettirir, onay süreçlerini yönetiriz.',
+    stat1label:'Kurumsal Müşteri', stat1sub:'OTC, Exchange & Fintech',
+    stat2label:'Bireysel Müşteri', stat2sub:'Başarıyla onaylandı',
+    stat3label:'OTC & Exchange', stat3sub:'Farklı kurum & platform',
+    stat4label:'Hesap Onayı', stat4sub:'Tamamlanan onboarding',
     fcolServices:'Hizmetler', fcolS1:'Bireysel Onboarding', fcolS2:'Kurumsal Onboarding', fcolS3:'Belge Yönetimi', fcolS4:'Başvuru Takibi',
     fcolProcess:'Süreç', fcolP1:'Nasıl Çalışır?', fcolP2:'Sık Sorulan Sorular', fcolP3:'Referanslar',
     fcolLegal:'Yasal', fcolL1:'KVKK Politikası', fcolL2:'Gizlilik', fcolL3:'Kullanım Şartları', fcolL4:'Güvenlik',
@@ -806,6 +842,10 @@ var T = {
     f6t:'Individual & Corporate', f6d:'Separately customised onboarding flows for natural persons and legal entities.',
     f7t:'Legal Support', f7d:'We coordinate and track certified copies, apostille certification, notary attestation, and other official document procedures on your behalf.',
     f8t:'Sworn Translator Services', f8d:'We arrange official translation of your foreign-language documents through authorised sworn translators and manage the approval process.',
+    stat1label:'Corporate Clients', stat1sub:'OTC, Exchange & Fintech',
+    stat2label:'Individual Clients', stat2sub:'Successfully approved',
+    stat3label:'OTC & Exchanges', stat3sub:'Different institutions & platforms',
+    stat4label:'Account Approvals', stat4sub:'Completed onboardings',
     fcolServices:'Services', fcolS1:'Individual Onboarding', fcolS2:'Corporate Onboarding', fcolS3:'Document Management', fcolS4:'Application Tracking',
     fcolProcess:'Process', fcolP1:'How It Works', fcolP2:'FAQ', fcolP3:'References',
     fcolLegal:'Legal', fcolL1:'GDPR Policy', fcolL2:'Privacy', fcolL3:'Terms of Service', fcolL4:'Security',
