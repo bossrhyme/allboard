@@ -209,3 +209,31 @@ $$;
 create trigger clients_status_machine
   before update of status on clients
   for each row execute function validate_status_transition();
+
+-- ============================================================
+-- 13. PRE_REGISTRATIONS — Ön başvuru formu
+-- ============================================================
+create table if not exists pre_registrations (
+  id            uuid primary key default gen_random_uuid(),
+  name          text not null,
+  email         text not null,
+  phone         text,
+  account_type  text check (account_type in ('individual','corporate')),
+  platforms     jsonb,    -- ['OKX','Binance',...]
+  doc_checklist jsonb,    -- {identity:true, address:false, ...}
+  doc_score     int,      -- kaç belgesi mevcut
+  notes         text,
+  status        text default 'pending' check (status in ('pending','approved','rejected')),
+  user_id       uuid,     -- kullanıcı oluşturulunca set edilir
+  created_at    timestamptz default now()
+);
+
+alter table pre_registrations enable row level security;
+
+-- Herkes INSERT yapabilir (form göndermek için auth gerekmez)
+create policy "prereg_public_insert" on pre_registrations
+  for insert with check (true);
+
+-- Sadece admin okuyabilir/güncelleyebilir
+create policy "prereg_admin_all" on pre_registrations
+  for all using (auth.jwt() ->> 'email' in (select email from admins));

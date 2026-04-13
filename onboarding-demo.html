@@ -183,6 +183,8 @@ td:first-child{font-weight:600;color:var(--navy)}
       <div class="nav-item" onclick="showPanel('kyb')"><span class="icon">🏢</span><span data-i18n="kybReview">KYB İncelemeleri</span></div>
       <div class="nav-item" onclick="showPanel('aml')"><span class="icon">🛡️</span><span data-i18n="aml">AML Tarama</span></div>
       <div class="nav-item" onclick="showPanel('risk')"><span class="icon">⚡</span><span data-i18n="risk">Risk Motoru</span></div>
+      <div class="nav-section">Ön Başvurular</div>
+      <div class="nav-item" onclick="showPanel('prereg');loadPreReg()"><span class="icon">📋</span><span>Ön Başvurular</span> <span id="preRegBadge" style="margin-left:auto;background:var(--danger);color:#fff;font-size:.67rem;font-weight:700;padding:.1rem .4rem;border-radius:10px;display:none"></span></div>
       <div class="nav-section" data-i18n="clientMgmt">Müşteri Yönetimi</div>
       <div class="nav-item" onclick="showPanel('clientprofile')"><span class="icon">🪪</span><span data-i18n="clientProfile">Müşteri Profili</span></div>
       <div class="nav-section" data-i18n="communication">İletişim</div>
@@ -497,6 +499,38 @@ td:first-child{font-weight:600;color:var(--navy)}
       </div>
     </div>
 
+    <!-- Pre-Registrations Panel -->
+    <div class="panel" id="panel-prereg">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+          <div>
+            <h3>Ön Başvurular</h3>
+            <p style="margin-top:.25rem;color:var(--text2);font-size:.85rem">Gelen ön başvurular — kullanıcı oluşturmak için "Davet Et" butonunu kullanın</p>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="loadPreReg()">↺ Yenile</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Ad Soyad</th>
+                <th>E-posta</th>
+                <th>Tür</th>
+                <th>Platformlar</th>
+                <th>Belge</th>
+                <th>Tarih</th>
+                <th>Durum</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="preRegBody">
+              <tr><td colspan="8" style="text-align:center;color:var(--text2);padding:2rem">Yükleniyor...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <!-- Settings Panel -->
     <div class="panel" id="panel-settings">
       <div class="card">
@@ -770,6 +804,10 @@ function showDashboard(){
   document.getElementById('adminLoginOverlay').style.display='none';
   document.getElementById('adminDashboard').style.display='grid';
   loadDashboardStats();
+  sb.from('pre_registrations').select('*',{count:'exact',head:true}).eq('status','pending').then(function(r){
+    var badge=document.getElementById('preRegBadge');
+    if(badge&&r.count>0){badge.textContent=r.count;badge.style.display='inline';}
+  });
 }
 
 document.addEventListener('DOMContentLoaded',async function(){
@@ -1085,6 +1123,87 @@ async function scheduleInterview(){
 async function completeInterview(btn,id){
   await sb.from('interviews').update({status:'completed'}).eq('id',id);
   loadInterviews();
+}
+
+// ── ÖN BAŞVURULAR ─────────────────────────────────────
+async function loadPreReg(){
+  var tbody=document.getElementById('preRegBody');
+  if(!tbody)return;
+  tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text2)">Yükleniyor...</td></tr>';
+
+  var {data:rows,error}=await sb.from('pre_registrations')
+    .select('*').order('created_at',{ascending:false});
+
+  if(error||!rows||!rows.length){
+    tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text2)">Henüz ön başvuru yok.</td></tr>';
+    return;
+  }
+
+  // Badge: pending sayısı
+  var pendingCount=rows.filter(function(r){return r.status==='pending';}).length;
+  var badge=document.getElementById('preRegBadge');
+  if(badge){badge.textContent=pendingCount;badge.style.display=pendingCount>0?'inline':'none';}
+
+  var typeMap={individual:'Bireysel',corporate:'Kurumsal'};
+  var statusMap={pending:'Bekliyor',approved:'Onaylandı',rejected:'Reddedildi'};
+  var statusClass={pending:'badge-warning',approved:'badge-success',rejected:'badge-danger'};
+
+  tbody.innerHTML=rows.map(function(r){
+    var platforms=(r.platforms||[]).join(', ')||'—';
+    var docScore=r.doc_score!=null?r.doc_score+' belge':'—';
+    var date=fmtDate(r.created_at);
+    var type=typeMap[r.account_type]||r.account_type||'—';
+    var statusLabel=statusMap[r.status]||r.status;
+    var statusCls=statusClass[r.status]||'badge-secondary';
+    var actions='';
+    if(r.status==='pending'){
+      actions='<button class="btn btn-primary btn-sm" onclick="createUserFromPreReg(\''+r.id+'\',\''+esc(r.email)+'\',\''+esc(r.name||'')+'\',this)" style="margin-right:.3rem">Davet Et</button>'+
+              '<button class="btn btn-outline btn-sm" onclick="rejectPreReg(\''+r.id+'\',this)">Reddet</button>';
+    } else {
+      actions='<span style="font-size:.8rem;color:var(--text2)">'+(r.status==='approved'?'Kullanıcı oluşturuldu':'Reddedildi')+'</span>';
+    }
+    return '<tr>'+
+      '<td>'+esc(r.name||'—')+'</td>'+
+      '<td style="font-size:.82rem">'+esc(r.email)+'</td>'+
+      '<td><span class="badge badge-info" style="font-size:.72rem">'+esc(type)+'</span></td>'+
+      '<td style="font-size:.8rem;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="'+esc(platforms)+'">'+esc(platforms)+'</td>'+
+      '<td style="font-size:.82rem;text-align:center">'+esc(docScore)+'</td>'+
+      '<td style="font-size:.82rem">'+date+'</td>'+
+      '<td><span class="badge '+statusCls+'" style="font-size:.72rem">'+esc(statusLabel)+'</span></td>'+
+      '<td style="white-space:nowrap">'+actions+'</td>'+
+    '</tr>';
+  }).join('');
+}
+
+async function createUserFromPreReg(id,email,name,btn){
+  if(!confirm('Kullanıcıya davet emaili gönderilecek:\n'+email+'\n\nDevam edilsin mi?'))return;
+  btn.textContent='...';btn.disabled=true;
+
+  var {data:{session}}=await sb.auth.getSession();
+  if(!session){alert('Oturum bulunamadı.');btn.textContent='Davet Et';btn.disabled=false;return;}
+
+  var res=await fetch('/api/create-user',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token},
+    body:JSON.stringify({pre_registration_id:id,email:email,name:name})
+  });
+  var json=await res.json();
+
+  if(!res.ok||!json.success){
+    alert('Hata: '+(json.error||'Bilinmeyen hata'));
+    btn.textContent='Davet Et';btn.disabled=false;
+    return;
+  }
+  alert('Davet emaili gönderildi: '+email);
+  loadPreReg();
+}
+
+async function rejectPreReg(id,btn){
+  if(!confirm('Bu başvuru reddedilecek. Emin misiniz?'))return;
+  btn.textContent='...';btn.disabled=true;
+  var {error}=await sb.from('pre_registrations').update({status:'rejected'}).eq('id',id);
+  if(error){alert('Hata: '+error.message);btn.textContent='Reddet';btn.disabled=false;return;}
+  loadPreReg();
 }
 
 // ── HELPERS ───────────────────────────────────────────

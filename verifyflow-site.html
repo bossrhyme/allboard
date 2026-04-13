@@ -172,6 +172,16 @@ a{color:var(--blue);text-decoration:none}
 .mtabs{display:flex;margin-bottom:1.4rem;border-bottom:1px solid var(--border)}
 .mtab{flex:1;padding:.6rem;text-align:center;cursor:pointer;font-size:.86rem;font-weight:600;color:var(--text2);border-bottom:2px solid transparent;transition:all .18s}
 .mtab.active{color:var(--blue);border-bottom-color:var(--blue)}
+/* Pre-reg modal */
+.pr-step{width:28px;height:28px;border-radius:50%;background:var(--bg3);color:var(--text3);font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.pr-step.active{background:var(--blue);color:#fff}
+.pr-step.done{background:var(--teal);color:#fff}
+#prSteps::after{content:'';flex:1;height:2px;background:var(--border);align-self:center;margin:0 .3rem}
+#prSteps{align-items:center}
+.pr-pane{display:none}.pr-pane.active{display:block}
+.pr-chk{display:flex;align-items:center;gap:.55rem;padding:.5rem .75rem;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:.84rem;font-weight:500;color:var(--text);transition:all .15s}
+.pr-chk:hover{border-color:var(--blue);color:var(--blue)}
+.pr-chk input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);flex-shrink:0}
 .lang-toggle{display:flex;gap:.2rem;background:var(--bg2);border-radius:8px;padding:.2rem;border:1px solid var(--border)}
 .lang-btn{padding:.25rem .55rem;border-radius:6px;font-size:.72rem;font-weight:700;border:none;cursor:pointer;background:transparent;color:var(--text3);transition:all .15s;font-family:inherit}
 .lang-btn.active{background:#fff;color:var(--blue);box-shadow:0 1px 4px rgba(0,0,0,.08)}
@@ -190,7 +200,7 @@ a{color:var(--blue);text-decoration:none}
       <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
     </div>
     <button class="btn btn-outline btn-sm" onclick="showAuth('login')" data-i18n="navLogin">Giriş Yap</button>
-    <button class="btn btn-primary btn-sm" onclick="showAuth('register')" data-i18n="navApply">Başvuru Yap →</button>
+    <button class="btn btn-primary btn-sm" onclick="showPreReg()" data-i18n="navApply">Başvuru Yap →</button>
   </div>
 </nav>
 
@@ -203,7 +213,7 @@ a{color:var(--blue);text-decoration:none}
     <p data-i18n="heroDesc">Siz bilgilerinizi ve belgelerinizi bir kez gönderin — uzman ekibimiz onboarding sürecinizi baştan sona takip etsin, koordine etsin ve sonuçlandırsın.</p>
     <div class="hero-btns">
       <div id="heroGuest" style="display:flex;gap:.85rem;flex-wrap:wrap">
-        <button class="btn btn-primary" onclick="showAuth('register')" style="padding:.75rem 1.8rem" data-i18n="heroApply">Başvuru Yap →</button>
+        <button class="btn btn-primary" onclick="showPreReg()" style="padding:.75rem 1.8rem" data-i18n="heroApply">Başvuru Yap →</button>
         <button class="btn btn-outline" onclick="showAuth('login')" style="padding:.75rem 1.6rem" data-i18n="heroLogin">Giriş Yap</button>
       </div>
       <div id="heroLoggedIn" style="display:none;gap:.85rem;flex-wrap:wrap;align-items:center">
@@ -803,30 +813,128 @@ a{color:var(--blue);text-decoration:none}
 </div><!-- .pf-wrap -->
 </div><!-- /profile -->
 
-<!-- AUTH MODAL -->
+<!-- AUTH MODAL — sadece giriş -->
 <div class="modal-ov" id="authMod">
   <div class="modal">
     <button class="modal-x" onclick="closeAuth()">✕</button>
-    <div class="mtabs">
-      <div class="mtab active" onclick="authTab('login',this)" data-i18n="navLogin">Giriş Yap</div>
-      <div class="mtab" onclick="authTab('register',this)" data-i18n="navRegister">Kayıt Ol</div>
+    <h2 data-i18n="loginTitle">Tekrar Hoşgeldiniz</h2>
+    <p class="msub" data-i18n="loginSub">Hesabınıza giriş yapın</p>
+    <div class="fg"><label data-i18n="lEmail">E-posta</label><input type="email" class="fi" id="lEmail" placeholder="siz@ornek.com"></div>
+    <div class="fg"><label data-i18n="lPassword">Şifre</label><input type="password" class="fi" id="lPass" placeholder="••••••••"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doLogin()" data-i18n="navLogin">Giriş Yap</button>
+    <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)"><span data-i18n="noAccount">Hesabınız yok mu?</span> <a href="#" onclick="closeAuth();showPreReg();return false" data-i18n="applyLink">Ön başvuru yapın</a></div>
+  </div>
+</div>
+
+<!-- ÖN BAŞVURU MODALI -->
+<div class="modal-ov" id="preRegMod">
+  <div class="modal" style="max-width:520px">
+    <button class="modal-x" onclick="closePreReg()">✕</button>
+    <!-- Progress -->
+    <div style="display:flex;gap:.3rem;margin-bottom:1.5rem" id="prSteps">
+      <div class="pr-step active" id="prs1">1</div>
+      <div class="pr-step" id="prs2">2</div>
+      <div class="pr-step" id="prs3">3</div>
+      <div class="pr-step" id="prs4">4</div>
     </div>
-    <div id="aLogin">
-      <h2 data-i18n="loginTitle">Tekrar Hoşgeldiniz</h2>
-      <p class="msub" data-i18n="loginSub">Hesabınıza giriş yapın</p>
-      <div class="fg"><label data-i18n="lEmail">E-posta</label><input type="email" class="fi" id="lEmail" placeholder="siz@ornek.com"></div>
-      <div class="fg"><label data-i18n="lPassword">Şifre</label><input type="password" class="fi" id="lPass" placeholder="••••••••"></div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doLogin()" data-i18n="navLogin">Giriş Yap</button>
-      <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)"><span data-i18n="noAccount">Hesabınız yok mu?</span> <a href="#" onclick="authTab('register');return false" data-i18n="registerLink">Kayıt olun</a></div>
+
+    <!-- Adım 1: Kişisel Bilgiler -->
+    <div class="pr-pane active" id="prPane1">
+      <h2 data-i18n="prStep1Title">İletişim Bilgileri</h2>
+      <p class="msub" data-i18n="prStep1Sub">Sizi tanıyalım</p>
+      <div class="fg"><label data-i18n="lFullName">Ad Soyad *</label><input type="text" class="fi" id="prName" placeholder="Ahmet Yılmaz"></div>
+      <div class="fg"><label data-i18n="lEmail">E-posta *</label><input type="email" class="fi" id="prEmail" placeholder="siz@ornek.com"></div>
+      <div class="fg"><label data-i18n="lPhone">Telefon</label><input type="tel" class="fi" id="prPhone" placeholder="+90 5xx xxx xx xx"></div>
     </div>
-    <div id="aReg" style="display:none">
-      <h2 data-i18n="registerTitle">Hesap Oluştur</h2>
-      <p class="msub" data-i18n="registerSub">Ücretsiz başvurun</p>
-      <div class="fg"><label data-i18n="lFullName">Ad Soyad</label><input type="text" class="fi" id="rName" placeholder="Ahmet Yılmaz"></div>
-      <div class="fg"><label data-i18n="lEmail">E-posta</label><input type="email" class="fi" id="rEmail" placeholder="siz@ornek.com"></div>
-      <div class="fg"><label data-i18n="lPassword">Şifre</label><input type="password" class="fi" id="rPass" placeholder="Min. 6 karakter"></div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doRegister()" data-i18n="navRegister">Kayıt Ol</button>
-      <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)"><span data-i18n="agreeTerms">Kayıt olarak</span> <a href="#" data-i18n="termsLink">Şartları</a> <span data-i18n="agreeTerms2">kabul etmiş olursunuz.</span></div>
+
+    <!-- Adım 2: Hesap Türü -->
+    <div class="pr-pane" id="prPane2">
+      <h2 data-i18n="prStep2Title">Hesap Türü</h2>
+      <p class="msub" data-i18n="prStep2Sub">Bireysel veya kurumsal hesap açmak istiyorsunuz?</p>
+      <div class="rg" style="flex-direction:column;gap:.65rem">
+        <label class="ro" id="prTypeInd" onclick="pickPreRegType('individual',this)" style="padding:1rem 1.1rem">
+          <div class="rdot"></div>
+          <div class="rl">
+            <strong data-i18n="typeInd">Bireysel</strong>
+            <span data-i18n="typeIndDesc">Kişisel kimlik doğrulaması (KYC)</span>
+          </div>
+        </label>
+        <label class="ro" id="prTypeBiz" onclick="pickPreRegType('corporate',this)" style="padding:1rem 1.1rem">
+          <div class="rdot"></div>
+          <div class="rl">
+            <strong data-i18n="typeBiz">Kurumsal</strong>
+            <span data-i18n="typeBizDesc">Şirket doğrulaması + KYC (KYB)</span>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Adım 3: Platform Seçimi -->
+    <div class="pr-pane" id="prPane3">
+      <h2 data-i18n="prStep3Title">Hedef Platformlar</h2>
+      <p class="msub" data-i18n="prStep3Sub">Hangi platform(lar)a başvurmak istiyorsunuz?</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem" id="prPlatformList">
+        <label class="pr-chk"><input type="checkbox" value="OKX"> OKX</label>
+        <label class="pr-chk"><input type="checkbox" value="Binance"> Binance</label>
+        <label class="pr-chk"><input type="checkbox" value="Kraken"> Kraken</label>
+        <label class="pr-chk"><input type="checkbox" value="Bitpanda"> Bitpanda</label>
+        <label class="pr-chk"><input type="checkbox" value="eToro"> eToro</label>
+        <label class="pr-chk"><input type="checkbox" value="Coinbase"> Coinbase</label>
+        <label class="pr-chk"><input type="checkbox" value="Bybit"> Bybit</label>
+        <label class="pr-chk"><input type="checkbox" value="KuCoin"> KuCoin</label>
+        <label class="pr-chk"><input type="checkbox" value="Gate.io"> Gate.io</label>
+        <label class="pr-chk"><input type="checkbox" value="MEXC"> MEXC</label>
+        <label class="pr-chk"><input type="checkbox" value="Interactive Brokers"> Interactive Brokers</label>
+        <label class="pr-chk"><input type="checkbox" value="Diğer"> <span data-i18n="prOther">Diğer</span></label>
+      </div>
+      <div class="fg" style="margin-top:.75rem"><label data-i18n="prOtherLabel">Diğer platform adı</label><input type="text" class="fi" id="prOtherText" placeholder="Platform adı..."></div>
+    </div>
+
+    <!-- Adım 4: Belge Durumu -->
+    <div class="pr-pane" id="prPane4">
+      <h2 data-i18n="prStep4Title">Belge Durumu</h2>
+      <p class="msub" data-i18n="prStep4Sub">Hangi belgelere sahipsiniz?</p>
+      <!-- Bireysel belgeler -->
+      <div id="prDocsInd" style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+        <label class="pr-chk"><input type="checkbox" value="identity"> <span data-i18n="docIdentity">Kimlik Belgesi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="address"> <span data-i18n="docAddress">İkametgah Belgesi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="tax"> <span data-i18n="docTax">Vergi Levhası</span></label>
+        <label class="pr-chk"><input type="checkbox" value="nufus"> <span data-i18n="docNufus">Nüfus Kayıt Örneği</span></label>
+        <label class="pr-chk"><input type="checkbox" value="bank_personal"> <span data-i18n="docBankPersonal">Banka Hesap Dökümü</span></label>
+        <label class="pr-chk"><input type="checkbox" value="sof"> <span data-i18n="docSof">Fon Kaynağı Belgesi (SoF)</span></label>
+      </div>
+      <!-- Kurumsal belgeler -->
+      <div id="prDocsBiz" style="display:none;grid-template-columns:1fr 1fr;gap:.5rem">
+        <label class="pr-chk"><input type="checkbox" value="registry"> <span data-i18n="docRegistry">Ticaret Sicil Belgesi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="aoa"> <span data-i18n="docAoa">Ana Sözleşme</span></label>
+        <label class="pr-chk"><input type="checkbox" value="signature"> <span data-i18n="docSig">İmza Sirküleri</span></label>
+        <label class="pr-chk"><input type="checkbox" value="cgs"> <span data-i18n="docCgs">Faaliyet Belgesi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="registry_gazette"> <span data-i18n="docRegistryGazette">Ticaret Sicil Gazetesi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="tax_clearance"> <span data-i18n="docTaxClearance">Vergi Borcu Yoktur</span></label>
+        <label class="pr-chk"><input type="checkbox" value="sow"> <span data-i18n="docSow">Servet Kaynağı (SoW)</span></label>
+        <label class="pr-chk"><input type="checkbox" value="sof_biz"> <span data-i18n="docSofBiz">Fon Kaynağı (SoF)</span></label>
+        <label class="pr-chk"><input type="checkbox" value="hazirun"> <span data-i18n="docHazirun">Hazirun Cetveli</span></label>
+        <label class="pr-chk"><input type="checkbox" value="lease"> <span data-i18n="docLease">Kira Sözleşmesi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="bank_biz"> <span data-i18n="docBankBiz">TL/USD Hesap Dökümü</span></label>
+        <label class="pr-chk"><input type="checkbox" value="rep_nufus"> <span data-i18n="docRepNufus">Temsilci Kimlik Belgesi</span></label>
+      </div>
+      <div class="fg" style="margin-top:1rem"><label data-i18n="prNotes">Notlar (opsiyonel)</label><textarea class="fi" id="prNotes" rows="2" style="resize:vertical" placeholder="Eklemek istediğiniz bilgiler..."></textarea></div>
+    </div>
+
+    <!-- Başarı mesajı -->
+    <div class="pr-pane" id="prSuccess" style="text-align:center;padding:1.5rem 0">
+      <div style="font-size:3rem;margin-bottom:1rem">✅</div>
+      <h2 data-i18n="prSuccessTitle">Başvurunuz Alındı!</h2>
+      <p class="msub" style="margin-bottom:1.5rem" data-i18n="prSuccessSub">Ekibimiz inceleme sonrası hesabınızı oluşturacak ve size e-posta ile bildirim yapacak.</p>
+      <button class="btn btn-primary" onclick="closePreReg()" data-i18n="btnClose">Kapat</button>
+    </div>
+
+    <!-- Navigasyon -->
+    <div id="prNav" style="display:flex;justify-content:space-between;margin-top:1.4rem">
+      <button class="btn btn-outline" id="prBtnPrev" onclick="preRegPrev()" style="display:none" data-i18n="btnBack">← Geri</button>
+      <div style="flex:1"></div>
+      <button class="btn btn-primary" id="prBtnNext" onclick="preRegNext()" data-i18n="btnContinue">Devam →</button>
+      <button class="btn btn-primary" id="prBtnSubmit" onclick="submitPreReg()" style="display:none" data-i18n="btnSubmit">Gönder</button>
     </div>
   </div>
 </div>
@@ -920,9 +1028,18 @@ var T = {
     statusReview:'İncelemede', statusScanning:'Taranıyor', statusPending:'Bekliyor',
     btnSend:'Gönder ↑',
     loginTitle:'Tekrar Hoşgeldiniz', loginSub:'Hesabınıza giriş yapın',
-    registerTitle:'Hesap Oluştur', registerSub:'Ücretsiz başvurun',
-    noAccount:'Hesabınız yok mu?', registerLink:'Kayıt olun',
-    agreeTerms:'Kayıt olarak', termsLink:'Şartları', agreeTerms2:'kabul etmiş olursunuz.',
+    noAccount:'Hesabınız yok mu?', applyLink:'Ön başvuru yapın',
+    prStep1Title:'İletişim Bilgileri', prStep1Sub:'Sizi tanıyalım',
+    prStep2Title:'Hesap Türü', prStep2Sub:'Bireysel veya kurumsal hesap açmak istiyorsunuz?',
+    prStep3Title:'Hedef Platformlar', prStep3Sub:'Hangi platform(lar)a başvurmak istiyorsunuz?',
+    prStep4Title:'Belge Durumu', prStep4Sub:'Hangi belgelere sahipsiniz?',
+    prOther:'Diğer', prOtherLabel:'Diğer platform adı',
+    prNotes:'Notlar (opsiyonel)',
+    prSuccessTitle:'Başvurunuz Alındı!',
+    prSuccessSub:'Ekibimiz inceleme sonrası hesabınızı oluşturacak ve size e-posta ile bildirim yapacak.',
+    btnSubmit:'Gönder', btnClose:'Kapat',
+    alertPreRegName:'Ad Soyad zorunludur.', alertPreRegEmail:'Geçerli bir e-posta adresi girin.',
+    alertPreRegType:'Lütfen hesap türünü seçin.', alertPreRegPlatform:'En az bir platform seçin.',
     btnContinue:'Devam →', btnBack:'← Geri', btnSubmit:'Başvuruyu Gönder ✓',
     optSelect:'Seçin', optOther:'Diğer', optNo:'Hayır', optYes:'Evet',
     noApp:'Henüz başvuru yok', noAppDesc:'Onboarding formunu doldurarak başvurunuzu tamamlayın.', noAppBtn:'Başvuru Yap →',
@@ -1025,9 +1142,18 @@ var T = {
     statusReview:'Under Review', statusScanning:'Scanning', statusPending:'Pending',
     btnSend:'Send ↑',
     loginTitle:'Welcome Back', loginSub:'Sign in to your account',
-    registerTitle:'Create Account', registerSub:'Apply for free',
-    noAccount:"Don't have an account?", registerLink:'Register',
-    agreeTerms:'By registering you accept our', termsLink:'Terms', agreeTerms2:'.',
+    noAccount:"Don't have an account?", applyLink:'Submit a pre-application',
+    prStep1Title:'Contact Information', prStep1Sub:'Tell us about yourself',
+    prStep2Title:'Account Type', prStep2Sub:'Are you applying for an individual or corporate account?',
+    prStep3Title:'Target Platforms', prStep3Sub:'Which platform(s) do you want to apply for?',
+    prStep4Title:'Document Status', prStep4Sub:'Which of the following documents do you have?',
+    prOther:'Other', prOtherLabel:'Other platform name',
+    prNotes:'Notes (optional)',
+    prSuccessTitle:'Application Received!',
+    prSuccessSub:'Our team will create your account after review and notify you by email.',
+    btnSubmit:'Submit', btnClose:'Close',
+    alertPreRegName:'Full name is required.', alertPreRegEmail:'Please enter a valid email address.',
+    alertPreRegType:'Please select an account type.', alertPreRegPlatform:'Please select at least one platform.',
     btnContinue:'Continue →', btnBack:'← Back', btnSubmit:'Submit Application ✓',
     optSelect:'Select', optOther:'Other', optNo:'No', optYes:'Yes',
     noApp:'No application yet', noAppDesc:'Complete the onboarding form to submit your application.', noAppBtn:'Apply Now →',
@@ -1105,7 +1231,7 @@ async function updateNav(v){
     na.innerHTML=lt+'<span id="navUserName" style="font-size:.85rem;color:var(--text2);font-weight:500;cursor:pointer" onclick="nav(\'profile\')"></span><button class="btn btn-primary btn-sm" onclick="nav(\'profile\')" data-i18n="navProfile">'+L.navProfile+'</button><button class="btn btn-ghost btn-sm" onclick="doLogout()" data-i18n="navLogout">'+L.navLogout+'</button>';
     document.getElementById('navUserName').textContent=name; // XSS-safe
   } else {
-    na.innerHTML=lt+'<button class="btn btn-outline btn-sm" onclick="showAuth(\'login\')" data-i18n="navLogin">'+L.navLogin+'</button><button class="btn btn-primary btn-sm" onclick="showAuth(\'register\')" data-i18n="navApply">'+L.navApply+'</button>';
+    na.innerHTML=lt+'<button class="btn btn-outline btn-sm" onclick="showAuth(\'login\')" data-i18n="navLogin">'+L.navLogin+'</button><button class="btn btn-primary btn-sm" onclick="showPreReg()" data-i18n="navApply">'+L.navApply+'</button>';
   }
 }
 
@@ -1122,16 +1248,15 @@ document.addEventListener('DOMContentLoaded', async function(){
   var session=await getSession();
   if(session){currentUser=session.user;updateNav('profile');updateHeroBtns(true);}
   document.getElementById('authMod').addEventListener('click',function(e){if(e.target===e.currentTarget)closeAuth();});
+  document.getElementById('preRegMod').addEventListener('click',function(e){if(e.target===e.currentTarget)closePreReg();});
 });
 
 // ── AUTH MODAL ────────────────────────────────────────
-function showAuth(t){document.getElementById('authMod').classList.add('show');authTab(t);}
-function closeAuth(){document.getElementById('authMod').classList.remove('show');}
-function authTab(t){
-  document.querySelectorAll('.mtab').forEach(function(m,i){m.classList.toggle('active',(t==='login'&&i===0)||(t==='register'&&i===1));});
-  document.getElementById('aLogin').style.display=t==='login'?'block':'none';
-  document.getElementById('aReg').style.display=t==='register'?'block':'none';
+function showAuth(t){
+  if(t==='register'){showPreReg();return;}
+  document.getElementById('authMod').classList.add('show');
 }
+function closeAuth(){document.getElementById('authMod').classList.remove('show');}
 
 async function doLogin(){
   var email=document.getElementById('lEmail').value.trim();
@@ -1166,6 +1291,114 @@ async function doLogout(){
   currentUser=null;
   nav('landing');
   updateHeroBtns(false);
+}
+
+// ── ÖN BAŞVURU ────────────────────────────────────────
+var prStep=1;
+var prData={};
+
+function showPreReg(){
+  prStep=1;prData={};
+  document.getElementById('preRegMod').classList.add('show');
+  showPrPane(1);
+}
+function closePreReg(){
+  document.getElementById('preRegMod').classList.remove('show');
+  prStep=1;prData={};
+}
+
+function showPrPane(n){
+  document.querySelectorAll('.pr-pane').forEach(function(p){p.classList.remove('active');});
+  var pane=document.getElementById('prPane'+n);
+  if(pane)pane.classList.add('active');
+  // success pane özel
+  var isSuccess=(n===5);
+  document.getElementById('prNav').style.display=isSuccess?'none':'flex';
+  document.getElementById('prBtnPrev').style.display=n>1?'inline-flex':'none';
+  document.getElementById('prBtnNext').style.display=n<4?'inline-flex':'none';
+  document.getElementById('prBtnSubmit').style.display=n===4?'inline-flex':'none';
+  // Step göstergesi
+  for(var i=1;i<=4;i++){
+    var s=document.getElementById('prs'+i);
+    if(!s)continue;
+    s.classList.remove('active','done');
+    if(i<n)s.classList.add('done');
+    else if(i===n)s.classList.add('active');
+  }
+  // Adım 4: hesap türüne göre belge listesi göster
+  if(n===4){
+    var isBiz=prData.account_type==='corporate';
+    document.getElementById('prDocsInd').style.display=isBiz?'none':'grid';
+    document.getElementById('prDocsBiz').style.display=isBiz?'grid':'none';
+  }
+}
+
+function pickPreRegType(type,el){
+  prData.account_type=type;
+  document.querySelectorAll('#prPane2 .ro').forEach(function(r){r.classList.remove('sel');});
+  el.classList.add('sel');
+}
+
+function preRegNext(){
+  var L=T[currentLang];
+  if(prStep===1){
+    var name=document.getElementById('prName').value.trim();
+    var email=document.getElementById('prEmail').value.trim();
+    if(!name){alert(L.alertPreRegName||'Ad Soyad zorunludur.');return;}
+    if(!email||!email.includes('@')){alert(L.alertPreRegEmail||'Geçerli bir e-posta adresi girin.');return;}
+    prData.name=name;
+    prData.email=email;
+    prData.phone=document.getElementById('prPhone').value.trim();
+  } else if(prStep===2){
+    if(!prData.account_type){alert(L.alertPreRegType||'Lütfen hesap türünü seçin.');return;}
+  } else if(prStep===3){
+    var checked=Array.from(document.querySelectorAll('#prPlatformList input:checked')).map(function(c){return c.value;});
+    var other=document.getElementById('prOtherText').value.trim();
+    if(checked.includes('Diğer')&&other)checked.push(other);
+    if(!checked.length){alert(L.alertPreRegPlatform||'En az bir platform seçin.');return;}
+    prData.platforms=checked;
+  }
+  prStep++;
+  showPrPane(prStep);
+}
+
+function preRegPrev(){
+  prStep--;
+  showPrPane(prStep);
+}
+
+async function submitPreReg(){
+  // Belge durumu topla
+  var docContainer=prData.account_type==='corporate'?'prDocsBiz':'prDocsInd';
+  var checklist={};
+  document.querySelectorAll('#'+docContainer+' input').forEach(function(c){checklist[c.value]=c.checked;});
+  var score=Object.values(checklist).filter(Boolean).length;
+  prData.doc_checklist=checklist;
+  prData.doc_score=score;
+  prData.notes=document.getElementById('prNotes').value.trim();
+
+  var btn=document.getElementById('prBtnSubmit');
+  btn.textContent='...';btn.disabled=true;
+
+  var {error}=await sb.from('pre_registrations').insert({
+    name:       prData.name,
+    email:      prData.email,
+    phone:      prData.phone||null,
+    account_type:prData.account_type,
+    platforms:  prData.platforms,
+    doc_checklist:prData.doc_checklist,
+    doc_score:  prData.doc_score,
+    notes:      prData.notes||null
+  });
+
+  btn.textContent=T[currentLang].btnSubmit||'Gönder';btn.disabled=false;
+  if(error){alert('Hata: '+error.message);return;}
+
+  // Başarı ekranı
+  document.querySelectorAll('.pr-pane').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('prSuccess').classList.add('active');
+  document.getElementById('prNav').style.display='none';
+  for(var i=1;i<=4;i++){var s=document.getElementById('prs'+i);if(s)s.classList.remove('active');}
 }
 
 // ── ONBOARDING ────────────────────────────────────────
