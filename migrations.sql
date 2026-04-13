@@ -96,7 +96,8 @@ create table if not exists admins (
 );
 
 -- Admin emailini ekle
-insert into admins (email) values ('REDACTED_EMAIL') on conflict do nothing;
+-- ⚠️  Kendi admin emailinle değiştir, bu satırı SQL Editor'da çalıştır:
+-- insert into admins (email) values ('YOUR_ADMIN_EMAIL') on conflict do nothing;
 
 -- CLIENTS
 alter table clients enable row level security;
