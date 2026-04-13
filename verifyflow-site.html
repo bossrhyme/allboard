@@ -691,6 +691,7 @@ a{color:var(--blue);text-decoration:none}
 var currentClient = null;
 var chatChannel = null;
 var currentLang = 'tr';
+var lastMsgTime = 0;
 
 // ── i18n ──────────────────────────────────────────────
 var T = {
@@ -777,7 +778,7 @@ var T = {
     alertAge:'18 yaşından küçükler başvuru yapamaz.', alertPhone:'Geçerli bir telefon numarası girin.',
     alertPctRange:'Sahiplik oranı 0-100 arasında olmalıdır.', alertPctTotal:'Toplam sahiplik oranı %100\'ü aşamaz.',
     alertSubmitErr:'Kayıt hatası:', alertUboErr:'Ortak kayıt hatası:',
-    alertFileSize:'Dosya 10MB\'dan büyük olamaz:',
+    alertFileSize:'Dosya 10MB\'dan büyük olamaz:', alertMsgCooldown:'Lütfen 2 saniye bekleyin.',
     chatPlaceholder:'Mesajınızı yazın...',
     docTypeLabels:{identity:'Kimlik',address:'İkametgah',tax:'Vergi',registry:'Ticaret Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet'},
     docStatusLabels:{pending:'Bekliyor',approved:'Onaylandı',rejected:'Reddedildi'},
@@ -866,7 +867,7 @@ var T = {
     alertAge:'Applicants must be 18 or older.', alertPhone:'Please enter a valid phone number.',
     alertPctRange:'Ownership percentage must be between 0-100.', alertPctTotal:'Total ownership cannot exceed 100%.',
     alertSubmitErr:'Submission error:', alertUboErr:'Partner record error:',
-    alertFileSize:'File cannot exceed 10MB:',
+    alertFileSize:'File cannot exceed 10MB:', alertMsgCooldown:'Please wait 2 seconds.',
     chatPlaceholder:'Type your message...',
     docTypeLabels:{identity:'Identity',address:'Address',tax:'Tax',registry:'Registry',aoa:'Articles',signature:'Signature',cgs:'Good Standing'},
     docStatusLabels:{pending:'Pending',approved:'Approved',rejected:'Rejected'},
@@ -1275,7 +1276,10 @@ function appendMsg(m){
 
 async function sendMsg(){
   if(!currentClient){alert('Aktif başvuru bulunamadı.');return;}
+  var now=Date.now();
+  if(now-lastMsgTime<2000){alert(T[currentLang].alertMsgCooldown||'Lütfen 2 saniye bekleyin.');return;}
   var inp=document.getElementById('chatInp'),txt=inp.value.trim();if(!txt)return;
+  lastMsgTime=now;
   inp.value='';
   var {error}=await sb.from('chat_messages').insert({client_id:currentClient.id,sender_type:'client',sender_name:'Müşteri',text:txt});
   if(error)console.error('Chat error:',error);

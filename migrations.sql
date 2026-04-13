@@ -151,3 +151,61 @@ create policy "int_admin" on interviews for all
 -- ============================================================
 -- SELECT * FROM admins;                                 -- email listesi
 -- SELECT * FROM pg_policies WHERE tablename = 'clients'; -- policy listesi
+
+-- ============================================================
+-- 11. AUDIT LOG — her INSERT/UPDATE/DELETE'i kaydeder
+-- ============================================================
+create table if not exists audit_logs (
+  id         uuid primary key default gen_random_uuid(),
+  table_name text,
+  row_id     uuid,
+  action     text,   -- 'INSERT' | 'UPDATE' | 'DELETE'
+  old_data   jsonb,
+  new_data   jsonb,
+  actor      text,   -- JWT email veya null
+  created_at timestamptz default now()
+);
+
+create or replace function log_changes() returns trigger language plpgsql security definer as $$
+begin
+  insert into audit_logs(table_name, row_id, action, old_data, new_data, actor)
+  values (
+    TG_TABLE_NAME,
+    coalesce(NEW.id, OLD.id),
+    TG_OP,
+    case when TG_OP = 'DELETE' then to_jsonb(OLD) else null end,
+    case when TG_OP <> 'DELETE' then to_jsonb(NEW) else null end,
+    (current_setting('request.jwt.claims', true)::jsonb) ->> 'email'
+  );
+  return coalesce(NEW, OLD);
+end;
+$$;
+
+create trigger clients_audit
+  after insert or update or delete on clients
+  for each row execute function log_changes();
+
+create trigger documents_audit
+  after insert or update or delete on documents
+  for each row execute function log_changes();
+
+alter table audit_logs enable row level security;
+create policy "audit_admin" on audit_logs for select
+  using (auth.jwt() ->> 'email' in (select email from admins));
+
+-- ============================================================
+-- 12. STATUS STATE MACHINE — geçersiz durum geçişini engeller
+--   pending → in_review → approved | rejected
+-- ============================================================
+create or replace function validate_status_transition() returns trigger language plpgsql as $$
+begin
+  if OLD.status = NEW.status then return NEW; end if;
+  if OLD.status = 'pending'   and NEW.status = 'in_review'  then return NEW; end if;
+  if OLD.status = 'in_review' and NEW.status in ('approved','rejected') then return NEW; end if;
+  raise exception 'Invalid status transition: % -> %', OLD.status, NEW.status;
+end;
+$$;
+
+create trigger clients_status_machine
+  before update of status on clients
+  for each row execute function validate_status_transition();
