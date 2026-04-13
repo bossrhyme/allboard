@@ -1,5 +1,6 @@
 {
   "buildCommand": "node build.js",
+  "outputDirectory": ".",
   "rewrites": [
     { "source": "/admin", "destination": "/onboarding-demo.html" },
     { "source": "/user", "destination": "/user-demo.html" },
