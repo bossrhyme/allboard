@@ -900,12 +900,17 @@ function nav(v){
 async function updateNav(v){
   var na=document.getElementById('navAct');
   var L=T[currentLang];
+  var isTR=currentLang==='tr';
+  // Lang toggle HTML — no user data, safe to use innerHTML
+  var lt='<div class="lang-toggle"><button class="lang-btn '+(isTR?'active':'')+'" id="btnTR" onclick="setLang(\'tr\')">TR</button><button class="lang-btn '+(!isTR?'active':'')+'" id="btnEN" onclick="setLang(\'en\')">EN</button></div>';
   if(v==='profile'){
     var session=await getSession();
     var name=session&&session.user&&session.user.user_metadata&&session.user.user_metadata.full_name||session&&session.user&&session.user.email||'Hesabım';
-    na.innerHTML='<div class="lang-toggle"><button class="lang-btn '+(currentLang==='tr'?'active':'')+'" id="btnTR" onclick="setLang(\'tr\')">TR</button><button class="lang-btn '+(currentLang==='en'?'active':'')+'" id="btnEN" onclick="setLang(\'en\')">EN</button></div><span style="font-size:.85rem;color:var(--text2);font-weight:500">'+esc(name)+'</span><button class="btn btn-ghost btn-sm" onclick="doLogout()" data-i18n="navLogout">'+L.navLogout+'</button>';
+    // Use innerHTML only for structural HTML; set user data via textContent
+    na.innerHTML=lt+'<span id="navUserName" style="font-size:.85rem;color:var(--text2);font-weight:500"></span><button class="btn btn-ghost btn-sm" onclick="doLogout()" data-i18n="navLogout">'+L.navLogout+'</button>';
+    document.getElementById('navUserName').textContent=name; // XSS-safe
   } else {
-    na.innerHTML='<div class="lang-toggle"><button class="lang-btn '+(currentLang==='tr'?'active':'')+'" id="btnTR" onclick="setLang(\'tr\')">TR</button><button class="lang-btn '+(currentLang==='en'?'active':'')+'" id="btnEN" onclick="setLang(\'en\')">EN</button></div><button class="btn btn-outline btn-sm" onclick="showAuth(\'login\')" data-i18n="navLogin">'+L.navLogin+'</button><button class="btn btn-primary btn-sm" onclick="showAuth(\'register\')" data-i18n="navApply">'+L.navApply+'</button>';
+    na.innerHTML=lt+'<button class="btn btn-outline btn-sm" onclick="showAuth(\'login\')" data-i18n="navLogin">'+L.navLogin+'</button><button class="btn btn-primary btn-sm" onclick="showAuth(\'register\')" data-i18n="navApply">'+L.navApply+'</button>';
   }
 }
 

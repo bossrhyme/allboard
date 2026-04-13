@@ -837,7 +837,30 @@ async function openClientProfile(id){
   var name=(p.firstName||'')+' '+(p.lastName||'');
   // Header
   var hdr=document.getElementById('cpHeader');
-  if(hdr)hdr.innerHTML='<div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><div style="width:48px;height:48px;border-radius:50%;background:rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--blue)">'+esc((p.firstName||'?')[0]+(p.lastName||'?')[0]).toUpperCase()+'</div><div><div style="font-weight:700;font-size:1.05rem">'+esc(name.trim()||'—')+'</div><div style="color:var(--text2);font-size:.83rem">'+esc(p.email||'—')+' &nbsp;·&nbsp; '+(client.type==='business'?'Kurumsal':'Bireysel')+'</div></div><div style="margin-left:auto;display:flex;gap:.5rem"><span class="'+statusBadge(client.status)+'">'+statusLabel(client.status)+'</span><button class="btn btn-outline btn-sm" onclick="adminOpenChat(\''+id+'\',\''+esc(name.trim())+'\')">Mesaj Gönder</button></div></div>';
+  if(hdr){
+    // Build header using DOM (avoids JS-in-onclick XSS with user-controlled name/id)
+    var initials=esc((p.firstName||'?')[0]+(p.lastName||'?')[0]).toUpperCase();
+    var isEn=currentLang==='en';
+    var msgBtn=isEn?'Send Message':'Mesaj Gönder';
+    hdr.innerHTML=[
+      '<div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">',
+        '<div style="width:48px;height:48px;border-radius:50%;background:rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--blue)">'+initials+'</div>',
+        '<div>',
+          '<div style="font-weight:700;font-size:1.05rem">'+esc(name.trim()||'—')+'</div>',
+          '<div style="color:var(--text2);font-size:.83rem">'+esc(p.email||'—')+' &nbsp;·&nbsp; '+(isEn?'Business':'Kurumsal')+'</div>',
+        '</div>',
+        '<div style="margin-left:auto;display:flex;gap:.5rem">',
+          '<span class="'+statusBadge(client.status)+'">'+statusLabel(client.status)+'</span>',
+          '<button class="btn btn-outline btn-sm" id="cpMsgBtn" data-client-id="'+esc(id)+'" data-client-name="">'+msgBtn+'</button>',
+        '</div>',
+      '</div>'
+    ].join('');
+    // Set name via textContent (no XSS possible)
+    document.getElementById('cpMsgBtn').dataset.clientName = name.trim();
+    document.getElementById('cpMsgBtn').addEventListener('click', function(){
+      adminOpenChat(this.dataset.clientId, this.dataset.clientName);
+    });
+  }
   // Personal info grid
   var info=document.getElementById('cpInfo');
   if(info){
@@ -889,12 +912,27 @@ async function loadChatConversations(){
   var {data:clients}=await sb.from('clients').select('id,personal').order('submitted_at',{ascending:false}).limit(20);
   var list=document.getElementById('chatConvList');
   if(!list||!clients)return;
-  list.innerHTML=clients.map(function(c){
+  // Build DOM nodes — avoids onclick+string-concat XSS with user-controlled name
+  list.innerHTML='';
+  clients.forEach(function(c){
     var p=c.personal||{};
     var name=((p.firstName||'')+' '+(p.lastName||'')).trim()||p.email||'Müşteri';
     var init=((p.firstName||'?')[0]+(p.lastName||'?')[0]).toUpperCase();
-    return '<div style="display:flex;align-items:center;gap:.75rem;padding:.75rem;border:1px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:.5rem" onclick="adminSelectChat(\''+c.id+'\',\''+esc(name)+'\',\''+init+'\',this)"><div style="width:36px;height:36px;border-radius:50%;background:rgba(20,71,230,.08);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--blue);font-size:.8rem">'+init+'</div><div style="font-size:.85rem;font-weight:600">'+esc(name)+'</div></div>';
-  }).join('');
+    var row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:.75rem;padding:.75rem;border:1px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:.5rem';
+    var avatar=document.createElement('div');
+    avatar.style.cssText='width:36px;height:36px;border-radius:50%;background:rgba(20,71,230,.08);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--blue);font-size:.8rem';
+    avatar.textContent=init;
+    var label=document.createElement('div');
+    label.style.cssText='font-size:.85rem;font-weight:600';
+    label.textContent=name; // textContent — XSS proof
+    row.appendChild(avatar);row.appendChild(label);
+    // Store data on element, pass via closure — no string interpolation
+    row.addEventListener('click',(function(cid,cname,cinit,el){
+      return function(){adminSelectChat(cid,cname,cinit,el);};
+    })(c.id,name,init,row));
+    list.appendChild(row);
+  });
 }
 
 async function adminSelectChat(clientId,name,initials,el){

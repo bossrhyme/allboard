@@ -126,17 +126,39 @@ create policy "int_admin" on interviews for all
 
 -- ============================================================
 -- 8. ADMIN E-POSTA AYARI
--- Admin e-postanı buraya yaz:
+-- ⚠️  BU KOMUTU MUTLAKA ÇALIŞTIR — admin RLS policy'leri buna bağlı
+-- Admin e-postanı aşağıya yaz ve komutu SQL Editor'da çalıştır:
 -- ============================================================
--- alter database postgres set app.admin_email = 'admin@seninsirket.com';
+alter database postgres set app.admin_email = 'REDACTED_EMAIL';
 
 -- ============================================================
 -- 9. STORAGE — documents bucket
 -- Dashboard > Storage > New Bucket > Name: "documents" > Private
+-- Aşağıdaki policy'leri de çalıştır:
 -- ============================================================
 
--- Storage policy: müşteri kendi klasörüne yükleyebilir
--- (Storage > Policies bölümünden de yapılabilir)
--- insert policy: (auth.uid())::text = (storage.foldername(name))[1]
--- select policy: (auth.uid())::text = (storage.foldername(name))[1]
---   OR auth.jwt() ->> 'email' = current_setting('app.admin_email', true)
+-- Müşteri kendi klasörüne belge yükleyebilir
+insert into storage.policies (name, bucket_id, operation, definition)
+values (
+  'client_upload',
+  'documents',
+  'INSERT',
+  '(auth.uid())::text = (storage.foldername(name))[1]'
+) on conflict do nothing;
+
+-- Müşteri kendi belgelerini indirebilir; admin hepsini görebilir
+insert into storage.policies (name, bucket_id, operation, definition)
+values (
+  'client_or_admin_select',
+  'documents',
+  'SELECT',
+  '(auth.uid())::text = (storage.foldername(name))[1]
+   OR auth.jwt() ->> ''email'' = current_setting(''app.admin_email'', true)'
+) on conflict do nothing;
+
+-- ============================================================
+-- 10. MEVCUT KURULUMDA RLS KONTROL
+-- SQL Editor'da çalıştırarak policy'lerin çalıştığını doğrula:
+-- ============================================================
+-- SELECT current_setting('app.admin_email', true);   -- admin emaili dönmeli
+-- SELECT * FROM pg_policies WHERE tablename = 'clients';  -- policy listesi
