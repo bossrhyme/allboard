@@ -196,8 +196,13 @@ a{color:var(--blue);text-decoration:none}
     <h1 data-i18n="heroTitle">Onboarding sürecinizi <strong>sizin adınıza</strong> yönetiyoruz</h1>
     <p data-i18n="heroDesc">Siz bilgilerinizi ve belgelerinizi bir kez gönderin — uzman ekibimiz onboarding sürecinizi baştan sona takip etsin, koordine etsin ve sonuçlandırsın.</p>
     <div class="hero-btns">
-      <button class="btn btn-primary" onclick="showAuth('register')" style="padding:.75rem 1.8rem" data-i18n="heroApply">Başvuru Yap →</button>
-      <button class="btn btn-outline" onclick="showAuth('login')" style="padding:.75rem 1.6rem" data-i18n="heroLogin">Giriş Yap</button>
+      <div id="heroGuest" style="display:flex;gap:.85rem;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="showAuth('register')" style="padding:.75rem 1.8rem" data-i18n="heroApply">Başvuru Yap →</button>
+        <button class="btn btn-outline" onclick="showAuth('login')" style="padding:.75rem 1.6rem" data-i18n="heroLogin">Giriş Yap</button>
+      </div>
+      <div id="heroLoggedIn" style="display:none;gap:.85rem;flex-wrap:wrap;align-items:center">
+        <button class="btn btn-primary" onclick="nav('profile')" style="padding:.75rem 1.8rem" data-i18n="heroGoProfile">Profilime Git →</button>
+      </div>
     </div>
     <div class="hero-note"><span>✓</span> <span data-i18n="heroNote1">Ücretsiz başvuru</span> &nbsp;·&nbsp; <span>✓</span> <span data-i18n="heroNote2">Uzman ekip desteği</span> &nbsp;·&nbsp; <span>✓</span> <span data-i18n="heroNote3">Şeffaf süreç takibi</span></div>
   </div>
@@ -804,11 +809,11 @@ var lastMsgTime = 0;
 // ── i18n ──────────────────────────────────────────────
 var T = {
   tr:{
-    navLogin:'Giriş Yap', navApply:'Başvuru Yap →', navRegister:'Kayıt Ol', navLogout:'Çıkış',
+    navLogin:'Giriş Yap', navApply:'Başvuru Yap →', navRegister:'Kayıt Ol', navLogout:'Çıkış', navProfile:'Profilim →',
     heroEyebrow:'Bireysel & Kurumsal Onboarding Hizmeti',
     heroTitle:'Onboarding sürecinizi <strong>sizin adınıza</strong> yönetiyoruz',
     heroDesc:'Siz bilgilerinizi ve belgelerinizi bir kez gönderin — uzman ekibimiz onboarding sürecinizi baştan sona takip etsin, koordine etsin ve sonuçlandırsın.',
-    heroApply:'Başvuru Yap →', heroLogin:'Giriş Yap',
+    heroApply:'Başvuru Yap →', heroLogin:'Giriş Yap', heroGoProfile:'Profilime Git →',
     heroNote1:'Ücretsiz başvuru', heroNote2:'Uzman ekip desteği', heroNote3:'Şeffaf süreç takibi',
     trust1:'Adınıza Tam Yönetim', trust2:'Hızlı Süreç Takibi', trust3:'Güvenli Veri İşleme', trust4:'Uzman Danışman Ekibi', trust5:'Yüksek Onay Oranı',
     featEyebrow:'Nasıl Çalışır?', featTitle:'Siz başvurun, gerisini biz halledelim',
@@ -903,11 +908,11 @@ var T = {
     statusLabels:{pending:'Beklemede',in_review:'İncelemede',approved:'Onaylandı',rejected:'Reddedildi'}
   },
   en:{
-    navLogin:'Log In', navApply:'Apply Now →', navRegister:'Register', navLogout:'Logout',
+    navLogin:'Log In', navApply:'Apply Now →', navRegister:'Register', navLogout:'Logout', navProfile:'My Profile →',
     heroEyebrow:'Individual & Corporate Onboarding Service',
     heroTitle:'We manage your onboarding process <strong>on your behalf</strong>',
     heroDesc:'Submit your information and documents once — our expert team tracks, coordinates and finalises your onboarding from start to finish.',
-    heroApply:'Apply Now →', heroLogin:'Log In',
+    heroApply:'Apply Now →', heroLogin:'Log In', heroGoProfile:'Go to My Profile →',
     heroNote1:'Free application', heroNote2:'Expert team support', heroNote3:'Transparent process tracking',
     trust1:'Full Management on Your Behalf', trust2:'Fast Process Tracking', trust3:'Secure Data Handling', trust4:'Expert Advisor Team', trust5:'High Approval Rate',
     featEyebrow:'How It Works', featTitle:'You apply, we handle the rest',
@@ -1053,17 +1058,25 @@ async function updateNav(v){
     var session=await getSession();
     var name=session&&session.user&&session.user.user_metadata&&session.user.user_metadata.full_name||session&&session.user&&session.user.email||'Hesabım';
     // Use innerHTML only for structural HTML; set user data via textContent
-    na.innerHTML=lt+'<span id="navUserName" style="font-size:.85rem;color:var(--text2);font-weight:500"></span><button class="btn btn-ghost btn-sm" onclick="doLogout()" data-i18n="navLogout">'+L.navLogout+'</button>';
+    na.innerHTML=lt+'<span id="navUserName" style="font-size:.85rem;color:var(--text2);font-weight:500;cursor:pointer" onclick="nav(\'profile\')"></span><button class="btn btn-primary btn-sm" onclick="nav(\'profile\')" data-i18n="navProfile">'+L.navProfile+'</button><button class="btn btn-ghost btn-sm" onclick="doLogout()" data-i18n="navLogout">'+L.navLogout+'</button>';
     document.getElementById('navUserName').textContent=name; // XSS-safe
   } else {
     na.innerHTML=lt+'<button class="btn btn-outline btn-sm" onclick="showAuth(\'login\')" data-i18n="navLogin">'+L.navLogin+'</button><button class="btn btn-primary btn-sm" onclick="showAuth(\'register\')" data-i18n="navApply">'+L.navApply+'</button>';
   }
 }
 
+function updateHeroBtns(loggedIn){
+  var g=document.getElementById('heroGuest');
+  var a=document.getElementById('heroLoggedIn');
+  if(!g||!a)return;
+  g.style.display=loggedIn?'none':'flex';
+  a.style.display=loggedIn?'flex':'none';
+}
+
 document.addEventListener('DOMContentLoaded', async function(){
   document.getElementById('view-landing').style.display='block';
   var session=await getSession();
-  if(session) updateNav('profile');
+  if(session){updateNav('profile');updateHeroBtns(true);}
   document.getElementById('authMod').addEventListener('click',function(e){if(e.target===e.currentTarget)closeAuth();});
 });
 
@@ -1105,6 +1118,7 @@ async function doLogout(){
   await sb.auth.signOut();
   currentClient=null;
   nav('landing');
+  updateHeroBtns(false);
 }
 
 // ── ONBOARDING ────────────────────────────────────────
