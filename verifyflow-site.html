@@ -773,6 +773,11 @@ var T = {
     noApp:'Henüz başvuru yok', noAppDesc:'Onboarding formunu doldurarak başvurunuzu tamamlayın.', noAppBtn:'Başvuru Yap →',
     alertSelectType:'Lütfen hesap türü seçin', alertEmailPass:'E-posta ve şifre gerekli', alertMinPass:'Şifre en az 6 karakter olmalı',
     alertLogin:'Lütfen önce giriş yapın.', uploading:'Yüklendi', submitting:'Gönderiliyor...',
+    alertNameRequired:'Ad ve soyad zorunludur.', alertDobRequired:'Doğum tarihi zorunludur.',
+    alertAge:'18 yaşından küçükler başvuru yapamaz.', alertPhone:'Geçerli bir telefon numarası girin.',
+    alertPctRange:'Sahiplik oranı 0-100 arasında olmalıdır.', alertPctTotal:'Toplam sahiplik oranı %100\'ü aşamaz.',
+    alertSubmitErr:'Kayıt hatası:', alertUboErr:'Ortak kayıt hatası:',
+    alertFileSize:'Dosya 10MB\'dan büyük olamaz:',
     chatPlaceholder:'Mesajınızı yazın...',
     docTypeLabels:{identity:'Kimlik',address:'İkametgah',tax:'Vergi',registry:'Ticaret Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet'},
     docStatusLabels:{pending:'Bekliyor',approved:'Onaylandı',rejected:'Reddedildi'},
@@ -857,6 +862,11 @@ var T = {
     noApp:'No application yet', noAppDesc:'Complete the onboarding form to submit your application.', noAppBtn:'Apply Now →',
     alertSelectType:'Please select an account type', alertEmailPass:'Email and password are required', alertMinPass:'Password must be at least 6 characters',
     alertLogin:'Please log in first.', uploading:'Uploaded', submitting:'Submitting...',
+    alertNameRequired:'First and last name are required.', alertDobRequired:'Date of birth is required.',
+    alertAge:'Applicants must be 18 or older.', alertPhone:'Please enter a valid phone number.',
+    alertPctRange:'Ownership percentage must be between 0-100.', alertPctTotal:'Total ownership cannot exceed 100%.',
+    alertSubmitErr:'Submission error:', alertUboErr:'Partner record error:',
+    alertFileSize:'File cannot exceed 10MB:',
     chatPlaceholder:'Type your message...',
     docTypeLabels:{identity:'Identity',address:'Address',tax:'Tax',registry:'Registry',aoa:'Articles',signature:'Signature',cgs:'Good Standing'},
     docStatusLabels:{pending:'Pending',approved:'Approved',rejected:'Rejected'},
@@ -887,6 +897,13 @@ function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').repl
 function pad(n){return String(n).padStart(2,'0');}
 function fmtDate(d){if(!d)return '—';var dt=new Date(d);return dt.getDate()+'/'+pad(dt.getMonth()+1)+'/'+dt.getFullYear();}
 function fmtSize(b){if(!b)return '';var n=parseInt(b);if(n>1048576)return (n/1048576).toFixed(1)+' MB';if(n>1024)return (n/1024).toFixed(0)+' KB';return n+' B';}
+async function openSignedUrl(el,e){
+  e.preventDefault();
+  var path=el.getAttribute('data-path');if(!path)return;
+  var {data,error}=await sb.storage.from('documents').createSignedUrl(path,60);
+  if(error||!data){alert('Dosya açılamadı.');return;}
+  window.open(data.signedUrl,'_blank');
+}
 
 // ── SPA NAVIGASYON ────────────────────────────────────
 function nav(v){
@@ -1009,8 +1026,34 @@ function selVal(rg){var s=document.querySelector('#'+rg+' .ro.sel');return s?s.q
 async function submitApp(){
   var session=await getSession();
   if(!session){alert(T[currentLang].alertLogin);return;}
+  var L=T[currentLang];
   var btn=document.getElementById('submitBtn');
-  if(btn){btn.textContent=T[currentLang].submitting;btn.disabled=true;}
+  var resetBtn=function(){if(btn){btn.textContent=L.submit||'Gönder';btn.disabled=false;}};
+
+  // ── Form validation ───────────────────────────────
+  var firstName=gv('firstName'),lastName=gv('lastName'),dob=gv('dob'),phone=gv('phone');
+  if(!firstName||!lastName){alert(L.alertNameRequired||'Ad ve soyad zorunludur.');return;}
+  if(!dob){alert(L.alertDobRequired||'Doğum tarihi zorunludur.');return;}
+  // Age check — must be 18+
+  var age=(Date.now()-new Date(dob).getTime())/(1000*60*60*24*365.25);
+  if(age<18){alert(L.alertAge||'18 yaşından küçükler başvuru yapamaz.');return;}
+  if(phone&&!/^\+?[\d\s\-().]{7,20}$/.test(phone)){alert(L.alertPhone||'Geçerli bir telefon numarası girin.');return;}
+
+  // UBO validation (business)
+  if(acType==='biz'){
+    var uboItems=document.querySelectorAll('.ubo-item');
+    var totalPct=0,pctError=false;
+    uboItems.forEach(function(item){
+      var op=item.querySelector('[name="uboPct"]');
+      var pct=parseFloat(op?op.value:0)||0;
+      if(pct<0||pct>100){pctError=true;}
+      totalPct+=pct;
+    });
+    if(pctError){alert(L.alertPctRange||'Sahiplik oranı 0-100 arasında olmalıdır.');return;}
+    if(totalPct>100){alert(L.alertPctTotal||'Toplam sahiplik oranı %100\'ü aşamaz (şu an: %'+Math.round(totalPct)+')');return;}
+  }
+
+  if(btn){btn.textContent=L.submitting||'Gönderiliyor...';btn.disabled=true;}
 
   // Build client data
   var clientData={
@@ -1018,9 +1061,9 @@ async function submitApp(){
     type: acType==='biz'?'business':'individual',
     status: 'pending',
     personal:{
-      firstName:gv('firstName'),lastName:gv('lastName'),
-      dob:gv('dob'),nationality:gv('nationality'),
-      nationalId:gv('nationalId'),phone:gv('phone'),
+      firstName:firstName,lastName:lastName,
+      dob:dob,nationality:gv('nationality'),
+      nationalId:gv('nationalId'),phone:phone,
       email:session.user.email
     },
     address:{
@@ -1048,20 +1091,28 @@ async function submitApp(){
   }
 
   var {data:client,error:ce}=await sb.from('clients').insert(clientData).select().single();
-  if(ce){if(btn){btn.textContent='Gönder';btn.disabled=false;}alert('Kayıt hatası: '+ce.message);return;}
+  if(ce){resetBtn();alert((L.alertSubmitErr||'Kayıt hatası:')+' '+ce.message);return;}
 
-  // Save UBOs (business only)
+  // Save UBOs (business only) — with error handling
   if(acType==='biz'){
-    var uboItems=document.querySelectorAll('.ubo-item');
+    var uboItems2=document.querySelectorAll('.ubo-item');
     var ubos=[];
-    uboItems.forEach(function(item){
+    uboItems2.forEach(function(item){
       var fn=item.querySelector('[name="uboName"]');var op=item.querySelector('[name="uboPct"]');
-      if(fn&&fn.value.trim())ubos.push({client_id:client.id,full_name:fn.value.trim(),ownership_pct:parseFloat(op?op.value:0)||0,position:item.querySelector('[name="uboRole"]')?item.querySelector('[name="uboRole"]').value:'',ownership_type:item.querySelector('[name="uboType"]')?item.querySelector('[name="uboType"]').value:'direct'});
+      if(fn&&fn.value.trim())ubos.push({
+        client_id:client.id,full_name:fn.value.trim(),
+        ownership_pct:parseFloat(op?op.value:0)||0,
+        position:item.querySelector('[name="uboRole"]')?item.querySelector('[name="uboRole"]').value:'',
+        ownership_type:item.querySelector('[name="uboType"]')?item.querySelector('[name="uboType"]').value:'direct'
+      });
     });
-    if(ubos.length)await sb.from('ubos').insert(ubos);
+    if(ubos.length){
+      var {error:ube}=await sb.from('ubos').insert(ubos);
+      if(ube){resetBtn();alert((L.alertUboErr||'Ortak kayıt hatası:')+' '+ube.message);return;}
+    }
   }
 
-  // Upload documents
+  // Upload documents — consistent error handling
   var docDefs=[
     {inputId:'fi-id',naId:'na-id',type:'identity'},
     {inputId:'fi-addr',naId:'na-addr',type:'address'},
@@ -1075,12 +1126,21 @@ async function submitApp(){
     var inp=document.getElementById(d.inputId);
     var naCb=document.getElementById(d.naId);
     if(naCb&&naCb.checked){
-      await sb.from('documents').insert({client_id:client.id,doc_type:d.type,available:false,file_name:'N/A',file_size:'0'});
+      var {error:nae}=await sb.from('documents').insert({client_id:client.id,doc_type:d.type,available:false,file_name:'N/A',file_size:'0'});
+      if(nae)console.warn('Doc insert (N/A) failed:',d.type,nae.message);
     } else if(inp&&inp.files&&inp.files.length){
       var file=inp.files[0];
+      // File type validation
+      if(!/^(image\/(jpeg|png|webp)|application\/pdf)$/.test(file.type)){
+        console.warn('Skipping unsupported file type:',file.type);continue;
+      }
+      // File size limit: 10MB
+      if(file.size>10*1024*1024){alert((L.alertFileSize||'Dosya 10MB\'dan büyük olamaz:')+' '+file.name);continue;}
       var path='clients/'+client.id+'/'+d.type+'/'+Date.now()+'_'+file.name;
       var {error:ue}=await sb.storage.from('documents').upload(path,file);
-      if(!ue)await sb.from('documents').insert({client_id:client.id,doc_type:d.type,file_path:path,file_name:file.name,file_size:String(file.size),available:true});
+      if(ue){console.warn('Upload failed:',d.type,ue.message);continue;}
+      var {error:de}=await sb.from('documents').insert({client_id:client.id,doc_type:d.type,file_path:path,file_name:file.name,file_size:String(file.size),available:true});
+      if(de)console.warn('Doc metadata insert failed:',d.type,de.message);
     }
   }
 
@@ -1089,7 +1149,7 @@ async function submitApp(){
   await sb.from('chat_messages').insert({client_id:client.id,sender_type:'staff',sender_name:'Allboard',text:'Merhaba '+fname+', başvurunuz alındı. Belgeleriniz incelemeye alınmıştır. / Hello '+fname+', your application has been received. Your documents are under review.'});
 
   currentClient=client;
-  if(btn){btn.textContent='Gönder';btn.disabled=false;}
+  resetBtn();
   idx=steps.length-1;showS(idx);
 }
 
@@ -1174,7 +1234,10 @@ async function loadDocsTab(){
   var notAvail=L.optNo==='No'?'Not Available':'Mevcut Değil';
   var rows=docs.map(function(d){
     var dl='';
-    if(d.available&&d.file_path){var {data:u}=sb.storage.from('documents').getPublicUrl(d.file_path);dl='<a href="'+esc(u.publicUrl)+'" target="_blank" style="color:var(--blue);font-size:.8rem">'+L.fileSelect+'</a>';}
+    if(d.available&&d.file_path){
+      // Signed URL (60s) — private bucket, no permanent public URL
+      dl='<a href="#" data-path="'+esc(d.file_path)+'" onclick="openSignedUrl(this,event)" style="color:var(--blue);font-size:.8rem">'+L.fileSelect+'</a>';
+    }
     return '<tr><td>'+(typeLabels[d.doc_type]||d.doc_type)+'</td><td>'+(d.available?esc(d.file_name||'—'):notAvail)+'</td><td>'+fmtSize(d.file_size)+'</td><td><span class="badge '+statusClass(d.status)+'">'+statusLabel(d.status)+'</span></td><td>'+dl+'</td></tr>';
   }).join('');
   var thLabels=[L.docIdentity||'Tür',L.docFile||'Dosya',L.docSize||'Boyut',L.docStatus||'Durum',''];

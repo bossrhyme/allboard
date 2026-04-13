@@ -815,14 +815,33 @@ async function loadClients(){
   var tbody=document.getElementById('clientsTableBody');
   if(!tbody)return;
   if(error||!clients||!clients.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text2)">Henüz müşteri yok / No clients yet</td></tr>';return;}
-  tbody.innerHTML=clients.map(function(c){
+  // Build rows via DOM — no onclick string interpolation
+  tbody.innerHTML='';
+  clients.forEach(function(c){
     var p=c.personal||{};
-    var name=esc((p.firstName||'')+' '+(p.lastName||'')).trim()||'—';
-    var email=esc(p.email||'—');
-    var type=c.type==='business'?(T[currentLang].typeBiz||'Kurumsal'):(T[currentLang].typeInd||'Bireysel');
-    var viewBtn=currentLang==='en'?'View':'Görüntüle';
-    return '<tr><td>'+name+'</td><td>'+email+'</td><td>'+type+'</td><td>'+fmtDate(c.submitted_at)+'</td><td><span class="'+statusBadge(c.status)+'">'+statusLabel(c.status)+'</span></td><td><span class="'+statusBadge(c.kyc_status)+'">'+statusLabel(c.kyc_status)+'</span></td><td><button class="btn btn-outline btn-sm" onclick="openClientProfile(\''+c.id+'\')">'+viewBtn+'</button></td></tr>';
-  }).join('');
+    var tr=document.createElement('tr');
+    var cells=[
+      ((p.firstName||'')+' '+(p.lastName||'')).trim()||'—',
+      p.email||'—',
+      c.type==='business'?(T[currentLang].typeBiz||'Kurumsal'):(T[currentLang].typeInd||'Bireysel'),
+      fmtDate(c.submitted_at)
+    ];
+    cells.forEach(function(txt){var td=document.createElement('td');td.textContent=txt;tr.appendChild(td);});
+    // Status badges (safe static class names + statusLabel text)
+    ['status','kyc_status'].forEach(function(k){
+      var td=document.createElement('td');
+      var sp=document.createElement('span');sp.className=statusBadge(c[k]);sp.textContent=statusLabel(c[k]);
+      td.appendChild(sp);tr.appendChild(td);
+    });
+    // Action button — no inline onclick
+    var tdAct=document.createElement('td');
+    var btn=document.createElement('button');
+    btn.className='btn btn-outline btn-sm';
+    btn.textContent=currentLang==='en'?'View':'Görüntüle';
+    btn.addEventListener('click',function(){openClientProfile(c.id);});
+    tdAct.appendChild(btn);tr.appendChild(tdAct);
+    tbody.appendChild(tr);
+  });
 }
 
 // ── CLIENT PROFILE ────────────────────────────────────
@@ -872,7 +891,24 @@ async function openClientProfile(id){
   // KYC/AML actions
   var actions=document.getElementById('cpActions');
   var isEn=currentLang==='en';
-  if(actions)actions.innerHTML='<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem"><button class="btn btn-primary btn-sm" onclick="updateClientStatus(\''+id+'\',\'approved\')">✓ '+(isEn?'Approve':'Onayla')+'</button><button class="btn btn-outline btn-sm" onclick="updateClientStatus(\''+id+'\',\'rejected\')" style="border-color:var(--danger);color:var(--danger)">✕ '+(isEn?'Reject':'Reddet')+'</button><button class="btn btn-outline btn-sm" onclick="updateKycStatus(\''+id+'\',\'approved\')">KYC '+(isEn?'Approve':'Onayla')+'</button><button class="btn btn-outline btn-sm" onclick="updateAmlStatus(\''+id+'\',\'approved\')">AML '+(isEn?'Approve':'Onayla')+'</button></div>';
+  if(actions){
+    var isEn=currentLang==='en';
+    actions.innerHTML='';
+    var actWrap=document.createElement('div');
+    actWrap.style.cssText='display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem';
+    var actBtns=[
+      {cls:'btn btn-primary btn-sm',lbl:'✓ '+(isEn?'Approve':'Onayla'),fn:function(){updateClientStatus(id,'approved');}},
+      {cls:'btn btn-outline btn-sm',lbl:'✕ '+(isEn?'Reject':'Reddet'),style:'border-color:var(--danger);color:var(--danger)',fn:function(){updateClientStatus(id,'rejected');}},
+      {cls:'btn btn-outline btn-sm',lbl:'KYC '+(isEn?'Approve':'Onayla'),fn:function(){updateKycStatus(id,'approved');}},
+      {cls:'btn btn-outline btn-sm',lbl:'AML '+(isEn?'Approve':'Onayla'),fn:function(){updateAmlStatus(id,'approved');}}
+    ];
+    actBtns.forEach(function(b){
+      var btn=document.createElement('button');btn.className=b.cls;btn.textContent=b.lbl;
+      if(b.style)btn.style.cssText=b.style;
+      btn.addEventListener('click',b.fn);actWrap.appendChild(btn);
+    });
+    actions.appendChild(actWrap);
+  }
   // Documents
   var docsCont=document.getElementById('cpDocs');
   if(docsCont&&docs){
@@ -880,7 +916,44 @@ async function openClientProfile(id){
     var typeLabels=isEn2?{identity:'Identity',address:'Address',tax:'Tax',registry:'Registry',aoa:'Articles of Association',signature:'Signature Circular',cgs:'Activity Certificate'}:{identity:'Kimlik',address:'Adres',tax:'Vergi',registry:'Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet'};
     var docHdrs=isEn2?['Type','File','Status','Action']:['Tür','Dosya','Durum','Aksiyon'];
     var dlLabel=isEn2?'Download':'İndir';var approveLabel=isEn2?'Approve':'Onayla';var noDocs=isEn2?'No documents':'Belge yok';
-    docsCont.innerHTML=docs.length?'<table style="width:100%;border-collapse:collapse;font-size:.83rem"><thead><tr style="color:var(--text2)">'+docHdrs.map(function(h){return '<th style="padding:.4rem">'+h+'</th>';}).join('')+'</tr></thead><tbody>'+docs.map(function(d){var dl='';if(d.file_path){var {data:u}=sb.storage.from('documents').getPublicUrl(d.file_path);dl='<a href="'+esc(u.publicUrl)+'" target="_blank" style="color:var(--blue)">'+dlLabel+'</a>';}return '<tr><td>'+(typeLabels[d.doc_type]||d.doc_type)+'</td><td>'+esc(d.file_name||'N/A')+'</td><td><span class="'+statusBadge(d.status)+'">'+statusLabel(d.status)+'</span></td><td>'+dl+' <button class="btn btn-outline" style="font-size:.72rem;padding:.2rem .5rem" onclick="approveDoc(\''+d.id+'\')">'+approveLabel+'</button></td></tr>';}).join('')+'</tbody></table>':'<p style="color:var(--text2);padding:1rem">'+noDocs+'</p>';
+    if(!docs.length){docsCont.innerHTML='<p style="color:var(--text2);padding:1rem">'+noDocs+'</p>';}
+    else{
+      var tbl=document.createElement('table');tbl.style.cssText='width:100%;border-collapse:collapse;font-size:.83rem';
+      var thead=document.createElement('thead');
+      var hrow=document.createElement('tr');hrow.style.color='var(--text2)';
+      docHdrs.forEach(function(h){var th=document.createElement('th');th.style.padding='.4rem';th.textContent=h;hrow.appendChild(th);});
+      thead.appendChild(hrow);tbl.appendChild(thead);
+      var tbody2=document.createElement('tbody');
+      docs.forEach(function(d){
+        var tr=document.createElement('tr');
+        // Type
+        var td1=document.createElement('td');td1.textContent=typeLabels[d.doc_type]||d.doc_type;tr.appendChild(td1);
+        // File name
+        var td2=document.createElement('td');td2.textContent=d.file_name||'N/A';tr.appendChild(td2);
+        // Status
+        var td3=document.createElement('td');var sp=document.createElement('span');sp.className=statusBadge(d.status);sp.textContent=statusLabel(d.status);td3.appendChild(sp);tr.appendChild(td3);
+        // Actions
+        var td4=document.createElement('td');
+        if(d.file_path){
+          var link=document.createElement('a');link.style.color='var(--blue)';link.target='_blank';link.textContent=dlLabel;
+          link.href='#';
+          // Signed URL (60s expiry) — no permanent public URL for private bucket
+          link.addEventListener('click',function(e){
+            e.preventDefault();
+            sb.storage.from('documents').createSignedUrl(d.file_path,60).then(function(r){
+              if(r.data&&r.data.signedUrl)window.open(r.data.signedUrl,'_blank');
+            });
+          });
+          td4.appendChild(link);td4.appendChild(document.createTextNode(' '));
+        }
+        var appBtn=document.createElement('button');appBtn.className='btn btn-outline';appBtn.style.cssText='font-size:.72rem;padding:.2rem .5rem';
+        appBtn.textContent=approveLabel;
+        appBtn.addEventListener('click',function(){approveDoc(d.id);});
+        td4.appendChild(appBtn);tr.appendChild(td4);
+        tbody2.appendChild(tr);
+      });
+      tbl.appendChild(tbody2);docsCont.innerHTML='';docsCont.appendChild(tbl);
+    }
   }
   // UBOs
   var ubosCont=document.getElementById('cpUbos');
@@ -976,10 +1049,28 @@ async function loadInterviews(){
   var {data:interviews}=await sb.from('interviews').select('*').order('scheduled_at',{ascending:true});
   var list=document.getElementById('interviewList');
   if(!list)return;
-  list.innerHTML=(interviews||[]).map(function(iv){
+  list.innerHTML='';
+  var ivList=interviews||[];
+  if(!ivList.length){list.innerHTML='<p style="color:var(--text2);padding:1rem">Henüz görüşme yok / No interviews yet</p>';return;}
+  ivList.forEach(function(iv){
     var sc=iv.scheduled_at?fmtDate(iv.scheduled_at)+' '+pad(new Date(iv.scheduled_at).getHours())+':'+pad(new Date(iv.scheduled_at).getMinutes()):'Tarih belirlenmedi';
-    return '<div class="int-card" data-id="'+iv.id+'"><div class="int-icon">'+(iv.status==='completed'?'✅':'📅')+'</div><div class="int-info"><div class="int-name">'+esc(iv.client_name||'—')+' — '+esc(iv.interview_type||'Görüşme')+'</div><div class="int-meta">'+sc+(iv.staff_name?' · '+esc(iv.staff_name):'')+'</div></div><span class="'+statusBadge(iv.status)+'">'+statusLabel(iv.status)+'</span><div class="int-actions">'+(iv.status!=='completed'?'<button class="btn btn-outline" style="font-size:.75rem;padding:.3rem .7rem" onclick="completeInterview(this,\''+iv.id+'\')">Tamamlandı</button>':'')+'</div></div>';
-  }).join('')||'<p style="color:var(--text2);padding:1rem">Henüz görüşme yok / No interviews yet</p>';
+    var card=document.createElement('div');card.className='int-card';
+    var icon=document.createElement('div');icon.className='int-icon';icon.textContent=iv.status==='completed'?'✅':'📅';
+    var info=document.createElement('div');info.className='int-info';
+    var nm=document.createElement('div');nm.className='int-name';nm.textContent=(iv.client_name||'—')+' — '+(iv.interview_type||'Görüşme');
+    var mt=document.createElement('div');mt.className='int-meta';mt.textContent=sc+(iv.staff_name?' · '+iv.staff_name:'');
+    info.appendChild(nm);info.appendChild(mt);
+    var badge=document.createElement('span');badge.className=statusBadge(iv.status);badge.textContent=statusLabel(iv.status);
+    var acts=document.createElement('div');acts.className='int-actions';
+    if(iv.status!=='completed'){
+      var btn=document.createElement('button');btn.className='btn btn-outline';btn.style.cssText='font-size:.75rem;padding:.3rem .7rem';
+      btn.textContent='Tamamlandı';
+      btn.addEventListener('click',function(){completeInterview(btn,iv.id);});
+      acts.appendChild(btn);
+    }
+    card.appendChild(icon);card.appendChild(info);card.appendChild(badge);card.appendChild(acts);
+    list.appendChild(card);
+  });
 }
 
 async function scheduleInterview(){
