@@ -99,6 +99,13 @@ create table if not exists admins (
 -- ⚠️  Kendi admin emailinle değiştir, bu satırı SQL Editor'da çalıştır:
 -- insert into admins (email) values ('YOUR_ADMIN_EMAIL') on conflict do nothing;
 
+-- RLS: admins tablosu — giriş yapmış kullanıcılar okuyabilir
+-- (diğer tablolardaki "in (select email from admins)" policy'lerinin çalışması için gerekli)
+alter table admins enable row level security;
+create policy "admins_read_authenticated" on admins
+  for select using (auth.role() = 'authenticated');
+-- INSERT/UPDATE/DELETE: sadece service_role erişebilir (policy yok = yasak)
+
 -- CLIENTS
 alter table clients enable row level security;
 -- Müşteri kendi kaydını okuyabilir / yazabilir
