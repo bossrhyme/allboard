@@ -717,7 +717,7 @@ async function adminLogin(){
   btn.textContent='Giriş Yap / Sign In';btn.disabled=false;
   if(error){showErr('Hata: '+error.message);return;}
   var {data:adminRow}=await sb.from('admins').select('email').eq('email',email).single();
-  if(!adminRow){await sb.auth.signOut();showErr('Bu hesabın admin yetkisi yok.');return;}
+  if(!adminRow){await sb.auth.signOut();showErr('E-posta veya şifre hatalı.');return;}
   showDashboard();
 }
 function showErr(msg){var el=document.getElementById('adminLoginErr');el.textContent=msg;el.style.display='block';}
@@ -1208,7 +1208,7 @@ async function openClientProfile(id){
           // Signed URL (60s expiry) — no permanent public URL for private bucket
           link.addEventListener('click',function(e){
             e.preventDefault();
-            sb.storage.from('documents').createSignedUrl(d.file_path,60).then(function(r){
+            sb.storage.from('documents').createSignedUrl(d.file_path,10).then(function(r){
               if(r.data&&r.data.signedUrl)window.open(r.data.signedUrl,'_blank');
             });
           });
@@ -1404,13 +1404,6 @@ async function loadPreReg(){
     var type=typeMap[r.account_type]||r.account_type||'—';
     var statusLabel=statusMap[r.status]||r.status;
     var statusCls=statusClass[r.status]||'badge-secondary';
-    var actions='';
-    if(r.status==='pending'){
-      actions='<button class="btn btn-primary btn-sm" onclick="createUserFromPreReg(\''+r.id+'\',\''+esc(r.email)+'\',\''+esc(r.name||'')+'\',this)" style="margin-right:.3rem">Davet Et</button>'+
-              '<button class="btn btn-outline btn-sm" onclick="rejectPreReg(\''+r.id+'\',this)">Reddet</button>';
-    } else {
-      actions='<span style="font-size:.8rem;color:var(--text2)">'+(r.status==='approved'?'Kullanıcı oluşturuldu':'Reddedildi')+'</span>';
-    }
     var tr=document.createElement('tr');
     tr.innerHTML=
       '<td>'+esc(r.name||'—')+'</td>'+
@@ -1420,9 +1413,33 @@ async function loadPreReg(){
       '<td style="font-size:.82rem;text-align:center">'+esc(docScore)+'</td>'+
       '<td style="font-size:.82rem">'+date+'</td>'+
       '<td><span class="badge '+statusCls+'" style="font-size:.72rem">'+esc(statusLabel)+'</span></td>'+
-      '<td><button class="btn btn-outline btn-sm" style="font-size:.75rem">🔍 Detay</button></td>'+
-      '<td style="white-space:nowrap">'+actions+'</td>';
-    tr.querySelector('.btn-outline').addEventListener('click',(function(row){
+      '<td><button class="btn btn-outline btn-sm detail-btn" style="font-size:.75rem">🔍 Detay</button></td>'+
+      '<td style="white-space:nowrap" class="action-cell"></td>';
+    // XSS-safe: event listeners + data-* instead of onclick string concatenation
+    var actionCell=tr.querySelector('.action-cell');
+    if(r.status==='pending'){
+      var invBtn=document.createElement('button');
+      invBtn.className='btn btn-primary btn-sm';
+      invBtn.style.marginRight='.3rem';
+      invBtn.textContent='Davet Et';
+      invBtn.dataset.id=r.id;
+      invBtn.dataset.email=r.email||'';
+      invBtn.dataset.name=r.name||'';
+      invBtn.addEventListener('click',function(){createUserFromPreReg(this.dataset.id,this.dataset.email,this.dataset.name,this);});
+      var rejBtn=document.createElement('button');
+      rejBtn.className='btn btn-outline btn-sm';
+      rejBtn.textContent='Reddet';
+      rejBtn.dataset.id=r.id;
+      rejBtn.addEventListener('click',function(){rejectPreReg(this.dataset.id,this);});
+      actionCell.appendChild(invBtn);
+      actionCell.appendChild(rejBtn);
+    } else {
+      var lbl=document.createElement('span');
+      lbl.style.cssText='font-size:.8rem;color:var(--text2)';
+      lbl.textContent=r.status==='approved'?'Kullanıcı oluşturuldu':'Reddedildi';
+      actionCell.appendChild(lbl);
+    }
+    tr.querySelector('.detail-btn').addEventListener('click',(function(row){
       return function(){showPreRegDetail(row);};
     })(r));
     tbody.appendChild(tr);
@@ -1541,10 +1558,11 @@ async function createUserFromPreReg(id,email,name,btn){
   var {data:{session}}=await sb.auth.getSession();
   if(!session){alert('Oturum bulunamadı.');btn.textContent='Davet Et';btn.disabled=false;return;}
 
+  // email/name artık API'ye gönderilmiyor — sunucu DB'den okuyor (magic link hijack önlemi)
   var res=await fetch('/api/create-user',{
     method:'POST',
     headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token},
-    body:JSON.stringify({pre_registration_id:id,email:email,name:name})
+    body:JSON.stringify({pre_registration_id:id})
   });
   var json=await res.json();
 

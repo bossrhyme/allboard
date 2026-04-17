@@ -265,6 +265,13 @@ begin
     data = jsonb_set(data, '{personal,nationalId}',  '"[GİZLİ]"'::jsonb, false);
     data = jsonb_set(data, '{personal,phone}',       '"[GİZLİ]"'::jsonb, false);
     data = jsonb_set(data, '{personal,dob}',         '"[GİZLİ]"'::jsonb, false);
+    data = jsonb_set(data, '{personal,email}',       '"[GİZLİ]"'::jsonb, false);
+    data = jsonb_set(data, '{personal,firstName}',   '"[GİZLİ]"'::jsonb, false);
+    data = jsonb_set(data, '{personal,lastName}',    '"[GİZLİ]"'::jsonb, false);
+  end if;
+  if data ? 'address' then
+    data = jsonb_set(data, '{address,street}',       '"[GİZLİ]"'::jsonb, false);
+    data = jsonb_set(data, '{address,postalCode}',   '"[GİZLİ]"'::jsonb, false);
   end if;
   if data ? 'pep' then
     data = jsonb_set(data, '{pep,sourceOfFunds}',    '"[GİZLİ]"'::jsonb, false);

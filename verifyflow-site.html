@@ -1416,7 +1416,7 @@ function fmtSize(b){if(!b)return '';var n=parseInt(b);if(n>1048576)return (n/104
 async function openSignedUrl(el,e){
   e.preventDefault();
   var path=el.getAttribute('data-path');if(!path)return;
-  var {data,error}=await sb.storage.from('documents').createSignedUrl(path,60);
+  var {data,error}=await sb.storage.from('documents').createSignedUrl(path,10);
   if(error||!data){alert('Dosya açılamadı.');return;}
   window.open(data.signedUrl,'_blank');
 }
