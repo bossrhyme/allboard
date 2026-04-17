@@ -276,12 +276,12 @@ td:first-child{font-weight:600;color:var(--navy)}
         </div>
       </div>
       <div class="card">
-        <h3 data-i18n="onfidoStatus">Onfido Entegrasyon Durumu</h3>
-        <p data-i18n="onfidoDesc">Onfido sandbox ortamına bağlı</p>
-        <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap">
-          <span class="badge badge-success" data-i18n="badgeApiConnected">API Bağlı</span>
-          <span class="badge badge-info" data-i18n="badgeSandboxMode">Sandbox Modu</span>
-          <span class="badge badge-success" data-i18n="badgeWebhooks">Webhooks Aktif</span>
+        <h3>KYC İnceleme Süreci</h3>
+        <p style="color:var(--text2);font-size:.85rem;margin-bottom:1rem">Belgeler compliance ekibi tarafından manuel olarak incelenmektedir.</p>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+          <span class="badge badge-info">Manuel İnceleme</span>
+          <span class="badge badge-success">Kimlik Belgesi</span>
+          <span class="badge badge-success">Adres Belgesi</span>
         </div>
       </div>
     </div>
@@ -368,30 +368,19 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- Workflow Panel -->
     <div class="panel" id="panel-workflow">
       <div class="card">
-        <h3 data-i18n="wfIndividual">Bireysel Onboarding İş Akışı</h3>
-        <div class="workflow-steps">
-          <div class="wf-step done">✓ <span data-i18n="wfRegistration">Kayıt</span></div><span class="wf-arrow">→</span>
-          <div class="wf-step done">✓ <span data-i18n="wfKycSubmit">KYC Gönder</span></div><span class="wf-arrow">→</span>
-          <div class="wf-step active">● <span data-i18n="wfDocVerify">Belge Doğrulama</span></div><span class="wf-arrow">→</span>
-          <div class="wf-step pending">○ <span data-i18n="wfAmlScreen">AML Tarama</span></div><span class="wf-arrow">→</span>
-          <div class="wf-step pending">○ <span data-i18n="wfRiskScore">Risk Puanlama</span></div><span class="wf-arrow">→</span>
-          <div class="wf-step pending">○ <span data-i18n="wfDecision">Karar</span></div>
+        <h3>Canlı Onboarding Pipeline</h3>
+        <p style="color:var(--text2);font-size:.85rem;margin-bottom:1.25rem">Şu an her aşamada kaç müşteri olduğu</p>
+        <div class="stats-row" id="wfPipeline" style="margin:0">
+          <div class="stat-card"><div class="label">Başvuru</div><div class="value" id="wfStBekleyen">—</div><div class="change">Bekliyor</div></div>
+          <div class="stat-card"><div class="label">KYC</div><div class="value" id="wfStKyc">—</div><div class="change">İncelemede</div></div>
+          <div class="stat-card"><div class="label">AML</div><div class="value" id="wfStAml">—</div><div class="change">İncelemede</div></div>
+          <div class="stat-card"><div class="label">Risk</div><div class="value" id="wfStRisk">—</div><div class="change">Puanlandı</div></div>
+          <div class="stat-card"><div class="label">Onaylanan</div><div class="value" id="wfStOnay">—</div><div class="change" style="color:var(--success)">✓</div></div>
+          <div class="stat-card"><div class="label">Reddedilen</div><div class="value" id="wfStRed">—</div><div class="change" style="color:var(--danger)">✗</div></div>
         </div>
       </div>
       <div class="card">
-        <h3 data-i18n="wfBusiness">Kurumsal Onboarding İş Akışı</h3>
-        <div class="workflow-steps">
-          <div class="wf-step done">✓ <span data-i18n="wfRegistration">Kayıt</span></div><span class="wf-arrow">→</span>
-          <div class="wf-step done">✓ <span data-i18n="wfKybSubmit">KYB Gönder</span></div><span class="wf-arrow">→</span>
-          <div class="wf-step done">✓ <span data-i18n="wfRegistryCheck">Sicil Kontrolü</span></div><span class="wf-arrow">→</span>
-          <div class="wf-step active">● <span data-i18n="wfUboKyc">UBO KYC</span></div><span class="wf-arrow">→</span>
-          <div class="wf-step pending">○ <span data-i18n="wfAmlScreen">AML Tarama</span></div><span class="wf-arrow">→</span>
-          <div class="wf-step pending">○ <span data-i18n="wfRiskScore">Risk Puanlama</span></div><span class="wf-arrow">→</span>
-          <div class="wf-step pending">○ <span data-i18n="wfDecision">Karar</span></div>
-        </div>
-      </div>
-      <div class="card">
-        <h3 data-i18n="wfEventLog">İş Akışı Olay Günlüğü</h3>
+        <h3>İş Akışı Olay Günlüğü</h3>
         <div class="timeline" id="workflowTimeline">
           <p style="color:var(--text2);padding:1rem">Yükleniyor...</p>
         </div>
@@ -937,6 +926,17 @@ function showKybUbos(companyName,clientId,uboList,uboMap){
 
 // ── WORKFLOW TIMELINE ─────────────────────────────────
 async function loadWorkflow(){
+  // Pipeline stats
+  var {data:clients}=await sb.from('clients').select('status,kyc_status,aml_status,risk_score');
+  var all=clients||[];
+  var set=function(id,v){var el=document.getElementById(id);if(el)el.textContent=v;};
+  set('wfStBekleyen',all.filter(function(c){return c.status==='pending';}).length);
+  set('wfStKyc',all.filter(function(c){return c.kyc_status==='in_review'||c.kyc_status==='pending';}).length);
+  set('wfStAml',all.filter(function(c){return c.aml_status==='in_review'||c.aml_status==='pending';}).length);
+  set('wfStRisk',all.filter(function(c){return c.risk_score!=null;}).length);
+  set('wfStOnay',all.filter(function(c){return c.status==='approved';}).length);
+  set('wfStRed',all.filter(function(c){return c.status==='rejected';}).length);
+  // Timeline
   var {data:logs}=await sb.from('audit_logs').select('id,table_name,action,actor,new_data,old_data,created_at').order('created_at',{ascending:false}).limit(15);
   var tl=document.getElementById('workflowTimeline');if(!tl)return;
   if(!logs||!logs.length){tl.innerHTML='<p style="color:var(--text2);padding:1rem">Henüz kayıt yok</p>';return;}
