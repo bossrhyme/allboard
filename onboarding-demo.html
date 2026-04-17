@@ -324,19 +324,17 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- AML Panel -->
     <div class="panel" id="panel-aml">
       <div class="stats-row">
-        <div class="stat-card"><div class="label" data-i18n="amlScreeningsToday">Bugünkü Taramalar</div><div class="value">34</div></div>
-        <div class="stat-card"><div class="label" data-i18n="amlMatchesFound">Bulunan Eşleşmeler</div><div class="value">2</div></div>
-        <div class="stat-card"><div class="label" data-i18n="amlFalsePositives">Yanlış Pozitifler</div><div class="value">1</div></div>
+        <div class="stat-card"><div class="label">Toplam Müşteri</div><div class="value" id="amlTotal">—</div></div>
+        <div class="stat-card"><div class="label">AML Şüpheli</div><div class="value" id="amlFlagged">—</div></div>
+        <div class="stat-card"><div class="label">İncelemede</div><div class="value" id="amlReview">—</div></div>
       </div>
       <div class="card">
-        <h3 data-i18n="amlResults">AML Tarama Sonuçları</h3>
+        <h3>AML Tarama Sonuçları</h3>
         <div class="table-wrap">
           <table>
-            <thead><tr><th data-i18n="thClient">Müşteri</th><th data-i18n="thSanctions">Yaptırım</th><th>PEP</th><th data-i18n="thAdverseMedia">Olumsuz Medya</th><th data-i18n="thResult">Sonuç</th></tr></thead>
-            <tbody>
-              <tr><td>Maria Schmidt</td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td></tr>
-              <tr><td>Ahmed Yilmaz</td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-warning" data-i18n="badgeMatch">Eşleşme</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-warning" data-i18n="badgeReview">İnceleme</span></td></tr>
-              <tr><td>FinServe Ltd</td><td><span class="badge badge-danger" data-i18n="badgeMatch">Eşleşme</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-danger" data-i18n="badgeMatch">Eşleşme</span></td><td><span class="badge badge-danger" data-i18n="badgeFailed">Başarısız</span></td></tr>
+            <thead><tr><th>Müşteri</th><th>AML Durumu</th><th>PEP</th><th>Risk Skoru</th><th>Sonuç</th></tr></thead>
+            <tbody id="amlTableBody">
+              <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text2)">Yükleniyor...</td></tr>
             </tbody>
           </table>
         </div>
@@ -355,16 +353,13 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- Risk Panel -->
     <div class="panel" id="panel-risk">
       <div class="card">
-        <h3 data-i18n="riskEngineTitle">Risk Değerlendirme Motoru</h3>
-        <p style="margin-bottom:1.5rem" data-i18n="riskEngineDesc">Yapılandırılabilir kurallara dayalı otomatik risk puanlama</p>
+        <h3>Risk Değerlendirme Motoru</h3>
+        <p style="margin-bottom:1.5rem">Yapılandırılabilir kurallara dayalı otomatik risk puanlama</p>
         <div class="table-wrap">
           <table>
-            <thead><tr><th data-i18n="thClient">Müşteri</th><th data-i18n="thRiskScore">Risk Skoru</th><th data-i18n="thLevel">Seviye</th><th data-i18n="thFactors">Faktörler</th><th data-i18n="thDecision">Karar</th></tr></thead>
-            <tbody>
-              <tr><td>Maria Schmidt</td><td>15/100</td><td><span class="badge badge-success" data-i18n="badgeLow">Düşük</span></td><td data-i18n="riskFactor1">Temiz geçmiş, AB sakini</td><td data-i18n="riskDecision1">Otomatik onaylandı</td></tr>
-              <tr><td>Ahmed Yilmaz</td><td>52/100</td><td><span class="badge badge-warning" data-i18n="badgeMedium">Orta</span></td><td data-i18n="riskFactor2">PEP eşleşmesi (yakın)</td><td data-i18n="riskDecision2">Manuel inceleme</td></tr>
-              <tr><td>TechStart GmbH</td><td>38/100</td><td><span class="badge badge-warning" data-i18n="badgeMedium">Orta</span></td><td data-i18n="riskFactor3">Yeni şirket, bekleyen UBO KYC</td><td data-i18n="riskDecision2">Manuel inceleme</td></tr>
-              <tr><td>FinServe Ltd</td><td>87/100</td><td><span class="badge badge-danger" data-i18n="badgeHigh">Yüksek</span></td><td data-i18n="riskFactor4">Yaptırım eşleşmesi, olumsuz medya</td><td data-i18n="riskDecision3">Otomatik reddedildi</td></tr>
+            <thead><tr><th>Müşteri</th><th>Risk Skoru</th><th>Seviye</th><th>Durum</th><th>Karar</th></tr></thead>
+            <tbody id="riskTableBody">
+              <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text2)">Yükleniyor...</td></tr>
             </tbody>
           </table>
         </div>
@@ -474,8 +469,8 @@ td:first-child{font-weight:600;color:var(--navy)}
           </div>
           <div class="chat-msgs" id="staffChatMsgs" style="flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.75rem"></div>
           <div class="chat-inp-row">
-            <input type="text" class="chat-inp" id="staffChatInp" placeholder="Müşteriye mesaj yazın..." onkeydown="staffChatKey(event)">
-            <button class="btn btn-primary btn-sm" onclick="staffSend()">Gönder ↑</button>
+            <input type="text" class="chat-inp" id="staffChatInp" placeholder="Önce sol taraftan bir müşteri seçin..." disabled onkeydown="staffChatKey(event)" style="opacity:.6;cursor:not-allowed">
+            <button class="btn btn-primary btn-sm" onclick="staffSend()" id="staffSendBtn" disabled style="opacity:.5;cursor:not-allowed">Gönder ↑</button>
           </div>
         </div>
       </div>
@@ -833,6 +828,8 @@ function showPanel(id){
   if(id==='staffchat')loadChatConversations();
   if(id==='interview')loadInterviews();
   if(id==='dashboard')loadDashboardStats();
+  if(id==='aml')loadAml();
+  if(id==='risk')loadRisk();
 }
 
 // ── DASHBOARD STATS ───────────────────────────────────
@@ -845,6 +842,63 @@ async function loadDashboardStats(){
   if(document.getElementById('s-review'))document.getElementById('s-review').textContent=(inReview||0);
   if(document.getElementById('s-approved'))document.getElementById('s-approved').textContent=(approved||0);
   if(document.getElementById('s-pending'))document.getElementById('s-pending').textContent=(pending||0);
+}
+
+// ── AML PANEL ─────────────────────────────────────────
+async function loadAml(){
+  var {data:clients}=await sb.from('clients').select('id,personal,aml_status,risk_score,pep,type').order('submitted_at',{ascending:false});
+  var total=(clients||[]).length;
+  var flagged=(clients||[]).filter(function(c){return c.aml_status==='rejected';}).length;
+  var review=(clients||[]).filter(function(c){return c.aml_status==='in_review';}).length;
+  if(document.getElementById('amlTotal'))document.getElementById('amlTotal').textContent=total;
+  if(document.getElementById('amlFlagged'))document.getElementById('amlFlagged').textContent=flagged;
+  if(document.getElementById('amlReview'))document.getElementById('amlReview').textContent=review;
+  var tbody=document.getElementById('amlTableBody');if(!tbody)return;
+  if(!clients||!clients.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text2)">Henüz müşteri yok</td></tr>';return;}
+  tbody.innerHTML='';
+  clients.forEach(function(c){
+    var p=c.personal||{};var pep=c.pep||{};
+    var name=((p.firstName||'')+' '+(p.lastName||'')).trim()||p.email||'—';
+    var amlSt=c.aml_status||'pending';
+    var pepFlag=pep.isPep?'<span class="badge badge-warning">Evet</span>':'<span class="badge badge-success">Hayır</span>';
+    var score=c.risk_score!=null?c.risk_score+'/100':'—';
+    var amlBadge;
+    if(amlSt==='approved')amlBadge='<span class="badge badge-success">Temiz</span>';
+    else if(amlSt==='rejected')amlBadge='<span class="badge badge-danger">Şüpheli</span>';
+    else if(amlSt==='in_review')amlBadge='<span class="badge badge-warning">İncelemede</span>';
+    else amlBadge='<span class="badge badge-info">Bekliyor</span>';
+    var result;
+    if(amlSt==='approved')result='<span class="badge badge-success">Geçti</span>';
+    else if(amlSt==='rejected')result='<span class="badge badge-danger">Başarısız</span>';
+    else if(amlSt==='in_review')result='<span class="badge badge-warning">İnceleme</span>';
+    else result='<span class="badge badge-info">Bekliyor</span>';
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+esc(name)+'</td><td>'+amlBadge+'</td><td>'+pepFlag+'</td><td>'+esc(score)+'</td><td>'+result+'</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+// ── RISK PANEL ────────────────────────────────────────
+async function loadRisk(){
+  var {data:clients}=await sb.from('clients').select('id,personal,risk_score,risk_status,status,type').order('risk_score',{ascending:false});
+  var tbody=document.getElementById('riskTableBody');if(!tbody)return;
+  if(!clients||!clients.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text2)">Henüz müşteri yok</td></tr>';return;}
+  tbody.innerHTML='';
+  clients.forEach(function(c){
+    var p=c.personal||{};
+    var name=((p.firstName||'')+' '+(p.lastName||'')).trim()||p.email||'—';
+    var score=c.risk_score!=null?c.risk_score:null;
+    var scoreStr=score!=null?score+'/100':'—';
+    var level,levelBadge,decision;
+    if(score==null){levelBadge='<span class="badge badge-info">—</span>';decision='Puan yok';}
+    else if(score<=30){levelBadge='<span class="badge badge-success">Düşük</span>';decision='Otomatik Onayla';}
+    else if(score<=70){levelBadge='<span class="badge badge-warning">Orta</span>';decision='Manuel İnceleme';}
+    else{levelBadge='<span class="badge badge-danger">Yüksek</span>';decision='Otomatik Reddet';}
+    var statusStr=statusLabel(c.status);
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+esc(name)+'</td><td>'+esc(scoreStr)+'</td><td>'+levelBadge+'</td><td>'+esc(statusStr)+'</td><td>'+esc(decision)+'</td>';
+    tbody.appendChild(tr);
+  });
 }
 
 // ── CLIENTS TABLE ─────────────────────────────────────
@@ -1022,9 +1076,13 @@ async function approveDoc(docId){
 async function loadChatConversations(){
   var {data:clients}=await sb.from('clients').select('id,personal').order('submitted_at',{ascending:false}).limit(20);
   var list=document.getElementById('chatConvList');
-  if(!list||!clients)return;
-  // Build DOM nodes — avoids onclick+string-concat XSS with user-controlled name
+  if(!list)return;
   list.innerHTML='';
+  if(!clients||!clients.length){
+    list.innerHTML='<p style="color:var(--text2);font-size:.83rem;padding:.5rem">Henüz onboarding tamamlayan müşteri yok.</p>';
+    return;
+  }
+  // Build DOM nodes — avoids onclick+string-concat XSS with user-controlled name
   clients.forEach(function(c){
     var p=c.personal||{};
     var name=((p.firstName||'')+' '+(p.lastName||'')).trim()||p.email||'Müşteri';
@@ -1052,6 +1110,10 @@ async function adminSelectChat(clientId,name,initials,el){
   if(el){el.style.background='rgba(20,71,230,.04)';el.style.borderColor='rgba(20,71,230,.2)';}
   if(document.getElementById('chatClientName'))document.getElementById('chatClientName').textContent=name;
   if(document.getElementById('chatClientAv'))document.getElementById('chatClientAv').textContent=initials;
+  var inp=document.getElementById('staffChatInp');
+  if(inp){inp.disabled=false;inp.style.opacity='';inp.style.cursor='';inp.placeholder='Müşteriye mesaj yazın...';}
+  var btn=document.getElementById('staffSendBtn');
+  if(btn){btn.disabled=false;btn.style.opacity='';btn.style.cursor='';}
   // Load messages
   var {data:msgs}=await sb.from('chat_messages').select('*').eq('client_id',clientId).order('created_at',{ascending:true});
   var cont=document.getElementById('staffChatMsgs');
