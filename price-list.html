@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VerifyFlow — Hizmet Fiyat Listesi</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --blue:    #2563EB;
+    --blue2:   #EFF6FF;
+    --green:   #059669;
+    --green2:  #ECFDF5;
+    --amber:   #D97706;
+    --amber2:  #FFFBEB;
+    --text:    #0F172A;
+    --text2:   #64748B;
+    --border:  #E2E8F0;
+    --card:    #FFFFFF;
+    --bg:      #F8FAFC;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* ── Page wrapper ── */
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--card);
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #1E40AF 0%, #2563EB 60%, #3B82F6 100%);
+    color: #fff;
+    padding: 2.5rem 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.07);
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    right: 60px; bottom: -80px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.05);
+  }
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  .logo {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -.5px;
+  }
+  .logo span { opacity: .7; font-weight: 300; }
+  .doc-meta {
+    text-align: right;
+    opacity: .85;
+    font-size: .78rem;
+  }
+  .doc-meta strong { display: block; font-size: .9rem; font-weight: 600; }
+  .header-title { font-size: 1.8rem; font-weight: 700; letter-spacing: -.3px; }
+  .header-sub { opacity: .8; font-size: .88rem; margin-top: .3rem; }
+  .header-badges {
+    display: flex;
+    gap: .5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  .hbadge {
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 20px;
+    padding: .25rem .75rem;
+    font-size: .72rem;
+    font-weight: 500;
+  }
+
+  /* ── Body ── */
+  .body { padding: 2rem 3rem 3rem; }
+
+  /* ── Section title ── */
+  .sec-title {
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: .75rem;
+    margin-top: 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .sec-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── Package cards ── */
+  .pkg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: .5rem;
+  }
+  .pkg {
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    position: relative;
+    transition: border-color .2s;
+  }
+  .pkg.featured {
+    border-color: var(--blue);
+    background: var(--blue2);
+  }
+  .pkg-badge {
+    position: absolute;
+    top: -10px; right: 14px;
+    background: var(--blue);
+    color: #fff;
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    padding: .2rem .6rem;
+    border-radius: 20px;
+  }
+  .pkg-name {
+    font-size: .95rem;
+    font-weight: 700;
+    margin-bottom: .2rem;
+  }
+  .pkg-desc {
+    font-size: .75rem;
+    color: var(--text2);
+    margin-bottom: .85rem;
+    line-height: 1.4;
+  }
+  .pkg-price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--blue);
+    letter-spacing: -.5px;
+  }
+  .pkg-price span {
+    font-size: .8rem;
+    font-weight: 400;
+    color: var(--text2);
+    letter-spacing: 0;
+  }
+  .pkg-items {
+    list-style: none;
+    margin-top: .75rem;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  .pkg-items li {
+    font-size: .73rem;
+    color: var(--text2);
+    padding-left: 1.1rem;
+    position: relative;
+  }
+  .pkg-items li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-weight: 700;
+    font-size: .7rem;
+  }
+
+  /* ── À la carte table ── */
+  .alc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .78rem;
+  }
+  .alc-table thead tr {
+    background: var(--bg);
+  }
+  .alc-table th {
+    padding: .5rem .75rem;
+    text-align: left;
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--text2);
+    border-bottom: 1.5px solid var(--border);
+  }
+  .alc-table th:last-child { text-align: right; }
+  .alc-table td {
+    padding: .55rem .75rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .alc-table td:last-child {
+    text-align: right;
+    font-weight: 600;
+    color: var(--blue);
+    white-space: nowrap;
+  }
+  .alc-table tr:last-child td { border-bottom: none; }
+  .alc-table tr:hover td { background: var(--bg); }
+  .cat-row td {
+    background: var(--bg) !important;
+    font-weight: 700;
+    font-size: .7rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--text2);
+    padding: .4rem .75rem;
+    border-bottom: none;
+  }
+  .note-cell {
+    font-size: .68rem;
+    color: var(--text2);
+    display: block;
+    font-weight: 400;
+  }
+  .tag {
+    display: inline-block;
+    border-radius: 4px;
+    padding: .1rem .4rem;
+    font-size: .62rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+  }
+  .tag-green { background: var(--green2); color: var(--green); }
+  .tag-amber { background: var(--amber2); color: var(--amber); }
+  .tag-blue  { background: var(--blue2);  color: var(--blue); }
+
+  /* ── Discount block ── */
+  .discount-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: .75rem;
+    margin-top: .25rem;
+  }
+  .disc-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .9rem 1rem;
+    text-align: center;
+  }
+  .disc-pct {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--green);
+  }
+  .disc-label {
+    font-size: .72rem;
+    color: var(--text2);
+    margin-top: .15rem;
+  }
+
+  /* ── Terms ── */
+  .terms {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    font-size: .72rem;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-top: .25rem;
+  }
+  .terms strong { color: var(--text); }
+
+  /* ── Footer ── */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 1.25rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: .72rem;
+    color: var(--text2);
+  }
+  .footer-brand { font-weight: 700; color: var(--blue); font-size: .82rem; }
+
+  /* ── Print ── */
+  @media print {
+    body { background: #fff; font-size: 11.5px; }
+    .page { max-width: 100%; min-height: auto; }
+    .body { padding: 1.5rem 2.5rem 2rem; }
+    .header { padding: 2rem 2.5rem 1.5rem; }
+    .footer { padding: 1rem 2.5rem; }
+    .pkg-grid { break-inside: avoid; }
+    .alc-table { break-inside: auto; }
+    .alc-table tr { break-inside: avoid; }
+    @page { margin: 0; size: A4; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── HEADER ── -->
+  <div class="header">
+    <div class="header-top">
+      <div class="logo">Verify<span>Flow</span></div>
+      <div class="doc-meta">
+        <strong>Hizmet Fiyat Listesi</strong>
+        Geçerlilik: 2025 — 2026<br>
+        Teklif No: VF-PL-001
+      </div>
+    </div>
+    <div class="header-title">KYC / KYB Onboarding Hizmetleri</div>
+    <div class="header-sub">Kripto borsaları, OTC masaları ve bankalar için uçtan uca uyum yönetimi</div>
+    <div class="header-badges">
+      <span class="hbadge">✓ AML Uyumlu</span>
+      <span class="hbadge">✓ KVKK & GDPR</span>
+      <span class="hbadge">✓ 15+ Borsa Deneyimi</span>
+      <span class="hbadge">✓ Türkçe / İngilizce</span>
+    </div>
+  </div>
+
+  <!-- ── BODY ── -->
+  <div class="body">
+
+    <!-- PAKET FİYATLARI -->
+    <div class="sec-title">Paket Hizmetler</div>
+    <div class="pkg-grid">
+
+      <div class="pkg">
+        <div class="pkg-name">Starter</div>
+        <div class="pkg-desc">Belge analizi, eksik tespiti ve yol haritası oluşturma</div>
+        <div class="pkg-price">€500 <span>– €800</span></div>
+        <ul class="pkg-items">
+          <li>Başvuru ön analizi</li>
+          <li>Eksik belge listesi</li>
+          <li>Platform uygunluk değerlendirmesi</li>
+          <li>1× revizyon hakkı</li>
+        </ul>
+      </div>
+
+      <div class="pkg featured">
+        <div class="pkg-badge">En Çok Tercih</div>
+        <div class="pkg-name">Standard</div>
+        <div class="pkg-desc">Starter + belge koordinasyonu + platform başvuru takibi</div>
+        <div class="pkg-price">€1.200 <span>– €2.000</span></div>
+        <ul class="pkg-items">
+          <li>Starter kapsamı dahil</li>
+          <li>Eksik belge koordinasyonu</li>
+          <li>Platform başvurusu hazırlama (2 platforma kadar)</li>
+          <li>Yazışma & takip yönetimi</li>
+          <li>2× revizyon hakkı</li>
+        </ul>
+      </div>
+
+      <div class="pkg">
+        <div class="pkg-name">Full Service</div>
+        <div class="pkg-desc">Standard + çeviri + noter + UBO yapısı kurma</div>
+        <div class="pkg-price">€3.000 <span>– €5.000</span></div>
+        <ul class="pkg-items">
+          <li>Standard kapsamı dahil</li>
+          <li>Yeminli tercüman koordinasyonu</li>
+          <li>Aslı Gibidir / Apostil yönetimi</li>
+          <li>UBO & organizasyon şeması</li>
+          <li>5 platforma kadar başvuru</li>
+          <li>Sınırsız revizyon</li>
+        </ul>
+      </div>
+
+      <div class="pkg">
+        <div class="pkg-name">Corporate Pro</div>
+        <div class="pkg-desc">Full Service + aylık uyum desteği retainer</div>
+        <div class="pkg-price">€6.000 <span>– €10.000 / yıl</span></div>
+        <ul class="pkg-items">
+          <li>Full Service kapsamı dahil</li>
+          <li>OTC & banka hesap başvurusu</li>
+          <li>Aylık AML/uyum raporu</li>
+          <li>Yeni platform eklemeleri</li>
+          <li>Öncelikli destek (24 saat yanıt)</li>
+          <li>Yıllık yenileme hatırlatması</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- À LA CARTE -->
+    <div class="sec-title">À la Carte Hizmetler</div>
+    <table class="alc-table">
+      <thead>
+        <tr>
+          <th style="width:46%">Hizmet</th>
+          <th style="width:20%">Birim</th>
+          <th>Durum</th>
+          <th>Fiyat</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- ONBOARDING YÖNETİMİ -->
+        <tr class="cat-row"><td colspan="4">Onboarding Yönetimi</td></tr>
+        <tr>
+          <td>Başvuru analizi & eksik belge tespiti</td>
+          <td>Başvuru başına</td>
+          <td><span class="tag tag-green">Temel</span></td>
+          <td>€200</td>
+        </tr>
+        <tr>
+          <td>Platform başvurusu hazırlama & gönderme
+            <span class="note-cell">Borsa, OTC veya banka başvurusu</span>
+          </td>
+          <td>Platform başına</td>
+          <td><span class="tag tag-blue">Standart</span></td>
+          <td>€150 – €300</td>
+        </tr>
+        <tr>
+          <td>Başvuru takibi & yazışma yönetimi</td>
+          <td>Aylık</td>
+          <td><span class="tag tag-blue">Standart</span></td>
+          <td>€500 / ay</td>
+        </tr>
+        <tr>
+          <td>Başvuru takibi & yazışma yönetimi
+            <span class="note-cell">Saatlik çalışma tercih edenler için</span>
+          </td>
+          <td>Saat başına</td>
+          <td><span class="tag tag-blue">Standart</span></td>
+          <td>€100 / saat</td>
+        </tr>
+
+        <!-- BELGE HİZMETLERİ -->
+        <tr class="cat-row"><td colspan="4">Belge Hazırlama & Kontrol</td></tr>
+        <tr>
+          <td>Tek belge uygunluk kontrolü
+            <span class="note-cell">Format, süre, dil, doğruluk</span>
+          </td>
+          <td>Belge başına</td>
+          <td><span class="tag tag-green">Temel</span></td>
+          <td>€50</td>
+        </tr>
+        <tr>
+          <td>Eksik belge danışmanlığı
+            <span class="note-cell">Nasıl alınır, nereden temin edilir</span>
+          </td>
+          <td>Belge başına</td>
+          <td><span class="tag tag-green">Temel</span></td>
+          <td>€100 – €150</td>
+        </tr>
+        <tr>
+          <td>Organizasyon şeması hazırlama
+            <span class="note-cell">UBO yapısını gösteren görsel şema</span>
+          </td>
+          <td>Tek seferlik</td>
+          <td><span class="tag tag-blue">Standart</span></td>
+          <td>€250 – €400</td>
+        </tr>
+        <tr>
+          <td>Hissedar / sahiplik yapısı formu doldurma</td>
+          <td>Tek seferlik</td>
+          <td><span class="tag tag-blue">Standart</span></td>
+          <td>€150 – €200</td>
+        </tr>
+
+        <!-- ÇEVİRİ & NOTER -->
+        <tr class="cat-row"><td colspan="4">Çeviri & Resmi Onay Hizmetleri</td></tr>
+        <tr>
+          <td>Yeminli tercüman koordinasyonu
+            <span class="note-cell">Koordinasyon bedeli — tercüman maliyeti ayrıca</span>
+          </td>
+          <td>Belge başına</td>
+          <td><span class="tag tag-amber">Premium</span></td>
+          <td>€75 + tercüman</td>
+        </tr>
+        <tr>
+          <td>Yeminli çeviri (kendi tercümanımız)
+            <span class="note-cell">TR → EN veya EN → TR</span>
+          </td>
+          <td>Sayfa başına</td>
+          <td><span class="tag tag-amber">Premium</span></td>
+          <td>€40 – €80</td>
+        </tr>
+        <tr>
+          <td>Aslı Gibidir onayı koordinasyonu
+            <span class="note-cell">Randevu + dosya hazırlık — noter bedeli ayrıca</span>
+          </td>
+          <td>Belge başına</td>
+          <td><span class="tag tag-amber">Premium</span></td>
+          <td>€75</td>
+        </tr>
+        <tr>
+          <td>Apostil süreç takibi
+            <span class="note-cell">Resmi kurum ile yazışma ve teslim</span>
+          </td>
+          <td>Belge başına</td>
+          <td><span class="tag tag-amber">Premium</span></td>
+          <td>€150 – €250</td>
+        </tr>
+
+        <!-- RİSK & UYUM -->
+        <tr class="cat-row"><td colspan="4">Risk & AML Uyum Hizmetleri</td></tr>
+        <tr>
+          <td>AML / PEP ön değerlendirme raporu</td>
+          <td>Kişi veya şirket başına</td>
+          <td><span class="tag tag-amber">Premium</span></td>
+          <td>€400 – €600</td>
+        </tr>
+        <tr>
+          <td>Servet Kaynağı (SoW) danışmanlığı
+            <span class="note-cell">Belge stratejisi ve anlatı hazırlama</span>
+          </td>
+          <td>Tek seferlik</td>
+          <td><span class="tag tag-amber">Premium</span></td>
+          <td>€300 – €500</td>
+        </tr>
+        <tr>
+          <td>Aylık AML uyum danışmanlığı
+            <span class="note-cell">Yönetmelik takibi + iç bildirim desteği</span>
+          </td>
+          <td>Aylık retainer</td>
+          <td><span class="tag tag-amber">Premium</span></td>
+          <td>€500 – €1.500</td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <!-- HACİM İNDİRİMİ -->
+    <div class="sec-title">Hacim İndirimi</div>
+    <div class="discount-row">
+      <div class="disc-card">
+        <div class="disc-pct">%10</div>
+        <div class="disc-label">3 – 4 Platform<br>aynı anda başvuru</div>
+      </div>
+      <div class="disc-card">
+        <div class="disc-pct">%15</div>
+        <div class="disc-label">5 – 9 Platform<br>aynı anda başvuru</div>
+      </div>
+      <div class="disc-card">
+        <div class="disc-pct">%20</div>
+        <div class="disc-label">10+ Platform<br>aynı anda başvuru</div>
+      </div>
+    </div>
+
+    <!-- KOŞULLAR -->
+    <div class="sec-title">Ödeme & Genel Koşullar</div>
+    <div class="terms">
+      <strong>Ödeme:</strong> Paket hizmetlerde %50 başlangıç, %50 tamamlanma. À la carte hizmetlerde peşin ödeme.<br>
+      <strong>Kapsam dışı:</strong> Noter, yeminli tercüman, apostil, kuryecilik gibi üçüncü taraf masrafları fatura maliyeti üzerinden aktarılır, hizmet bedeline dahil değildir.<br>
+      <strong>Onay garantisi:</strong> Başvuru sonucu platform kararına bağlıdır; platform reddi durumunda hizmet bedeli iade edilmez.<br>
+      <strong>Süre:</strong> Standard paket ortalama 2–4 hafta; noter/apostil gerektiren işlemler 4–8 hafta olabilir.<br>
+      <strong>Gizlilik:</strong> Tüm belgeler ve kişisel veriler KVKK & GDPR kapsamında işlenir. Üçüncü taraflarla paylaşılmaz.
+    </div>
+
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="footer">
+    <div>
+      <div class="footer-brand">VerifyFlow</div>
+      <div>KYC / KYB Compliance Solutions</div>
+    </div>
+    <div style="text-align:right">
+      Fiyatlar EUR cinsinden olup KDV hariçtir.<br>
+      Bu liste teklif niteliğinde olup değişebilir.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Yazdır butonu — Ctrl+P veya aşağıdaki buton
+  document.addEventListener('keydown', function(e){
+    if(e.ctrlKey && e.key==='p') window.print();
+  });
+</script>
+</body>
+</html>
