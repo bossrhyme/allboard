@@ -501,36 +501,21 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- Settings Panel -->
     <div class="panel" id="panel-settings">
       <div class="card">
-        <h3 data-i18n="settingsTitle">Platform Ayarları</h3>
-        <div style="display:grid;gap:1rem;margin-top:1rem">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
-            <div><strong style="font-size:.9rem" data-i18n="settingAutoApproveTitle">Düşük riski otomatik onayla</strong><br><span style="font-size:.8rem;color:var(--text2)" data-i18n="settingAutoApproveDesc">Risk skoru 30'un altındaki müşterileri otomatik olarak onayla</span></div>
-            <div style="width:44px;height:24px;background:var(--blue);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
-            <div><strong style="font-size:.9rem" data-i18n="settingAutoRejectTitle">Yüksek riski otomatik reddet</strong><br><span style="font-size:.8rem;color:var(--text2)" data-i18n="settingAutoRejectDesc">Risk skoru 70'in üzerindeki müşterileri otomatik olarak reddet</span></div>
-            <div style="width:44px;height:24px;background:var(--blue);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
-            <div><strong style="font-size:.9rem" data-i18n="settingAmlMonitorTitle">Süregelen AML izleme</strong><br><span style="font-size:.8rem;color:var(--text2)" data-i18n="settingAmlMonitorDesc">Onaylanan müşterileri değişiklikler için günlük olarak yeniden tara</span></div>
-            <div style="width:44px;height:24px;background:var(--blue);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px">
-            <div><strong style="font-size:.9rem" data-i18n="settingEmailNotifTitle">E-posta bildirimleri</strong><br><span style="font-size:.8rem;color:var(--text2)" data-i18n="settingEmailNotifDesc">İşaretlenen başvurular için e-posta uyarıları gönder</span></div>
-            <div style="width:44px;height:24px;background:var(--border);border-radius:12px;position:relative;cursor:pointer"><div style="position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%"></div></div>
-          </div>
-        </div>
+        <h3>Platform Ayarları</h3>
+        <p style="color:var(--text2);font-size:.82rem;margin-bottom:1rem">Ayarlar tarayıcıda saklanır (localStorage).</p>
+        <div style="display:grid;gap:1rem;margin-top:1rem" id="settingsToggles"></div>
       </div>
       <div class="card">
-        <h3 data-i18n="settingApiKeysTitle">API Anahtarları</h3>
-        <div style="margin-top:1rem">
-          <div style="display:flex;align-items:center;gap:1rem;padding:.75rem;background:var(--bg);border-radius:8px;margin-bottom:.5rem">
-            <code style="font-size:.8rem;color:var(--blue);flex:1">vf_live_sk_••••••••••••••••</code>
-            <span class="badge badge-success" data-i18n="badgeActive">Aktif</span>
+        <h3>Supabase Bağlantısı</h3>
+        <div style="margin-top:1rem;display:grid;gap:.5rem">
+          <div style="display:flex;align-items:center;gap:1rem;padding:.75rem;background:var(--bg);border-radius:8px">
+            <span style="font-size:.82rem;color:var(--text2);flex:1">SUPABASE_URL</span>
+            <code id="cfgUrl" style="font-size:.78rem;color:var(--blue)">—</code>
           </div>
           <div style="display:flex;align-items:center;gap:1rem;padding:.75rem;background:var(--bg);border-radius:8px">
-            <code style="font-size:.8rem;color:var(--text2);flex:1">vf_test_sk_••••••••••••••••</code>
-            <span class="badge badge-info" data-i18n="badgeSandbox">Sandbox</span>
+            <span style="font-size:.82rem;color:var(--text2);flex:1">SUPABASE_ANON_KEY</span>
+            <code style="font-size:.78rem;color:var(--text2)">••••••••••••••••</code>
+            <span class="badge badge-success">Yüklü</span>
           </div>
         </div>
       </div>
@@ -586,16 +571,10 @@ var T = {
     badgeOngoingMonitoring:'Sürekli İzleme',badgeDailyRescrening:'Günlük Yeniden Tarama',
     btnApprove:'Onayla',btnRetry:'Tekrar Dene',
     // KYC
-    kycPendingKyc:'Bekleyen KYC',kycPassedToday:'Bugün Geçen',kycFailedToday:'Bugün Başarısız',
-    kycReviewQueue:'KYC İnceleme Kuyruğu',
-    onfidoStatus:'Onfido Entegrasyon Durumu',onfidoDesc:'Onfido sandbox ortamına bağlı',
     // KYB
-    kybBizVerifQueue:'Şirket Doğrulama Kuyruğu',kybBeneficialOwners:'Gerçek Faydalanıcılar — TechStart GmbH',
-    kybUbo2:'2 tespit edildi',kybUbo3:'3 tespit edildi',kybUbo0:'0 tespit edildi',
+    kybBizVerifQueue:'Şirket Doğrulama Kuyruğu',
     // AML
-    amlScreeningsToday:'Bugünkü Taramalar',amlMatchesFound:'Bulunan Eşleşmeler',amlFalsePositives:'Yanlış Pozitifler',
     amlResults:'AML Tarama Sonuçları',
-    complyAdvantageTitle:'ComplyAdvantage Entegrasyonu',complyAdvantageDesc:'Süregelen AML izleme için ComplyAdvantage\'a bağlı',
     // Risk
     riskEngineTitle:'Risk Değerlendirme Motoru',riskEngineDesc:'Yapılandırılabilir kurallara dayalı otomatik risk puanlama',
     riskThresholds:'Risk Eşikleri',
@@ -610,21 +589,8 @@ var T = {
     wfIndividual:'Bireysel Onboarding İş Akışı',wfBusiness:'Kurumsal Onboarding İş Akışı',
     wfEventLog:'İş Akışı Olay Günlüğü',
     wfRegistration:'Kayıt',wfKycSubmit:'KYC Gönder',wfDocVerify:'Belge Doğrulama',
-    wfAmlScreen:'AML Tarama',wfRiskScore:'Risk Puanlama',wfDecision:'Karar',
-    wfKybSubmit:'KYB Gönder',wfRegistryCheck:'Sicil Kontrolü',wfUboKyc:'UBO KYC',
-    wfLog1:'Başvuru otomatik onaylandı (risk skoru: 15)',
-    wfLog2:'AML taraması tamamlandı — temiz',
-    wfLog3:'KYC belgesi doğrulandı (pasaport, skor: 99.1%)',
-    wfLog4:'PEP eşleşmesi işaretlendi — manuel incelemeye yönlendirildi',
-    wfLog5:'Şirket sicili doğrulandı — 2 UBO tespit edildi',
-    wfLog6:'Başvuru otomatik reddedildi (yaptırım eşleşmesi)',
     // Notifications
     notifRecent:'Son Bildirimler',
-    notif1Title:'KYC Onaylandı',notif1Desc:'— Maria Schmidt\'in kimliği doğrulandı',notif1Time:'2 dakika önce',
-    notif2Title:'Manuel İnceleme Gerekli',notif2Desc:'— Ahmed Yilmaz PEP yakını olarak işaretlendi',notif2Time:'15 dakika önce',
-    notif3Title:'Başvuru Reddedildi',notif3Desc:'— FinServe Ltd yaptırım listesiyle eşleşti',notif3Time:'1 saat önce',
-    notif4Title:'Yeni Başvuru',notif4Desc:'— TechStart GmbH kurumsal onboarding başlattı',notif4Time:'2 saat önce',
-    notif5Title:'AML Temiz',notif5Desc:'— Sophie Dupont tüm uyum kontrollerini geçti',notif5Time:'3 saat önce',
     // Settings
     settingsTitle:'Platform Ayarları',settingApiKeysTitle:'API Anahtarları',
     settingAutoApproveTitle:'Düşük riski otomatik onayla',settingAutoApproveDesc:'Risk skoru 30\'un altındaki müşterileri otomatik olarak onayla',
@@ -673,17 +639,10 @@ var T = {
     badgeApiConnected:'API Connected',badgeSandboxMode:'Sandbox Mode',badgeWebhooks:'Webhooks Active',
     badgeOngoingMonitoring:'Ongoing Monitoring',badgeDailyRescrening:'Daily Rescreening',
     btnApprove:'Approve',btnRetry:'Retry',
-    // KYC
-    kycPendingKyc:'Pending KYC',kycPassedToday:'Passed Today',kycFailedToday:'Failed Today',
-    kycReviewQueue:'KYC Review Queue',
-    onfidoStatus:'Onfido Integration Status',onfidoDesc:'Connected to Onfido sandbox environment',
     // KYB
-    kybBizVerifQueue:'Business Verification Queue',kybBeneficialOwners:'Beneficial Owners — TechStart GmbH',
-    kybUbo2:'2 identified',kybUbo3:'3 identified',kybUbo0:'0 identified',
+    kybBizVerifQueue:'Business Verification Queue',
     // AML
-    amlScreeningsToday:'Screenings Today',amlMatchesFound:'Matches Found',amlFalsePositives:'False Positives',
     amlResults:'AML Screening Results',
-    complyAdvantageTitle:'ComplyAdvantage Integration',complyAdvantageDesc:'Connected to ComplyAdvantage for ongoing AML monitoring',
     // Risk
     riskEngineTitle:'Risk Assessment Engine',riskEngineDesc:'Automated risk scoring based on configurable rules',
     riskThresholds:'Risk Thresholds',
@@ -700,19 +659,8 @@ var T = {
     wfRegistration:'Registration',wfKycSubmit:'KYC Submit',wfDocVerify:'Document Verification',
     wfAmlScreen:'AML Screen',wfRiskScore:'Risk Score',wfDecision:'Decision',
     wfKybSubmit:'KYB Submit',wfRegistryCheck:'Registry Check',wfUboKyc:'UBO KYC',
-    wfLog1:'Application auto-approved (risk score: 15)',
-    wfLog2:'AML screening completed — all clear',
-    wfLog3:'KYC document verified (passport, score: 99.1%)',
-    wfLog4:'PEP match flagged — escalated to manual review',
-    wfLog5:'Company registry verified — 2 UBOs identified',
-    wfLog6:'Application auto-rejected (sanctions match)',
     // Notifications
     notifRecent:'Recent Notifications',
-    notif1Title:'KYC Approved',notif1Desc:'— Maria Schmidt\'s identity verified',notif1Time:'2 minutes ago',
-    notif2Title:'Manual Review Required',notif2Desc:'— Ahmed Yilmaz flagged as PEP relative',notif2Time:'15 minutes ago',
-    notif3Title:'Application Rejected',notif3Desc:'— FinServe Ltd matched sanctions list',notif3Time:'1 hour ago',
-    notif4Title:'New Application',notif4Desc:'— TechStart GmbH started business onboarding',notif4Time:'2 hours ago',
-    notif5Title:'AML Clear',notif5Desc:'— Sophie Dupont passed all compliance checks',notif5Time:'3 hours ago',
     // Settings
     settingsTitle:'Platform Settings',settingApiKeysTitle:'API Keys',
     settingAutoApproveTitle:'Auto-approve low risk',settingAutoApproveDesc:'Automatically approve clients with risk score < 30',
@@ -758,6 +706,8 @@ async function adminLogin(){
   var {data,error}=await sb.auth.signInWithPassword({email,password:pass});
   btn.textContent='Giriş Yap / Sign In';btn.disabled=false;
   if(error){showErr('Hata: '+error.message);return;}
+  var {data:adminRow}=await sb.from('admins').select('email').eq('email',email).single();
+  if(!adminRow){await sb.auth.signOut();showErr('Bu hesabın admin yetkisi yok.');return;}
   showDashboard();
 }
 function showErr(msg){var el=document.getElementById('adminLoginErr');el.textContent=msg;el.style.display='block';}
@@ -779,12 +729,12 @@ function showDashboard(){
 
 document.addEventListener('DOMContentLoaded',async function(){
   var {data:{session}}=await sb.auth.getSession();
-  if(session && session.user.email===ADMIN_EMAIL){
-    showDashboard();
-  } else {
-    if(session) await sb.auth.signOut();
-    document.getElementById('adminLoginOverlay').style.display='flex';
+  if(session){
+    var {data:adminRow}=await sb.from('admins').select('email').eq('email',session.user.email).single();
+    if(adminRow){showDashboard();return;}
+    await sb.auth.signOut();
   }
+  document.getElementById('adminLoginOverlay').style.display='flex';
 });
 
 // ── PANEL NAV ─────────────────────────────────────────
@@ -806,6 +756,7 @@ function showPanel(id){
   if(id==='kyb')loadKyb();
   if(id==='workflow')loadWorkflow();
   if(id==='notifications')loadNotifications();
+  if(id==='settings')loadSettings();
 }
 
 // ── DASHBOARD STATS ───────────────────────────────────
@@ -997,6 +948,56 @@ async function loadNotifications(){
     list.appendChild(div);
   });
   if(!list.children.length)list.innerHTML='<p style="color:var(--text2)">Henüz bildirim yok</p>';
+}
+
+// ── SETTINGS ──────────────────────────────────────────
+var SETTINGS_DEFS=[
+  {key:'auto_approve',label:'Düşük riski otomatik onayla',desc:'Risk skoru 30 altındaki başvuruları otomatik onayla',def:false},
+  {key:'auto_reject', label:'Yüksek riski otomatik reddet',desc:'Risk skoru 70 üzerindeki başvuruları otomatik reddet',def:false},
+  {key:'email_notif', label:'E-posta bildirimleri',desc:'İşaretlenen başvurular için uyarı e-postası gönder',def:false}
+];
+
+function loadSettings(){
+  var container=document.getElementById('settingsToggles');if(!container)return;
+  container.innerHTML='';
+  SETTINGS_DEFS.forEach(function(s){
+    var val=localStorage.getItem('setting_'+s.key);
+    var on=(val===null)?s.def:(val==='1');
+    var row=document.createElement('div');
+    row.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:.75rem;background:var(--bg);border-radius:8px';
+    var info=document.createElement('div');
+    info.innerHTML='<strong style="font-size:.9rem">'+esc(s.label)+'</strong><br><span style="font-size:.8rem;color:var(--text2)">'+esc(s.desc)+'</span>';
+    var toggle=document.createElement('div');
+    toggle.style.cssText='width:44px;height:24px;border-radius:12px;position:relative;cursor:pointer;transition:background .2s';
+    var knob=document.createElement('div');
+    knob.style.cssText='position:absolute;top:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:left .2s';
+    function applyState(isOn){
+      toggle.style.background=isOn?'var(--blue)':'var(--border)';
+      knob.style.left=isOn?'22px':'2px';
+    }
+    applyState(on);
+    toggle.appendChild(knob);
+    toggle.addEventListener('click',(function(sk,tog,kn){
+      return function(){
+        var cur=localStorage.getItem('setting_'+sk);
+        var wasOn=(cur===null)?SETTINGS_DEFS.find(function(x){return x.key===sk;}).def:(cur==='1');
+        var nowOn=!wasOn;
+        localStorage.setItem('setting_'+sk,nowOn?'1':'0');
+        applyState(nowOn);
+      };
+    })(s.key,toggle,knob));
+    row.appendChild(info);row.appendChild(toggle);
+    container.appendChild(row);
+  });
+  // Show Supabase URL
+  var urlEl=document.getElementById('cfgUrl');
+  if(urlEl&&typeof SUPABASE_URL!=='undefined')urlEl.textContent=SUPABASE_URL.replace('https://','').split('.')[0]+'...supabase.co';
+}
+
+function getSetting(key){
+  var def=SETTINGS_DEFS.find(function(s){return s.key===key;});
+  var val=localStorage.getItem('setting_'+key);
+  return val===null?(def?def.def:false):(val==='1');
 }
 
 function timeAgo(ts){
@@ -1452,16 +1453,6 @@ function adminOpenChat(clientId,name){
   setTimeout(function(){adminSelectChat(clientId,name,init,null);},150);
 }
 
-// ── LEGACY HELPERS ────────────────────────────────────
-function approveKYC(btn){
-  const row=btn.closest('tr');
-  if(row){row.querySelector('td:nth-child(5) .badge').className='badge badge-success';row.querySelector('td:nth-child(5) .badge').textContent='Approved';}
-  btn.textContent='Done';btn.disabled=true;btn.style.opacity='.5';
-}
-function simulateData(){
-  const el=document.getElementById('s-clients');
-  if(el){const n=parseInt(el.textContent.replace(',',''))+Math.floor(Math.random()*5);el.textContent=n.toLocaleString();}
-}
 </script>
 </body>
 </html>
