@@ -182,6 +182,20 @@ a{color:var(--blue);text-decoration:none}
 .pr-chk{display:flex;align-items:center;gap:.55rem;padding:.5rem .75rem;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:.84rem;font-weight:500;color:var(--text);transition:all .15s}
 .pr-chk:hover{border-color:var(--blue);color:var(--blue)}
 .pr-chk input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue);flex-shrink:0}
+/* Platform kategori kartları */
+.pl-cat{border:1.5px solid var(--border);border-radius:12px;margin-bottom:.75rem;overflow:hidden;transition:border-color .2s}
+.pl-cat.open{border-color:var(--blue)}
+.pl-cat-hdr{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;cursor:pointer;user-select:none}
+.pl-cat-hdr input[type=checkbox]{width:18px;height:18px;accent-color:var(--blue);flex-shrink:0}
+.pl-cat-icon{font-size:1.1rem}
+.pl-cat-info{flex:1}
+.pl-cat-info strong{display:block;font-size:.9rem;color:var(--text)}
+.pl-cat-info span{font-size:.75rem;color:var(--text2)}
+.pl-cat-req{font-size:.68rem;font-weight:700;color:var(--danger);background:rgba(220,53,69,.08);padding:.15rem .45rem;border-radius:6px;flex-shrink:0}
+.pl-cat-req.ok{color:var(--success);background:rgba(25,135,84,.08)}
+.pl-cat-body{padding:0 1rem .85rem;display:none}
+.pl-cat.open .pl-cat-body{display:block}
+.pl-firm-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-top:.5rem}
 .lang-toggle{display:flex;gap:.2rem;background:var(--bg2);border-radius:8px;padding:.2rem;border:1px solid var(--border)}
 .lang-btn{padding:.25rem .55rem;border-radius:6px;font-size:.72rem;font-weight:700;border:none;cursor:pointer;background:transparent;color:var(--text3);transition:all .15s;font-family:inherit}
 .lang-btn.active{background:#fff;color:var(--blue);box-shadow:0 1px 4px rgba(0,0,0,.08)}
@@ -871,23 +885,87 @@ a{color:var(--blue);text-decoration:none}
 
     <!-- Adım 3: Platform Seçimi -->
     <div class="pr-pane" id="prPane3">
-      <h2 data-i18n="prStep3Title">Hedef Platformlar</h2>
-      <p class="msub" data-i18n="prStep3Sub">Hangi platform(lar)a başvurmak istiyorsunuz?</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem" id="prPlatformList">
-        <label class="pr-chk"><input type="checkbox" value="OKX"> OKX</label>
-        <label class="pr-chk"><input type="checkbox" value="Binance"> Binance</label>
-        <label class="pr-chk"><input type="checkbox" value="Kraken"> Kraken</label>
-        <label class="pr-chk"><input type="checkbox" value="Bitpanda"> Bitpanda</label>
-        <label class="pr-chk"><input type="checkbox" value="eToro"> eToro</label>
-        <label class="pr-chk"><input type="checkbox" value="Coinbase"> Coinbase</label>
-        <label class="pr-chk"><input type="checkbox" value="Bybit"> Bybit</label>
-        <label class="pr-chk"><input type="checkbox" value="KuCoin"> KuCoin</label>
-        <label class="pr-chk"><input type="checkbox" value="Gate.io"> Gate.io</label>
-        <label class="pr-chk"><input type="checkbox" value="MEXC"> MEXC</label>
-        <label class="pr-chk"><input type="checkbox" value="Interactive Brokers"> Interactive Brokers</label>
-        <label class="pr-chk"><input type="checkbox" value="Diğer"> <span data-i18n="prOther">Diğer</span></label>
+      <h2>Hesap Açılması Planlanan Platformlar</h2>
+      <p class="msub">Hangi kategorilerde hesap açmayı planlıyorsunuz? Her kategori zorunludur, alt firmalar isteğe bağlıdır.</p>
+
+      <!-- Kategori 1: Kripto Borsaları -->
+      <div class="pl-cat" id="plcExchange">
+        <label class="pl-cat-hdr" onclick="togglePlCat('Exchange',event)">
+          <input type="checkbox" id="catExchange" onclick="event.stopPropagation();togglePlCat('Exchange',event)">
+          <span class="pl-cat-icon">📈</span>
+          <div class="pl-cat-info"><strong>Kripto Borsaları</strong><span>Merkezi kripto para borsaları (CEX)</span></div>
+          <span class="pl-cat-req" id="reqExchange">Zorunlu</span>
+        </label>
+        <div class="pl-cat-body">
+          <div class="pl-firm-grid">
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] Binance"> Binance</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] Coinbase"> Coinbase</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] Kraken"> Kraken</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] OKX"> OKX</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] Bybit"> Bybit</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] KuCoin"> KuCoin</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] Gate.io"> Gate.io</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] MEXC"> MEXC</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] Bitfinex"> Bitfinex</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] HTX (Huobi)"> HTX (Huobi)</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] Bitget"> Bitget</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] Crypto.com"> Crypto.com</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] Gemini"> Gemini</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] Bitstamp"> Bitstamp</label>
+            <label class="pr-chk"><input type="checkbox" value="[Borsa] Upbit"> Upbit</label>
+          </div>
+        </div>
       </div>
-      <div class="fg" style="margin-top:.75rem"><label data-i18n="prOtherLabel">Diğer platform adı</label><input type="text" class="fi" id="prOtherText" placeholder="Platform adı..."></div>
+
+      <!-- Kategori 2: OTC Firmaları -->
+      <div class="pl-cat" id="plcOtc">
+        <label class="pl-cat-hdr" onclick="togglePlCat('Otc',event)">
+          <input type="checkbox" id="catOtc" onclick="event.stopPropagation();togglePlCat('Otc',event)">
+          <span class="pl-cat-icon">🤝</span>
+          <div class="pl-cat-info"><strong>OTC Firmaları</strong><span>Tezgah üstü kripto işlem masaları</span></div>
+          <span class="pl-cat-req" id="reqOtc">Zorunlu</span>
+        </label>
+        <div class="pl-cat-body">
+          <div class="pl-firm-grid">
+            <label class="pr-chk"><input type="checkbox" value="[OTC] Cumberland DRW"> Cumberland DRW</label>
+            <label class="pr-chk"><input type="checkbox" value="[OTC] Genesis Trading"> Genesis Trading</label>
+            <label class="pr-chk"><input type="checkbox" value="[OTC] Circle Trade"> Circle Trade</label>
+            <label class="pr-chk"><input type="checkbox" value="[OTC] B2C2"> B2C2</label>
+            <label class="pr-chk"><input type="checkbox" value="[OTC] Galaxy Digital"> Galaxy Digital</label>
+            <label class="pr-chk"><input type="checkbox" value="[OTC] Wintermute"> Wintermute</label>
+            <label class="pr-chk"><input type="checkbox" value="[OTC] Amber Group"> Amber Group</label>
+            <label class="pr-chk"><input type="checkbox" value="[OTC] Jump Trading"> Jump Trading</label>
+            <label class="pr-chk"><input type="checkbox" value="[OTC] DV Chain"> DV Chain</label>
+            <label class="pr-chk"><input type="checkbox" value="[OTC] GSR Markets"> GSR Markets</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kategori 3: Bankalar -->
+      <div class="pl-cat" id="plcBank">
+        <label class="pl-cat-hdr" onclick="togglePlCat('Bank',event)">
+          <input type="checkbox" id="catBank" onclick="event.stopPropagation();togglePlCat('Bank',event)">
+          <span class="pl-cat-icon">🏛️</span>
+          <div class="pl-cat-info"><strong>Bankalar</strong><span>Kripto dostu bankalar ve fintech kurumları</span></div>
+          <span class="pl-cat-req" id="reqBank">Zorunlu</span>
+        </label>
+        <div class="pl-cat-body">
+          <div class="pl-firm-grid">
+            <label class="pr-chk"><input type="checkbox" value="[Banka] Sygnum Bank"> Sygnum Bank</label>
+            <label class="pr-chk"><input type="checkbox" value="[Banka] SEBA Bank"> SEBA Bank</label>
+            <label class="pr-chk"><input type="checkbox" value="[Banka] Bank Frick"> Bank Frick</label>
+            <label class="pr-chk"><input type="checkbox" value="[Banka] BCB Group"> BCB Group</label>
+            <label class="pr-chk"><input type="checkbox" value="[Banka] Deltec Bank"> Deltec Bank</label>
+            <label class="pr-chk"><input type="checkbox" value="[Banka] Bankhaus von der Heydt"> Bankhaus von der Heydt</label>
+            <label class="pr-chk"><input type="checkbox" value="[Banka] Fidor Bank"> Fidor Bank</label>
+            <label class="pr-chk"><input type="checkbox" value="[Banka] Dukascopy Bank"> Dukascopy Bank</label>
+            <label class="pr-chk"><input type="checkbox" value="[Banka] Clear Junction"> Clear Junction</label>
+            <label class="pr-chk"><input type="checkbox" value="[Banka] Quontic Bank"> Quontic Bank</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="fg" style="margin-top:.5rem"><label>Diğer platform adı</label><input type="text" class="fi" id="prOtherText" placeholder="Platform veya kurum adı..."></div>
     </div>
 
     <!-- Adım 4: Belge Durumu -->
@@ -1347,6 +1425,17 @@ function pickPreRegType(type,el){
   el.classList.add('sel');
 }
 
+function togglePlCat(catId, event){
+  var chk = document.getElementById('cat'+catId);
+  var card = document.getElementById('plc'+catId);
+  var req = document.getElementById('req'+catId);
+  card.classList.toggle('open', chk.checked);
+  if(req){
+    req.textContent = chk.checked ? '✓ Seçildi' : 'Zorunlu';
+    req.className = 'pl-cat-req' + (chk.checked ? ' ok' : '');
+  }
+}
+
 function preRegNext(){
   var L=T[currentLang];
   if(prStep===1){
@@ -1360,10 +1449,16 @@ function preRegNext(){
   } else if(prStep===2){
     if(!prData.account_type){alert(L.alertPreRegType||'Lütfen hesap türünü seçin.');return;}
   } else if(prStep===3){
-    var checked=Array.from(document.querySelectorAll('#prPlatformList input:checked')).map(function(c){return c.value;});
+    var catEx=document.getElementById('catExchange').checked;
+    var catOtc=document.getElementById('catOtc').checked;
+    var catBnk=document.getElementById('catBank').checked;
+    if(!catEx||!catOtc||!catBnk){alert('Lütfen 3 kategorinin hepsini seçin.');return;}
+    var checked=Array.from(document.querySelectorAll('#prPane3 .pl-firm-grid input:checked')).map(function(c){return c.value;});
     var other=document.getElementById('prOtherText').value.trim();
-    if(checked.includes('Diğer')&&other)checked.push(other);
-    if(!checked.length){alert(L.alertPreRegPlatform||'En az bir platform seçin.');return;}
+    if(other) checked.push(other);
+    if(!checked.find(function(c){return c.startsWith('[Borsa]');})) checked.push('[Borsa] Belirtilmedi');
+    if(!checked.find(function(c){return c.startsWith('[OTC]');})) checked.push('[OTC] Belirtilmedi');
+    if(!checked.find(function(c){return c.startsWith('[Banka]');})) checked.push('[Banka] Belirtilmedi');
     prData.platforms=checked;
   }
   prStep++;
