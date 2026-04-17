@@ -169,6 +169,15 @@ a{color:var(--blue);text-decoration:none}
 .modal{background:#fff;border:1px solid var(--border);border-radius:16px;padding:2.25rem;width:90%;max-width:420px;position:relative;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(15,31,61,.12)}
 .modal-x{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--text2);font-size:1.3rem;cursor:pointer;line-height:1}
 .modal h2{margin-bottom:.2rem;font-size:1.2rem;font-weight:800;color:var(--navy)}.modal .msub{color:var(--text2);font-size:.84rem;margin-bottom:1.4rem}
+.policy-body{font-size:.84rem;line-height:1.65;color:var(--text)}
+.policy-section{margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.policy-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.policy-section h4{font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.45rem}
+.policy-section p,.policy-section ul{color:var(--text2);margin:0}
+.policy-section ul{padding-left:1.2rem;display:flex;flex-direction:column;gap:.35rem}
+.policy-section.highlight{background:rgba(245,158,11,.07);border:1.5px solid rgba(245,158,11,.3);border-radius:10px;padding:1rem;margin-bottom:1.25rem}
+.policy-section.highlight h4{color:#b45309}
+.co a{color:var(--blue);text-decoration:underline;font-size:.78rem}
 .mtabs{display:flex;margin-bottom:1.4rem;border-bottom:1px solid var(--border)}
 .mtab{flex:1;padding:.6rem;text-align:center;cursor:pointer;font-size:.86rem;font-weight:600;color:var(--text2);border-bottom:2px solid transparent;transition:all .18s}
 .mtab.active{color:var(--blue);border-bottom-color:var(--blue)}
@@ -345,10 +354,10 @@ a{color:var(--blue);text-decoration:none}
     </div>
     <div class="vf-footer-col">
       <h5 data-i18n="fcolLegal">Yasal</h5>
-      <a href="#" data-i18n="fcolL1">KVKK Politikası</a>
-      <a href="#" data-i18n="fcolL2">Gizlilik</a>
-      <a href="#" data-i18n="fcolL3">Kullanım Şartları</a>
-      <a href="#" data-i18n="fcolL4">Güvenlik</a>
+      <a href="#" onclick="openPolicy('kvkk');return false" data-i18n="fcolL1">KVKK Politikası</a>
+      <a href="#" onclick="openPolicy('privacy');return false" data-i18n="fcolL2">Gizlilik</a>
+      <a href="#" onclick="openPolicy('tos');return false" data-i18n="fcolL3">Kullanım Şartları</a>
+      <a href="#" onclick="openPolicy('privacy');return false" data-i18n="fcolL4">Güvenlik</a>
     </div>
   </div>
   <div class="vf-footer-bottom">
@@ -703,8 +712,9 @@ a{color:var(--blue);text-decoration:none}
     <div class="stitle" data-i18n="sAmlTitle">AML Onayı & Şartlar</div>
     <div class="sdesc" data-i18n="sAmlDesc">Başvurunuzu tamamlamak için aşağıdaki onayları verin</div>
     <div class="co req"><input type="checkbox" id="c-aml"><label for="c-aml"><strong data-i18n="conAmlTitle">AML Tarama Onayı</strong><span data-i18n="conAmlText">Allboard'un yaptırım listeleri, PEP veritabanları ve olumsuz medya kaynaklarında AML taraması yapmasına izin veriyorum.</span></label></div>
-    <div class="co req"><input type="checkbox" id="c-prv"><label for="c-prv"><strong data-i18n="conPrivTitle">Gizlilik Politikası</strong><span data-i18n="conPrivText">Kişisel verilerimin Allboard Gizlilik Politikası kapsamında işlenmesini kabul ediyorum.</span></label></div>
-    <div class="co req"><input type="checkbox" id="c-tos"><label for="c-tos"><strong data-i18n="conTosTitle">Kullanım Şartları</strong><span data-i18n="conTosText">Allboard Kullanım Şartlarını okudum ve kabul ediyorum.</span></label></div>
+    <div class="co req" style="border-color:#f59e0b;background:#fffbeb"><input type="checkbox" id="c-share"><label for="c-share"><strong data-i18n="conShareTitle">Belge Paylaşım Onayı</strong><span data-i18n="conShareText">Onboarding sürecinde tarafıma ait belge ve kişisel verilerin, başvuru sürecinde talep ettiğim kripto borsaları, OTC firmaları ve bankalar gibi ilgili platformlara — yalnızca o platformdaki hesap açma işlemiyle sınırlı olmak üzere — iletilmesine onay veriyorum. Bu paylaşım, KVKK Madde 5/2(f) ve GDPR Madde 6/1(b) kapsamında sözleşmesel zorunluluk olarak gerçekleştirilir. <a href="#" onclick="openPolicy('kvkk');return false" data-i18n="readMore">Ayrıntılar →</a></span></label></div>
+    <div class="co req"><input type="checkbox" id="c-prv"><label for="c-prv"><strong data-i18n="conPrivTitle">Gizlilik Politikası</strong><span data-i18n="conPrivText">Kişisel verilerimin <a href="#" onclick="openPolicy('privacy');return false" data-i18n="conPrivLink">Allboard Gizlilik Politikası</a> kapsamında işlenmesini okudum ve kabul ediyorum.</span></label></div>
+    <div class="co req"><input type="checkbox" id="c-tos"><label for="c-tos"><strong data-i18n="conTosTitle">Kullanım Şartları</strong><span data-i18n="conTosText"><a href="#" onclick="openPolicy('tos');return false" data-i18n="conTosLink">Allboard Kullanım Şartlarını</a> okudum ve kabul ediyorum.</span></label></div>
     <div class="co req"><input type="checkbox" id="c-acc"><label for="c-acc"><strong data-i18n="conAccTitle">Doğruluk Beyanı</strong><span data-i18n="conAccText">Sağladığım tüm bilgilerin doğru, eksiksiz ve güncel olduğunu beyan ediyorum.</span></label></div>
     <div class="co"><input type="checkbox" id="c-mon"><label for="c-mon"><strong data-i18n="conMonTitle">Süregelen İzleme <span style="font-weight:400" data-i18n="optionalLabel">(İsteğe bağlı)</span></strong><span data-i18n="conMonText">Hesabımda değişiklik olması durumunda yeniden tarama yapılmasına onay veriyorum.</span></label></div>
     <div class="snav"><button class="btn btn-outline" onclick="goPrev()" data-i18n="btnBack">← Geri</button><button class="btn btn-primary" id="submitBtn" onclick="submitApp()" data-i18n="btnSubmit">Başvuruyu Gönder ✓</button></div>
@@ -837,6 +847,116 @@ a{color:var(--blue);text-decoration:none}
     <div class="fg"><label data-i18n="lPassword">Şifre</label><input type="password" class="fi" id="lPass" placeholder="••••••••"></div>
     <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doLogin()" data-i18n="navLogin">Giriş Yap</button>
     <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)"><span data-i18n="noAccount">Hesabınız yok mu?</span> <a href="#" onclick="closeAuth();showPreReg();return false" data-i18n="applyLink">Ön başvuru yapın</a></div>
+  </div>
+</div>
+
+<!-- POLİTİKA MODALLARı -->
+<div class="modal-ov" id="policyMod">
+  <div class="modal" style="max-width:680px;padding:2rem">
+    <button class="modal-x" onclick="closePolicy()">✕</button>
+    <!-- Tab bar -->
+    <div class="mtabs" id="policyTabs">
+      <div class="mtab active" onclick="switchPolicy('kvkk')" id="ptKvkk" data-i18n="tabKvkk">KVKK Aydınlatma</div>
+      <div class="mtab" onclick="switchPolicy('privacy')" id="ptPrivacy" data-i18n="tabPrivacy">Gizlilik Politikası</div>
+      <div class="mtab" onclick="switchPolicy('tos')" id="ptTos" data-i18n="tabTos">Kullanım Şartları</div>
+    </div>
+
+    <!-- KVKK -->
+    <div id="policyKvkk" class="policy-body">
+      <h2 data-i18n="kvkkTitle">KVKK Aydınlatma Metni</h2>
+      <p class="msub">6698 Sayılı Kişisel Verilerin Korunması Kanunu kapsamında hazırlanmıştır.</p>
+      <div class="policy-section">
+        <h4 data-i18n="kvkkS1">1. Veri Sorumlusu</h4>
+        <p data-i18n="kvkkS1T">VerifyFlow (bundan böyle "Şirket"), 6698 sayılı KVKK kapsamında veri sorumlusu sıfatıyla hareket etmektedir.</p>
+      </div>
+      <div class="policy-section">
+        <h4 data-i18n="kvkkS2">2. İşlenen Kişisel Veriler</h4>
+        <p data-i18n="kvkkS2T">Ad-soyad, doğum tarihi, TC kimlik numarası, pasaport bilgisi, adres, telefon, e-posta, vergi numarası, banka hesap bilgisi, gelir/varlık bilgisi (SoW/SoF), şirket sicil ve ortaklık yapısı bilgileri ile yüklenen belgeler.</p>
+      </div>
+      <div class="policy-section">
+        <h4 data-i18n="kvkkS3">3. Kişisel Verilerin İşlenme Amaçları</h4>
+        <ul>
+          <li data-i18n="kvkkS3L1">KYC/KYB onboarding sürecinin yürütülmesi</li>
+          <li data-i18n="kvkkS3L2">AML/CTF taraması ve risk değerlendirmesi</li>
+          <li data-i18n="kvkkS3L3">Başvuru yapılan platform hesap açma süreçlerinin yönetilmesi</li>
+          <li data-i18n="kvkkS3L4">Yasal yükümlülüklerin yerine getirilmesi</li>
+          <li data-i18n="kvkkS3L5">Hizmet kalitesinin iyileştirilmesi ve müşteri iletişimi</li>
+        </ul>
+      </div>
+      <div class="policy-section highlight">
+        <h4 data-i18n="kvkkS4">4. Üçüncü Taraflara Veri Aktarımı</h4>
+        <p data-i18n="kvkkS4T">Tarafınızca sağlanan belgeler ve kişisel veriler; onboarding sürecinde başvuru yapılması talep edilen <strong>kripto para borsaları, OTC firmaları ve bankalar</strong> gibi finansal platformlara, yalnızca o platform nezdinde hesap açılması amacıyla ve bu amaçla sınırlı olarak aktarılabilir. Bu aktarım, KVKK Madde 8 uyarınca açık rızanıza ve Madde 5/2(f) kapsamında meşru menfaat ilkesine dayalı olarak gerçekleştirilir. Veriler, belirtilen amaç dışında üçüncü taraflara satılmaz veya devredilmez.</p>
+      </div>
+      <div class="policy-section">
+        <h4 data-i18n="kvkkS5">5. Veri Saklama Süresi</h4>
+        <p data-i18n="kvkkS5T">Kişisel verileriniz, hizmet ilişkisinin sona ermesinden itibaren yasal yükümlülükler kapsamında 5 yıl saklanır. Onboarding süreci tamamlanmayan başvurularda veriler 2 yıl sonra silinir.</p>
+      </div>
+      <div class="policy-section">
+        <h4 data-i18n="kvkkS6">6. Haklarınız (KVKK Madde 11)</h4>
+        <p data-i18n="kvkkS6T">Kişisel verilerinize erişim, düzeltme, silme, işleme itiraz ve veri taşınabilirliği haklarınız mevcuttur. Taleplerinizi <strong>privacy@verifyflow.io</strong> adresine iletebilirsiniz.</p>
+      </div>
+    </div>
+
+    <!-- GİZLİLİK POLİTİKASI -->
+    <div id="policyPrivacy" class="policy-body" style="display:none">
+      <h2 data-i18n="privTitle">Gizlilik Politikası</h2>
+      <p class="msub" data-i18n="privSub">Son güncellenme: Ocak 2026</p>
+      <div class="policy-section">
+        <h4 data-i18n="privS1">Veri Toplama</h4>
+        <p data-i18n="privS1T">VerifyFlow, yalnızca KYC/KYB onboarding hizmetinin sunulması için zorunlu olan verileri toplar. Bu veriler doğrudan sizden, başvuru formu aracılığıyla temin edilir.</p>
+      </div>
+      <div class="policy-section highlight">
+        <h4 data-i18n="privS2">Belge ve Veri Paylaşımı</h4>
+        <p data-i18n="privS2T">Tarafınızca yüklenen belgeler ve kişisel veriler <strong>kesinlikle üçüncü taraflara satılmaz</strong>. Verileriniz yalnızca şu durumlarda paylaşılır:</p>
+        <ul>
+          <li data-i18n="privS2L1"><strong>Başvuru platformları:</strong> Onboarding sürecinde hesap açılması talep ettiğiniz kripto borsaları, OTC firmaları veya bankalarla — yalnızca o platforma ait başvuru amacıyla.</li>
+          <li data-i18n="privS2L2"><strong>Yasal zorunluluk:</strong> Mahkeme kararı, düzenleyici kurum talebi veya yasal yükümlülük durumlarında.</li>
+          <li data-i18n="privS2L3"><strong>AML hizmet sağlayıcıları:</strong> Yaptırım listesi ve PEP taraması için anonim/hashlenmiş biçimde.</li>
+        </ul>
+      </div>
+      <div class="policy-section">
+        <h4 data-i18n="privS3">Veri Güvenliği</h4>
+        <p data-i18n="privS3T">Tüm veriler SSL/TLS ile şifreli olarak iletilir ve Supabase altyapısında AES-256 ile şifreli olarak saklanır. Belgeler erişim kontrollü özel bir depolama alanında tutulur; imzalı geçici URL ile erişilir.</p>
+      </div>
+      <div class="policy-section">
+        <h4 data-i18n="privS4">Çerezler</h4>
+        <p data-i18n="privS4T">Yalnızca oturum yönetimi için zorunlu çerezler kullanılır. Pazarlama veya izleme amaçlı çerez bulunmaz.</p>
+      </div>
+      <div class="policy-section">
+        <h4 data-i18n="privS5">İletişim</h4>
+        <p>privacy@verifyflow.io</p>
+      </div>
+    </div>
+
+    <!-- KULLANIM ŞARTLARI -->
+    <div id="policyTos" class="policy-body" style="display:none">
+      <h2 data-i18n="tosTitle">Kullanım Şartları</h2>
+      <p class="msub" data-i18n="tosSub">Son güncellenme: Ocak 2026</p>
+      <div class="policy-section">
+        <h4 data-i18n="tosS1">1. Hizmet Kapsamı</h4>
+        <p data-i18n="tosS1T">VerifyFlow, bireylerin ve kurumların kripto borsaları, OTC masaları ve finansal kuruluşlar nezdinde KYC/KYB onboarding süreçlerini yönetmelerine aracılık eden bir danışmanlık platformudur. Şirket, herhangi bir platform adına hesap açma taahhüdünde bulunmaz.</p>
+      </div>
+      <div class="policy-section highlight">
+        <h4 data-i18n="tosS2">2. Belge Paylaşım Yetkisi</h4>
+        <p data-i18n="tosS2T">Kullanıcı, onboarding sürecinde tarafına ait belge ve kişisel verilerin, başvurmayı seçtiği <strong>kripto borsaları, OTC firmaları ve bankalara</strong> — yalnızca ilgili platform nezdinde hesap açılması amacıyla — iletilmesine açıkça onay vermiş sayılır. Bu yetki; başvuru tamamlanana, platforma belge iletilene veya kullanıcı geri adım alana kadar geçerlidir.</p>
+      </div>
+      <div class="policy-section">
+        <h4 data-i18n="tosS3">3. Kullanıcı Yükümlülükleri</h4>
+        <ul>
+          <li data-i18n="tosS3L1">Sağlanan tüm bilgi ve belgelerin doğru, güncel ve eksiksiz olması kullanıcının sorumluluğundadır.</li>
+          <li data-i18n="tosS3L2">Sahte, yanıltıcı veya başkasına ait belge yüklenmesi kesinlikle yasaktır ve yasal işleme yol açar.</li>
+          <li data-i18n="tosS3L3">Kullanıcı, platformların bağımsız karar mercileri olduğunu ve VerifyFlow'un platform kararları üzerinde etkisi bulunmadığını kabul eder.</li>
+        </ul>
+      </div>
+      <div class="policy-section">
+        <h4 data-i18n="tosS4">4. Sorumluluk Sınırı</h4>
+        <p data-i18n="tosS4T">VerifyFlow, platform tarafından verilen red kararlarından, süreç gecikmelerinden veya platform politika değişikliklerinden sorumlu tutulamaz. Hizmet, başvuru yönetimi ile sınırlıdır.</p>
+      </div>
+      <div class="policy-section">
+        <h4 data-i18n="tosS5">5. Uygulanacak Hukuk</h4>
+        <p data-i18n="tosS5T">Bu şartlar Türkiye Cumhuriyeti hukukuna tabidir. Uyuşmazlıklarda İstanbul mahkemeleri yetkilidir.</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1091,10 +1211,14 @@ var T = {
     docAddrHint:'Fatura, banka ekstresi, max 10MB',
     sAmlTitle:'AML Onayı & Şartlar', sAmlDesc:'Başvurunuzu tamamlamak için aşağıdaki onayları verin',
     conAmlTitle:'AML Tarama Onayı', conAmlText:"Allboard'un yaptırım listeleri, PEP veritabanları ve olumsuz medya kaynaklarında AML taraması yapmasına izin veriyorum.",
-    conPrivTitle:'Gizlilik Politikası', conPrivText:"Kişisel verilerimin Allboard Gizlilik Politikası kapsamında işlenmesini kabul ediyorum.",
-    conTosTitle:'Kullanım Şartları', conTosText:'Allboard Kullanım Şartlarını okudum ve kabul ediyorum.',
+    conShareTitle:'Belge Paylaşım Onayı', conShareText:'Onboarding sürecinde tarafıma ait belge ve kişisel verilerin, başvuru sürecinde talep ettiğim kripto borsaları, OTC firmaları ve bankalar gibi ilgili platformlara — yalnızca o platformdaki hesap açma işlemiyle sınırlı olmak üzere — iletilmesine onay veriyorum. (KVKK Md.5/2(f) / GDPR Md.6/1(b))',
+    readMore:'Ayrıntılar →',
+    conPrivTitle:'Gizlilik Politikası', conPrivLink:'Allboard Gizlilik Politikası', conPrivText:'Kişisel verilerimin Allboard Gizlilik Politikası kapsamında işlenmesini okudum ve kabul ediyorum.',
+    conTosTitle:'Kullanım Şartları', conTosLink:'Allboard Kullanım Şartlarını', conTosText:'Allboard Kullanım Şartlarını okudum ve kabul ediyorum.',
     conAccTitle:'Doğruluk Beyanı', conAccText:'Sağladığım tüm bilgilerin doğru, eksiksiz ve güncel olduğunu beyan ediyorum.',
     conMonTitle:'Süregelen İzleme', conMonText:'Hesabımda değişiklik olması durumunda yeniden tarama yapılmasına onay veriyorum.',
+    alertConsents:'Lütfen tüm zorunlu onayları verin.',
+    tabKvkk:'KVKK Aydınlatma', tabPrivacy:'Gizlilik Politikası', tabTos:'Kullanım Şartları',
     optionalLabel:'(İsteğe bağlı)',
     completeTitle:'Başvurunuz Alındı!', completeDesc:'Ekibimiz belgelerinizi inceleyecek ve en kısa sürede sizinle iletişime geçecektir.',
     kycProcessing:'KYC: İşleniyor', amlScanning:'AML: Taranıyor', riskEval:'Risk: Değerlendiriliyor',
@@ -1206,10 +1330,14 @@ var T = {
     docAddrHint:'Utility bill, bank statement, max 10MB',
     sAmlTitle:'AML Consent & Terms', sAmlDesc:'Grant the following consents to complete your application',
     conAmlTitle:'AML Screening Consent', conAmlText:'I consent to Allboard conducting AML screening against sanctions lists, PEP databases and adverse media sources.',
-    conPrivTitle:'Privacy Policy', conPrivText:'I accept the processing of my personal data under the Allboard Privacy Policy.',
-    conTosTitle:'Terms of Service', conTosText:'I have read and accept the Allboard Terms of Service.',
+    conShareTitle:'Document Sharing Consent', conShareText:'I consent to my documents and personal data being shared with the crypto exchanges, OTC firms and banks I have selected during onboarding — solely for the purpose of opening an account on those platforms. (GDPR Art.6/1(b) / legitimate interest)',
+    readMore:'Details →',
+    conPrivTitle:'Privacy Policy', conPrivLink:'Allboard Privacy Policy', conPrivText:'I have read and accept the processing of my personal data under the Allboard Privacy Policy.',
+    conTosTitle:'Terms of Service', conTosLink:'Allboard Terms of Service', conTosText:'I have read and accept the Allboard Terms of Service.',
     conAccTitle:'Accuracy Declaration', conAccText:'I declare that all information provided is accurate, complete and up to date.',
     conMonTitle:'Ongoing Monitoring', conMonText:'I consent to rescreening should changes occur to my account.',
+    alertConsents:'Please accept all required consents.',
+    tabKvkk:'Data Protection Notice', tabPrivacy:'Privacy Policy', tabTos:'Terms of Service',
     optionalLabel:'(Optional)',
     completeTitle:'Application Received!', completeDesc:'Our team will review your documents and contact you as soon as possible.',
     kycProcessing:'KYC: Processing', amlScanning:'AML: Scanning', riskEval:'Risk: Evaluating',
@@ -1345,6 +1473,21 @@ function showAuth(t){
   document.getElementById('authMod').classList.add('show');
 }
 function closeAuth(){document.getElementById('authMod').classList.remove('show');}
+
+// ── POLİTİKA MODALLARı ────────────────────────────────
+function openPolicy(tab){
+  document.getElementById('policyMod').classList.add('show');
+  switchPolicy(tab||'kvkk');
+}
+function closePolicy(){document.getElementById('policyMod').classList.remove('show');}
+function switchPolicy(tab){
+  ['kvkk','privacy','tos'].forEach(function(t){
+    document.getElementById('policy'+t.charAt(0).toUpperCase()+t.slice(1)).style.display = t===tab?'block':'none';
+    var btn=document.getElementById('pt'+t.charAt(0).toUpperCase()+t.slice(1));
+    if(btn) btn.classList.toggle('active', t===tab);
+  });
+}
+document.getElementById('policyMod').addEventListener('click',function(e){if(e.target===this)closePolicy();});
 
 async function doLogin(){
   var email=document.getElementById('lEmail').value.trim();
@@ -1582,6 +1725,13 @@ async function submitApp(){
     });
     if(pctError){alert(L.alertPctRange||'Sahiplik oranı 0-100 arasında olmalıdır.');return;}
     if(totalPct>100){alert(L.alertPctTotal||'Toplam sahiplik oranı %100\'ü aşamaz (şu an: %'+Math.round(totalPct)+')');return;}
+  }
+
+  // ── Consent validation ────────────────────────────
+  var requiredConsents=['c-aml','c-share','c-prv','c-tos','c-acc'];
+  for(var ci=0;ci<requiredConsents.length;ci++){
+    var cel=document.getElementById(requiredConsents[ci]);
+    if(cel&&!cel.checked){alert(L.alertConsents||'Lütfen tüm zorunlu onayları verin.');return;}
   }
 
   if(btn){btn.textContent=L.submitting||'Gönderiliyor...';btn.disabled=true;}
