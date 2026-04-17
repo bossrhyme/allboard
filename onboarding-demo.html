@@ -542,7 +542,7 @@ var T = {
     settings:'Ayarlar',backToSite:'← Siteye Dön',logout:'Çıkış Yap',
     ph_dashboard:'Dashboard',ph_clients:'Başvurular',ph_kyc:'KYC Doğrulama',
     ph_kyb:'KYB Doğrulama',ph_aml:'AML Tarama',ph_risk:'Risk Değerlendirme',
-    ph_workflow:'İş Akışları',ph_notifications:'Bildirimler',ph_settings:'Ayarlar',
+    ph_workflow:'İş Akışları',ph_notifications:'Bildirimler',ph_settings:'Ayarlar',ph_prereg:'Ön Başvurular',
     ph_clientprofile:'Müşteri Profili',ph_staffchat:'Mesajlaşma',ph_interview:'Görüşme Yönetimi',
     refresh:'Yenile',runDemo:'Demo Çalıştır',
     statTotal:'Toplam Başvuru',statTotalSub:'Kayıtlı müşteri',
@@ -611,7 +611,7 @@ var T = {
     settings:'Settings',backToSite:'← Back to Site',logout:'Sign Out',
     ph_dashboard:'Dashboard',ph_clients:'Client Directory',ph_kyc:'KYC Verification',
     ph_kyb:'KYB Verification',ph_aml:'AML Screening',ph_risk:'Risk Assessment',
-    ph_workflow:'Workflow Manager',ph_notifications:'Notifications',ph_settings:'Platform Settings',
+    ph_workflow:'Workflow Manager',ph_notifications:'Notifications',ph_settings:'Platform Settings',ph_prereg:'Pre-Registrations',
     ph_clientprofile:'Client Profile Detail',ph_staffchat:'Messaging',ph_interview:'Interview Management',
     refresh:'Refresh',runDemo:'Run Demo',
     statTotal:'Total Applications',statTotalSub:'Registered clients',
@@ -757,6 +757,7 @@ function showPanel(id){
   if(id==='workflow')loadWorkflow();
   if(id==='notifications')loadNotifications();
   if(id==='settings')loadSettings();
+  if(id==='prereg')loadPreReg();
 }
 
 // ── DASHBOARD STATS ───────────────────────────────────
