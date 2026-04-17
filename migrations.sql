@@ -244,3 +244,73 @@ create policy "prereg_public_insert" on pre_registrations
 -- Sadece admin okuyabilir/güncelleyebilir
 create policy "prereg_admin_all" on pre_registrations
   for all using (auth.jwt() ->> 'email' in (select email from admins));
+
+-- ============================================================
+-- 14. GÜVENLİK & KVKK/GDPR UYUM PAKETİ
+-- ⚠️  Bu bloğu Supabase SQL Editor'da çalıştır
+-- ============================================================
+
+-- 14a. Admins tablosu — sadece kendi kaydını okuyabilsin
+--      (diğer tablolardaki "in (select email from admins)" policy'leri çalışsın diye)
+drop policy if exists "admins_read_authenticated" on admins;
+create policy "admins_read_self" on admins
+  for select using (auth.jwt() ->> 'email' = email);
+
+-- 14b. PII maskeleme fonksiyonu
+create or replace function mask_pii(data jsonb) returns jsonb
+language plpgsql security definer as $$
+begin
+  if data is null then return null; end if;
+  if data ? 'personal' then
+    data = jsonb_set(data, '{personal,nationalId}',  '"[GİZLİ]"'::jsonb, false);
+    data = jsonb_set(data, '{personal,phone}',       '"[GİZLİ]"'::jsonb, false);
+    data = jsonb_set(data, '{personal,dob}',         '"[GİZLİ]"'::jsonb, false);
+  end if;
+  if data ? 'pep' then
+    data = jsonb_set(data, '{pep,sourceOfFunds}',    '"[GİZLİ]"'::jsonb, false);
+    data = jsonb_set(data, '{pep,monthlyVolume}',    '"[GİZLİ]"'::jsonb, false);
+  end if;
+  return data;
+end;
+$$;
+
+-- 14c. Audit trigger — PII maskelenmiş hâliyle kaydet (KVKK Md.12 / GDPR Art.32)
+create or replace function log_changes() returns trigger
+language plpgsql security definer as $$
+begin
+  insert into audit_logs(table_name, row_id, action, old_data, new_data, actor)
+  values (
+    TG_TABLE_NAME,
+    coalesce(NEW.id, OLD.id),
+    TG_OP,
+    case when TG_OP = 'DELETE' then mask_pii(to_jsonb(OLD)) else null end,
+    case when TG_OP <> 'DELETE' then mask_pii(to_jsonb(NEW)) else null end,
+    (current_setting('request.jwt.claims', true)::jsonb) ->> 'email'
+  );
+  return coalesce(NEW, OLD);
+end;
+$$;
+
+-- 14d. Audit log veri saklama — 90 günden eski kayıtları sil (GDPR Art.5(1)(e))
+-- Önce pg_cron extension'ını aktif et: Dashboard > Extensions > pg_cron
+-- Sonra aşağıdaki satırı çalıştır:
+-- select cron.schedule('delete-old-audit-logs','0 3 * * *',
+--   $$delete from audit_logs where created_at < now() - interval ''90 days''$$);
+
+-- 14e. Pre-registration spam koruması — aynı email 24 saatte max 3 başvuru
+create or replace function check_prereg_rate_limit()
+returns trigger language plpgsql as $$
+begin
+  if (select count(*) from pre_registrations
+      where email = NEW.email
+      and created_at > now() - interval '24 hours') >= 3 then
+    raise exception 'Çok fazla başvuru. Lütfen 24 saat sonra tekrar deneyin.';
+  end if;
+  return NEW;
+end;
+$$;
+
+drop trigger if exists prereg_rate_limit on pre_registrations;
+create trigger prereg_rate_limit
+  before insert on pre_registrations
+  for each row execute function check_prereg_rate_limit();

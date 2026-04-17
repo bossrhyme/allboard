@@ -1249,6 +1249,11 @@ document.addEventListener('DOMContentLoaded', async function(){
   if(session){currentUser=session.user;updateNav('profile');updateHeroBtns(true);}
   document.getElementById('authMod').addEventListener('click',function(e){if(e.target===e.currentTarget)closeAuth();});
   document.getElementById('preRegMod').addEventListener('click',function(e){if(e.target===e.currentTarget)closePreReg();});
+  // Email doğrulama yönlendirmesi
+  if(new URLSearchParams(window.location.search).get('verified')==='1'){
+    history.replaceState(null,'',window.location.pathname);
+    setTimeout(function(){alert('Email adresiniz doğrulandı. Giriş yapabilirsiniz.');showAuth('login');},400);
+  }
 });
 
 // ── AUTH MODAL ────────────────────────────────────────
@@ -1277,11 +1282,14 @@ async function doRegister(){
   if(!email||!password){alert(T[currentLang].alertEmailPass);return;}
   if(password.length<6){alert(T[currentLang].alertMinPass);return;}
   var btn=document.querySelector('#aReg .btn-primary');btn.textContent='...';btn.disabled=true;
-  var {data,error}=await sb.auth.signUp({email,password,options:{data:{full_name:name}}});
+  var {data,error}=await sb.auth.signUp({email,password,options:{
+    emailRedirectTo:window.location.origin+'/?verified=1',
+    data:{full_name:name}
+  }});
   btn.textContent=T[currentLang].navRegister;btn.disabled=false;
   if(error){alert('Hata: '+error.message);return;}
-  currentUser=data.user;
-  closeAuth();startOB();
+  closeAuth();
+  alert('Email adresinize doğrulama linki gönderildi. Lütfen emailinizi kontrol edin.');
 }
 
 async function doLogout(){
