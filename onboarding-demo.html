@@ -466,6 +466,16 @@ td:first-child{font-weight:600;color:var(--navy)}
     </div>
 
     <!-- Pre-Registrations Panel -->
+    <!-- Pre-Reg Detail Modal -->
+    <div id="preRegDetailOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center">
+      <div style="background:var(--card);border-radius:16px;padding:2rem;width:min(640px,95vw);max-height:85vh;overflow-y:auto;position:relative;box-shadow:0 8px 40px rgba(0,0,0,.2)">
+        <button onclick="closePreRegDetail()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--text2)">×</button>
+        <h3 style="margin-bottom:1.5rem;font-size:1.1rem" id="pdTitle">Başvuru Detayı</h3>
+        <div id="pdBody"></div>
+        <div style="display:flex;gap:.75rem;margin-top:1.75rem;justify-content:flex-end" id="pdActions"></div>
+      </div>
+    </div>
+
     <div class="panel" id="panel-prereg">
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
@@ -486,6 +496,7 @@ td:first-child{font-weight:600;color:var(--navy)}
                 <th>Belge</th>
                 <th>Tarih</th>
                 <th>Durum</th>
+                <th>Detay</th>
                 <th>İşlem</th>
               </tr>
             </thead>
@@ -1369,7 +1380,7 @@ async function loadPreReg(){
     .select('*').order('created_at',{ascending:false});
 
   if(error||!rows||!rows.length){
-    tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text2)">Henüz ön başvuru yok.</td></tr>';
+    tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--text2)">Henüz ön başvuru yok.</td></tr>';
     return;
   }
 
@@ -1382,7 +1393,11 @@ async function loadPreReg(){
   var statusMap={pending:'Bekliyor',approved:'Onaylandı',rejected:'Reddedildi'};
   var statusClass={pending:'badge-warning',approved:'badge-success',rejected:'badge-danger'};
 
-  tbody.innerHTML=rows.map(function(r){
+  // Satır datalarını index'e göre sakla (onclick'te obje geçirmek için)
+  window._preRegRows=rows;
+
+  tbody.innerHTML='';
+  rows.forEach(function(r,idx){
     var platforms=(r.platforms||[]).join(', ')||'—';
     var docScore=r.doc_score!=null?r.doc_score+' belge':'—';
     var date=fmtDate(r.created_at);
@@ -1396,7 +1411,8 @@ async function loadPreReg(){
     } else {
       actions='<span style="font-size:.8rem;color:var(--text2)">'+(r.status==='approved'?'Kullanıcı oluşturuldu':'Reddedildi')+'</span>';
     }
-    return '<tr>'+
+    var tr=document.createElement('tr');
+    tr.innerHTML=
       '<td>'+esc(r.name||'—')+'</td>'+
       '<td style="font-size:.82rem">'+esc(r.email)+'</td>'+
       '<td><span class="badge badge-info" style="font-size:.72rem">'+esc(type)+'</span></td>'+
@@ -1404,9 +1420,118 @@ async function loadPreReg(){
       '<td style="font-size:.82rem;text-align:center">'+esc(docScore)+'</td>'+
       '<td style="font-size:.82rem">'+date+'</td>'+
       '<td><span class="badge '+statusCls+'" style="font-size:.72rem">'+esc(statusLabel)+'</span></td>'+
-      '<td style="white-space:nowrap">'+actions+'</td>'+
-    '</tr>';
+      '<td><button class="btn btn-outline btn-sm" style="font-size:.75rem">🔍 Detay</button></td>'+
+      '<td style="white-space:nowrap">'+actions+'</td>';
+    tr.querySelector('.btn-outline').addEventListener('click',(function(row){
+      return function(){showPreRegDetail(row);};
+    })(r));
+    tbody.appendChild(tr);
+  });
+}
+
+function showPreRegDetail(r){
+  var typeMap={individual:'Bireysel',corporate:'Kurumsal'};
+  var statusMap={pending:'Bekliyor',approved:'Onaylandı',rejected:'Reddedildi'};
+  var docLabels={
+    identity:'Kimlik Belgesi',address:'Adres Belgesi',tax:'Vergi Levhası',
+    registry:'Ticaret Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'CGS',
+    passport:'Pasaport',drivingLicense:'Ehliyet',utilityBill:'Fatura',bankStatement:'Banka Ekstresi',
+    sow:'Servet Kaynağı (SoW)',sof:'Fon Kaynağı (SoF)',financialStatement:'Mali Tablolar',
+    shareholderReg:'Hissedar Sicili',uboDeclaration:'UBO Beyanı'
+  };
+
+  document.getElementById('pdTitle').textContent=(r.name||'—')+' — Başvuru Detayı';
+
+  var docs=r.doc_checklist||{};
+  var docRows=Object.keys(docs).map(function(k){
+    return '<tr><td style="padding:.35rem .5rem;font-size:.83rem">'+esc(docLabels[k]||k)+'</td>'+
+           '<td style="padding:.35rem .5rem;text-align:center">'+(docs[k]?'<span class="badge badge-success" style="font-size:.7rem">Mevcut</span>':'<span class="badge badge-danger" style="font-size:.7rem">Yok</span>')+'</td></tr>';
   }).join('');
+
+  var platforms=(r.platforms||[]);
+
+  var body=
+    '<div style="display:grid;gap:1rem">'+
+    // Kişisel bilgiler
+    '<div style="background:var(--bg);border-radius:10px;padding:1rem">'+
+      '<div style="font-size:.72rem;font-weight:700;color:var(--text2);letter-spacing:.05em;margin-bottom:.75rem">KİŞİSEL BİLGİLER</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;font-size:.85rem">'+
+        '<div><span style="color:var(--text2)">Ad Soyad:</span> <strong>'+esc(r.name||'—')+'</strong></div>'+
+        '<div><span style="color:var(--text2)">E-posta:</span> <strong>'+esc(r.email||'—')+'</strong></div>'+
+        '<div><span style="color:var(--text2)">Telefon:</span> <strong>'+esc(r.phone||'—')+'</strong></div>'+
+        '<div><span style="color:var(--text2)">Hesap Türü:</span> <strong>'+(typeMap[r.account_type]||r.account_type||'—')+'</strong></div>'+
+        '<div><span style="color:var(--text2)">Başvuru Tarihi:</span> <strong>'+fmtDate(r.created_at)+'</strong></div>'+
+        '<div><span style="color:var(--text2)">Durum:</span> <strong>'+(statusMap[r.status]||r.status)+'</strong></div>'+
+      '</div>'+
+    '</div>'+
+    // Platformlar
+    '<div style="background:var(--bg);border-radius:10px;padding:1rem">'+
+      '<div style="font-size:.72rem;font-weight:700;color:var(--text2);letter-spacing:.05em;margin-bottom:.75rem">KULLANILAN PLATFORMLAR</div>'+
+      (platforms.length?
+        '<div style="display:flex;flex-wrap:wrap;gap:.5rem">'+platforms.map(function(p){return '<span class="badge badge-info" style="font-size:.78rem">'+esc(p)+'</span>';}).join('')+'</div>':
+        '<span style="color:var(--text2);font-size:.83rem">Belirtilmemiş</span>')+
+    '</div>'+
+    // Belgeler
+    (docRows?
+      '<div style="background:var(--bg);border-radius:10px;padding:1rem">'+
+        '<div style="font-size:.72rem;font-weight:700;color:var(--text2);letter-spacing:.05em;margin-bottom:.75rem">BELGE DURUMU</div>'+
+        '<table style="width:100%;border-collapse:collapse"><tbody>'+docRows+'</tbody></table>'+
+      '</div>':'')+
+    // Notlar
+    (r.notes?
+      '<div style="background:var(--bg);border-radius:10px;padding:1rem">'+
+        '<div style="font-size:.72rem;font-weight:700;color:var(--text2);letter-spacing:.05em;margin-bottom:.5rem">NOTLAR</div>'+
+        '<p style="font-size:.85rem;margin:0">'+esc(r.notes)+'</p>'+
+      '</div>':'')+
+    '</div>';
+
+  document.getElementById('pdBody').innerHTML=body;
+
+  // Modal alt aksiyon butonları
+  var actions=document.getElementById('pdActions');
+  actions.innerHTML='';
+  if(r.status==='pending'){
+    var invBtn=document.createElement('button');
+    invBtn.className='btn btn-primary';invBtn.textContent='Davet Et';
+    invBtn.addEventListener('click',function(){
+      closePreRegDetail();
+      // Tabloda ilgili satırı bul, Davet Et butonuna tıkla
+      var rows=document.querySelectorAll('#preRegBody tr');
+      rows.forEach(function(tr){
+        var cells=tr.querySelectorAll('td');
+        if(cells.length&&cells[1]&&cells[1].textContent.trim()===r.email){
+          var btn=tr.querySelector('.btn-primary');
+          if(btn)btn.click();
+        }
+      });
+    });
+    var rejBtn=document.createElement('button');
+    rejBtn.className='btn btn-outline';rejBtn.style.color='var(--danger)';rejBtn.textContent='Reddet';
+    rejBtn.addEventListener('click',function(){
+      closePreRegDetail();
+      var rows=document.querySelectorAll('#preRegBody tr');
+      rows.forEach(function(tr){
+        var cells=tr.querySelectorAll('td');
+        if(cells.length&&cells[1]&&cells[1].textContent.trim()===r.email){
+          var btn=tr.querySelectorAll('.btn-outline')[1];
+          if(btn)btn.click();
+        }
+      });
+    });
+    actions.appendChild(rejBtn);actions.appendChild(invBtn);
+  }
+  var closeBtn=document.createElement('button');
+  closeBtn.className='btn btn-outline';closeBtn.textContent='Kapat';
+  closeBtn.addEventListener('click',closePreRegDetail);
+  actions.insertBefore(closeBtn,actions.firstChild);
+
+  var overlay=document.getElementById('preRegDetailOverlay');
+  overlay.style.display='flex';
+  overlay.onclick=function(e){if(e.target===overlay)closePreRegDetail();};
+}
+
+function closePreRegDetail(){
+  document.getElementById('preRegDetailOverlay').style.display='none';
 }
 
 async function createUserFromPreReg(id,email,name,btn){
