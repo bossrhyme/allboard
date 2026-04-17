@@ -232,11 +232,7 @@ td:first-child{font-weight:600;color:var(--navy)}
           <table>
             <thead><tr><th data-i18n="thClient">Müşteri</th><th data-i18n="thType">Tür</th><th>KYC</th><th>AML</th><th data-i18n="thRisk">Risk</th><th data-i18n="thStatus">Durum</th><th data-i18n="thDate">Tarih</th></tr></thead>
             <tbody id="dashboardTable">
-              <tr><td>Maria Schmidt</td><td data-i18n="typeInd">Bireysel</td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-success" data-i18n="badgeLow">Düşük</span></td><td><span class="badge badge-success" data-i18n="badgeApproved">Onaylandı</span></td><td>2026-04-09</td></tr>
-              <tr><td>TechStart GmbH</td><td data-i18n="typeBiz">Kurumsal</td><td><span class="badge badge-warning" data-i18n="badgeReview">İnceleme</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-warning" data-i18n="badgeMedium">Orta</span></td><td><span class="badge badge-info" data-i18n="badgeInReview">İncelemede</span></td><td>2026-04-09</td></tr>
-              <tr><td>Ahmed Yilmaz</td><td data-i18n="typeInd">Bireysel</td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td><td><span class="badge badge-warning" data-i18n="badgeReview">İnceleme</span></td><td><span class="badge badge-warning" data-i18n="badgeMedium">Orta</span></td><td><span class="badge badge-info" data-i18n="badgeInReview">İncelemede</span></td><td>2026-04-08</td></tr>
-              <tr><td>FinServe Ltd</td><td data-i18n="typeBiz">Kurumsal</td><td><span class="badge badge-danger" data-i18n="badgeFailed">Başarısız</span></td><td><span class="badge badge-neutral" data-i18n="badgePending">Beklemede</span></td><td><span class="badge badge-danger" data-i18n="badgeHigh">Yüksek</span></td><td><span class="badge badge-danger" data-i18n="badgeRejected">Reddedildi</span></td><td>2026-04-08</td></tr>
-              <tr><td>Sophie Dupont</td><td data-i18n="typeInd">Bireysel</td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td><td><span class="badge badge-success" data-i18n="badgeClear">Temiz</span></td><td><span class="badge badge-success" data-i18n="badgeLow">Düşük</span></td><td><span class="badge badge-success" data-i18n="badgeApproved">Onaylandı</span></td><td>2026-04-07</td></tr>
+              <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text2)">Yükleniyor...</td></tr>
             </tbody>
           </table>
         </div>
@@ -264,19 +260,17 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- KYC Panel -->
     <div class="panel" id="panel-kyc">
       <div class="stats-row">
-        <div class="stat-card"><div class="label" data-i18n="kycPendingKyc">Bekleyen KYC</div><div class="value">8</div></div>
-        <div class="stat-card"><div class="label" data-i18n="kycPassedToday">Bugün Geçen</div><div class="value">12</div></div>
-        <div class="stat-card"><div class="label" data-i18n="kycFailedToday">Bugün Başarısız</div><div class="value">1</div></div>
+        <div class="stat-card"><div class="label">Bekleyen KYC</div><div class="value" id="kycPending">—</div></div>
+        <div class="stat-card"><div class="label">Onaylanan</div><div class="value" id="kycApproved">—</div></div>
+        <div class="stat-card"><div class="label">Reddedilen</div><div class="value" id="kycRejected">—</div></div>
       </div>
       <div class="card">
-        <h3 data-i18n="kycReviewQueue">KYC İnceleme Kuyruğu</h3>
+        <h3>KYC İnceleme Kuyruğu</h3>
         <div class="table-wrap">
           <table>
-            <thead><tr><th data-i18n="thClient">Müşteri</th><th data-i18n="thDocument">Belge</th><th data-i18n="thLiveness">Canlılık</th><th data-i18n="thMatchScore">Eşleşme Skoru</th><th data-i18n="thStatus">Durum</th><th data-i18n="thAction">Aksiyon</th></tr></thead>
-            <tbody>
-              <tr><td>Ahmed Yilmaz</td><td><span class="badge badge-success" data-i18n="badgeVerified">Doğrulandı</span></td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td><td>96.5%</td><td><span class="badge badge-warning" data-i18n="badgeManualReview">Manuel İnceleme</span></td><td><button class="btn btn-primary" style="padding:.3rem .8rem;font-size:.75rem" onclick="approveKYC(this)" data-i18n="btnApprove">Onayla</button></td></tr>
-              <tr><td>Hans Mueller</td><td><span class="badge badge-warning" data-i18n="badgeUnclear">Belirsiz</span></td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td><td>78.2%</td><td><span class="badge badge-warning" data-i18n="badgeManualReview">Manuel İnceleme</span></td><td><button class="btn btn-primary" style="padding:.3rem .8rem;font-size:.75rem" onclick="approveKYC(this)" data-i18n="btnApprove">Onayla</button></td></tr>
-              <tr><td>Elena Rossi</td><td><span class="badge badge-success" data-i18n="badgeVerified">Doğrulandı</span></td><td><span class="badge badge-danger" data-i18n="badgeFailed">Başarısız</span></td><td>45.1%</td><td><span class="badge badge-danger" data-i18n="badgeRejected">Reddedildi</span></td><td><button class="btn btn-outline" style="padding:.3rem .8rem;font-size:.75rem" data-i18n="btnRetry">Tekrar Dene</button></td></tr>
+            <thead><tr><th>Müşteri</th><th>E-posta</th><th>Tür</th><th>KYC Durumu</th><th>Aksiyon</th></tr></thead>
+            <tbody id="kycTableBody">
+              <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text2)">Yükleniyor...</td></tr>
             </tbody>
           </table>
         </div>
@@ -295,26 +289,23 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- KYB Panel -->
     <div class="panel" id="panel-kyb">
       <div class="card">
-        <h3 data-i18n="kybBizVerifQueue">Şirket Doğrulama Kuyruğu</h3>
+        <h3>Şirket Doğrulama Kuyruğu</h3>
         <div class="table-wrap">
           <table>
-            <thead><tr><th data-i18n="thCompany">Şirket</th><th data-i18n="thRegistration">Sicil</th><th>UBOs</th><th data-i18n="thStructure">Yapı</th><th data-i18n="thStatus">Durum</th></tr></thead>
-            <tbody>
-              <tr><td>TechStart GmbH</td><td><span class="badge badge-success" data-i18n="badgeVerified">Doğrulandı</span></td><td data-i18n="kybUbo2">2 tespit edildi</td><td><span class="badge badge-success" data-i18n="badgeSimple">Basit</span></td><td><span class="badge badge-info" data-i18n="badgeInReview">İncelemede</span></td></tr>
-              <tr><td>Nordic Pay Oy</td><td><span class="badge badge-success" data-i18n="badgeVerified">Doğrulandı</span></td><td data-i18n="kybUbo3">3 tespit edildi</td><td><span class="badge badge-warning" data-i18n="badgeComplex">Karmaşık</span></td><td><span class="badge badge-success" data-i18n="badgeApproved">Onaylandı</span></td></tr>
-              <tr><td>FinServe Ltd</td><td><span class="badge badge-danger" data-i18n="badgeMismatch">Uyuşmazlık</span></td><td data-i18n="kybUbo0">0 tespit edildi</td><td><span class="badge badge-danger" data-i18n="badgeUnknown">Bilinmiyor</span></td><td><span class="badge badge-danger" data-i18n="badgeRejected">Reddedildi</span></td></tr>
+            <thead><tr><th>Şirket</th><th>Sicil No</th><th>UBO Sayısı</th><th>Durum</th><th>Aksiyon</th></tr></thead>
+            <tbody id="kybTableBody">
+              <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text2)">Yükleniyor...</td></tr>
             </tbody>
           </table>
         </div>
       </div>
       <div class="card">
-        <h3 data-i18n="kybBeneficialOwners">Gerçek Faydalanıcılar — TechStart GmbH</h3>
+        <h3 id="kybUboTitle">Gerçek Faydalanıcılar</h3>
         <div class="table-wrap">
           <table>
-            <thead><tr><th data-i18n="thName">Ad</th><th data-i18n="thOwnership">Sahiplik %</th><th data-i18n="thRole">Unvan</th><th data-i18n="thKycStatus">KYC Durumu</th></tr></thead>
-            <tbody>
-              <tr><td>Klaus Weber</td><td>60%</td><td>CEO / Kurucu</td><td><span class="badge badge-success" data-i18n="badgePassed">Geçti</span></td></tr>
-              <tr><td>Anna Fischer</td><td>40%</td><td>CTO / Kurucu Ortak</td><td><span class="badge badge-warning" data-i18n="badgePending">Beklemede</span></td></tr>
+            <thead><tr><th>Ad Soyad</th><th>Sahiplik %</th><th>Unvan</th><th>Tür</th></tr></thead>
+            <tbody id="kybUboBody">
+              <tr><td colspan="4" style="text-align:center;padding:2rem;color:var(--text2)">Şirket seçilmedi</td></tr>
             </tbody>
           </table>
         </div>
@@ -401,13 +392,8 @@ td:first-child{font-weight:600;color:var(--navy)}
       </div>
       <div class="card">
         <h3 data-i18n="wfEventLog">İş Akışı Olay Günlüğü</h3>
-        <div class="timeline">
-          <div class="timeline-item done"><div class="time">09:42 — Maria Schmidt</div><div class="desc" data-i18n="wfLog1">Başvuru otomatik onaylandı (risk skoru: 15)</div></div>
-          <div class="timeline-item done"><div class="time">09:38 — Maria Schmidt</div><div class="desc" data-i18n="wfLog2">AML taraması tamamlandı — temiz</div></div>
-          <div class="timeline-item done"><div class="time">09:35 — Maria Schmidt</div><div class="desc" data-i18n="wfLog3">KYC belgesi doğrulandı (pasaport, skor: 99.1%)</div></div>
-          <div class="timeline-item active"><div class="time">09:30 — Ahmed Yilmaz</div><div class="desc" data-i18n="wfLog4">PEP eşleşmesi işaretlendi — manuel incelemeye yönlendirildi</div></div>
-          <div class="timeline-item done"><div class="time">09:22 — TechStart GmbH</div><div class="desc" data-i18n="wfLog5">Şirket sicili doğrulandı — 2 UBO tespit edildi</div></div>
-          <div class="timeline-item done"><div class="time">09:15 — FinServe Ltd</div><div class="desc" data-i18n="wfLog6">Başvuru otomatik reddedildi (yaptırım eşleşmesi)</div></div>
+        <div class="timeline" id="workflowTimeline">
+          <p style="color:var(--text2);padding:1rem">Yükleniyor...</p>
         </div>
       </div>
     </div>
@@ -416,12 +402,8 @@ td:first-child{font-weight:600;color:var(--navy)}
     <div class="panel" id="panel-notifications">
       <div class="card">
         <h3 data-i18n="notifRecent">Son Bildirimler</h3>
-        <div style="margin-top:1rem">
-          <div class="notif"><div class="dot green"></div><div><strong data-i18n="notif1Title">KYC Onaylandı</strong> <span data-i18n="notif1Desc">— Maria Schmidt'in kimliği doğrulandı</span><br><span style="font-size:.75rem;color:var(--text2)" data-i18n="notif1Time">2 dakika önce</span></div></div>
-          <div class="notif"><div class="dot yellow"></div><div><strong data-i18n="notif2Title">Manuel İnceleme Gerekli</strong> <span data-i18n="notif2Desc">— Ahmed Yilmaz PEP yakını olarak işaretlendi</span><br><span style="font-size:.75rem;color:var(--text2)" data-i18n="notif2Time">15 dakika önce</span></div></div>
-          <div class="notif"><div class="dot red"></div><div><strong data-i18n="notif3Title">Başvuru Reddedildi</strong> <span data-i18n="notif3Desc">— FinServe Ltd yaptırım listesiyle eşleşti</span><br><span style="font-size:.75rem;color:var(--text2)" data-i18n="notif3Time">1 saat önce</span></div></div>
-          <div class="notif"><div class="dot blue"></div><div><strong data-i18n="notif4Title">Yeni Başvuru</strong> <span data-i18n="notif4Desc">— TechStart GmbH kurumsal onboarding başlattı</span><br><span style="font-size:.75rem;color:var(--text2)" data-i18n="notif4Time">2 saat önce</span></div></div>
-          <div class="notif"><div class="dot green"></div><div><strong data-i18n="notif5Title">AML Temiz</strong> <span data-i18n="notif5Desc">— Sophie Dupont tüm uyum kontrollerini geçti</span><br><span style="font-size:.75rem;color:var(--text2)" data-i18n="notif5Time">3 saat önce</span></div></div>
+        <div style="margin-top:1rem" id="notifList">
+          <p style="color:var(--text2)">Yükleniyor...</p>
         </div>
       </div>
     </div>
@@ -479,9 +461,9 @@ td:first-child{font-weight:600;color:var(--navy)}
     <!-- Interview Panel -->
     <div class="panel" id="panel-interview">
       <div class="stats-row">
-        <div class="stat-card"><div class="label">Bu Hafta Planlanacak</div><div class="value">4</div></div>
-        <div class="stat-card"><div class="label">Planlandı</div><div class="value">7</div></div>
-        <div class="stat-card"><div class="label">Tamamlandı</div><div class="value">23</div></div>
+        <div class="stat-card"><div class="label">Planlanacak</div><div class="value" id="ivToSchedule">—</div></div>
+        <div class="stat-card"><div class="label">Planlandı</div><div class="value" id="ivPlanned">—</div></div>
+        <div class="stat-card"><div class="label">Tamamlandı</div><div class="value" id="ivCompleted">—</div></div>
       </div>
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
@@ -830,6 +812,10 @@ function showPanel(id){
   if(id==='dashboard')loadDashboardStats();
   if(id==='aml')loadAml();
   if(id==='risk')loadRisk();
+  if(id==='kyc')loadKyc();
+  if(id==='kyb')loadKyb();
+  if(id==='workflow')loadWorkflow();
+  if(id==='notifications')loadNotifications();
 }
 
 // ── DASHBOARD STATS ───────────────────────────────────
@@ -842,6 +828,183 @@ async function loadDashboardStats(){
   if(document.getElementById('s-review'))document.getElementById('s-review').textContent=(inReview||0);
   if(document.getElementById('s-approved'))document.getElementById('s-approved').textContent=(approved||0);
   if(document.getElementById('s-pending'))document.getElementById('s-pending').textContent=(pending||0);
+  // Activity table
+  var {data:recent}=await sb.from('clients').select('id,personal,type,status,kyc_status,aml_status,risk_score,submitted_at').order('submitted_at',{ascending:false}).limit(8);
+  var tbody=document.getElementById('dashboardTable');
+  if(!tbody)return;
+  if(!recent||!recent.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text2)">Henüz müşteri yok</td></tr>';return;}
+  tbody.innerHTML='';
+  recent.forEach(function(c){
+    var p=c.personal||{};
+    var name=((p.firstName||'')+' '+(p.lastName||'')).trim()||p.email||'—';
+    var typeStr=c.type==='business'?'Kurumsal':'Bireysel';
+    var score=c.risk_score!=null?c.risk_score+'/100':'—';
+    var riskBadge;
+    if(c.risk_score==null)riskBadge='<span class="badge badge-info">—</span>';
+    else if(c.risk_score<=30)riskBadge='<span class="badge badge-success">Düşük</span>';
+    else if(c.risk_score<=70)riskBadge='<span class="badge badge-warning">Orta</span>';
+    else riskBadge='<span class="badge badge-danger">Yüksek</span>';
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+esc(name)+'</td><td>'+esc(typeStr)+'</td><td><span class="'+statusBadge(c.kyc_status)+'">'+statusLabel(c.kyc_status)+'</span></td><td><span class="'+statusBadge(c.aml_status)+'">'+statusLabel(c.aml_status)+'</span></td><td>'+riskBadge+'</td><td><span class="'+statusBadge(c.status)+'">'+statusLabel(c.status)+'</span></td><td>'+fmtDate(c.submitted_at)+'</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+// ── KYC PANEL ────────────────────────────────────────
+async function loadKyc(){
+  var {data:clients}=await sb.from('clients').select('id,personal,kyc_status,type,submitted_at').order('submitted_at',{ascending:false});
+  var all=clients||[];
+  var pendingCount=all.filter(function(c){return c.kyc_status==='pending'||c.kyc_status==='in_review';}).length;
+  var approvedCount=all.filter(function(c){return c.kyc_status==='approved';}).length;
+  var rejectedCount=all.filter(function(c){return c.kyc_status==='rejected';}).length;
+  if(document.getElementById('kycPending'))document.getElementById('kycPending').textContent=pendingCount;
+  if(document.getElementById('kycApproved'))document.getElementById('kycApproved').textContent=approvedCount;
+  if(document.getElementById('kycRejected'))document.getElementById('kycRejected').textContent=rejectedCount;
+  var tbody=document.getElementById('kycTableBody');if(!tbody)return;
+  if(!all.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text2)">Henüz müşteri yok</td></tr>';return;}
+  tbody.innerHTML='';
+  all.forEach(function(c){
+    var p=c.personal||{};
+    var name=((p.firstName||'')+' '+(p.lastName||'')).trim()||'—';
+    var email=p.email||'—';
+    var typeStr=c.type==='business'?'Kurumsal':'Bireysel';
+    var kycSt=c.kyc_status||'pending';
+    var tr=document.createElement('tr');
+    var actionHtml='';
+    if(kycSt==='pending'||kycSt==='in_review'){
+      actionHtml='<button class="btn btn-primary" style="padding:.3rem .8rem;font-size:.75rem" data-id="'+esc(c.id)+'">Onayla</button>';
+    } else {
+      actionHtml='<span style="color:var(--text2);font-size:.8rem">—</span>';
+    }
+    tr.innerHTML='<td>'+esc(name)+'</td><td>'+esc(email)+'</td><td>'+esc(typeStr)+'</td><td><span class="'+statusBadge(kycSt)+'">'+statusLabel(kycSt)+'</span></td><td>'+actionHtml+'</td>';
+    // Approve button
+    var btn=tr.querySelector('[data-id]');
+    if(btn)btn.addEventListener('click',function(){approveKycClient(c.id,btn);});
+    tbody.appendChild(tr);
+  });
+}
+
+async function approveKycClient(id,btn){
+  btn.disabled=true;btn.textContent='...';
+  var {error}=await sb.from('clients').update({kyc_status:'approved'}).eq('id',id);
+  if(error){alert('Hata: '+error.message);btn.disabled=false;btn.textContent='Onayla';return;}
+  loadKyc();
+}
+
+// ── KYB PANEL ────────────────────────────────────────
+async function loadKyb(){
+  var {data:clients}=await sb.from('clients').select('id,personal,company,status,submitted_at').eq('type','business').order('submitted_at',{ascending:false});
+  var tbody=document.getElementById('kybTableBody');if(!tbody)return;
+  if(!clients||!clients.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text2)">Henüz kurumsal müşteri yok</td></tr>';return;}
+  // Count UBOs per client
+  var ids=clients.map(function(c){return c.id;});
+  var {data:ubos}=await sb.from('ubos').select('id,client_id,full_name,ownership_pct,position,ownership_type');
+  var uboMap={};
+  (ubos||[]).forEach(function(u){if(!uboMap[u.client_id])uboMap[u.client_id]=[];uboMap[u.client_id].push(u);});
+  tbody.innerHTML='';
+  var firstId=null;
+  clients.forEach(function(c,i){
+    var co=c.company||{};
+    var name=co.name||((c.personal||{}).firstName+' '+(c.personal||{}).lastName)||'—';
+    var regNo=co.registryNo||'—';
+    var uboList=uboMap[c.id]||[];
+    var tr=document.createElement('tr');
+    tr.style.cursor='pointer';
+    tr.innerHTML='<td>'+esc(name)+'</td><td>'+esc(regNo)+'</td><td>'+uboList.length+' UBO</td><td><span class="'+statusBadge(c.status)+'">'+statusLabel(c.status)+'</span></td><td><button class="btn btn-outline btn-sm" style="font-size:.75rem">UBO\'ları Gör</button></td>';
+    var btn=tr.querySelector('button');
+    btn.addEventListener('click',(function(cname,cid,cuboList){
+      return function(){showKybUbos(cname,cid,cuboList,uboMap);};
+    })(name,c.id,uboList,uboMap));
+    tbody.appendChild(tr);
+    if(i===0)firstId={name:name,id:c.id};
+  });
+  // Auto-show first company UBOs
+  if(firstId)showKybUbos(firstId.name,firstId.id,uboMap[firstId.id]||[],uboMap);
+}
+
+function showKybUbos(companyName,clientId,uboList,uboMap){
+  var title=document.getElementById('kybUboTitle');
+  if(title)title.textContent='Gerçek Faydalanıcılar — '+companyName;
+  var tbody=document.getElementById('kybUboBody');if(!tbody)return;
+  if(!uboList||!uboList.length){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:2rem;color:var(--text2)">Bu şirkete ait UBO kaydı yok</td></tr>';return;}
+  tbody.innerHTML='';
+  uboList.forEach(function(u){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+esc(u.full_name||'—')+'</td><td>'+(u.ownership_pct!=null?u.ownership_pct+'%':'—')+'</td><td>'+esc(u.position||'—')+'</td><td>'+esc(u.ownership_type||'—')+'</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+// ── WORKFLOW TIMELINE ─────────────────────────────────
+async function loadWorkflow(){
+  var {data:logs}=await sb.from('audit_logs').select('id,table_name,action,actor,new_data,old_data,created_at').order('created_at',{ascending:false}).limit(15);
+  var tl=document.getElementById('workflowTimeline');if(!tl)return;
+  if(!logs||!logs.length){tl.innerHTML='<p style="color:var(--text2);padding:1rem">Henüz kayıt yok</p>';return;}
+  tl.innerHTML='';
+  logs.forEach(function(log){
+    var nd=log.new_data||{};var od=log.old_data||{};
+    var p=nd.personal||od.personal||{};
+    var name=((p.firstName||'')+' '+(p.lastName||'')).trim()||(nd.email||od.email||log.actor||'—');
+    var statusChanged=nd.status&&od.status&&nd.status!==od.status;
+    var desc;
+    if(log.action==='INSERT')desc='Yeni kayıt oluşturuldu ('+log.table_name+')';
+    else if(statusChanged)desc='Durum değişti: '+statusLabel(od.status)+' → '+statusLabel(nd.status);
+    else if(log.action==='UPDATE')desc='Kayıt güncellendi ('+log.table_name+')';
+    else desc='Kayıt silindi ('+log.table_name+')';
+    var isActive=statusChanged&&(nd.status==='in_review'||nd.status==='pending');
+    var div=document.createElement('div');
+    div.className='timeline-item '+(isActive?'active':'done');
+    var timeStr=log.created_at?fmtDate(log.created_at)+' '+pad(new Date(log.created_at).getHours())+':'+pad(new Date(log.created_at).getMinutes()):'—';
+    var timeDiv=document.createElement('div');timeDiv.className='time';timeDiv.textContent=timeStr+(name&&name!=='—'?' — '+name:'');
+    var descDiv=document.createElement('div');descDiv.className='desc';descDiv.textContent=desc;
+    div.appendChild(timeDiv);div.appendChild(descDiv);
+    tl.appendChild(div);
+  });
+}
+
+// ── NOTIFICATIONS ─────────────────────────────────────
+async function loadNotifications(){
+  var {data:logs}=await sb.from('audit_logs').select('*').eq('table_name','clients').order('created_at',{ascending:false}).limit(20);
+  var list=document.getElementById('notifList');if(!list)return;
+  if(!logs||!logs.length){list.innerHTML='<p style="color:var(--text2)">Henüz bildirim yok</p>';return;}
+  list.innerHTML='';
+  logs.forEach(function(log){
+    var nd=log.new_data||{};var od=log.old_data||{};
+    var p=nd.personal||od.personal||{};
+    var name=((p.firstName||'')+' '+(p.lastName||'')).trim()||nd.email||od.email||'Müşteri';
+    var statusChanged=nd.status&&od.status&&nd.status!==od.status;
+    var dotColor='blue';var title='';var desc='';
+    if(log.action==='INSERT'){dotColor='blue';title='Yeni Başvuru';desc=name+' onboarding başlattı';}
+    else if(statusChanged&&nd.status==='approved'){dotColor='green';title='Başvuru Onaylandı';desc=name+' onaylandı';}
+    else if(statusChanged&&nd.status==='rejected'){dotColor='red';title='Başvuru Reddedildi';desc=name+' reddedildi';}
+    else if(statusChanged&&nd.status==='in_review'){dotColor='yellow';title='İncelemeye Alındı';desc=name+' incelemeye alındı';}
+    else if(log.action==='UPDATE'){
+      if(nd.kyc_status==='approved'&&od.kyc_status!=='approved'){dotColor='green';title='KYC Onaylandı';desc=name+' kimliği doğrulandı';}
+      else if(nd.aml_status==='rejected'){dotColor='red';title='AML Şüphesi';desc=name+' AML taramasında işaretlendi';}
+      else{dotColor='blue';title='Kayıt Güncellendi';desc=name;}
+    }
+    if(!title)return;
+    var ago=timeAgo(log.created_at);
+    var div=document.createElement('div');div.className='notif';
+    var dot=document.createElement('div');dot.className='dot '+dotColor;
+    var info=document.createElement('div');
+    var strong=document.createElement('strong');strong.textContent=title;
+    var span=document.createElement('span');span.textContent=' — '+desc;
+    var time=document.createElement('span');time.style.cssText='font-size:.75rem;color:var(--text2)';time.textContent=ago;
+    info.appendChild(strong);info.appendChild(span);info.appendChild(document.createElement('br'));info.appendChild(time);
+    div.appendChild(dot);div.appendChild(info);
+    list.appendChild(div);
+  });
+  if(!list.children.length)list.innerHTML='<p style="color:var(--text2)">Henüz bildirim yok</p>';
+}
+
+function timeAgo(ts){
+  if(!ts)return'—';
+  var diff=Date.now()-new Date(ts).getTime();
+  var m=Math.floor(diff/60000);
+  if(m<1)return'Az önce';if(m<60)return m+' dakika önce';
+  var h=Math.floor(m/60);if(h<24)return h+' saat önce';
+  var d=Math.floor(h/24);return d+' gün önce';
 }
 
 // ── AML PANEL ─────────────────────────────────────────
@@ -1151,6 +1314,13 @@ async function loadInterviews(){
   if(!list)return;
   list.innerHTML='';
   var ivList=interviews||[];
+  // Stats
+  var toSch=ivList.filter(function(i){return i.status==='to_schedule';}).length;
+  var planned=ivList.filter(function(i){return i.status==='planned';}).length;
+  var completed=ivList.filter(function(i){return i.status==='completed';}).length;
+  if(document.getElementById('ivToSchedule'))document.getElementById('ivToSchedule').textContent=toSch;
+  if(document.getElementById('ivPlanned'))document.getElementById('ivPlanned').textContent=planned;
+  if(document.getElementById('ivCompleted'))document.getElementById('ivCompleted').textContent=completed;
   if(!ivList.length){list.innerHTML='<p style="color:var(--text2);padding:1rem">Henüz görüşme yok / No interviews yet</p>';return;}
   ivList.forEach(function(iv){
     var sc=iv.scheduled_at?fmtDate(iv.scheduled_at)+' '+pad(new Date(iv.scheduled_at).getHours())+':'+pad(new Date(iv.scheduled_at).getMinutes()):'Tarih belirlenmedi';
