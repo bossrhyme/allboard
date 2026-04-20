@@ -1249,6 +1249,7 @@ var T = {
     optSelect:'Seçin', optOther:'Diğer', optNo:'Hayır', optYes:'Evet',
     noApp:'Henüz başvuru yok', noAppDesc:'Onboarding formunu doldurarak başvurunuzu tamamlayın.', noAppBtn:'Başvuru Yap →',
     alertSelectType:'Lütfen hesap türü seçin', alertEmailPass:'E-posta ve şifre gerekli', alertMinPass:'Şifre en az 6 karakter olmalı',
+    alertPreRegPhone:'Telefon numarası zorunludur.',
     alertLogin:'Lütfen önce giriş yapın.', uploading:'Yüklendi', submitting:'Gönderiliyor...',
     alertNameRequired:'Ad ve soyad zorunludur.', alertDobRequired:'Doğum tarihi zorunludur.',
     alertAge:'18 yaşından küçükler başvuru yapamaz.', alertPhone:'Geçerli bir telefon numarası girin.',
@@ -1368,6 +1369,7 @@ var T = {
     optSelect:'Select', optOther:'Other', optNo:'No', optYes:'Yes',
     noApp:'No application yet', noAppDesc:'Complete the onboarding form to submit your application.', noAppBtn:'Apply Now →',
     alertSelectType:'Please select an account type', alertEmailPass:'Email and password are required', alertMinPass:'Password must be at least 6 characters',
+    alertPreRegPhone:'Phone number is required.',
     alertLogin:'Please log in first.', uploading:'Uploaded', submitting:'Submitting...',
     alertNameRequired:'First and last name are required.', alertDobRequired:'Date of birth is required.',
     alertAge:'Applicants must be 18 or older.', alertPhone:'Please enter a valid phone number.',
@@ -1591,11 +1593,13 @@ function preRegNext(){
   if(prStep===1){
     var name=document.getElementById('prName').value.trim();
     var email=document.getElementById('prEmail').value.trim();
+    var phone=document.getElementById('prPhone').value.trim();
     if(!name){alert(L.alertPreRegName||'Ad Soyad zorunludur.');return;}
     if(!email||!email.includes('@')){alert(L.alertPreRegEmail||'Geçerli bir e-posta adresi girin.');return;}
+    if(!phone){alert(L.alertPreRegPhone||'Telefon numarası zorunludur.');return;}
     prData.name=name;
     prData.email=email;
-    prData.phone=document.getElementById('prPhone').value.trim();
+    prData.phone=phone;
   } else if(prStep===2){
     if(!prData.account_type){alert(L.alertPreRegType||'Lütfen hesap türünü seçin.');return;}
   } else if(prStep===3){
@@ -1621,6 +1625,10 @@ function preRegPrev(){
 }
 
 async function submitPreReg(){
+  // Son güvenlik kontrolü — zorunlu alanlar dolu mu?
+  if(!prData.name||!prData.email||!prData.phone||!prData.account_type||!prData.platforms){
+    alert('Lütfen tüm zorunlu adımları eksiksiz doldurun.');return;
+  }
   // Belge durumu topla
   var docContainer=prData.account_type==='corporate'?'prDocsBiz':'prDocsInd';
   var checklist={};
