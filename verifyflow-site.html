@@ -1493,9 +1493,10 @@ async function doLogin(){
   var email=document.getElementById('lEmail').value.trim();
   var password=document.getElementById('lPass').value;
   if(!email||!password){alert(T[currentLang].alertEmailPass);return;}
-  var btn=document.querySelector('#aLogin .btn-primary');btn.textContent='...';btn.disabled=true;
+  var btn=document.querySelector('#authMod .btn-primary');
+  if(btn){btn.textContent='...';btn.disabled=true;}
   var {data,error}=await sb.auth.signInWithPassword({email,password});
-  btn.textContent=T[currentLang].navLogin;btn.disabled=false;
+  if(btn){btn.textContent=T[currentLang].navLogin;btn.disabled=false;}
   if(error){alert('Hata: '+error.message);return;}
   currentUser=data.user;
   closeAuth();nav('profile');
@@ -1507,12 +1508,13 @@ async function doRegister(){
   var name=document.getElementById('rName')?document.getElementById('rName').value.trim():'';
   if(!email||!password){alert(T[currentLang].alertEmailPass);return;}
   if(password.length<6){alert(T[currentLang].alertMinPass);return;}
-  var btn=document.querySelector('#aReg .btn-primary');btn.textContent='...';btn.disabled=true;
+  var btn=document.querySelector('#authMod .btn-primary');
+  if(btn){btn.textContent='...';btn.disabled=true;}
   var {data,error}=await sb.auth.signUp({email,password,options:{
     emailRedirectTo:window.location.origin+'/?verified=1',
     data:{full_name:name}
   }});
-  btn.textContent=T[currentLang].navRegister;btn.disabled=false;
+  if(btn){btn.textContent=T[currentLang].navRegister;btn.disabled=false;}
   if(error){alert('Hata: '+error.message);return;}
   closeAuth();
   alert('Email adresinize doğrulama linki gönderildi. Lütfen emailinizi kontrol edin.');
