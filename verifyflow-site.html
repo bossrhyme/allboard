@@ -1250,6 +1250,7 @@ var T = {
     noApp:'Henüz başvuru yok', noAppDesc:'Onboarding formunu doldurarak başvurunuzu tamamlayın.', noAppBtn:'Başvuru Yap →',
     alertSelectType:'Lütfen hesap türü seçin', alertEmailPass:'E-posta ve şifre gerekli', alertMinPass:'Şifre en az 6 karakter olmalı',
     alertPreRegPhone:'Telefon numarası zorunludur.',
+    alertCompanyName:'Şirket adı zorunludur.', alertRegistryNo:'Ticaret sicil numarası zorunludur.',
     alertLogin:'Lütfen önce giriş yapın.', uploading:'Yüklendi', submitting:'Gönderiliyor...',
     alertNameRequired:'Ad ve soyad zorunludur.', alertDobRequired:'Doğum tarihi zorunludur.',
     alertAge:'18 yaşından küçükler başvuru yapamaz.', alertPhone:'Geçerli bir telefon numarası girin.',
@@ -1370,6 +1371,7 @@ var T = {
     noApp:'No application yet', noAppDesc:'Complete the onboarding form to submit your application.', noAppBtn:'Apply Now →',
     alertSelectType:'Please select an account type', alertEmailPass:'Email and password are required', alertMinPass:'Password must be at least 6 characters',
     alertPreRegPhone:'Phone number is required.',
+    alertCompanyName:'Company name is required.', alertRegistryNo:'Trade registry number is required.',
     alertLogin:'Please log in first.', uploading:'Uploaded', submitting:'Submitting...',
     alertNameRequired:'First and last name are required.', alertDobRequired:'Date of birth is required.',
     alertAge:'Applicants must be 18 or older.', alertPhone:'Please enter a valid phone number.',
@@ -1722,6 +1724,14 @@ async function submitApp(){
   var age=(Date.now()-new Date(dob).getTime())/(1000*60*60*24*365.25);
   if(age<18){alert(L.alertAge||'18 yaşından küçükler başvuru yapamaz.');return;}
   if(phone&&!/^\+?[\d\s\-().]{7,20}$/.test(phone)){alert(L.alertPhone||'Geçerli bir telefon numarası girin.');return;}
+
+  // Kurumsal zorunlu alan kontrolü
+  if(acType==='biz'){
+    var companyName=gv('companyName');
+    var registryNo=gv('registryNo');
+    if(!companyName){alert(L.alertCompanyName||'Şirket adı zorunludur.');return;}
+    if(!registryNo){alert(L.alertRegistryNo||'Ticaret sicil numarası zorunludur.');return;}
+  }
 
   // UBO validation (business)
   if(acType==='biz'){
