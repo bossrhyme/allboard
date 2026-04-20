@@ -844,7 +844,7 @@ a{color:var(--blue);text-decoration:none}
     <h2 data-i18n="loginTitle">Tekrar Hoşgeldiniz</h2>
     <p class="msub" data-i18n="loginSub">Hesabınıza giriş yapın</p>
     <div class="fg"><label data-i18n="lEmail">E-posta</label><input type="email" class="fi" id="lEmail" placeholder="siz@ornek.com"></div>
-    <div class="fg"><label data-i18n="lPassword">Şifre</label><input type="password" class="fi" id="lPass" placeholder="••••••••"></div>
+    <div class="fg"><label data-i18n="lPassword">Şifre</label><div style="position:relative"><input type="password" class="fi" id="lPass" placeholder="••••••••" style="padding-right:2.5rem"><button type="button" onclick="var i=document.getElementById('lPass');i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'👁':'🙈'" style="position:absolute;right:.6rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;line-height:1;padding:0">👁</button></div></div>
     <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem" onclick="doLogin()" data-i18n="navLogin">Giriş Yap</button>
     <div style="text-align:center;margin-top:.75rem;font-size:.8rem;color:var(--text2)"><span data-i18n="noAccount">Hesabınız yok mu?</span> <a href="#" onclick="closeAuth();showPreReg();return false" data-i18n="applyLink">Ön başvuru yapın</a></div>
   </div>
