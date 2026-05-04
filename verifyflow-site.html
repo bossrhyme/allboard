@@ -1256,7 +1256,7 @@ var T = {
     alertAge:'18 yaşından küçükler başvuru yapamaz.', alertPhone:'Geçerli bir telefon numarası girin.',
     alertPctRange:'Sahiplik oranı 0-100 arasında olmalıdır.', alertPctTotal:'Toplam sahiplik oranı %100\'ü aşamaz.',
     alertSubmitErr:'Kayıt hatası:', alertUboErr:'Ortak kayıt hatası:',
-    alertFileSize:'Dosya 10MB\'dan büyük olamaz:', alertMsgCooldown:'Lütfen 2 saniye bekleyin.',
+    alertFileSize:'Dosya 10MB\'dan büyük olamaz:', alertInvalidFile:'Geçersiz dosya içeriği:', alertMsgCooldown:'Lütfen 2 saniye bekleyin.',
     chatPlaceholder:'Mesajınızı yazın...',
     docNufus:'Nüfus Kayıt Örneği', docBankPersonal:'Banka Hesap Dökümü', docSof:'Fon Kaynağı Belgesi (SoF)',
     docRegistryGazette:'Ticaret Sicil Gazetesi', docTaxClearance:'Vergi Borcu Yoktur Yazısı',
@@ -1377,7 +1377,7 @@ var T = {
     alertAge:'Applicants must be 18 or older.', alertPhone:'Please enter a valid phone number.',
     alertPctRange:'Ownership percentage must be between 0-100.', alertPctTotal:'Total ownership cannot exceed 100%.',
     alertSubmitErr:'Submission error:', alertUboErr:'UBO record error:',
-    alertFileSize:'File cannot exceed 10MB:', alertMsgCooldown:'Please wait 2 seconds.',
+    alertFileSize:'File cannot exceed 10MB:', alertInvalidFile:'Invalid file content:', alertMsgCooldown:'Please wait 2 seconds.',
     chatPlaceholder:'Type your message...',
     docNufus:'Family Register', docBankPersonal:'Bank Account Statement', docSof:'Source of Funds (SoF)',
     docRegistryGazette:'Trade Registry Gazette', docTaxClearance:'Tax Clearance Certificate',
@@ -1695,6 +1695,23 @@ function pickRo(el){
   g.querySelectorAll('.ro').forEach(function(o){o.classList.remove('sel');});
   el.classList.add('sel');
 }
+// Magic byte kontrolü — dosyanın ilk byte'larını okuyarak gerçek formatı doğrular
+async function checkMagicBytes(file){
+  var buf=await file.slice(0,12).arrayBuffer();
+  var b=new Uint8Array(buf);
+  var mime=file.type;
+  if(mime==='application/pdf')
+    return b[0]===0x25&&b[1]===0x50&&b[2]===0x44&&b[3]===0x46; // %PDF
+  if(mime==='image/jpeg')
+    return b[0]===0xFF&&b[1]===0xD8&&b[2]===0xFF;               // FF D8 FF
+  if(mime==='image/png')
+    return b[0]===0x89&&b[1]===0x50&&b[2]===0x4E&&b[3]===0x47; // \x89PNG
+  if(mime==='image/webp')
+    return b[0]===0x52&&b[1]===0x49&&b[2]===0x46&&b[3]===0x46  // RIFF
+        &&b[8]===0x57&&b[9]===0x45&&b[10]===0x42&&b[11]===0x50; // WEBP
+  return false;
+}
+
 function onFile(inp,sid){
   if(inp.files.length){var s=document.getElementById(sid);s.style.display='block';s.textContent='✓ '+inp.files[0].name+' '+(T[currentLang].uploading||'yüklendi');}
 }
@@ -1851,6 +1868,12 @@ async function submitApp(){
       // File type validation
       if(!/^(image\/(jpeg|png|webp)|application\/pdf)$/.test(file.type)){
         console.warn('Skipping unsupported file type:',file.type);continue;
+      }
+      // Magic byte validation — gerçek dosya içeriğini doğrula (MIME spoof önlemi)
+      var magicOk=await checkMagicBytes(file);
+      if(!magicOk){
+        alert((L.alertInvalidFile||'Geçersiz dosya içeriği:')+' '+file.name+'\nDosya uzantısı içerikle uyuşmuyor.');
+        resetBtn();return;
       }
       // File size limit: 10MB
       if(file.size>10*1024*1024){alert((L.alertFileSize||'Dosya 10MB\'dan büyük olamaz:')+' '+file.name);continue;}
