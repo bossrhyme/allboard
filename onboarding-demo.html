@@ -1181,7 +1181,23 @@ async function openClientProfile(id){
   var docsCont=document.getElementById('cpDocs');
   if(docsCont&&docs){
     var isEn2=currentLang==='en';
-    var typeLabels=isEn2?{identity:'Identity',address:'Address',tax:'Tax',registry:'Registry',aoa:'Articles of Association',signature:'Signature Circular',cgs:'Activity Certificate'}:{identity:'Kimlik',address:'Adres',tax:'Vergi',registry:'Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet'};
+    var typeLabels=isEn2?{
+      identity:'Identity',address:'Proof of Address',tax:'Tax Certificate',nufus:'Family Register',bank_personal:'Bank Statement',sof:'Source of Funds (SoF)',
+      registry:'Trade Registry',aoa:'Articles of Association',signature:'Signature Circular',cgs:'Activity Certificate',
+      registry_gazette:'Trade Registry Gazette',tax_clearance:'Tax Clearance',sow:'Source of Wealth (SoW)',sof_biz:'Source of Funds (SoF)',
+      hazirun:'Attendance List',lease:'Lease Agreement',bank_biz:'TL/USD Account Statement',rep_nufus:'Representative ID',
+      rep_occupation:'Representative Occupation',rep_bank:'Representative Bank Statement',
+      sworn_translation:'Sworn Translation',certified_copy:'Certified Copy',org_chart:'Organization Chart',
+      intent_letter:'Letter of Intent',shareholder_form:'Shareholder Form',ownership_form:'Ownership Form',invoice_biz:'Invoice'
+    }:{
+      identity:'Kimlik Belgesi',address:'İkametgah Belgesi',tax:'Vergi Levhası',nufus:'Nüfus Kayıt Örneği',bank_personal:'Banka Hesap Dökümü',sof:'Fon Kaynağı (SoF)',
+      registry:'Ticaret Sicil Belgesi',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet Belgesi',
+      registry_gazette:'Ticaret Sicil Gazetesi',tax_clearance:'Vergi Borcu Yoktur',sow:'Servet Kaynağı (SoW)',sof_biz:'Fon Kaynağı (SoF)',
+      hazirun:'Hazirun Cetveli',lease:'Kira Sözleşmesi',bank_biz:'TL/USD Hesap Dökümü',rep_nufus:'Temsilci Kimlik Belgesi',
+      rep_occupation:'Temsilci Meslek Belgesi',rep_bank:'Temsilci Banka Dökümü',
+      sworn_translation:'Yeminli Tercüman Çevirisi',certified_copy:'Aslı Gibidir Onayı',org_chart:'Organizasyon Şeması',
+      intent_letter:'Niyet Mektubu',shareholder_form:'Hissedar Formu',ownership_form:'Sahiplik Formu',invoice_biz:'Fatura'
+    };
     var docHdrs=isEn2?['Type','File','Status','Action']:['Tür','Dosya','Durum','Aksiyon'];
     var dlLabel=isEn2?'Download':'İndir';var approveLabel=isEn2?'Approve':'Onayla';var noDocs=isEn2?'No documents':'Belge yok';
     if(!docs.length){docsCont.innerHTML='<p style="color:var(--text2);padding:1rem">'+noDocs+'</p>';}
@@ -1450,22 +1466,49 @@ function showPreRegDetail(r){
   var typeMap={individual:'Bireysel',corporate:'Kurumsal'};
   var statusMap={pending:'Bekliyor',approved:'Onaylandı',rejected:'Reddedildi'};
   var docLabels={
-    identity:'Kimlik Belgesi',address:'Adres Belgesi',tax:'Vergi Levhası',
-    registry:'Ticaret Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'CGS',
+    identity:'Kimlik Belgesi',address:'İkametgah Belgesi',tax:'Vergi Levhası',
+    nufus:'Nüfus Kayıt Örneği',bank_personal:'Banka Hesap Dökümü',sof:'Fon Kaynağı Belgesi (SoF)',
+    registry:'Ticaret Sicil Belgesi',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet Belgesi',
+    registry_gazette:'Ticaret Sicil Gazetesi',tax_clearance:'Vergi Borcu Yoktur',
+    sow:'Servet Kaynağı (SoW)',sof_biz:'Fon Kaynağı (SoF)',hazirun:'Hazirun Cetveli',
+    lease:'Kira Sözleşmesi',bank_biz:'TL/USD Hesap Dökümü',rep_nufus:'Temsilci Kimlik Belgesi',
+    sworn_translation:'Yeminli Tercüman Çevirisi',certified_copy:'Aslı Gibidir Onayı',org_chart:'Organizasyon Şeması',
     passport:'Pasaport',drivingLicense:'Ehliyet',utilityBill:'Fatura',bankStatement:'Banka Ekstresi',
-    sow:'Servet Kaynağı (SoW)',sof:'Fon Kaynağı (SoF)',financialStatement:'Mali Tablolar',
-    shareholderReg:'Hissedar Sicili',uboDeclaration:'UBO Beyanı'
+    financialStatement:'Mali Tablolar',shareholderReg:'Hissedar Sicili',uboDeclaration:'UBO Beyanı'
   };
 
   document.getElementById('pdTitle').textContent=(r.name||'—')+' — Başvuru Detayı';
 
   var docs=r.doc_checklist||{};
-  var docRows=Object.keys(docs).map(function(k){
-    return '<tr><td style="padding:.35rem .5rem;font-size:.83rem">'+esc(docLabels[k]||k)+'</td>'+
-           '<td style="padding:.35rem .5rem;text-align:center">'+(docs[k]?'<span class="badge badge-success" style="font-size:.7rem">Mevcut</span>':'<span class="badge badge-danger" style="font-size:.7rem">Yok</span>')+'</td></tr>';
+  // Mevcut belgeler önce, sonra alfabetik etiket sırası
+  var docKeys=Object.keys(docs).sort(function(a,b){
+    if(docs[a]!==docs[b])return docs[a]?-1:1;
+    return (docLabels[a]||a).localeCompare(docLabels[b]||b,'tr');
+  });
+  var docRows=docKeys.map(function(k){
+    return '<tr style="border-bottom:1px solid var(--border)"><td style="padding:.45rem .5rem;font-size:.83rem">'+esc(docLabels[k]||k)+'</td>'+
+           '<td style="padding:.45rem .5rem;text-align:right">'+(docs[k]?'<span class="badge badge-success" style="font-size:.7rem">✓ Mevcut</span>':'<span class="badge badge-danger" style="font-size:.7rem">Yok</span>')+'</td></tr>';
   }).join('');
+  var docTotal=docKeys.length;
+  var docHave=docKeys.filter(function(k){return docs[k];}).length;
 
+  // Platformları kategoriye göre grupla: [Borsa] / [OTC] / [Banka] / diğer
   var platforms=(r.platforms||[]);
+  var platCats={'Borsa':{icon:'🪙',label:'Kripto Borsaları',items:[]},'OTC':{icon:'🤝',label:'OTC Firmaları',items:[]},'Banka':{icon:'🏦',label:'Bankalar',items:[]},'Diğer':{icon:'📌',label:'Diğer',items:[]}};
+  platforms.forEach(function(p){
+    var m=/^\[(Borsa|OTC|Banka)\]\s*(.*)$/.exec(p);
+    if(m)platCats[m[1]].items.push(m[2]||'Belirtilmedi');
+    else platCats['Diğer'].items.push(p);
+  });
+  var platHtml=Object.keys(platCats).map(function(cat){
+    var c=platCats[cat];
+    if(!c.items.length)return '';
+    return '<div style="margin-bottom:.6rem"><div style="font-size:.76rem;font-weight:600;color:var(--text2);margin-bottom:.35rem">'+c.icon+' '+c.label+'</div>'+
+           '<div style="display:flex;flex-wrap:wrap;gap:.4rem">'+c.items.map(function(p){
+             var muted=p==='Belirtilmedi';
+             return '<span class="badge '+(muted?'':'badge-info')+'" style="font-size:.76rem'+(muted?';background:var(--bg);color:var(--text2);border:1px dashed var(--border)':'')+'">'+esc(p)+'</span>';
+           }).join('')+'</div></div>';
+  }).join('');
 
   var body=
     '<div style="display:grid;gap:1rem">'+
@@ -1481,17 +1524,18 @@ function showPreRegDetail(r){
         '<div><span style="color:var(--text2)">Durum:</span> <strong>'+(statusMap[r.status]||r.status)+'</strong></div>'+
       '</div>'+
     '</div>'+
-    // Platformlar
+    // Platformlar — kategoriye göre gruplu
     '<div style="background:var(--bg);border-radius:10px;padding:1rem">'+
-      '<div style="font-size:.72rem;font-weight:700;color:var(--text2);letter-spacing:.05em;margin-bottom:.75rem">KULLANILAN PLATFORMLAR</div>'+
-      (platforms.length?
-        '<div style="display:flex;flex-wrap:wrap;gap:.5rem">'+platforms.map(function(p){return '<span class="badge badge-info" style="font-size:.78rem">'+esc(p)+'</span>';}).join('')+'</div>':
-        '<span style="color:var(--text2);font-size:.83rem">Belirtilmemiş</span>')+
+      '<div style="font-size:.72rem;font-weight:700;color:var(--text2);letter-spacing:.05em;margin-bottom:.75rem">TALEP EDİLEN PLATFORMLAR</div>'+
+      (platHtml||'<span style="color:var(--text2);font-size:.83rem">Belirtilmemiş</span>')+
     '</div>'+
-    // Belgeler
+    // Belgeler — mevcutlar üstte, sayaçlı başlık
     (docRows?
       '<div style="background:var(--bg);border-radius:10px;padding:1rem">'+
-        '<div style="font-size:.72rem;font-weight:700;color:var(--text2);letter-spacing:.05em;margin-bottom:.75rem">BELGE DURUMU</div>'+
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem">'+
+          '<div style="font-size:.72rem;font-weight:700;color:var(--text2);letter-spacing:.05em">BELGE DURUMU</div>'+
+          '<span class="badge '+(docHave===docTotal?'badge-success':'badge-warning')+'" style="font-size:.7rem">'+docHave+' / '+docTotal+' mevcut</span>'+
+        '</div>'+
         '<table style="width:100%;border-collapse:collapse"><tbody>'+docRows+'</tbody></table>'+
       '</div>':'')+
     // Notlar
