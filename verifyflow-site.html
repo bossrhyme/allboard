@@ -1254,6 +1254,7 @@ var T = {
     alertLogin:'Lütfen önce giriş yapın.', uploading:'Yüklendi', submitting:'Gönderiliyor...',
     alertNameRequired:'Ad ve soyad zorunludur.', alertDobRequired:'Doğum tarihi zorunludur.',
     alertAge:'18 yaşından küçükler başvuru yapamaz.', alertPhone:'Geçerli bir telefon numarası girin.',
+    alertUboRequired:'En az bir gerçek faydalanıcı (UBO) adı giriniz.',
     alertPctRange:'Sahiplik oranı 0-100 arasında olmalıdır.', alertPctTotal:'Toplam sahiplik oranı %100\'ü aşamaz.',
     alertSubmitErr:'Kayıt hatası:', alertUboErr:'Ortak kayıt hatası:',
     alertFileSize:'Dosya 10MB\'dan büyük olamaz:', alertInvalidFile:'Geçersiz dosya içeriği:', alertMalware:'Tehlikeli dosya tespit edildi:', alertMsgCooldown:'Lütfen 2 saniye bekleyin.',
@@ -1375,6 +1376,7 @@ var T = {
     alertLogin:'Please log in first.', uploading:'Uploaded', submitting:'Submitting...',
     alertNameRequired:'First and last name are required.', alertDobRequired:'Date of birth is required.',
     alertAge:'Applicants must be 18 or older.', alertPhone:'Please enter a valid phone number.',
+    alertUboRequired:'Please enter at least one beneficial owner (UBO) name.',
     alertPctRange:'Ownership percentage must be between 0-100.', alertPctTotal:'Total ownership cannot exceed 100%.',
     alertSubmitErr:'Submission error:', alertUboErr:'UBO record error:',
     alertFileSize:'File cannot exceed 10MB:', alertInvalidFile:'Invalid file content:', alertMalware:'Dangerous file detected:', alertMsgCooldown:'Please wait 2 seconds.',
@@ -1756,7 +1758,7 @@ async function submitApp(){
   if(!session){alert(T[currentLang].alertLogin);return;}
   var L=T[currentLang];
   var btn=document.getElementById('submitBtn');
-  var resetBtn=function(){if(btn){btn.textContent=L.submit||'Gönder';btn.disabled=false;}};
+  var resetBtn=function(){if(btn){btn.textContent=L.btnSubmit||'Başvuruyu Gönder ✓';btn.disabled=false;}};
 
   // ── Form validation ───────────────────────────────
   var firstName=gv('firstName'),lastName=gv('lastName'),dob=gv('dob'),phone=gv('phone');
@@ -1778,13 +1780,16 @@ async function submitApp(){
   // UBO validation (business)
   if(acType==='biz'){
     var uboItems=document.querySelectorAll('.ubo-item');
-    var totalPct=0,pctError=false;
+    var totalPct=0,pctError=false,hasNamedUbo=false;
     uboItems.forEach(function(item){
+      var fn=item.querySelector('[name="uboName"]');
       var op=item.querySelector('[name="uboPct"]');
       var pct=parseFloat(op?op.value:0)||0;
+      if(fn&&fn.value.trim())hasNamedUbo=true;
       if(pct<0||pct>100){pctError=true;}
       totalPct+=pct;
     });
+    if(!hasNamedUbo){alert(L.alertUboRequired||'En az bir gerçek faydalanıcı (UBO) adı giriniz.');return;}
     if(pctError){alert(L.alertPctRange||'Sahiplik oranı 0-100 arasında olmalıdır.');return;}
     if(totalPct>100){alert(L.alertPctTotal||'Toplam sahiplik oranı %100\'ü aşamaz (şu an: %'+Math.round(totalPct)+')');return;}
   }

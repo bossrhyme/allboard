@@ -733,8 +733,8 @@ function showDashboard(){
   loadDashboardStats();
   sb.from('pre_registrations').select('*',{count:'exact',head:true}).eq('status','pending').then(function(r){
     var badge=document.getElementById('preRegBadge');
-    if(badge&&r.count>0){badge.textContent=r.count;badge.style.display='inline';}
-  });
+    if(badge&&r&&r.count>0){badge.textContent=r.count;badge.style.display='inline';}
+  }).catch(function(){});
 }
 
 document.addEventListener('DOMContentLoaded',async function(){
@@ -1226,7 +1226,8 @@ async function openClientProfile(id){
             e.preventDefault();
             sb.storage.from('documents').createSignedUrl(d.file_path,10).then(function(r){
               if(r.data&&r.data.signedUrl)window.open(r.data.signedUrl,'_blank');
-            });
+              else alert('Dosya bağlantısı oluşturulamadı.');
+            }).catch(function(){alert('Dosya indirme hatası.');});
           });
           td4.appendChild(link);td4.appendChild(document.createTextNode(' '));
         }
