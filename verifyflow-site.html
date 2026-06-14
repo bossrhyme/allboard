@@ -98,6 +98,8 @@ a{color:var(--blue);text-decoration:none}
 .fg label{display:block;font-size:.78rem;font-weight:600;margin-bottom:.35rem;color:var(--text2)}
 .fi{width:100%;padding:.65rem .95rem;background:#fff;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:.88rem;transition:border-color .18s;font-family:inherit}
 .fi:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(20,71,230,.08)}select.fi option{background:#fff}textarea.fi{resize:vertical;min-height:80px}
+.phone-wrap{display:flex;gap:.5rem}
+.phone-cc{width:170px!important;flex-shrink:0;cursor:pointer}
 .rg{display:flex;flex-direction:column;gap:.65rem}
 .ro{display:flex;align-items:center;gap:.75rem;padding:1rem;background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all .18s}
 .ro:hover{border-color:var(--blue)}.ro.sel{border-color:var(--blue);background:rgba(20,71,230,.03)}
@@ -418,7 +420,7 @@ a{color:var(--blue);text-decoration:none}
     </div>
     <div class="frow">
       <div class="fg"><label data-i18n="lNationalId">TC Kimlik No</label><input type="text" class="fi" id="nationalId" placeholder="12345678901"></div>
-      <div class="fg"><label data-i18n="lPhone">Telefon</label><input type="tel" class="fi" id="phone" placeholder="+90 555 000 00 00"></div>
+      <div class="fg"><label data-i18n="lPhone">Telefon</label><div class="phone-wrap"><select class="fi phone-cc" id="phoneCC" onchange="syncPhone('phoneCC','phoneNum','phone')"></select><input type="tel" class="fi" id="phoneNum" placeholder="555 000 00 00" style="flex:1" oninput="syncPhone('phoneCC','phoneNum','phone')"></div><input type="hidden" id="phone"></div>
     </div>
     <div class="snav"><button class="btn btn-outline" onclick="goPrev()" data-i18n="btnBack">← Geri</button><button class="btn btn-primary" onclick="goNext()" data-i18n="btnContinue">Devam →</button></div>
   </div>
@@ -982,7 +984,7 @@ a{color:var(--blue);text-decoration:none}
       <p class="msub" data-i18n="prStep1Sub">Sizi tanıyalım</p>
       <div class="fg"><label data-i18n="lFullName">Ad Soyad *</label><input type="text" class="fi" id="prName" placeholder="Ahmet Yılmaz"></div>
       <div class="fg"><label data-i18n="lEmail">E-posta *</label><input type="email" class="fi" id="prEmail" placeholder="siz@ornek.com"></div>
-      <div class="fg"><label data-i18n="lPhone">Telefon</label><input type="tel" class="fi" id="prPhone" placeholder="+90 5xx xxx xx xx"></div>
+      <div class="fg"><label data-i18n="lPhone">Telefon *</label><div class="phone-wrap"><select class="fi phone-cc" id="prPhoneCC" onchange="syncPhone('prPhoneCC','prPhoneNum','prPhone')"></select><input type="tel" class="fi" id="prPhoneNum" placeholder="5xx xxx xx xx" style="flex:1" oninput="syncPhone('prPhoneCC','prPhoneNum','prPhone')"></div><input type="hidden" id="prPhone"></div>
     </div>
 
     <!-- Adım 2: Hesap Türü -->
@@ -1247,6 +1249,7 @@ var T = {
     prSuccessTitle:'Başvurunuz Alındı!',
     prSuccessSub:'Ekibimiz inceleme sonrası hesabınızı oluşturacak ve size e-posta ile bildirim yapacak.',
     btnSubmit:'Gönder', btnClose:'Kapat',
+    alertDisposableEmail:'Geçici/sahte e-posta adresleri kabul edilmez. Lütfen gerçek e-postanızı girin.',
     alertPreRegName:'Ad Soyad zorunludur.', alertPreRegEmail:'Geçerli bir e-posta adresi girin.',
     alertPreRegType:'Lütfen hesap türünü seçin.', alertPreRegPlatform:'En az bir platform seçin.',
     btnContinue:'Devam →', btnBack:'← Geri', btnSubmit:'Başvuruyu Gönder ✓',
@@ -1369,6 +1372,7 @@ var T = {
     prSuccessTitle:'Application Received!',
     prSuccessSub:'Our team will create your account after review and notify you by email.',
     btnSubmit:'Submit', btnClose:'Close',
+    alertDisposableEmail:'Disposable/temporary email addresses are not accepted. Please use your real email.',
     alertPreRegName:'Full name is required.', alertPreRegEmail:'Please enter a valid email address.',
     alertPreRegType:'Please select an account type.', alertPreRegPlatform:'Please select at least one platform.',
     btnContinue:'Continue →', btnBack:'← Back', btnSubmit:'Submit Application ✓',
@@ -1466,6 +1470,8 @@ function updateHeroBtns(loggedIn){
 
 document.addEventListener('DOMContentLoaded', async function(){
   document.getElementById('view-landing').style.display='block';
+  buildPhoneCCOptions('prPhoneCC','+90');
+  buildPhoneCCOptions('phoneCC','+90');
   var session=await getSession();
   if(session){currentUser=session.user;updateNav('profile');updateHeroBtns(true);resetIdleTimer();}
   document.getElementById('authMod').addEventListener('click',function(e){if(e.target===e.currentTarget)closeAuth();});
@@ -1518,6 +1524,7 @@ async function doRegister(){
   var password=document.getElementById('rPass').value;
   var name=document.getElementById('rName')?document.getElementById('rName').value.trim():'';
   if(!email||!password){alert(T[currentLang].alertEmailPass);return;}
+  if(isDisposableEmail(email)){alert(T[currentLang].alertDisposableEmail||'Geçici/sahte e-posta adresleri kabul edilmez.');return;}
   if(password.length<6){alert(T[currentLang].alertMinPass);return;}
   var btn=document.querySelector('#authMod .btn-primary');
   if(btn){btn.textContent='...';btn.disabled=true;}
@@ -1623,7 +1630,9 @@ function preRegNext(){
     var phone=document.getElementById('prPhone').value.trim();
     if(!name){alert(L.alertPreRegName||'Ad Soyad zorunludur.');return;}
     if(!email||!email.includes('@')){alert(L.alertPreRegEmail||'Geçerli bir e-posta adresi girin.');return;}
-    if(!phone){alert(L.alertPreRegPhone||'Telefon numarası zorunludur.');return;}
+    if(isDisposableEmail(email)){alert(L.alertDisposableEmail||'Geçici/sahte e-posta adresleri kabul edilmez. Lütfen gerçek e-postanızı girin.');return;}
+    var phoneNum=document.getElementById('prPhoneNum');
+    if(!phone||!(phoneNum&&phoneNum.value.trim())){alert(L.alertPreRegPhone||'Telefon numarası zorunludur.');return;}
     prData.name=name;
     prData.email=email;
     prData.phone=phone;
@@ -1720,6 +1729,114 @@ function pickRo(el){
   g.querySelectorAll('.ro').forEach(function(o){o.classList.remove('sel');});
   el.classList.add('sel');
 }
+// ── TELEFON ÜLKE KODU SEÇİCİ ─────────────────────────
+var CC_LIST=[
+['+93','🇦🇫 Afganistan'],['+355','🇦🇱 Arnavutluk'],['+213','🇩🇿 Cezayir'],['+376','🇦🇩 Andorra'],
+['+244','🇦🇴 Angola'],['+54','🇦🇷 Arjantin'],['+374','🇦🇲 Ermenistan'],['+61','🇦🇺 Avustralya'],
+['+43','🇦🇹 Avusturya'],['+994','🇦🇿 Azerbaycan'],['+1-242','🇧🇸 Bahamalar'],['+973','🇧🇭 Bahreyn'],
+['+880','🇧🇩 Bangladeş'],['+1-246','🇧🇧 Barbados'],['+375','🇧🇾 Belarus'],['+32','🇧🇪 Belçika'],
+['+501','🇧🇿 Belize'],['+229','🇧🇯 Benin'],['+975','🇧🇹 Bhutan'],['+591','🇧🇴 Bolivya'],
+['+387','🇧🇦 Bosna Hersek'],['+267','🇧🇼 Botsvana'],['+55','🇧🇷 Brezilya'],['+673','🇧🇳 Brunei'],
+['+359','🇧🇬 Bulgaristan'],['+226','🇧🇫 Burkina Faso'],['+257','🇧🇮 Burundi'],['+238','🇨🇻 Cabo Verde'],
+['+855','🇰🇭 Kamboçya'],['+237','🇨🇲 Kamerun'],['+1','🇨🇦 Kanada'],['+236','🇨🇫 Orta Afrika Cum.'],
+['+235','🇹🇩 Çad'],['+56','🇨🇱 Şili'],['+86','🇨🇳 Çin'],['+57','🇨🇴 Kolombiya'],
+['+269','🇰🇲 Komorlar'],['+243','🇨🇩 Kongo (DRC)'],['+242','🇨🇬 Kongo'],['+506','🇨🇷 Kosta Rika'],
+['+225','🇨🇮 Fildişi Sahili'],['+385','🇭🇷 Hırvatistan'],['+53','🇨🇺 Küba'],['+357','🇨🇾 Kıbrıs'],
+['+420','🇨🇿 Çekya'],['+45','🇩🇰 Danimarka'],['+253','🇩🇯 Cibuti'],['+1-767','🇩🇲 Dominika'],
+['+1-809','🇩🇴 Dominik Cumhuriyeti'],['+593','🇪🇨 Ekvador'],['+20','🇪🇬 Mısır'],['+503','🇸🇻 El Salvador'],
+['+240','🇬🇶 Ekvator Ginesi'],['+291','🇪🇷 Eritre'],['+372','🇪🇪 Estonya'],['+268','🇸🇿 Esvatini'],
+['+251','🇪🇹 Etiyopya'],['+679','🇫🇯 Fiji'],['+358','🇫🇮 Finlandiya'],['+33','🇫🇷 Fransa'],
+['+241','🇬🇦 Gabon'],['+220','🇬🇲 Gambiya'],['+995','🇬🇪 Gürcistan'],['+49','🇩🇪 Almanya'],
+['+233','🇬🇭 Gana'],['+30','🇬🇷 Yunanistan'],['+1-473','🇬🇩 Grenada'],['+502','🇬🇹 Guatemala'],
+['+224','🇬🇳 Gine'],['+245','🇬🇼 Gine-Bissau'],['+592','🇬🇾 Guyana'],['+509','🇭🇹 Haiti'],
+['+504','🇭🇳 Honduras'],['+36','🇭🇺 Macaristan'],['+354','🇮🇸 İzlanda'],['+91','🇮🇳 Hindistan'],
+['+62','🇮🇩 Endonezya'],['+98','🇮🇷 İran'],['+964','🇮🇶 Irak'],['+353','🇮🇪 İrlanda'],
+['+972','🇮🇱 İsrail'],['+39','🇮🇹 İtalya'],['+1-876','🇯🇲 Jamaika'],['+81','🇯🇵 Japonya'],
+['+962','🇯🇴 Ürdün'],['+7','🇰🇿 Kazakistan'],['+254','🇰🇪 Kenya'],['+686','🇰🇮 Kiribati'],
+['+850','🇰🇵 Kuzey Kore'],['+82','🇰🇷 Güney Kore'],['+965','🇰🇼 Kuveyt'],['+996','🇰🇬 Kırgızistan'],
+['+856','🇱🇦 Laos'],['+371','🇱🇻 Letonya'],['+961','🇱🇧 Lübnan'],['+266','🇱🇸 Lesoto'],
+['+231','🇱🇷 Liberya'],['+218','🇱🇾 Libya'],['+423','🇱🇮 Lihtenştayn'],['+370','🇱🇹 Litvanya'],
+['+352','🇱🇺 Lüksemburg'],['+261','🇲🇬 Madagaskar'],['+265','🇲🇼 Malavi'],['+60','🇲🇾 Malezya'],
+['+960','🇲🇻 Maldivler'],['+223','🇲🇱 Mali'],['+356','🇲🇹 Malta'],['+692','🇲🇭 Marshall Adaları'],
+['+222','🇲🇷 Moritanya'],['+230','🇲🇺 Mauritius'],['+52','🇲🇽 Meksika'],['+691','🇫🇲 Mikronezya'],
+['+373','🇲🇩 Moldova'],['+377','🇲🇨 Monako'],['+976','🇲🇳 Moğolistan'],['+382','🇲🇪 Karadağ'],
+['+212','🇲🇦 Fas'],['+258','🇲🇿 Mozambik'],['+95','🇲🇲 Myanmar'],['+264','🇳🇦 Namibya'],
+['+674','🇳🇷 Nauru'],['+977','🇳🇵 Nepal'],['+31','🇳🇱 Hollanda'],['+64','🇳🇿 Yeni Zelanda'],
+['+505','🇳🇮 Nikaragua'],['+227','🇳🇪 Nijer'],['+234','🇳🇬 Nijerya'],['+389','🇲🇰 Kuzey Makedonya'],
+['+47','🇳🇴 Norveç'],['+968','🇴🇲 Umman'],['+92','🇵🇰 Pakistan'],['+680','🇵🇼 Palau'],
+['+507','🇵🇦 Panama'],['+675','🇵🇬 Papua Yeni Gine'],['+595','🇵🇾 Paraguay'],['+51','🇵🇪 Peru'],
+['+63','🇵🇭 Filipinler'],['+48','🇵🇱 Polonya'],['+351','🇵🇹 Portekiz'],['+974','🇶🇦 Katar'],
+['+40','🇷🇴 Romanya'],['+7','🇷🇺 Rusya'],['+250','🇷🇼 Ruanda'],['+1-869','🇰🇳 Saint Kitts ve Nevis'],
+['+1-758','🇱🇨 Saint Lucia'],['+1-784','🇻🇨 Saint Vincent'],['+685','🇼🇸 Samoa'],['+378','🇸🇲 San Marino'],
+['+239','🇸🇹 São Tomé'],['+966','🇸🇦 Suudi Arabistan'],['+221','🇸🇳 Senegal'],['+381','🇷🇸 Sırbistan'],
+['+248','🇸🇨 Seyşeller'],['+232','🇸🇱 Sierra Leone'],['+65','🇸🇬 Singapur'],['+421','🇸🇰 Slovakya'],
+['+386','🇸🇮 Slovenya'],['+677','🇸🇧 Solomon Adaları'],['+252','🇸🇴 Somali'],['+27','🇿🇦 Güney Afrika'],
+['+211','🇸🇸 Güney Sudan'],['+34','🇪🇸 İspanya'],['+94','🇱🇰 Sri Lanka'],['+249','🇸🇩 Sudan'],
+['+597','🇸🇷 Surinam'],['+46','🇸🇪 İsveç'],['+41','🇨🇭 İsviçre'],['+963','🇸🇾 Suriye'],
+['+886','🇹🇼 Tayvan'],['+992','🇹🇯 Tacikistan'],['+255','🇹🇿 Tanzanya'],['+66','🇹🇭 Tayland'],
+['+670','🇹🇱 Timor-Leste'],['+228','🇹🇬 Togo'],['+676','🇹🇴 Tonga'],['+1-868','🇹🇹 Trinidad ve Tobago'],
+['+216','🇹🇳 Tunus'],['+90','🇹🇷 Türkiye'],['+993','🇹🇲 Türkmenistan'],['+688','🇹🇻 Tuvalu'],
+['+256','🇺🇬 Uganda'],['+380','🇺🇦 Ukrayna'],['+971','🇦🇪 BAE'],['+44','🇬🇧 Birleşik Krallık'],
+['+1','🇺🇸 ABD'],['+598','🇺🇾 Uruguay'],['+998','🇺🇿 Özbekistan'],['+678','🇻🇺 Vanuatu'],
+['+58','🇻🇪 Venezuela'],['+84','🇻🇳 Vietnam'],['+967','🇾🇪 Yemen'],['+260','🇿🇲 Zambiya'],
+['+263','🇿🇼 Zimbabve']
+];
+
+function buildPhoneCCOptions(selectId,defaultCC){
+  var sel=document.getElementById(selectId);
+  if(!sel)return;
+  CC_LIST.forEach(function(c){
+    var o=document.createElement('option');
+    o.value=c[0];o.textContent=c[1];
+    if(c[0]===(defaultCC||'+90'))o.selected=true;
+    sel.appendChild(o);
+  });
+}
+
+function syncPhone(ccId,numId,outId){
+  var cc=document.getElementById(ccId);
+  var num=document.getElementById(numId);
+  var out=document.getElementById(outId);
+  if(!cc||!num||!out)return;
+  var n=num.value.trim().replace(/^0+/,'');
+  out.value=n?cc.value+n:'';
+}
+
+// ── DİSPOZABL (SAHTE) E-POSTA ENGELLEMESİ ───────────
+var DISPOSABLE_DOMAINS=['mailinator.com','guerrillamail.com','guerrillamail.info',
+'guerrillamail.biz','guerrillamail.net','guerrillamail.org','guerrillamailblock.com',
+'tempmail.com','temp-mail.org','temp-mail.ru','tempmail.net','tempmail.us',
+'throwaway.email','throwam.com','throam.com','yopmail.com','yopmail.fr','yopmail.net',
+'maildrop.cc','discard.email','trashmail.com','trashmail.me','trashmail.net',
+'trashmail.at','trashmail.io','trashmail.xyz','trashmail.org','trash-mail.at',
+'trash-mail.com','trashemail.de','trashmailer.com','trashymail.com',
+'10minutemail.com','10minutemail.net','20minutemail.com','mintemail.com',
+'fakeinbox.com','mailnull.com','sharklasers.com','spam4.me','mailnesia.com',
+'spamgourmet.com','dispostable.com','emailondeck.com','airmail.cc',
+'deadaddress.com','filzmail.com','jetable.com','jetable.fr.nf','jetable.net',
+'kasmail.com','kurzepost.de','mailexpire.com','mailfall.com','mailimate.com',
+'mailismagic.com','mailmoat.com','mailnew.com','mailquack.com','mailtemp.info',
+'meltmail.com','mycleaninbox.net','noclickemail.com','nowmymail.com',
+'odaymail.com','pookmail.com','quickinbox.com','safetypost.de',
+'selfdestructingmail.com','sendspamhere.com','shortmail.net',
+'spamavert.com','spambob.com','spambob.net','spamgourmet.net',
+'spamhole.com','spamify.com','spaml.com','spamslicer.com','spamstack.net',
+'spamtroll.net','squizzy.de','tempalias.com','tempinbox.com',
+'temporaryemail.com','temporaryinbox.com','tmail.com','tmailinator.com',
+'wegwerfemail.de','wegwerfmail.de','wegwerfmail.org','whyspam.me',
+'willselfdestruct.com','xagloo.com','zehnminutenmail.de','zippymail.info',
+'mailinator2.com','spamex.com','trashimail.com','grr.la','spam.la',
+'nospam4.us','put2.net','moakt.com','tafmail.com','dayrep.com',
+'spamgoes.in','mailbucket.org','mailcat.biz','mailcatch.com',
+'getairmail.com','filzmail.com','ezztt.com','spamfree24.org',
+'tempemail.net','tmpmail.net','tmpmail.org','mymailoasis.com',
+'spamthisplease.com','inoutmail.de','vomoto.com','yomail.info'];
+
+function isDisposableEmail(email){
+  var domain=(email.split('@')[1]||'').toLowerCase().trim();
+  return DISPOSABLE_DOMAINS.indexOf(domain)>=0;
+}
+
 // SHA-256 hash hesaplama — VirusTotal taraması için kullanılır
 async function sha256Hex(file){
   var buf=await file.arrayBuffer();
@@ -1790,7 +1907,7 @@ async function submitApp(){
   // Age check — must be 18+
   var age=(Date.now()-new Date(dob).getTime())/(1000*60*60*24*365.25);
   if(age<18){alert(L.alertAge||'18 yaşından küçükler başvuru yapamaz.');return;}
-  if(phone&&!/^\+?[\d\s\-().]{7,20}$/.test(phone)){alert(L.alertPhone||'Geçerli bir telefon numarası girin.');return;}
+  if(phone&&phone.length<7){alert(L.alertPhone||'Geçerli bir telefon numarası girin.');return;}
 
   // Kurumsal zorunlu alan kontrolü
   if(acType==='biz'){
