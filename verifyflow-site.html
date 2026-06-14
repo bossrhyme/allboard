@@ -919,6 +919,10 @@ a{color:var(--blue);text-decoration:none}
         <p data-i18n="privS3T">Tüm veriler SSL/TLS ile şifreli olarak iletilir ve Supabase altyapısında AES-256 ile şifreli olarak saklanır. Belgeler erişim kontrollü özel bir depolama alanında tutulur; imzalı geçici URL ile erişilir.</p>
       </div>
       <div class="policy-section">
+        <h4 data-i18n="privXBorder">Yurtdışına Veri Aktarımı</h4>
+        <p data-i18n="privXBorderT">Kişisel verileriniz, hizmet altyapımızın bulut sağlayıcıları (Supabase ve Vercel) aracılığıyla yurtdışındaki sunucularda işlenebilir ve saklanabilir. Bu aktarım, KVKK Madde 9 ve GDPR uyarınca açık rızanıza dayalı olarak gerçekleştirilir. Sağlayıcılarımız uygun teknik ve idari güvenlik tedbirlerini (şifreleme, erişim kontrolü) uygular. Başvuruyu tamamlayarak kişisel verilerinizin yurtdışına aktarılmasına açık rıza vermiş olursunuz.</p>
+      </div>
+      <div class="policy-section">
         <h4 data-i18n="privS4">Çerezler</h4>
         <p data-i18n="privS4T">Yalnızca oturum yönetimi için zorunlu çerezler kullanılır. Pazarlama veya izleme amaçlı çerez bulunmaz.</p>
       </div>
@@ -1463,7 +1467,7 @@ function updateHeroBtns(loggedIn){
 document.addEventListener('DOMContentLoaded', async function(){
   document.getElementById('view-landing').style.display='block';
   var session=await getSession();
-  if(session){currentUser=session.user;updateNav('profile');updateHeroBtns(true);}
+  if(session){currentUser=session.user;updateNav('profile');updateHeroBtns(true);resetIdleTimer();}
   document.getElementById('authMod').addEventListener('click',function(e){if(e.target===e.currentTarget)closeAuth();});
   document.getElementById('preRegMod').addEventListener('click',function(e){if(e.target===e.currentTarget)closePreReg();});
   // Email doğrulama yönlendirmesi
@@ -1505,6 +1509,7 @@ async function doLogin(){
   if(btn){btn.textContent=T[currentLang].navLogin;btn.disabled=false;}
   if(error){alert('Hata: '+error.message);return;}
   currentUser=data.user;
+  resetIdleTimer();
   closeAuth();nav('profile');
 }
 
@@ -1534,6 +1539,24 @@ async function doLogout(){
   nav('landing');
   updateHeroBtns(false);
 }
+
+// ── OTURUM ZAMAN AŞIMI (idle timeout) ─────────────────
+// 30 dk hareketsizlik sonrası otomatik çıkış — açık kalan
+// oturumların ele geçirilmesini önler (KVKK Md.12 / GDPR Art.32)
+var IDLE_LIMIT_MS=30*60*1000, idleTimer=null;
+function resetIdleTimer(){
+  if(!currentUser)return;
+  if(idleTimer)clearTimeout(idleTimer);
+  idleTimer=setTimeout(async function(){
+    if(currentUser){
+      await doLogout();
+      alert('Güvenliğiniz için oturumunuz 30 dakika hareketsizlik nedeniyle sonlandırıldı. / Your session was ended after 30 minutes of inactivity.');
+    }
+  },IDLE_LIMIT_MS);
+}
+['mousedown','keydown','touchstart','scroll'].forEach(function(ev){
+  document.addEventListener(ev,resetIdleTimer,{passive:true});
+});
 
 // ── ÖN BAŞVURU ────────────────────────────────────────
 var prStep=1;

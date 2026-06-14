@@ -722,6 +722,8 @@ async function adminLogin(){
 }
 function showErr(msg){var el=document.getElementById('adminLoginErr');el.textContent=msg;el.style.display='block';}
 async function adminLogout(){
+  adminLoggedIn=false;
+  if(adminIdleTimer)clearTimeout(adminIdleTimer);
   if(adminChatChannel){sb.removeChannel(adminChatChannel);adminChatChannel=null;}
   await sb.auth.signOut();
   document.getElementById('adminDashboard').style.display='none';
@@ -735,7 +737,28 @@ function showDashboard(){
     var badge=document.getElementById('preRegBadge');
     if(badge&&r&&r.count>0){badge.textContent=r.count;badge.style.display='inline';}
   }).catch(function(){});
+  adminLoggedIn=true;
+  resetAdminIdle();
 }
+
+// ── OTURUM ZAMAN AŞIMI (idle timeout) ─────────────────
+// Admin tüm müşteri verilerine eriştiği için 15 dk hareketsizlikte
+// otomatik çıkış (KVKK Md.12 / GDPR Art.32)
+var ADMIN_IDLE_MS=15*60*1000, adminIdleTimer=null, adminLoggedIn=false;
+function resetAdminIdle(){
+  if(!adminLoggedIn)return;
+  if(adminIdleTimer)clearTimeout(adminIdleTimer);
+  adminIdleTimer=setTimeout(async function(){
+    if(adminLoggedIn){
+      adminLoggedIn=false;
+      await adminLogout();
+      alert('Güvenlik nedeniyle oturumunuz 15 dakika hareketsizlik sonrası sonlandırıldı.');
+    }
+  },ADMIN_IDLE_MS);
+}
+['mousedown','keydown','touchstart','scroll'].forEach(function(ev){
+  document.addEventListener(ev,resetAdminIdle,{passive:true});
+});
 
 document.addEventListener('DOMContentLoaded',async function(){
   var {data:{session}}=await sb.auth.getSession();

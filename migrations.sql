@@ -321,3 +321,60 @@ drop trigger if exists prereg_rate_limit on pre_registrations;
 create trigger prereg_rate_limit
   before insert on pre_registrations
   for each row execute function check_prereg_rate_limit();
+
+-- ============================================================
+-- 15. RLS DOĞRULAMA & ZORLAMA (FORCE) — veri sızıntısı denetimi
+-- ⚠️  Bu bloğu Supabase SQL Editor'da çalıştır.
+-- En yaygın Supabase sızıntısı: bir tabloda RLS'in kapalı kalması.
+-- Aşağıdaki sorgu RLS'i KAPALI olan tüm public tabloları listeler.
+-- Sonuç BOŞ gelmelidir. Satır dönerse o tablo herkese açıktır!
+-- ============================================================
+-- 15a. Denetim: RLS kapalı olan tabloları bul
+select tablename, rowsecurity
+from pg_tables
+where schemaname = 'public' and rowsecurity = false;
+-- (Boş sonuç = güvenli. Satır gelirse o tabloya RLS ekle.)
+
+-- 15b. FORCE RLS — tablo sahibi (postgres/service_role hariç) bile
+--      politikalara tabi olur. Yetkisiz erişime karşı ekstra kalkan.
+alter table clients          force row level security;
+alter table ubos             force row level security;
+alter table documents        force row level security;
+alter table chat_messages    force row level security;
+alter table interviews       force row level security;
+alter table audit_logs       force row level security;
+alter table pre_registrations force row level security;
+alter table admins           force row level security;
+
+-- 15c. Denetim: politikası OLMAYAN ama RLS açık tabloları bul
+--      (RLS açık + politika yok = o tablo tamamen kilitli, yanlışlıkla
+--       erişim engellenmiş olabilir; kontrol et)
+select t.tablename
+from pg_tables t
+left join pg_policies p on p.schemaname = t.schemaname and p.tablename = t.tablename
+where t.schemaname = 'public' and t.rowsecurity = true and p.policyname is null
+group by t.tablename;
+
+-- 15d. Tüm aktif politikaları listele (gözden geçirme için)
+-- select tablename, policyname, cmd, qual from pg_policies
+--   where schemaname = 'public' order by tablename, cmd;
+
+-- ============================================================
+-- 16. KVKK/GDPR — SİLME HAKKI (Right to Erasure)
+-- Bir müşterinin tüm verisini (belgeler hariç storage) siler.
+-- Storage dosyaları ayrıca Dashboard veya API ile silinmelidir.
+-- Kullanım: select erase_client('<client_uuid>');
+-- ============================================================
+create or replace function erase_client(p_client_id uuid)
+returns void language plpgsql security definer as $$
+begin
+  delete from chat_messages where client_id = p_client_id;
+  delete from interviews    where client_id = p_client_id;
+  delete from documents     where client_id = p_client_id;
+  delete from ubos          where client_id = p_client_id;
+  delete from clients       where id = p_client_id;
+end;
+$$;
+-- Sadece adminler çalıştırabilsin (security definer ile çalışır ama
+-- çağrı yetkisini admin'e kısıtlamak için EXECUTE iznini ayarla):
+revoke all on function erase_client(uuid) from public, anon, authenticated;
