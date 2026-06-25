@@ -974,6 +974,8 @@ a{color:var(--blue);text-decoration:none}
     <div style="display:flex;gap:.3rem;margin-bottom:1.5rem" id="prSteps">
       <div class="pr-step active" id="prs1">1</div>
       <div class="pr-step" id="prs2">2</div>
+      <div class="pr-step" id="prs3">3</div>
+      <div class="pr-step" id="prs4">4</div>
     </div>
 
     <!-- Adım 1: Kişisel Bilgiler -->
@@ -985,7 +987,7 @@ a{color:var(--blue);text-decoration:none}
       <div class="fg"><label data-i18n="lPhone">Telefon *</label><div class="phone-wrap"><select class="fi phone-cc" id="prPhoneCC" onchange="syncPhone('prPhoneCC','prPhoneNum','prPhone')"></select><input type="tel" class="fi" id="prPhoneNum" placeholder="5xx xxx xx xx" style="flex:1" oninput="syncPhone('prPhoneCC','prPhoneNum','prPhone')"></div><input type="hidden" id="prPhone"></div>
     </div>
 
-    <!-- Adım 2: Hesap Türü + Notlar -->
+    <!-- Adım 2: Hesap Türü -->
     <div class="pr-pane" id="prPane2">
       <h2 data-i18n="prStep2Title">Hesap Türü</h2>
       <p class="msub" data-i18n="prStep2Sub">Bireysel veya kurumsal hesap açmak istiyorsunuz?</p>
@@ -1005,11 +1007,10 @@ a{color:var(--blue);text-decoration:none}
           </div>
         </label>
       </div>
-      <div class="fg" style="margin-top:1rem"><label data-i18n="prNotes">Notlar (opsiyonel)</label><textarea class="fi" id="prNotes" rows="3" style="resize:vertical" placeholder="Hangi platformlara başvurmak istediğinizi, özel taleplerinizi veya sorularınızı buraya yazabilirsiniz..."></textarea></div>
     </div>
 
-    <!-- Adım 3: Platform Seçimi (artık kullanılmıyor — sadece uyumluluk için) -->
-    <div class="pr-pane" id="prPane3" style="display:none!important">
+    <!-- Adım 3: Platform Seçimi -->
+    <div class="pr-pane" id="prPane3">
       <h2>Hesap Açılması Planlanan Platformlar</h2>
       <p class="msub">Hangi kategorilerde hesap açmayı planlıyorsunuz? Her kategori zorunludur, alt firmalar isteğe bağlıdır.</p>
 
@@ -1133,8 +1134,39 @@ a{color:var(--blue);text-decoration:none}
       <div class="fg" style="margin-top:.5rem"><label>Diğer platform adı</label><input type="text" class="fi" id="prOtherText" placeholder="Platform veya kurum adı..."></div>
     </div>
 
-    <!-- Adım 4: Belge Durumu (artık kullanılmıyor) -->
-    <div class="pr-pane" id="prPane4" style="display:none!important"></div>
+    <!-- Adım 4: Belge Durumu -->
+    <div class="pr-pane" id="prPane4">
+      <h2 data-i18n="prStep4Title">Belge Durumu</h2>
+      <p class="msub" data-i18n="prStep4Sub">Hangi belgelere sahipsiniz?</p>
+      <!-- Bireysel belgeler -->
+      <div id="prDocsInd" style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+        <label class="pr-chk"><input type="checkbox" value="identity"> <span data-i18n="docIdentity">Kimlik Belgesi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="address"> <span data-i18n="docAddress">İkametgah Belgesi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="tax"> <span data-i18n="docTax">Vergi Levhası</span></label>
+        <label class="pr-chk"><input type="checkbox" value="nufus"> <span data-i18n="docNufus">Nüfus Kayıt Örneği</span></label>
+        <label class="pr-chk"><input type="checkbox" value="bank_personal"> <span data-i18n="docBankPersonal">Banka Hesap Dökümü</span></label>
+        <label class="pr-chk"><input type="checkbox" value="sof"> <span data-i18n="docSof">Fon Kaynağı Belgesi (SoF)</span></label>
+      </div>
+      <!-- Kurumsal belgeler -->
+      <div id="prDocsBiz" style="display:none;grid-template-columns:1fr 1fr;gap:.5rem">
+        <label class="pr-chk"><input type="checkbox" value="registry"> <span data-i18n="docRegistry">Ticaret Sicil Belgesi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="aoa"> <span data-i18n="docAoa">Ana Sözleşme</span></label>
+        <label class="pr-chk"><input type="checkbox" value="signature"> <span data-i18n="docSig">İmza Sirküleri</span></label>
+        <label class="pr-chk"><input type="checkbox" value="cgs"> <span data-i18n="docCgs">Faaliyet Belgesi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="registry_gazette"> <span data-i18n="docRegistryGazette">Ticaret Sicil Gazetesi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="tax_clearance"> <span data-i18n="docTaxClearance">Vergi Borcu Yoktur</span></label>
+        <label class="pr-chk"><input type="checkbox" value="sow"> <span data-i18n="docSow">Servet Kaynağı (SoW)</span></label>
+        <label class="pr-chk"><input type="checkbox" value="sof_biz"> <span data-i18n="docSofBiz">Fon Kaynağı (SoF)</span></label>
+        <label class="pr-chk"><input type="checkbox" value="hazirun"> <span data-i18n="docHazirun">Hazirun Cetveli</span></label>
+        <label class="pr-chk"><input type="checkbox" value="lease"> <span data-i18n="docLease">Kira Sözleşmesi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="bank_biz"> <span data-i18n="docBankBiz">TL/USD Hesap Dökümü</span></label>
+        <label class="pr-chk"><input type="checkbox" value="rep_nufus"> <span data-i18n="docRepNufus">Temsilci Kimlik Belgesi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="sworn_translation"> <span data-i18n="docSwornTranslation">Yeminli Tercüman Çevirisi</span></label>
+        <label class="pr-chk"><input type="checkbox" value="certified_copy"> <span data-i18n="docCertifiedCopy">Aslı Gibidir Onayı</span></label>
+        <label class="pr-chk"><input type="checkbox" value="org_chart"> <span data-i18n="docOrgChart">Organizasyon Şeması</span></label>
+      </div>
+      <div class="fg" style="margin-top:1rem"><label data-i18n="prNotes">Notlar (opsiyonel)</label><textarea class="fi" id="prNotes" rows="2" style="resize:vertical" placeholder="Eklemek istediğiniz bilgiler..."></textarea></div>
+    </div>
 
     <!-- Başarı mesajı -->
     <div class="pr-pane" id="prSuccess" style="text-align:center;padding:1.5rem 0">
@@ -1592,18 +1624,24 @@ function showPrPane(n){
   var pane=document.getElementById('prPane'+n);
   if(pane)pane.classList.add('active');
   // success pane özel
-  var isSuccess=(n===3);
+  var isSuccess=(n===5);
   document.getElementById('prNav').style.display=isSuccess?'none':'flex';
   document.getElementById('prBtnPrev').style.display=n>1?'inline-flex':'none';
-  document.getElementById('prBtnNext').style.display=n<2?'inline-flex':'none';
-  document.getElementById('prBtnSubmit').style.display=n===2?'inline-flex':'none';
-  // Step göstergesi (2 adım)
-  for(var i=1;i<=2;i++){
+  document.getElementById('prBtnNext').style.display=n<4?'inline-flex':'none';
+  document.getElementById('prBtnSubmit').style.display=n===4?'inline-flex':'none';
+  // Step göstergesi
+  for(var i=1;i<=4;i++){
     var s=document.getElementById('prs'+i);
     if(!s)continue;
     s.classList.remove('active','done');
     if(i<n)s.classList.add('done');
     else if(i===n)s.classList.add('active');
+  }
+  // Adım 4: hesap türüne göre belge listesi göster
+  if(n===4){
+    var isBiz=prData.account_type==='corporate';
+    document.getElementById('prDocsInd').style.display=isBiz?'none':'grid';
+    document.getElementById('prDocsBiz').style.display=isBiz?'grid':'none';
   }
 }
 
@@ -1639,6 +1677,20 @@ function preRegNext(){
     prData.name=name;
     prData.email=email;
     prData.phone=phone;
+  } else if(prStep===2){
+    if(!prData.account_type){alert(L.alertPreRegType||'Lütfen hesap türünü seçin.');return;}
+  } else if(prStep===3){
+    var catEx=document.getElementById('catExchange').checked;
+    var catOtc=document.getElementById('catOtc').checked;
+    var catBnk=document.getElementById('catBank').checked;
+    if(!catEx||!catOtc||!catBnk){alert('Lütfen 3 kategorinin hepsini seçin.');return;}
+    var checked=Array.from(document.querySelectorAll('#prPane3 .pl-firm-grid input:checked')).map(function(c){return c.value;});
+    var other=document.getElementById('prOtherText').value.trim();
+    if(other) checked.push(other);
+    if(!checked.find(function(c){return c.startsWith('[Borsa]');})) checked.push('[Borsa] Belirtilmedi');
+    if(!checked.find(function(c){return c.startsWith('[OTC]');})) checked.push('[OTC] Belirtilmedi');
+    if(!checked.find(function(c){return c.startsWith('[Banka]');})) checked.push('[Banka] Belirtilmedi');
+    prData.platforms=checked;
   }
   prStep++;
   showPrPane(prStep);
@@ -1650,35 +1702,41 @@ function preRegPrev(){
 }
 
 async function submitPreReg(){
-  var L=T[currentLang];
-  if(!prData.name||!prData.email||!prData.phone){
-    alert('Lütfen tüm zorunlu alanları doldurun.');return;
+  // Son güvenlik kontrolü — zorunlu alanlar dolu mu?
+  if(!prData.name||!prData.email||!prData.phone||!prData.account_type||!prData.platforms){
+    alert('Lütfen tüm zorunlu adımları eksiksiz doldurun.');return;
   }
-  if(!prData.account_type){alert(L.alertPreRegType||'Lütfen hesap türünü seçin.');return;}
+  // Belge durumu topla
+  var docContainer=prData.account_type==='corporate'?'prDocsBiz':'prDocsInd';
+  var checklist={};
+  document.querySelectorAll('#'+docContainer+' input').forEach(function(c){checklist[c.value]=c.checked;});
+  var score=Object.values(checklist).filter(Boolean).length;
+  prData.doc_checklist=checklist;
+  prData.doc_score=score;
   prData.notes=document.getElementById('prNotes').value.trim();
 
   var btn=document.getElementById('prBtnSubmit');
   btn.textContent='...';btn.disabled=true;
 
   var {error}=await sb.from('pre_registrations').insert({
-    name:         prData.name,
-    email:        prData.email,
-    phone:        prData.phone||null,
-    account_type: prData.account_type,
-    platforms:    null,
-    doc_checklist:null,
-    doc_score:    0,
-    notes:        prData.notes||null
+    name:       prData.name,
+    email:      prData.email,
+    phone:      prData.phone||null,
+    account_type:prData.account_type,
+    platforms:  prData.platforms,
+    doc_checklist:prData.doc_checklist,
+    doc_score:  prData.doc_score,
+    notes:      prData.notes||null
   });
 
-  btn.textContent=L.btnSubmit||'Gönder';btn.disabled=false;
+  btn.textContent=T[currentLang].btnSubmit||'Gönder';btn.disabled=false;
   if(error){alert('Hata: '+error.message);return;}
 
   // Başarı ekranı
   document.querySelectorAll('.pr-pane').forEach(function(p){p.classList.remove('active');});
   document.getElementById('prSuccess').classList.add('active');
   document.getElementById('prNav').style.display='none';
-  for(var i=1;i<=2;i++){var s=document.getElementById('prs'+i);if(s)s.classList.remove('active');}
+  for(var i=1;i<=4;i++){var s=document.getElementById('prs'+i);if(s)s.classList.remove('active');}
 }
 
 // ── ONBOARDING ────────────────────────────────────────
