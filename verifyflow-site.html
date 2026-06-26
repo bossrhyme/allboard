@@ -2249,20 +2249,56 @@ async function loadDocsTab(){
   if(!currentClient)return;
   var {data:docs}=await sb.from('documents').select('*').eq('client_id',currentClient.id);
   var cont=document.getElementById('tb-docs');
-  if(!docs||!docs.length){cont.innerHTML='<p style="color:var(--text2);text-align:center;padding:2rem">Belge bulunamadı.</p>';return;}
-  var L=T[currentLang];
-  var typeLabels=L.docTypeLabels||{identity:'Kimlik',address:'Adres',tax:'Vergi',registry:'Sicil',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet',nufus:'Nüfus',bank_personal:'Banka Dök.',sof:'SoF (Bireysel)',registry_gazette:'Sicil Gazetesi',tax_clearance:'Vergi Yoktur',sow:'SoW',sof_biz:'SoF (Şirket)',hazirun:'Hazirun',lease:'Kira',invoice_biz:'Fatura',bank_biz:'Hesap Dök.',intent_letter:'Niyet',shareholder_form:'Hissedar',ownership_form:'Sahiplik',rep_nufus:'Nüfus (Tem.)',rep_occupation:'Meslek',rep_bank:'Banka (Tem.)'};
-  var notAvail=L.optNo==='No'?'Not Available':'Mevcut Değil';
-  var rows=docs.map(function(d){
-    var dl='';
-    if(d.available&&d.file_path){
-      // Signed URL (60s) — private bucket, no permanent public URL
-      dl='<a href="#" data-path="'+esc(d.file_path)+'" onclick="openSignedUrl(this,event)" style="color:var(--blue);font-size:.8rem">'+L.fileSelect+'</a>';
-    }
-    return '<tr><td>'+(typeLabels[d.doc_type]||d.doc_type)+'</td><td>'+(d.available?esc(d.file_name||'—'):notAvail)+'</td><td>'+fmtSize(d.file_size)+'</td><td><span class="badge '+statusClass(d.status)+'">'+statusLabel(d.status)+'</span></td><td>'+dl+'</td></tr>';
-  }).join('');
-  var thLabels=[L.docIdentity||'Tür',L.docFile||'Dosya',L.docSize||'Boyut',L.docStatus||'Durum',''];
-  cont.innerHTML='<table style="width:100%;border-collapse:collapse;font-size:.85rem"><thead><tr style="color:var(--text2)">'+thLabels.map(function(h){return '<th style="padding:.5rem;text-align:left">'+h+'</th>';}).join('')+'</tr></thead><tbody>'+rows+'</tbody></table>';
+  var isEn=currentLang==='en';
+  var allLabels={
+    address:isEn?'Proof of Address':'İkametgah Belgesi',
+    aoa:isEn?'Articles of Association':'Ana Sözleşme',
+    bank_biz:isEn?'TL/USD Account Statement':'TL/USD Hesap Dökümü',
+    bank_personal:isEn?'Bank Statement':'Banka Hesap Dökümü',
+    certified_copy:isEn?'Certified Copy':'Aslı Gibidir Onayı',
+    cgs:isEn?'Activity Certificate':'Faaliyet Belgesi',
+    hazirun:isEn?'Attendance List':'Hazirun Cetveli',
+    identity:isEn?'Identity Document':'Kimlik Belgesi',
+    intent_letter:isEn?'Letter of Intent':'Niyet Mektubu',
+    invoice_biz:isEn?'Invoice':'Fatura',
+    lease:isEn?'Lease Agreement':'Kira Sözleşmesi',
+    nufus:isEn?'Family Register':'Nüfus Kayıt Örneği',
+    org_chart:isEn?'Organization Chart':'Organizasyon Şeması',
+    ownership_form:isEn?'Ownership Form':'Sahiplik Formu',
+    registry:isEn?'Trade Registry':'Ticaret Sicil Belgesi',
+    registry_gazette:isEn?'Trade Registry Gazette':'Ticaret Sicil Gazetesi',
+    rep_bank:isEn?'Rep. Bank Statement':'Temsilci Banka Dökümü',
+    rep_nufus:isEn?'Representative ID':'Temsilci Kimlik Belgesi',
+    rep_occupation:isEn?'Rep. Occupation':'Temsilci Meslek Belgesi',
+    shareholder_form:isEn?'Shareholder Form':'Hissedar Formu',
+    signature:isEn?'Signature Circular':'İmza Sirküleri',
+    sof:isEn?'Source of Funds':'Fon Kaynağı (SoF)',
+    sof_biz:isEn?'Source of Funds (Corp.)':'Fon Kaynağı (Şirket)',
+    sow:isEn?'Source of Wealth':'Servet Kaynağı (SoW)',
+    sworn_translation:isEn?'Sworn Translation':'Yeminli Tercüman Çevirisi',
+    tax:isEn?'Tax Certificate':'Vergi Levhası',
+    tax_clearance:isEn?'Tax Clearance':'Vergi Borcu Yoktur'
+  };
+  var indList=['address','bank_personal','identity','nufus','sof','tax'];
+  var bizList=['aoa','bank_biz','certified_copy','cgs','hazirun','intent_letter','invoice_biz','lease','org_chart','ownership_form','registry','registry_gazette','rep_bank','rep_nufus','rep_occupation','shareholder_form','signature','sof_biz','sow','sworn_translation','tax','tax_clearance'];
+  var list=(currentClient.type==='business'?bizList:indList).slice().sort(function(a,b){return (allLabels[a]||a).localeCompare(allLabels[b]||b,'tr');});
+  var docMap={};
+  if(docs)docs.forEach(function(d){docMap[d.doc_type]=d.status;});
+  var readyCount=list.filter(function(k){return docMap[k]==='approved';}).length;
+  var pct=list.length?Math.round(readyCount/list.length*100):0;
+  var html='<div style="margin-bottom:1rem">';
+  html+='<div style="display:flex;justify-content:space-between;font-size:.82rem;color:var(--text2);margin-bottom:.4rem"><span>'+(isEn?'Ready':'Hazır')+': '+readyCount+' / '+list.length+'</span><span>%'+pct+'</span></div>';
+  html+='<div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#1447e6,#0d9488);border-radius:3px"></div></div>';
+  html+='</div><div style="display:flex;flex-direction:column;gap:.4rem">';
+  list.forEach(function(key){
+    var ready=docMap[key]==='approved';
+    html+='<div style="display:flex;align-items:center;gap:.75rem;padding:.55rem .8rem;border-radius:8px;border:1px solid '+(ready?'rgba(16,185,129,.2)':'rgba(226,232,240,.8)')+';background:'+(ready?'rgba(16,185,129,.05)':'var(--bg2)')+'\">';
+    html+='<span style="font-size:1rem">'+( ready?'✅':'❌')+'</span>';
+    html+='<span style="font-size:.85rem;font-weight:'+(ready?600:400)+';color:'+(ready?'var(--navy)':'var(--text2)')+'">'+( allLabels[key]||key)+'</span>';
+    html+='</div>';
+  });
+  html+='</div>';
+  cont.innerHTML=html;
 }
 
 // ── CHAT ─────────────────────────────────────────────

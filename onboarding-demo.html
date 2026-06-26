@@ -1202,68 +1202,73 @@ async function openClientProfile(id){
     });
     actions.appendChild(actWrap);
   }
-  // Documents
+  // Documents — checklist with admin toggle
   var docsCont=document.getElementById('cpDocs');
-  if(docsCont&&docs){
+  if(docsCont){
     var isEn2=currentLang==='en';
-    var typeLabels=isEn2?{
-      identity:'Identity',address:'Proof of Address',tax:'Tax Certificate',nufus:'Family Register',bank_personal:'Bank Statement',sof:'Source of Funds (SoF)',
-      registry:'Trade Registry',aoa:'Articles of Association',signature:'Signature Circular',cgs:'Activity Certificate',
-      registry_gazette:'Trade Registry Gazette',tax_clearance:'Tax Clearance',sow:'Source of Wealth (SoW)',sof_biz:'Source of Funds (SoF)',
-      hazirun:'Attendance List',lease:'Lease Agreement',bank_biz:'TL/USD Account Statement',rep_nufus:'Representative ID',
-      rep_occupation:'Representative Occupation',rep_bank:'Representative Bank Statement',
-      sworn_translation:'Sworn Translation',certified_copy:'Certified Copy',org_chart:'Organization Chart',
-      intent_letter:'Letter of Intent',shareholder_form:'Shareholder Form',ownership_form:'Ownership Form',invoice_biz:'Invoice'
-    }:{
-      identity:'Kimlik Belgesi',address:'İkametgah Belgesi',tax:'Vergi Levhası',nufus:'Nüfus Kayıt Örneği',bank_personal:'Banka Hesap Dökümü',sof:'Fon Kaynağı (SoF)',
-      registry:'Ticaret Sicil Belgesi',aoa:'Ana Sözleşme',signature:'İmza Sirküleri',cgs:'Faaliyet Belgesi',
-      registry_gazette:'Ticaret Sicil Gazetesi',tax_clearance:'Vergi Borcu Yoktur',sow:'Servet Kaynağı (SoW)',sof_biz:'Fon Kaynağı (SoF)',
-      hazirun:'Hazirun Cetveli',lease:'Kira Sözleşmesi',bank_biz:'TL/USD Hesap Dökümü',rep_nufus:'Temsilci Kimlik Belgesi',
-      rep_occupation:'Temsilci Meslek Belgesi',rep_bank:'Temsilci Banka Dökümü',
-      sworn_translation:'Yeminli Tercüman Çevirisi',certified_copy:'Aslı Gibidir Onayı',org_chart:'Organizasyon Şeması',
-      intent_letter:'Niyet Mektubu',shareholder_form:'Hissedar Formu',ownership_form:'Sahiplik Formu',invoice_biz:'Fatura'
+    var allLabels2={
+      address:isEn2?'Proof of Address':'İkametgah Belgesi',
+      aoa:isEn2?'Articles of Association':'Ana Sözleşme',
+      bank_biz:isEn2?'TL/USD Account Statement':'TL/USD Hesap Dökümü',
+      bank_personal:isEn2?'Bank Statement':'Banka Hesap Dökümü',
+      certified_copy:isEn2?'Certified Copy':'Aslı Gibidir Onayı',
+      cgs:isEn2?'Activity Certificate':'Faaliyet Belgesi',
+      hazirun:isEn2?'Attendance List':'Hazirun Cetveli',
+      identity:isEn2?'Identity Document':'Kimlik Belgesi',
+      intent_letter:isEn2?'Letter of Intent':'Niyet Mektubu',
+      invoice_biz:isEn2?'Invoice':'Fatura',
+      lease:isEn2?'Lease Agreement':'Kira Sözleşmesi',
+      nufus:isEn2?'Family Register':'Nüfus Kayıt Örneği',
+      org_chart:isEn2?'Organization Chart':'Organizasyon Şeması',
+      ownership_form:isEn2?'Ownership Form':'Sahiplik Formu',
+      registry:isEn2?'Trade Registry':'Ticaret Sicil Belgesi',
+      registry_gazette:isEn2?'Trade Registry Gazette':'Ticaret Sicil Gazetesi',
+      rep_bank:isEn2?'Rep. Bank Statement':'Temsilci Banka Dökümü',
+      rep_nufus:isEn2?'Representative ID':'Temsilci Kimlik Belgesi',
+      rep_occupation:isEn2?'Rep. Occupation':'Temsilci Meslek Belgesi',
+      shareholder_form:isEn2?'Shareholder Form':'Hissedar Formu',
+      signature:isEn2?'Signature Circular':'İmza Sirküleri',
+      sof:isEn2?'Source of Funds':'Fon Kaynağı (SoF)',
+      sof_biz:isEn2?'Source of Funds (Corp.)':'Fon Kaynağı (Şirket)',
+      sow:isEn2?'Source of Wealth':'Servet Kaynağı (SoW)',
+      sworn_translation:isEn2?'Sworn Translation':'Yeminli Tercüman Çevirisi',
+      tax:isEn2?'Tax Certificate':'Vergi Levhası',
+      tax_clearance:isEn2?'Tax Clearance':'Vergi Borcu Yoktur'
     };
-    var docHdrs=isEn2?['Type','File','Status','Action']:['Tür','Dosya','Durum','Aksiyon'];
-    var dlLabel=isEn2?'Download':'İndir';var approveLabel=isEn2?'Approve':'Onayla';var noDocs=isEn2?'No documents':'Belge yok';
-    if(!docs.length){docsCont.innerHTML='<p style="color:var(--text2);padding:1rem">'+noDocs+'</p>';}
-    else{
-      var tbl=document.createElement('table');tbl.style.cssText='width:100%;border-collapse:collapse;font-size:.83rem';
-      var thead=document.createElement('thead');
-      var hrow=document.createElement('tr');hrow.style.color='var(--text2)';
-      docHdrs.forEach(function(h){var th=document.createElement('th');th.style.padding='.4rem';th.textContent=h;hrow.appendChild(th);});
-      thead.appendChild(hrow);tbl.appendChild(thead);
-      var tbody2=document.createElement('tbody');
-      docs.forEach(function(d){
-        var tr=document.createElement('tr');
-        // Type
-        var td1=document.createElement('td');td1.textContent=typeLabels[d.doc_type]||d.doc_type;tr.appendChild(td1);
-        // File name
-        var td2=document.createElement('td');td2.textContent=d.file_name||'N/A';tr.appendChild(td2);
-        // Status
-        var td3=document.createElement('td');var sp=document.createElement('span');sp.className=statusBadge(d.status);sp.textContent=statusLabel(d.status);td3.appendChild(sp);tr.appendChild(td3);
-        // Actions
-        var td4=document.createElement('td');
-        if(d.file_path){
-          var link=document.createElement('a');link.style.color='var(--blue)';link.target='_blank';link.textContent=dlLabel;
-          link.href='#';
-          // Signed URL (60s expiry) — no permanent public URL for private bucket
-          link.addEventListener('click',function(e){
-            e.preventDefault();
-            sb.storage.from('documents').createSignedUrl(d.file_path,10).then(function(r){
-              if(r.data&&r.data.signedUrl)window.open(r.data.signedUrl,'_blank');
-              else alert('Dosya bağlantısı oluşturulamadı.');
-            }).catch(function(){alert('Dosya indirme hatası.');});
-          });
-          td4.appendChild(link);td4.appendChild(document.createTextNode(' '));
-        }
-        var appBtn=document.createElement('button');appBtn.className='btn btn-outline';appBtn.style.cssText='font-size:.72rem;padding:.2rem .5rem';
-        appBtn.textContent=approveLabel;
-        appBtn.addEventListener('click',function(){approveDoc(d.id);});
-        td4.appendChild(appBtn);tr.appendChild(td4);
-        tbody2.appendChild(tr);
-      });
-      tbl.appendChild(tbody2);docsCont.innerHTML='';docsCont.appendChild(tbl);
-    }
+    var indList2=['address','bank_personal','identity','nufus','sof','tax'];
+    var bizList2=['aoa','bank_biz','certified_copy','cgs','hazirun','intent_letter','invoice_biz','lease','org_chart','ownership_form','registry','registry_gazette','rep_bank','rep_nufus','rep_occupation','shareholder_form','signature','sof_biz','sow','sworn_translation','tax','tax_clearance'];
+    var docList2=(client.type==='business'?bizList2:indList2).slice().sort(function(a,b){return (allLabels2[a]||a).localeCompare(allLabels2[b]||b,'tr');});
+    var docMap2={};
+    if(docs)docs.forEach(function(d){docMap2[d.doc_type]={id:d.id,status:d.status};});
+    var readyCount2=docList2.filter(function(k){return docMap2[k]&&docMap2[k].status==='approved';}).length;
+    var pct2=docList2.length?Math.round(readyCount2/docList2.length*100):0;
+    docsCont.innerHTML='';
+    var progWrap=document.createElement('div');progWrap.style.marginBottom='.85rem';
+    var progInfo=document.createElement('div');progInfo.style.cssText='display:flex;justify-content:space-between;font-size:.79rem;color:var(--text2);margin-bottom:.3rem';
+    progInfo.innerHTML='<span>'+(isEn2?'Ready':'Hazır')+': '+readyCount2+' / '+docList2.length+'</span><span>%'+pct2+'</span>';
+    var progBar=document.createElement('div');progBar.style.cssText='height:5px;background:var(--border);border-radius:3px;overflow:hidden';
+    var progFill=document.createElement('div');progFill.style.cssText='height:100%;width:'+pct2+'%;background:linear-gradient(90deg,#1447e6,#0d9488);border-radius:3px';
+    progBar.appendChild(progFill);progWrap.appendChild(progInfo);progWrap.appendChild(progBar);
+    docsCont.appendChild(progWrap);
+    var listWrap=document.createElement('div');listWrap.style.cssText='display:flex;flex-direction:column;gap:.35rem';
+    docList2.forEach(function(key){
+      var rec=docMap2[key];
+      var ready=rec&&rec.status==='approved';
+      var row=document.createElement('div');
+      row.style.cssText='display:flex;align-items:center;gap:.65rem;padding:.45rem .7rem;border-radius:8px;border:1px solid '+(ready?'rgba(16,185,129,.2)':'var(--border)')+';background:'+(ready?'rgba(16,185,129,.05)':'var(--bg2)');
+      var icon=document.createElement('span');icon.style.cssText='font-size:.95rem;flex-shrink:0';icon.textContent=ready?'✅':'❌';
+      var lbl=document.createElement('span');lbl.style.cssText='font-size:.83rem;flex:1;font-weight:'+(ready?600:400)+';color:'+(ready?'var(--navy)':'var(--text2)');lbl.textContent=allLabels2[key]||key;
+      var btn=document.createElement('button');
+      btn.className='btn btn-sm '+(ready?'btn-outline':'btn-primary');
+      btn.style.cssText='font-size:.7rem;padding:.2rem .55rem';
+      btn.textContent=ready?(isEn2?'Undo':'Geri Al'):(isEn2?'Mark Ready':'Hazır');
+      (function(k,r,existId){
+        btn.addEventListener('click',function(){toggleDocReady(id,k,!r,existId);});
+      })(key,ready,rec?rec.id:null);
+      row.appendChild(icon);row.appendChild(lbl);row.appendChild(btn);
+      listWrap.appendChild(row);
+    });
+    docsCont.appendChild(listWrap);
   }
   // UBOs
   var ubosCont=document.getElementById('cpUbos');
@@ -1354,6 +1359,20 @@ async function updateProcessStage(id,stage,note){
 }
 async function approveDoc(docId){
   await sb.from('documents').update({status:'approved'}).eq('id',docId);
+  if(activeClientId)openClientProfile(activeClientId);
+}
+async function toggleDocReady(clientId,docType,makeReady,existingId){
+  if(makeReady){
+    if(existingId){
+      await sb.from('documents').update({status:'approved',available:true}).eq('id',existingId);
+    } else {
+      await sb.from('documents').insert({client_id:clientId,doc_type:docType,status:'approved',available:true});
+    }
+  } else {
+    if(existingId){
+      await sb.from('documents').update({status:'pending'}).eq('id',existingId);
+    }
+  }
   if(activeClientId)openClientProfile(activeClientId);
 }
 
