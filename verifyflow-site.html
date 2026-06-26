@@ -838,9 +838,7 @@ a{color:var(--blue);text-decoration:none}
           <h2 id="pfName">—</h2>
           <p><span id="pfType" class="badge bi">—</span> &nbsp;·&nbsp; <span id="pfStatus" class="badge bw">—</span></p>
           <div class="pf-status">
-            <span>KYC: <span id="pfKyc" class="badge bw">—</span></span>
-            <span>AML: <span id="pfAml" class="badge bi">—</span></span>
-            <span>Risk: <span id="pfRisk" class="badge bn">—</span></span>
+            <span style="color:var(--text2);font-size:.82rem">Süreç: <span id="pfStageLabel" class="badge bi">—</span></span>
             <span style="color:var(--text2);font-size:.8rem">Başvuru: <span id="pfSubmitted">—</span></span>
           </div>
         </div>
@@ -2164,9 +2162,11 @@ async function loadProfile(){
   document.getElementById('pfStatus').textContent=statusLabel(client.status);
   document.getElementById('pfStatus').className='badge '+statusClass(client.status);
   document.getElementById('pfSubmitted').textContent=fmtDate(client.submitted_at);
-  document.getElementById('pfKyc').textContent=statusLabel(client.kyc_status);
-  document.getElementById('pfAml').textContent=statusLabel(client.aml_status);
-  document.getElementById('pfRisk').textContent=client.risk_score!=null?client.risk_score+' / 100':'—';
+  var stageLabels=['Bilgi Toplama','Belge Hazırlanıyor','Hukuki İşlem','Kurum Başvurusu','Tamamlandı'];
+  var stageColors=['bw','bi','bi','bw','bs'];
+  var si=(client.process_stage||1)-1;
+  var stageLbl=document.getElementById('pfStageLabel');
+  if(stageLbl){stageLbl.textContent=stageLabels[si]||stageLabels[0];stageLbl.className='badge '+(stageColors[si]||'bw');}
   // Populate summary fields
   document.getElementById('sumFullName').textContent=fullName.trim()||'—';
   document.getElementById('sumDob').textContent=p.dob||'—';
