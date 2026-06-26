@@ -419,6 +419,8 @@ td:first-child{font-weight:600;color:var(--navy)}
       </div>
       <!-- UBOs (hidden by default) -->
       <div class="card" id="cpUbos" style="display:none"></div>
+      <!-- Process Stage (hidden until client loaded) -->
+      <div class="card" id="cpStage" style="display:none"></div>
     </div>
 
     <!-- Staff Chat Panel -->
@@ -1269,6 +1271,68 @@ async function openClientProfile(id){
     ubosCont.style.display='block';
     ubosCont.innerHTML='<h4 style="margin-bottom:.75rem">Gerçek Faydalanıcılar / UBOs</h4>'+ubos.map(function(u){return '<div style="display:flex;gap:1rem;padding:.5rem;border:1px solid var(--border);border-radius:8px;margin-bottom:.5rem"><div><div style="font-weight:600">'+esc(u.full_name||'—')+'</div><div style="font-size:.8rem;color:var(--text2)">'+esc(u.position||'—')+' &nbsp;·&nbsp; %'+esc(u.ownership_pct||0)+'</div></div></div>';}).join('');
   } else if(ubosCont){ubosCont.style.display='none';}
+  // Process Stage Manager
+  var stageCont=document.getElementById('cpStage');
+  if(stageCont){
+    stageCont.style.display='block';
+    var curStage=client.process_stage||1;
+    var curNote=client.stage_note||'';
+    var isEn3=currentLang==='en';
+    var stageLabels=isEn3?[
+      'Application & Info Gathering','Document Preparation & Organization',
+      'Legal Processing & Translation','Institution Application & Follow-up',
+      'Approval & Completion'
+    ]:[
+      'Başvuru & Bilgi Toplama','Belge Hazırlama & Organizasyon',
+      'Hukuki İşlem & Tercüme','Kurum Başvurusu & Takip',
+      'Onay & Süreç Tamamlama'
+    ];
+    var title=isEn3?'Process Stage Management':'Süreç Aşaması Yönetimi';
+    var noteLabel=isEn3?'Note for Client (optional):':'Müşteriye Not (isteğe bağlı):';
+    var saveLabel=isEn3?'Save':'Kaydet';
+    // Build HTML using DOM
+    stageCont.innerHTML='';
+    var h4=document.createElement('h4');
+    h4.style.cssText='font-size:.85rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:1rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)';
+    h4.textContent=title;
+    stageCont.appendChild(h4);
+    var btnRow=document.createElement('div');
+    btnRow.style.cssText='display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem';
+    stageLabels.forEach(function(lbl,i){
+      var sn=i+1;
+      var btn=document.createElement('button');
+      btn.className='btn btn-sm'+(sn===curStage?' btn-primary':' btn-outline');
+      btn.style.cssText='font-size:.78rem;'+(sn===curStage?'':'');
+      btn.dataset.stage=sn;
+      btn.innerHTML='<span style="font-size:.7rem;opacity:.7;margin-right:.3rem">'+sn+'</span>'+lbl;
+      btn.addEventListener('click',function(){
+        btnRow.querySelectorAll('button').forEach(function(b){b.className='btn btn-sm btn-outline';});
+        btn.className='btn btn-sm btn-primary';
+      });
+      btnRow.appendChild(btn);
+    });
+    stageCont.appendChild(btnRow);
+    var noteLbl=document.createElement('label');
+    noteLbl.style.cssText='font-size:.82rem;color:var(--text2);display:block;margin-bottom:.3rem';
+    noteLbl.textContent=noteLabel;
+    stageCont.appendChild(noteLbl);
+    var noteArea=document.createElement('textarea');
+    noteArea.id='cpStageNote';
+    noteArea.style.cssText='width:100%;border:1px solid var(--border);border-radius:8px;padding:.5rem .75rem;font-size:.84rem;resize:vertical;min-height:64px;font-family:inherit;color:var(--fg);background:var(--surface)';
+    noteArea.value=curNote;
+    stageCont.appendChild(noteArea);
+    var saveBtn=document.createElement('button');
+    saveBtn.className='btn btn-primary btn-sm';
+    saveBtn.style.cssText='margin-top:.6rem';
+    saveBtn.textContent=saveLabel;
+    saveBtn.addEventListener('click',function(){
+      var selected=btnRow.querySelector('.btn-primary');
+      var newStage=selected?parseInt(selected.dataset.stage):curStage;
+      var newNote=noteArea.value.trim();
+      updateProcessStage(id,newStage,newNote);
+    });
+    stageCont.appendChild(saveBtn);
+  }
 }
 
 async function updateClientStatus(id,status){
@@ -1281,6 +1345,11 @@ async function updateKycStatus(id,status){
 }
 async function updateAmlStatus(id,status){
   await sb.from('clients').update({aml_status:status}).eq('id',id);
+  openClientProfile(id);
+}
+async function updateProcessStage(id,stage,note){
+  var {error}=await sb.from('clients').update({process_stage:stage,stage_note:note}).eq('id',id);
+  if(error){alert('Kayıt sırasında hata: '+error.message);return;}
   openClientProfile(id);
 }
 async function approveDoc(docId){

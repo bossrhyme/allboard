@@ -850,7 +850,7 @@ a{color:var(--blue);text-decoration:none}
     <div class="pf-tabs">
       <div class="pf-tab active" onclick="pfTab('summary',this)">📋 <span data-i18n="tabSummary">Özet</span></div>
       <div class="pf-tab" onclick="pfTab('docs',this)">📁 <span data-i18n="tabDocs">Belgeler</span></div>
-      <div class="pf-tab" onclick="pfTab('verify',this)">🛡️ <span data-i18n="tabVerify">Doğrulama</span></div>
+      <div class="pf-tab" onclick="pfTab('verify',this)">📍 <span data-i18n="tabVerify">Süreç Takibi</span></div>
       <div class="pf-tab" onclick="pfTab('chat',this)">💬 <span data-i18n="tabChat">Mesajlar</span></div>
     </div>
   </div>
@@ -892,12 +892,9 @@ a{color:var(--blue);text-decoration:none}
       <p style="color:var(--text2);text-align:center;padding:2rem">Yükleniyor... / Loading...</p>
     </div>
 
-    <!-- DOĞRULAMA -->
+    <!-- SÜREÇ TAKİBİ -->
     <div class="tbc" id="tb-verify">
-      <div class="vc"><div class="vc-icon review">🔍</div><div class="vc-info"><div class="vc-title" data-i18n="vcKycTitle">KYC Kimlik Doğrulama</div><div class="vc-desc" data-i18n="vcKycDesc">Belge incelemesi devam ediyor. Sonuç 1-2 iş günü içinde bildirilecektir.</div></div><span id="vcKyc" class="badge bw" data-i18n="statusReview">İncelemede</span></div>
-      <div class="vc"><div class="vc-icon review">🛡️</div><div class="vc-info"><div class="vc-title" data-i18n="vcAmlTitle">AML Tarama</div><div class="vc-desc" data-i18n="vcAmlDesc">Yaptırım listeleri ve PEP veritabanları taranıyor.</div></div><span id="vcAml" class="badge bi" data-i18n="statusScanning">Taranıyor</span></div>
-      <div class="vc"><div class="vc-icon pend">⚡</div><div class="vc-info"><div class="vc-title" data-i18n="vcRiskTitle">Risk Değerlendirmesi</div><div class="vc-desc" data-i18n="vcRiskDesc">KYC ve AML tamamlandıktan sonra risk skoru hesaplanacaktır.</div></div><span id="vcRisk" class="badge bn" data-i18n="statusPending">Bekliyor</span></div>
-      <div class="vc"><div class="vc-icon pend">✅</div><div class="vc-info"><div class="vc-title" data-i18n="vcFinalTitle">Nihai Karar</div><div class="vc-desc" data-i18n="vcFinalDesc">Tüm incelemeler tamamlandıktan sonra nihai karar verilecektir.</div></div><span id="vcFinal" class="badge bn" data-i18n="statusPending">Bekliyor</span></div>
+      <div id="pfProcessTracker"><p style="color:var(--text2);text-align:center;padding:2rem">Yükleniyor...</p></div>
     </div>
 
     <!-- MESAJLAR / CHAT -->
@@ -1320,7 +1317,7 @@ var T = {
     completeTitle:'Başvurunuz Alındı!', completeDesc:'Ekibimiz belgelerinizi inceleyecek ve en kısa sürede sizinle iletişime geçecektir.',
     kycProcessing:'KYC: İşleniyor', amlScanning:'AML: Taranıyor', riskEval:'Risk: Değerlendiriliyor',
     btnViewProfile:'Profilimi Görüntüle →',
-    tabSummary:'Özet', tabDocs:'Belgeler', tabVerify:'Doğrulama', tabChat:'Mesajlar',
+    tabSummary:'Özet', tabDocs:'Belgeler', tabVerify:'Süreç Takibi', tabChat:'Mesajlar',
     secPersonal:'Kişisel Bilgiler', secAddress:'Adres', secPep:'PEP & Risk Beyanı',
     lPepStatus:'PEP Durumu', lRelPep:'Yakın PEP',
     vcKycTitle:'KYC Kimlik Doğrulama', vcKycDesc:'Belge incelemesi devam ediyor. Sonuç 1-2 iş günü içinde bildirilecektir.',
@@ -1449,7 +1446,7 @@ var T = {
     completeTitle:'Application Received!', completeDesc:'Our team will review your documents and contact you as soon as possible.',
     kycProcessing:'KYC: Processing', amlScanning:'AML: Scanning', riskEval:'Risk: Evaluating',
     btnViewProfile:'View My Profile →',
-    tabSummary:'Summary', tabDocs:'Documents', tabVerify:'Verification', tabChat:'Messages',
+    tabSummary:'Summary', tabDocs:'Documents', tabVerify:'Process Tracking', tabChat:'Messages',
     secPersonal:'Personal Information', secAddress:'Address', secPep:'PEP & Risk Declaration',
     lPepStatus:'PEP Status', lRelPep:'PEP Associate',
     vcKycTitle:'KYC Identity Verification', vcKycDesc:'Document review in progress. Result within 1-2 business days.',
@@ -2186,9 +2183,8 @@ async function loadProfile(){
   document.getElementById('sumRel').textContent=pep.hasRelative?T[currentLang].optYes:T[currentLang].optNo;
   document.getElementById('sumSof').textContent=pep.sourceOfFunds||'—';
   document.getElementById('sumVol').textContent=pep.monthlyVolume||'—';
-  // Verify tab
-  if(document.getElementById('vcKyc'))document.getElementById('vcKyc').textContent=statusLabel(client.kyc_status);
-  if(document.getElementById('vcAml'))document.getElementById('vcAml').textContent=statusLabel(client.aml_status);
+  // Süreç takibi tab
+  renderProcessTracker(client.process_stage||1, client.stage_note||'');
 
   pfTab('summary');
   loadChatTab();
@@ -2211,6 +2207,42 @@ function pfTab(t,el){
   if(el)el.classList.add('active');
   if(t==='docs')loadDocsTab();
   if(t==='chat')loadChatTab();
+}
+
+function renderProcessTracker(stage,note){
+  var cont=document.getElementById('pfProcessTracker');
+  if(!cont)return;
+  var steps=[
+    ['Başvuru & Bilgi Toplama','Kişisel bilgiler ve gerekli belgeler listelendi, toplama süreci başladı.'],
+    ['Belge Hazırlama & Organizasyon','Belgeler düzenlendi ve kurum başvurusu için hazırlandı.'],
+    ['Hukuki İşlem & Tercüme','Gerekli noter, yeminli tercüman ve apostil işlemleri yürütülüyor.'],
+    ['Kurum Başvurusu & Takip','Başvuru yapıldı, kurumdan geri dönüş bekleniyor.'],
+    ['Onay & Süreç Tamamlama','Tüm adımlar tamamlandı, hesap açılışı onaylandı.']
+  ];
+  var html='<div style="padding:.5rem 0">';
+  steps.forEach(function(s,i){
+    var n=i+1;
+    var done=n<stage;
+    var active=n===stage;
+    var iconBg=done?'#0d9488':active?'#1447e6':'var(--border)';
+    var iconColor=(done||active)?'#fff':'var(--text2)';
+    var lineColor=done?'#0d9488':'var(--border)';
+    var titleColor=active?'var(--blue)':done?'var(--fg)':'var(--text2)';
+    html+='<div style="display:flex;gap:.85rem;align-items:flex-start">';
+    html+='<div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">';
+    html+='<div style="width:34px;height:34px;border-radius:50%;background:'+iconBg+';color:'+iconColor+';display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700'+(active?';box-shadow:0 0 0 5px rgba(20,71,230,.15)':'')+'">'+(done?'✓':n)+'</div>';
+    if(i<4)html+='<div style="width:2px;height:26px;background:'+lineColor+';margin:3px 0"></div>';
+    html+='</div>';
+    html+='<div style="padding-top:6px;padding-bottom:'+(i<4?'0':'0')+'">';
+    html+='<div style="font-size:.875rem;font-weight:600;color:'+titleColor+'">'+s[0]+(active?' <span style="font-size:.7rem;background:#eff6ff;color:#1447e6;padding:.1rem .45rem;border-radius:4px;font-weight:500;vertical-align:middle">Devam Ediyor</span>':'')+'</div>';
+    html+='<div style="font-size:.79rem;color:var(--text2);margin-top:.2rem;margin-bottom:.6rem">'+s[1]+'</div>';
+    html+='</div></div>';
+  });
+  if(note){
+    html+='<div style="margin-top:1rem;padding:.75rem 1rem;background:rgba(20,71,230,.06);border-left:3px solid #1447e6;border-radius:0 6px 6px 0;font-size:.83rem;color:var(--text2)"><strong style="color:var(--fg)">Danışman Notu:</strong> '+esc(note)+'</div>';
+  }
+  html+='</div>';
+  cont.innerHTML=html;
 }
 
 async function loadDocsTab(){

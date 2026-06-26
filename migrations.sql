@@ -378,3 +378,9 @@ $$;
 -- Sadece adminler çalıştırabilsin (security definer ile çalışır ama
 -- çağrı yetkisini admin'e kısıtlamak için EXECUTE iznini ayarla):
 revoke all on function erase_client(uuid) from public, anon, authenticated;
+
+-- ============================================================
+-- 17. PROCESS STAGE — Süreç aşama takibi
+-- ============================================================
+ALTER TABLE clients ADD COLUMN IF NOT EXISTS process_stage smallint DEFAULT 1;
+ALTER TABLE clients ADD COLUMN IF NOT EXISTS stage_note text;
