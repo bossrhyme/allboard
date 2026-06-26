@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Allboard — Kripto Para & Finans Uyum Danışmanlığı</title>
+<title>Allboard — Kripto Para Borsası KYC / KYB Onboarding Danışmanlığı</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#0f1f3d;--blue:#1447e6;--blue2:#2563eb;--teal:#00c4a7;--bg:#ffffff;--bg2:#f8faff;--bg3:#f1f5fd;--card:#ffffff;--text:#0f172a;--text2:#475569;--text3:#64748b;--border:#e2e8f0;--border2:#cbd5e1;--danger:#ef4444;--warn:#f59e0b;--success:#10b981;--radius:10px}
@@ -233,9 +233,9 @@ a{color:var(--blue);text-decoration:none}
 <div data-view="landing" class="active" id="view-landing">
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow" data-i18n="heroEyebrow">Kripto Para & Finans Uyum Danışmanlığı</div>
-    <h1 data-i18n="heroTitle">Kripto para piyasalarına yönelik uyum süreçlerinizi <strong>uçtan uca</strong> yönetiyoruz</h1>
-    <p data-i18n="heroDesc">Kripto para borsaları, OTC masaları ve finansal kuruluşlara yönelik KYC/KYB başvuruları, belge hazırlama, resmi yazışmalar ve uyum süreçlerinin tamamını sizin adınıza üstleniyoruz.</p>
+    <div class="hero-eyebrow" data-i18n="heroEyebrow">Kripto Para Piyasaları · KYC / KYB Onboarding</div>
+    <h1 data-i18n="heroTitle">Kripto para borsalarına onboarding sürecinizi <strong>uçtan uca</strong> takip ediyoruz</h1>
+    <p data-i18n="heroDesc">Kripto para borsaları ve OTC masalarına KYC/KYB başvurusundan onaya kadar tüm süreci — belge hazırlama, kurum yazışmaları ve aşama takibini — sizin adınıza yönetiyoruz.</p>
     <div class="hero-btns">
       <div id="heroGuest" style="display:flex;gap:.85rem;flex-wrap:wrap">
         <button class="btn btn-primary" onclick="showPreReg()" style="padding:.75rem 1.8rem" data-i18n="heroApply">Danışmanlık Talebi →</button>
@@ -1240,20 +1240,20 @@ var currentUser = null;
 var T = {
   tr:{
     navLogin:'Giriş Yap', navApply:'Danışmanlık Talebi →', navRegister:'Kayıt Ol', navLogout:'Çıkış', navProfile:'Profilim →',
-    heroEyebrow:'Kripto Para & Finans Uyum Danışmanlığı',
-    heroTitle:'Kripto para piyasalarına yönelik uyum süreçlerinizi <strong>uçtan uca</strong> yönetiyoruz',
-    heroDesc:'Kripto para borsaları, OTC masaları ve finansal kuruluşlara yönelik KYC/KYB başvuruları, belge hazırlama, resmi yazışmalar ve uyum süreçlerinin tamamını sizin adınıza üstleniyoruz.',
+    heroEyebrow:'Kripto Para Piyasaları · KYC / KYB Onboarding',
+    heroTitle:'Kripto para borsalarına onboarding sürecinizi <strong>uçtan uca</strong> takip ediyoruz',
+    heroDesc:'Kripto para borsaları ve OTC masalarına KYC/KYB başvurusundan onaya kadar tüm süreci — belge hazırlama, kurum yazışmaları ve aşama takibini — sizin adınıza yönetiyoruz.',
     heroApply:'Danışmanlık Talebi →', heroLogin:'Giriş Yap', heroGoProfile:'Profilime Git →',
     heroNote1:'Ücretsiz ön görüşme', heroNote2:'Deneyimli danışman ekibi', heroNote3:'Şeffaf süreç takibi',
     trust1:'Uçtan Uca Süreç Yönetimi', trust2:'KYC / KYB Uzmanlığı', trust3:'Güvenli Veri İşleme', trust4:'Uzman Danışman Ekibi', trust5:'Hukuki & Tercüme Desteği',
-    svcEyebrow:'Hizmet Alanlarımız', svcTitle:'Hangi müşterilere hizmet veriyoruz?',
-    svcDesc:'Kripto para borsaları ve finansal kuruluşlara hesap açmak, uyum süreci yürütmek veya belge paketi hazırlamak isteyen her birey ve kuruma danışmanlık sağlıyoruz',
-    svc1t:'Şirketler & Girişimler', svc1d:'Kripto borsası, fintech, holding ve her ölçekteki kurumsal yapılar',
-    svc2t:'Bireysel Yatırımcılar', svc2d:'Kripto ve finansal kurumlara bireysel hesap açmak isteyen yatırımcılar',
-    svc3t:'Yabancı Uyruklu Müşteriler', svc3d:'Türkiye\'de veya uluslararası alanda uyum süreci yürütmek isteyen yabancı gerçek/tüzel kişiler',
-    svc4t:'Fon & Varlık Yöneticileri', svc4d:'Portföy yönetim şirketleri, aile ofisleri ve kurumsal yatırım yapıları',
-    featEyebrow:'Hizmetlerimiz', featTitle:'Uyum sürecinizin her adımında yanınızdayız',
-    featDesc:'Başvurudan sonuçlanmaya kadar tüm süreci sizin adınıza yönetir, koordine eder ve takip ederiz',
+    svcEyebrow:'Hizmet Alanlarımız', svcTitle:'Hangi müşterilerin onboarding sürecini yönetiyoruz?',
+    svcDesc:'Kripto para borsası veya OTC masasına KYC/KYB başvurusu yapmak isteyen her birey ve kurumun onboarding sürecini takip ediyor, belge paketini hazırlıyor ve süreci sonuçlandırıyoruz',
+    svc1t:'Şirketler & Girişimler', svc1d:'Kripto borsasına KYB başvurusu yapan fintech, holding ve her ölçekteki kurumsal yapılar',
+    svc2t:'Bireysel Yatırımcılar', svc2d:'Kripto borsası veya OTC masasına bireysel KYC başvurusu yapmak isteyen yatırımcılar',
+    svc3t:'Yabancı Uyruklu Müşteriler', svc3d:'Türkiye\'de veya uluslararası kripto borsalarına KYC/KYB süreci yürütmek isteyen yabancı gerçek/tüzel kişiler',
+    svc4t:'Fon & Varlık Yöneticileri', svc4d:'Portföy yönetim şirketleri ve aile ofisleri için kripto kurumu onboarding süreç takibi',
+    featEyebrow:'Hizmetlerimiz', featTitle:'KYC / KYB başvurunuzun her aşamasında yanınızdayız',
+    featDesc:'Kripto borsası veya OTC başvurusundan onaya kadar süreci sizin adınıza yönetir, koordine eder ve anlık olarak takip ederiz',
     f1t:'KYC / KYB Başvuru Yönetimi', f1d:'Bilgilerinizi ve belgelerinizi bir kez iletin. Başvuru sürecini baştan sona sizin adınıza yürütürüz.',
     f2t:'Belge Hazırlama & Organizasyon', f2d:'Hangi belgelerin gerektiğini analiz eder, eksik ya da hatalı belgeler için sizi yönlendiririz.',
     f3t:'Anlık Süreç Takibi', f3d:'Sürecinizin hangi aşamada olduğunu profilinizden gerçek zamanlı olarak takip edin.',
@@ -1265,11 +1265,11 @@ var T = {
     stat1label:'Kurumsal Müşteri', stat1sub:'Kripto, fintech & ticaret',
     stat2label:'Bireysel Müşteri', stat2sub:'Başarıyla tamamlandı',
     stat3label:'Farklı Kurum & Yetki', stat3sub:'Yurt içi & uluslararası',
-    stat4label:'Tamamlanan Süreç', stat4sub:'Onboarding & uyum danışmanlığı',
-    fcolServices:'Hizmetler', fcolS1:'KYC Danışmanlığı', fcolS2:'Kurumsal KYB Hizmeti', fcolS3:'Belge Hazırlama', fcolS4:'Hukuki & Tercüme Desteği',
+    stat4label:'Tamamlanan Süreç', stat4sub:'KYC / KYB onboarding takibi',
+    fcolServices:'Hizmetler', fcolS1:'KYC Onboarding Takibi', fcolS2:'Kurumsal KYB Başvurusu', fcolS3:'Belge Hazırlama', fcolS4:'Hukuki & Tercüme Desteği',
     fcolProcess:'Çalışma Şeklimiz', fcolP1:'Süreç Nasıl İşler?', fcolP2:'Sık Sorulan Sorular', fcolP3:'Referanslar',
     fcolLegal:'Yasal', fcolL1:'KVKK Politikası', fcolL2:'Gizlilik', fcolL3:'Kullanım Şartları', fcolL4:'Güvenlik',
-    footerDesc:'Kripto para piyasalarına odaklı, bireyler ve kurumlar için uçtan uca onboarding ve uyum danışmanlığı.',
+    footerDesc:'Kripto para borsaları ve OTC masaları için KYC/KYB onboarding süreç takibi ve danışmanlığı.',
     footerCopy:'© 2026 Allboard. Tüm hakları saklıdır.',
     obTitle:'Hesap Oluştur', obExit:'✕ Çıkış', stepLabel:'Adım',
     s1title:'Hesap Türü', s1desc:'Oluşturmak istediğiniz hesap türünü seçin',
@@ -1369,20 +1369,20 @@ var T = {
   },
   en:{
     navLogin:'Log In', navApply:'Request Consultation →', navRegister:'Register', navLogout:'Logout', navProfile:'My Profile →',
-    heroEyebrow:'Crypto & Financial Compliance Consulting',
-    heroTitle:'We manage your crypto market compliance processes <strong>end to end</strong>',
-    heroDesc:'KYC/KYB applications, document preparation, official correspondence and compliance processes for crypto exchanges, OTC desks and financial institutions — all managed on your behalf.',
+    heroEyebrow:'Crypto Markets · KYC / KYB Onboarding',
+    heroTitle:'We track your crypto exchange onboarding process <strong>end to end</strong>',
+    heroDesc:'From KYC/KYB application to approval at crypto exchanges and OTC desks — document preparation, institution correspondence and process tracking, all managed on your behalf.',
     heroApply:'Request Consultation →', heroLogin:'Log In', heroGoProfile:'Go to My Profile →',
     heroNote1:'Free initial consultation', heroNote2:'Experienced advisory team', heroNote3:'Transparent process tracking',
     trust1:'End-to-End Process Management', trust2:'KYC / KYB Expertise', trust3:'Secure Data Handling', trust4:'Expert Advisory Team', trust5:'Legal & Translation Support',
-    svcEyebrow:'Who We Serve', svcTitle:'Which clients do we work with?',
-    svcDesc:'We provide consulting to any individual or institution seeking to open accounts at crypto exchanges and financial institutions, run compliance processes, or prepare document packages',
-    svc1t:'Companies & Ventures', svc1d:'Crypto exchanges, fintechs, holdings and corporate structures of all sizes',
-    svc2t:'Individual Investors', svc2d:'Individuals seeking to open personal accounts at crypto and financial institutions',
-    svc3t:'Foreign Nationals', svc3d:'Foreign individuals and legal entities wishing to run compliance processes in Turkey or internationally',
-    svc4t:'Fund & Asset Managers', svc4d:'Portfolio management firms, family offices and institutional investment structures',
-    featEyebrow:'Our Services', featTitle:'We are with you at every step of your compliance process',
-    featDesc:'We manage, coordinate and track the entire process on your behalf — from initial application to final approval',
+    svcEyebrow:'Who We Serve', svcTitle:'Whose KYC/KYB onboarding do we manage?',
+    svcDesc:'We track, document and complete the KYC/KYB onboarding process for any individual or entity applying to a crypto exchange or OTC desk',
+    svc1t:'Companies & Ventures', svc1d:'Fintechs, holdings and corporate structures applying for KYB at crypto exchanges',
+    svc2t:'Individual Investors', svc2d:'Investors applying for KYC at crypto exchanges or OTC desks',
+    svc3t:'Foreign Nationals', svc3d:'Foreign individuals and legal entities running KYC/KYB at crypto exchanges in Turkey or internationally',
+    svc4t:'Fund & Asset Managers', svc4d:'Portfolio management firms and family offices for crypto institution onboarding process tracking',
+    featEyebrow:'Our Services', featTitle:'We are with you at every stage of your KYC / KYB application',
+    featDesc:'From crypto exchange application to approval — we manage, coordinate and track the entire onboarding process on your behalf',
     f1t:'KYC / KYB Application Management', f1d:'Submit your information and documents once. We run the entire application process on your behalf.',
     f2t:'Document Preparation & Organisation', f2d:'We analyse which documents are required and guide you on missing or incorrect items.',
     f3t:'Real-Time Process Tracking', f3d:'Track the status of your process in real time from your profile.',
@@ -1391,14 +1391,14 @@ var T = {
     f6t:'Individual & Corporate Solutions', f6d:'Separately customised compliance and onboarding processes for natural persons and legal entities.',
     f7t:'Legal Document Support', f7d:'We coordinate apostille certification, notary attestation, certified copies and other official document procedures on your behalf.',
     f8t:'Sworn Translation Coordination', f8d:'We arrange official translation of your foreign-language documents through authorised sworn translators and manage the process.',
-    stat1label:'Corporate Clients', stat1sub:'Crypto, fintech & trade',
+    stat1label:'Corporate Clients', stat1sub:'Crypto exchanges & fintechs',
     stat2label:'Individual Clients', stat2sub:'Successfully completed',
     stat3label:'Different Institutions', stat3sub:'Domestic & international',
-    stat4label:'Completed Processes', stat4sub:'Onboarding & compliance consulting',
-    fcolServices:'Services', fcolS1:'KYC Consulting', fcolS2:'Corporate KYB Services', fcolS3:'Document Preparation', fcolS4:'Legal & Translation Support',
+    stat4label:'Completed Processes', stat4sub:'KYC / KYB onboarding tracking',
+    fcolServices:'Services', fcolS1:'KYC Onboarding Tracking', fcolS2:'Corporate KYB Application', fcolS3:'Document Preparation', fcolS4:'Legal & Translation Support',
     fcolProcess:'How We Work', fcolP1:'How Does the Process Work?', fcolP2:'FAQ', fcolP3:'References',
     fcolLegal:'Legal', fcolL1:'GDPR Policy', fcolL2:'Privacy', fcolL3:'Terms of Service', fcolL4:'Security',
-    footerDesc:'Crypto-focused, end-to-end onboarding and compliance consulting for individuals and institutions.',
+    footerDesc:'KYC/KYB onboarding process tracking and consulting for crypto exchanges and OTC desks.',
     footerCopy:'© 2026 Allboard. All rights reserved.',
     obTitle:'Create Account', obExit:'✕ Exit', stepLabel:'Step',
     s1title:'Account Type', s1desc:'Select the type of account you wish to create',
