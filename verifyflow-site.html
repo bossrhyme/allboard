@@ -250,32 +250,79 @@ a{color:var(--blue);text-decoration:none}
   <div class="hero-right">
     <div class="mockup-bar">
       <div class="mockup-dots"><span></span><span></span><span></span></div>
-      <div class="mockup-url">🔒 app.allboard.io/dashboard</div>
+      <div class="mockup-url">🔒 app.allboard.io/surecim</div>
     </div>
     <div class="mockup-body">
-      <div class="mock-card">
-        <div class="mock-card-head"><h4>Uyum Sürecim</h4><span class="mock-badge mb-info">Devam Ediyor</span></div>
-        <div class="mock-prog"><div class="mock-prog-fill" style="width:72%"></div></div>
-        <div class="mock-prog-label"><span>Belgeler: Tamamlandı</span><span>İnceleme: Devam ediyor</span></div>
-      </div>
-      <div class="mock-card">
-        <div class="mock-card-head"><h4>Son Güncellemeler</h4><span style="font-size:.7rem;color:var(--blue);cursor:pointer;font-weight:600">Tümü →</span></div>
-        <div class="mock-list">
-          <div class="mock-list-item">
-            <div class="mock-avatar" style="background:linear-gradient(135deg,#1447e6,#00c4a7)">✓</div>
-            <div class="mock-info"><div class="mock-info-name">Belge paketi tamamlandı</div><div class="mock-info-sub">Danışmanınız incelemeye başladı · Az önce</div></div>
-            <span class="mock-badge mb-success">Tamam</span>
+      <div class="mock-card" style="padding:1.25rem">
+        <div class="mock-card-head" style="margin-bottom:1rem">
+          <h4>Süreç Takibi</h4>
+          <span class="mock-badge mb-info">Adım 3 / 5</span>
+        </div>
+        <!-- Step timeline -->
+        <div style="display:flex;flex-direction:column;gap:0">
+
+          <!-- Adım 1 — Tamamlandı -->
+          <div style="display:flex;gap:.75rem;align-items:flex-start">
+            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+              <div style="width:26px;height:26px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0">✓</div>
+              <div style="width:2px;flex:1;background:var(--teal);min-height:22px;margin:.25rem 0"></div>
+            </div>
+            <div style="padding-bottom:.85rem;flex:1">
+              <div style="font-size:.8rem;font-weight:700;color:var(--navy)">Başvuru & Bilgi Toplama</div>
+              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem">Kişisel bilgiler ve ihtiyaç analizi tamamlandı</div>
+            </div>
           </div>
-          <div class="mock-list-item">
-            <div class="mock-avatar" style="background:linear-gradient(135deg,#f59e0b,#fb923c)">!</div>
-            <div class="mock-info"><div class="mock-info-name">Apostil talebi iletildi</div><div class="mock-info-sub">İşlem takip ediliyor · 3 sa önce</div></div>
-            <span class="mock-badge mb-warn">Süreçte</span>
+
+          <!-- Adım 2 — Tamamlandı -->
+          <div style="display:flex;gap:.75rem;align-items:flex-start">
+            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+              <div style="width:26px;height:26px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0">✓</div>
+              <div style="width:2px;flex:1;background:linear-gradient(var(--teal),var(--blue));min-height:22px;margin:.25rem 0"></div>
+            </div>
+            <div style="padding-bottom:.85rem;flex:1">
+              <div style="font-size:.8rem;font-weight:700;color:var(--navy)">Belge Hazırlama & Organizasyon</div>
+              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem">Belge paketi derlendi, eksikler tamamlandı</div>
+            </div>
           </div>
-          <div class="mock-list-item">
-            <div class="mock-avatar" style="background:linear-gradient(135deg,#8b5cf6,#3b82f6)">💬</div>
-            <div class="mock-info"><div class="mock-info-name">Danışmanınızdan güncelleme</div><div class="mock-info-sub">Tercüme tamamlandı · Dün</div></div>
-            <span class="mock-badge mb-info">Yeni</span>
+
+          <!-- Adım 3 — Aktif -->
+          <div style="display:flex;gap:.75rem;align-items:flex-start">
+            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+              <div style="width:26px;height:26px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 0 3px rgba(20,71,230,.15)">3</div>
+              <div style="width:2px;flex:1;background:var(--border);min-height:22px;margin:.25rem 0"></div>
+            </div>
+            <div style="padding-bottom:.85rem;flex:1">
+              <div style="display:flex;align-items:center;gap:.4rem">
+                <div style="font-size:.8rem;font-weight:700;color:var(--blue)">Hukuki İşlem & Tercüme</div>
+                <span style="font-size:.62rem;font-weight:700;background:rgba(20,71,230,.08);color:var(--blue);padding:.1rem .4rem;border-radius:4px">Devam Ediyor</span>
+              </div>
+              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem">Apostil & yeminli tercüme koordinasyonu</div>
+            </div>
           </div>
+
+          <!-- Adım 4 — Bekliyor -->
+          <div style="display:flex;gap:.75rem;align-items:flex-start">
+            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+              <div style="width:26px;height:26px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--text3);flex-shrink:0">4</div>
+              <div style="width:2px;flex:1;background:var(--border);min-height:22px;margin:.25rem 0"></div>
+            </div>
+            <div style="padding-bottom:.85rem;flex:1">
+              <div style="font-size:.8rem;font-weight:700;color:var(--text2)">Kurum Başvurusu & Takip</div>
+              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem">Resmi başvuru iletimi ve yazışma yönetimi</div>
+            </div>
+          </div>
+
+          <!-- Adım 5 — Bekliyor -->
+          <div style="display:flex;gap:.75rem;align-items:flex-start">
+            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+              <div style="width:26px;height:26px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--text3);flex-shrink:0">✓</div>
+            </div>
+            <div style="flex:1">
+              <div style="font-size:.8rem;font-weight:700;color:var(--text2)">Onay & Süreç Tamamlama</div>
+              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem">Nihai onay ve müşteri bildirimi</div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
