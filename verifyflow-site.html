@@ -2260,27 +2260,27 @@ async function loadDocsTab(){
     hazirun:isEn?'Attendance List':'Hazirun Cetveli',
     identity:isEn?'Identity Document':'Kimlik Belgesi',
     intent_letter:isEn?'Letter of Intent':'Niyet Mektubu',
-    invoice_biz:isEn?'Invoice':'Fatura',
+    invoice_biz:isEn?'Company Invoice':'Şirkete Ait Fatura',
     lease:isEn?'Lease Agreement':'Kira Sözleşmesi',
     nufus:isEn?'Family Register':'Nüfus Kayıt Örneği',
     org_chart:isEn?'Organization Chart':'Organizasyon Şeması',
-    ownership_form:isEn?'Ownership Form':'Sahiplik Formu',
+    ownership_form:isEn?'Ownership Structure Form':'Sahiplik Yapısını Gösterir Form',
     registry:isEn?'Trade Registry':'Ticaret Sicil Belgesi',
     registry_gazette:isEn?'Trade Registry Gazette':'Ticaret Sicil Gazetesi',
-    rep_bank:isEn?'Rep. Bank Statement':'Temsilci Banka Dökümü',
-    rep_nufus:isEn?'Representative ID':'Temsilci Kimlik Belgesi',
-    rep_occupation:isEn?'Rep. Occupation':'Temsilci Meslek Belgesi',
-    shareholder_form:isEn?'Shareholder Form':'Hissedar Formu',
+    rep_bank:isEn?'Bank Statement (Representative)':'Banka Hesap Dökümü (Temsilci)',
+    rep_nufus:isEn?'Family Register (Representative)':'Nüfus Kayıt Örneği (Temsilci)',
+    rep_occupation:isEn?'Occupation / Workplace Doc. (Rep.)':'İşyeri / Meslek Bilgisi Belgesi (Temsilci)',
+    shareholder_form:isEn?'Shareholder Structure Form':'Hissedar Yapısını Gösterir Form',
     signature:isEn?'Signature Circular':'İmza Sirküleri',
-    sof:isEn?'Source of Funds':'Fon Kaynağı (SoF)',
-    sof_biz:isEn?'Source of Funds (Corp.)':'Fon Kaynağı (Şirket)',
-    sow:isEn?'Source of Wealth':'Servet Kaynağı (SoW)',
+    sof:isEn?'Source of Funds (SoF)':'Fon Kaynağı Belgesi (SoF)',
+    sof_biz:isEn?'Source of Funds — Company (SoF)':'Fon Kaynağı Belgesi — Şirket (SoF)',
+    sow:isEn?'Source of Wealth (SoW)':'Servet Kaynağı Belgesi (SoW)',
     sworn_translation:isEn?'Sworn Translation':'Yeminli Tercüman Çevirisi',
     tax:isEn?'Tax Certificate':'Vergi Levhası',
-    tax_clearance:isEn?'Tax Clearance':'Vergi Borcu Yoktur'
+    tax_clearance:isEn?'Tax Clearance Letter':'Vergi Borcu Yoktur Yazısı'
   };
   var indList=['address','bank_personal','identity','nufus','sof','tax'];
-  var bizList=['aoa','bank_biz','certified_copy','cgs','hazirun','intent_letter','invoice_biz','lease','org_chart','ownership_form','registry','registry_gazette','rep_bank','rep_nufus','rep_occupation','shareholder_form','signature','sof_biz','sow','sworn_translation','tax','tax_clearance'];
+  var bizList=['address','aoa','bank_biz','bank_personal','certified_copy','cgs','hazirun','identity','intent_letter','invoice_biz','lease','nufus','org_chart','ownership_form','registry','registry_gazette','rep_bank','rep_nufus','rep_occupation','shareholder_form','signature','sof','sof_biz','sow','sworn_translation','tax','tax_clearance'];
   var list=(currentClient.type==='business'?bizList:indList).slice().sort(function(a,b){return (allLabels[a]||a).localeCompare(allLabels[b]||b,'tr');});
   var docMap={};
   if(docs)docs.forEach(function(d){docMap[d.doc_type]=d.status;});

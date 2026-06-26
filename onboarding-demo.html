@@ -1216,27 +1216,27 @@ async function openClientProfile(id){
       hazirun:isEn2?'Attendance List':'Hazirun Cetveli',
       identity:isEn2?'Identity Document':'Kimlik Belgesi',
       intent_letter:isEn2?'Letter of Intent':'Niyet Mektubu',
-      invoice_biz:isEn2?'Invoice':'Fatura',
+      invoice_biz:isEn2?'Company Invoice':'Şirkete Ait Fatura',
       lease:isEn2?'Lease Agreement':'Kira Sözleşmesi',
       nufus:isEn2?'Family Register':'Nüfus Kayıt Örneği',
       org_chart:isEn2?'Organization Chart':'Organizasyon Şeması',
-      ownership_form:isEn2?'Ownership Form':'Sahiplik Formu',
+      ownership_form:isEn2?'Ownership Structure Form':'Sahiplik Yapısını Gösterir Form',
       registry:isEn2?'Trade Registry':'Ticaret Sicil Belgesi',
       registry_gazette:isEn2?'Trade Registry Gazette':'Ticaret Sicil Gazetesi',
-      rep_bank:isEn2?'Rep. Bank Statement':'Temsilci Banka Dökümü',
-      rep_nufus:isEn2?'Representative ID':'Temsilci Kimlik Belgesi',
-      rep_occupation:isEn2?'Rep. Occupation':'Temsilci Meslek Belgesi',
-      shareholder_form:isEn2?'Shareholder Form':'Hissedar Formu',
+      rep_bank:isEn2?'Bank Statement (Representative)':'Banka Hesap Dökümü (Temsilci)',
+      rep_nufus:isEn2?'Family Register (Representative)':'Nüfus Kayıt Örneği (Temsilci)',
+      rep_occupation:isEn2?'Occupation / Workplace Doc. (Rep.)':'İşyeri / Meslek Bilgisi Belgesi (Temsilci)',
+      shareholder_form:isEn2?'Shareholder Structure Form':'Hissedar Yapısını Gösterir Form',
       signature:isEn2?'Signature Circular':'İmza Sirküleri',
-      sof:isEn2?'Source of Funds':'Fon Kaynağı (SoF)',
-      sof_biz:isEn2?'Source of Funds (Corp.)':'Fon Kaynağı (Şirket)',
-      sow:isEn2?'Source of Wealth':'Servet Kaynağı (SoW)',
+      sof:isEn2?'Source of Funds (SoF)':'Fon Kaynağı Belgesi (SoF)',
+      sof_biz:isEn2?'Source of Funds — Company (SoF)':'Fon Kaynağı Belgesi — Şirket (SoF)',
+      sow:isEn2?'Source of Wealth (SoW)':'Servet Kaynağı Belgesi (SoW)',
       sworn_translation:isEn2?'Sworn Translation':'Yeminli Tercüman Çevirisi',
       tax:isEn2?'Tax Certificate':'Vergi Levhası',
-      tax_clearance:isEn2?'Tax Clearance':'Vergi Borcu Yoktur'
+      tax_clearance:isEn2?'Tax Clearance Letter':'Vergi Borcu Yoktur Yazısı'
     };
     var indList2=['address','bank_personal','identity','nufus','sof','tax'];
-    var bizList2=['aoa','bank_biz','certified_copy','cgs','hazirun','intent_letter','invoice_biz','lease','org_chart','ownership_form','registry','registry_gazette','rep_bank','rep_nufus','rep_occupation','shareholder_form','signature','sof_biz','sow','sworn_translation','tax','tax_clearance'];
+    var bizList2=['address','aoa','bank_biz','bank_personal','certified_copy','cgs','hazirun','identity','intent_letter','invoice_biz','lease','nufus','org_chart','ownership_form','registry','registry_gazette','rep_bank','rep_nufus','rep_occupation','shareholder_form','signature','sof','sof_biz','sow','sworn_translation','tax','tax_clearance'];
     var docList2=(client.type==='business'?bizList2:indList2).slice().sort(function(a,b){return (allLabels2[a]||a).localeCompare(allLabels2[b]||b,'tr');});
     var docMap2={};
     if(docs)docs.forEach(function(d){docMap2[d.doc_type]={id:d.id,status:d.status};});
