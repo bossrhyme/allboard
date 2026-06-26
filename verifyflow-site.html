@@ -225,7 +225,7 @@ a{color:var(--blue);text-decoration:none}
       <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
     </div>
     <button class="btn btn-outline btn-sm" onclick="showAuth('login')" data-i18n="navLogin">Giriş Yap</button>
-    <button class="btn btn-primary btn-sm" onclick="showPreReg()" data-i18n="navApply">Başvuru Yap →</button>
+    <button class="btn btn-primary btn-sm" onclick="showPreReg()" data-i18n="navApply">Danışmanlık Talebi →</button>
   </div>
 </nav>
 
@@ -233,19 +233,19 @@ a{color:var(--blue);text-decoration:none}
 <div data-view="landing" class="active" id="view-landing">
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow" data-i18n="heroEyebrow">Bireysel & Kurumsal Onboarding Hizmeti</div>
-    <h1 data-i18n="heroTitle">Onboarding sürecinizi <strong>sizin adınıza</strong> yönetiyoruz</h1>
-    <p data-i18n="heroDesc">Siz bilgilerinizi ve belgelerinizi bir kez gönderin — uzman ekibimiz onboarding sürecinizi baştan sona takip etsin, koordine etsin ve sonuçlandırsın.</p>
+    <div class="hero-eyebrow" data-i18n="heroEyebrow">Onboarding & Uyum Danışmanlığı</div>
+    <h1 data-i18n="heroTitle">Kurumsal uyum süreçlerinizi <strong>uçtan uca</strong> yönetiyoruz</h1>
+    <p data-i18n="heroDesc">KYC/KYB başvuruları, belge hazırlama, resmi yazışmalar ve uyum süreçlerinin tamamını sizin adınıza üstleniyoruz. Siz işinize odaklanın — karmaşık süreçleri biz halledelim.</p>
     <div class="hero-btns">
       <div id="heroGuest" style="display:flex;gap:.85rem;flex-wrap:wrap">
-        <button class="btn btn-primary" onclick="showPreReg()" style="padding:.75rem 1.8rem" data-i18n="heroApply">Başvuru Yap →</button>
+        <button class="btn btn-primary" onclick="showPreReg()" style="padding:.75rem 1.8rem" data-i18n="heroApply">Danışmanlık Talebi →</button>
         <button class="btn btn-outline" onclick="showAuth('login')" style="padding:.75rem 1.6rem" data-i18n="heroLogin">Giriş Yap</button>
       </div>
       <div id="heroLoggedIn" style="display:none;gap:.85rem;flex-wrap:wrap;align-items:center">
         <button class="btn btn-primary" onclick="nav('profile')" style="padding:.75rem 1.8rem" data-i18n="heroGoProfile">Profilime Git →</button>
       </div>
     </div>
-    <div class="hero-note"><span>✓</span> <span data-i18n="heroNote1">Ücretsiz başvuru</span> &nbsp;·&nbsp; <span>✓</span> <span data-i18n="heroNote2">Uzman ekip desteği</span> &nbsp;·&nbsp; <span>✓</span> <span data-i18n="heroNote3">Şeffaf süreç takibi</span></div>
+    <div class="hero-note"><span>✓</span> <span data-i18n="heroNote1">Ücretsiz ön görüşme</span> &nbsp;·&nbsp; <span>✓</span> <span data-i18n="heroNote2">Deneyimli danışman ekibi</span> &nbsp;·&nbsp; <span>✓</span> <span data-i18n="heroNote3">Şeffaf süreç takibi</span></div>
   </div>
   <div class="hero-right">
     <div class="mockup-bar">
@@ -254,8 +254,8 @@ a{color:var(--blue);text-decoration:none}
     </div>
     <div class="mockup-body">
       <div class="mock-card">
-        <div class="mock-card-head"><h4>Onboarding Sürecim</h4><span class="mock-badge mb-info">Devam Ediyor</span></div>
-        <div class="mock-prog"><div class="mock-prog-fill" style="width:65%"></div></div>
+        <div class="mock-card-head"><h4>Uyum Sürecim</h4><span class="mock-badge mb-info">Devam Ediyor</span></div>
+        <div class="mock-prog"><div class="mock-prog-fill" style="width:72%"></div></div>
         <div class="mock-prog-label"><span>Belgeler: Tamamlandı</span><span>İnceleme: Devam ediyor</span></div>
       </div>
       <div class="mock-card">
@@ -263,17 +263,17 @@ a{color:var(--blue);text-decoration:none}
         <div class="mock-list">
           <div class="mock-list-item">
             <div class="mock-avatar" style="background:linear-gradient(135deg,#1447e6,#00c4a7)">✓</div>
-            <div class="mock-info"><div class="mock-info-name">Belgeleriniz alındı</div><div class="mock-info-sub">Ekip incelemeye başladı · Az önce</div></div>
+            <div class="mock-info"><div class="mock-info-name">Belge paketi tamamlandı</div><div class="mock-info-sub">Danışmanınız incelemeye başladı · Az önce</div></div>
             <span class="mock-badge mb-success">Tamam</span>
           </div>
           <div class="mock-list-item">
             <div class="mock-avatar" style="background:linear-gradient(135deg,#f59e0b,#fb923c)">!</div>
-            <div class="mock-info"><div class="mock-info-name">Ek belge talebi</div><div class="mock-info-sub">İmza sirküleri bekleniyor · 2 sa önce</div></div>
-            <span class="mock-badge mb-warn">Aksiyon</span>
+            <div class="mock-info"><div class="mock-info-name">Apostil talebi iletildi</div><div class="mock-info-sub">İşlem takip ediliyor · 3 sa önce</div></div>
+            <span class="mock-badge mb-warn">Süreçte</span>
           </div>
           <div class="mock-list-item">
             <div class="mock-avatar" style="background:linear-gradient(135deg,#8b5cf6,#3b82f6)">💬</div>
-            <div class="mock-info"><div class="mock-info-name">Danışmanınızdan mesaj</div><div class="mock-info-sub">Süreç hakkında bilgi · Dün</div></div>
+            <div class="mock-info"><div class="mock-info-name">Danışmanınızdan güncelleme</div><div class="mock-info-sub">Tercüme tamamlandı · Dün</div></div>
             <span class="mock-badge mb-info">Yeni</span>
           </div>
         </div>
@@ -282,31 +282,61 @@ a{color:var(--blue);text-decoration:none}
   </div>
 </section>
 <div class="trust-bar">
-  <div class="trust-item"><span>🤝</span> <span data-i18n="trust1">Adınıza Tam Yönetim</span></div>
+  <div class="trust-item"><span>🎯</span> <span data-i18n="trust1">Uçtan Uca Süreç Yönetimi</span></div>
   <div class="trust-sep"></div>
-  <div class="trust-item"><span>⚡</span> <span data-i18n="trust2">Hızlı Süreç Takibi</span></div>
+  <div class="trust-item"><span>🛡️</span> <span data-i18n="trust2">KYC / KYB Uzmanlığı</span></div>
   <div class="trust-sep"></div>
   <div class="trust-item"><span>🔐</span> <span data-i18n="trust3">Güvenli Veri İşleme</span></div>
   <div class="trust-sep"></div>
   <div class="trust-item"><span>👥</span> <span data-i18n="trust4">Uzman Danışman Ekibi</span></div>
   <div class="trust-sep"></div>
-  <div class="trust-item"><span>✅</span> <span data-i18n="trust5">Yüksek Onay Oranı</span></div>
+  <div class="trust-item"><span>⚖️</span> <span data-i18n="trust5">Hukuki & Tercüme Desteği</span></div>
 </div>
+
+<!-- HİZMET ALANLARI -->
+<div style="background:var(--bg2);padding:3.5rem 2.5rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div style="max-width:1180px;margin:0 auto">
+    <div class="ftitle" style="margin-bottom:2rem">
+      <div class="ftitle-eyebrow" data-i18n="svcEyebrow">Hizmet Alanlarımız</div>
+      <h2 data-i18n="svcTitle">Hangi müşterilere hizmet veriyoruz?</h2>
+      <p data-i18n="svcDesc">Finansal kuruluşlara hesap açmak, uyum süreci yürütmek veya belge paketi hazırlamak isteyen her birey ve kuruma danışmanlık sağlıyoruz</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem">
+      <div style="background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;display:flex;align-items:flex-start;gap:.75rem">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(20,71,230,.06);border:1px solid rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🏢</div>
+        <div><div style="font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:.2rem" data-i18n="svc1t">Şirketler & Girişimler</div><div style="font-size:.78rem;color:var(--text2);line-height:1.55" data-i18n="svc1d">Fintech, holding, ticaret şirketi ve her ölçekteki kurumsal yapılar</div></div>
+      </div>
+      <div style="background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;display:flex;align-items:flex-start;gap:.75rem">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(20,71,230,.06);border:1px solid rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">👤</div>
+        <div><div style="font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:.2rem" data-i18n="svc2t">Bireysel Yatırımcılar</div><div style="font-size:.78rem;color:var(--text2);line-height:1.55" data-i18n="svc2d">Yurt içi ve yurt dışı finansal kurumlara bireysel hesap açmak isteyenler</div></div>
+      </div>
+      <div style="background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;display:flex;align-items:flex-start;gap:.75rem">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(20,71,230,.06);border:1px solid rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🌍</div>
+        <div><div style="font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:.2rem" data-i18n="svc3t">Yabancı Uyruklu Müşteriler</div><div style="font-size:.78rem;color:var(--text2);line-height:1.55" data-i18n="svc3d">Türkiye'de veya uluslararası alanda uyum süreci yürütmek isteyen yabancı gerçek/tüzel kişiler</div></div>
+      </div>
+      <div style="background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;display:flex;align-items:flex-start;gap:.75rem">
+        <div style="width:36px;height:36px;border-radius:8px;background:rgba(20,71,230,.06);border:1px solid rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">💼</div>
+        <div><div style="font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:.2rem" data-i18n="svc4t">Fon & Varlık Yöneticileri</div><div style="font-size:.78rem;color:var(--text2);line-height:1.55" data-i18n="svc4d">Portföy yönetim şirketleri, aile ofisleri ve kurumsal yatırım yapıları</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="features">
   <div class="ftitle">
-    <div class="ftitle-eyebrow" data-i18n="featEyebrow">Nasıl Çalışır?</div>
-    <h2 data-i18n="featTitle">Siz başvurun, gerisini biz halledelim</h2>
-    <p data-i18n="featDesc">Onboarding sürecinde her adımı sizin adınıza takip eder, koordine eder ve sonuçlandırırız</p>
+    <div class="ftitle-eyebrow" data-i18n="featEyebrow">Hizmetlerimiz</div>
+    <h2 data-i18n="featTitle">Uyum sürecinizin her adımında yanınızdayız</h2>
+    <p data-i18n="featDesc">Başvurudan sonuçlanmaya kadar tüm süreci sizin adınıza yönetir, koordine eder ve takip ederiz</p>
   </div>
   <div class="fgrid">
-    <div class="fcard"><div class="fcard-icon">📋</div><h3 data-i18n="f1t">Tek Seferlik Başvuru</h3><p data-i18n="f1d">Bilgilerinizi ve belgelerinizi bir kez girin. Uzman ekibimiz her şeyi oradan devralır.</p></div>
-    <div class="fcard"><div class="fcard-icon">📁</div><h3 data-i18n="f2t">Belge Yönetimi</h3><p data-i18n="f2d">Hangi belgelerin gerektiğini biliriz. Eksik veya hatalı belgeler için sizi yönlendiririz.</p></div>
-    <div class="fcard"><div class="fcard-icon">🔄</div><h3 data-i18n="f3t">Anlık Süreç Takibi</h3><p data-i18n="f3d">Başvurunuzun hangi aşamada olduğunu profilinizden gerçek zamanlı takip edin.</p></div>
-    <div class="fcard"><div class="fcard-icon">💬</div><h3 data-i18n="f4t">Doğrudan İletişim</h3><p data-i18n="f4d">Sorularınız için size atanan danışmanınızla platform üzerinden anlık iletişime geçin.</p></div>
-    <div class="fcard"><div class="fcard-icon">🤝</div><h3 data-i18n="f5t">Kurum Koordinasyonu</h3><p data-i18n="f5d">İlgili kurum ve kuruluşlarla yazışmaları, takipleri sizin adınıza yürütürüz.</p></div>
-    <div class="fcard"><div class="fcard-icon">✅</div><h3 data-i18n="f6t">Bireysel & Kurumsal</h3><p data-i18n="f6d">Gerçek kişiler ve tüzel kişiler için ayrı ayrı özelleştirilmiş onboarding akışları.</p></div>
-    <div class="fcard"><div class="fcard-icon">⚖️</div><h3 data-i18n="f7t">Hukuki Destek</h3><p data-i18n="f7d">Onaylı kopya (Certified Copy), apostil onayı, noter tasdiki ve diğer resmi belge işlemlerini sizin adınıza koordine eder, takip ederiz.</p></div>
-    <div class="fcard"><div class="fcard-icon">🌐</div><h3 data-i18n="f8t">Yeminli Tercüman Hizmetleri</h3><p data-i18n="f8d">Yabancı dilde düzenlenmiş belgelerinizi yetkili yeminli tercümanlar aracılığıyla resmi olarak tercüme ettirir, onay süreçlerini yönetiriz.</p></div>
+    <div class="fcard"><div class="fcard-icon">📋</div><h3 data-i18n="f1t">KYC / KYB Başvuru Yönetimi</h3><p data-i18n="f1d">Bilgilerinizi ve belgelerinizi bir kez iletin. Başvuru sürecini baştan sona sizin adınıza yürütürüz.</p></div>
+    <div class="fcard"><div class="fcard-icon">📁</div><h3 data-i18n="f2t">Belge Hazırlama & Organizasyon</h3><p data-i18n="f2d">Hangi belgelerin gerektiğini analiz eder, eksik ya da hatalı belgeler için sizi yönlendiririz.</p></div>
+    <div class="fcard"><div class="fcard-icon">🔄</div><h3 data-i18n="f3t">Anlık Süreç Takibi</h3><p data-i18n="f3d">Sürecinizin hangi aşamada olduğunu profilinizden gerçek zamanlı olarak takip edin.</p></div>
+    <div class="fcard"><div class="fcard-icon">💬</div><h3 data-i18n="f4t">Doğrudan Danışman İletişimi</h3><p data-i18n="f4d">Size atanan danışmanınızla platform üzerinden anlık iletişime geçin, sorularınızı iletin.</p></div>
+    <div class="fcard"><div class="fcard-icon">🤝</div><h3 data-i18n="f5t">Kurum Koordinasyonu</h3><p data-i18n="f5d">İlgili kurum ve kuruluşlarla gerekli yazışmaları ve takipleri sizin adınıza yürütürüz.</p></div>
+    <div class="fcard"><div class="fcard-icon">✅</div><h3 data-i18n="f6t">Bireysel & Kurumsal Çözümler</h3><p data-i18n="f6d">Gerçek kişiler ve tüzel kişiler için ayrı ayrı özelleştirilmiş uyum ve onboarding süreçleri.</p></div>
+    <div class="fcard"><div class="fcard-icon">⚖️</div><h3 data-i18n="f7t">Hukuki Belge Desteği</h3><p data-i18n="f7d">Apostil onayı, noter tasdiki, aslı gibidir (Certified Copy) ve diğer resmi belge işlemlerini sizin adınıza koordine ederiz.</p></div>
+    <div class="fcard"><div class="fcard-icon">🌐</div><h3 data-i18n="f8t">Yeminli Tercüme Koordinasyonu</h3><p data-i18n="f8d">Yabancı dildeki belgelerinizi yetkili yeminli tercümanlar aracılığıyla resmi olarak tercüme ettirir, süreci yönetiriz.</p></div>
   </div>
 </div>
 
@@ -315,22 +345,22 @@ a{color:var(--blue);text-decoration:none}
     <div>
       <div class="stat-num">10<span>+</span></div>
       <div class="stat-label" data-i18n="stat1label">Kurumsal Müşteri</div>
-      <div class="stat-sub" data-i18n="stat1sub">OTC, Exchange & Fintech</div>
+      <div class="stat-sub" data-i18n="stat1sub">Fintech, holding & ticaret</div>
     </div>
     <div>
       <div class="stat-num">5<span>+</span></div>
       <div class="stat-label" data-i18n="stat2label">Bireysel Müşteri</div>
-      <div class="stat-sub" data-i18n="stat2sub">Başarıyla onaylandı</div>
+      <div class="stat-sub" data-i18n="stat2sub">Başarıyla tamamlandı</div>
     </div>
     <div>
       <div class="stat-num">30<span>+</span></div>
-      <div class="stat-label" data-i18n="stat3label">OTC & Exchange</div>
-      <div class="stat-sub" data-i18n="stat3sub">Farklı kurum & platform</div>
+      <div class="stat-label" data-i18n="stat3label">Farklı Kurum & Yetki</div>
+      <div class="stat-sub" data-i18n="stat3sub">Yurt içi & uluslararası</div>
     </div>
     <div>
       <div class="stat-num">100<span>+</span></div>
-      <div class="stat-label" data-i18n="stat4label">Hesap Onayı</div>
-      <div class="stat-sub" data-i18n="stat4sub">Tamamlanan onboarding</div>
+      <div class="stat-label" data-i18n="stat4label">Tamamlanan Süreç</div>
+      <div class="stat-sub" data-i18n="stat4sub">Onboarding & uyum danışmanlığı</div>
     </div>
   </div>
 </div>
@@ -339,18 +369,18 @@ a{color:var(--blue);text-decoration:none}
   <div class="vf-footer-grid">
     <div>
       <div class="vf-footer-brand">All<span>board</span></div>
-      <p class="vf-footer-desc" data-i18n="footerDesc">Bireyler ve şirketler için profesyonel onboarding yönetim hizmeti. Siz başvurun, biz yönetelim.</p>
+      <p class="vf-footer-desc" data-i18n="footerDesc">Bireyler ve kurumlar için uçtan uca onboarding ve uyum danışmanlığı. Karmaşık süreçleri kolaylaştırıyoruz.</p>
     </div>
     <div class="vf-footer-col">
       <h5 data-i18n="fcolServices">Hizmetler</h5>
-      <a href="#" data-i18n="fcolS1">Bireysel Onboarding</a>
-      <a href="#" data-i18n="fcolS2">Kurumsal Onboarding</a>
-      <a href="#" data-i18n="fcolS3">Belge Yönetimi</a>
-      <a href="#" data-i18n="fcolS4">Başvuru Takibi</a>
+      <a href="#" data-i18n="fcolS1">KYC Danışmanlığı</a>
+      <a href="#" data-i18n="fcolS2">Kurumsal KYB Hizmeti</a>
+      <a href="#" data-i18n="fcolS3">Belge Hazırlama</a>
+      <a href="#" data-i18n="fcolS4">Hukuki & Tercüme Desteği</a>
     </div>
     <div class="vf-footer-col">
-      <h5 data-i18n="fcolProcess">Süreç</h5>
-      <a href="#" data-i18n="fcolP1">Nasıl Çalışır?</a>
+      <h5 data-i18n="fcolProcess">Çalışma Şeklimiz</h5>
+      <a href="#" data-i18n="fcolP1">Süreç Nasıl İşler?</a>
       <a href="#" data-i18n="fcolP2">Sık Sorulan Sorular</a>
       <a href="#" data-i18n="fcolP3">Referanslar</a>
     </div>
@@ -1165,31 +1195,37 @@ var currentUser = null;
 // ── i18n ──────────────────────────────────────────────
 var T = {
   tr:{
-    navLogin:'Giriş Yap', navApply:'Başvuru Yap →', navRegister:'Kayıt Ol', navLogout:'Çıkış', navProfile:'Profilim →',
-    heroEyebrow:'Bireysel & Kurumsal Onboarding Hizmeti',
-    heroTitle:'Onboarding sürecinizi <strong>sizin adınıza</strong> yönetiyoruz',
-    heroDesc:'Siz bilgilerinizi ve belgelerinizi bir kez gönderin — uzman ekibimiz onboarding sürecinizi baştan sona takip etsin, koordine etsin ve sonuçlandırsın.',
-    heroApply:'Başvuru Yap →', heroLogin:'Giriş Yap', heroGoProfile:'Profilime Git →',
-    heroNote1:'Ücretsiz başvuru', heroNote2:'Uzman ekip desteği', heroNote3:'Şeffaf süreç takibi',
-    trust1:'Adınıza Tam Yönetim', trust2:'Hızlı Süreç Takibi', trust3:'Güvenli Veri İşleme', trust4:'Uzman Danışman Ekibi', trust5:'Yüksek Onay Oranı',
-    featEyebrow:'Nasıl Çalışır?', featTitle:'Siz başvurun, gerisini biz halledelim',
-    featDesc:'Onboarding sürecinde her adımı sizin adınıza takip eder, koordine eder ve sonuçlandırırız',
-    f1t:'Tek Seferlik Başvuru', f1d:'Bilgilerinizi ve belgelerinizi bir kez girin. Uzman ekibimiz her şeyi oradan devralır.',
-    f2t:'Belge Yönetimi', f2d:'Hangi belgelerin gerektiğini biliriz. Eksik veya hatalı belgeler için sizi yönlendiririz.',
-    f3t:'Anlık Süreç Takibi', f3d:'Başvurunuzun hangi aşamada olduğunu profilinizden gerçek zamanlı takip edin.',
-    f4t:'Doğrudan İletişim', f4d:'Sorularınız için size atanan danışmanınızla platform üzerinden anlık iletişime geçin.',
-    f5t:'Kurum Koordinasyonu', f5d:'İlgili kurum ve kuruluşlarla yazışmaları, takipleri sizin adınıza yürütürüz.',
-    f6t:'Bireysel & Kurumsal', f6d:'Gerçek kişiler ve tüzel kişiler için ayrı ayrı özelleştirilmiş onboarding akışları.',
-    f7t:'Hukuki Destek', f7d:'Tasdikli suret (Certified Copy), apostil onayı, noter tasdiki ve diğer resmi belge işlemlerini sizin adınıza koordine eder, takip ederiz.',
-    f8t:'Yeminli Tercüman Hizmetleri', f8d:'Yabancı dilde düzenlenmiş belgelerinizi yetkili yeminli tercümanlar aracılığıyla resmi olarak tercüme ettirir, onay süreçlerini yönetiriz.',
-    stat1label:'Kurumsal Müşteri', stat1sub:'OTC, Exchange & Fintech',
-    stat2label:'Bireysel Müşteri', stat2sub:'Başarıyla onaylandı',
-    stat3label:'OTC & Exchange', stat3sub:'Farklı kurum & platform',
-    stat4label:'Hesap Onayı', stat4sub:'Tamamlanan onboarding',
-    fcolServices:'Hizmetler', fcolS1:'Bireysel Onboarding', fcolS2:'Kurumsal Onboarding', fcolS3:'Belge Yönetimi', fcolS4:'Başvuru Takibi',
-    fcolProcess:'Süreç', fcolP1:'Nasıl Çalışır?', fcolP2:'Sık Sorulan Sorular', fcolP3:'Referanslar',
+    navLogin:'Giriş Yap', navApply:'Danışmanlık Talebi →', navRegister:'Kayıt Ol', navLogout:'Çıkış', navProfile:'Profilim →',
+    heroEyebrow:'Onboarding & Uyum Danışmanlığı',
+    heroTitle:'Kurumsal uyum süreçlerinizi <strong>uçtan uca</strong> yönetiyoruz',
+    heroDesc:'KYC/KYB başvuruları, belge hazırlama, resmi yazışmalar ve uyum süreçlerinin tamamını sizin adınıza üstleniyoruz. Siz işinize odaklanın — karmaşık süreçleri biz halledelim.',
+    heroApply:'Danışmanlık Talebi →', heroLogin:'Giriş Yap', heroGoProfile:'Profilime Git →',
+    heroNote1:'Ücretsiz ön görüşme', heroNote2:'Deneyimli danışman ekibi', heroNote3:'Şeffaf süreç takibi',
+    trust1:'Uçtan Uca Süreç Yönetimi', trust2:'KYC / KYB Uzmanlığı', trust3:'Güvenli Veri İşleme', trust4:'Uzman Danışman Ekibi', trust5:'Hukuki & Tercüme Desteği',
+    svcEyebrow:'Hizmet Alanlarımız', svcTitle:'Hangi müşterilere hizmet veriyoruz?',
+    svcDesc:'Finansal kuruluşlara hesap açmak, uyum süreci yürütmek veya belge paketi hazırlamak isteyen her birey ve kuruma danışmanlık sağlıyoruz',
+    svc1t:'Şirketler & Girişimler', svc1d:'Fintech, holding, ticaret şirketi ve her ölçekteki kurumsal yapılar',
+    svc2t:'Bireysel Yatırımcılar', svc2d:'Yurt içi ve yurt dışı finansal kurumlara bireysel hesap açmak isteyenler',
+    svc3t:'Yabancı Uyruklu Müşteriler', svc3d:'Türkiye\'de veya uluslararası alanda uyum süreci yürütmek isteyen yabancı gerçek/tüzel kişiler',
+    svc4t:'Fon & Varlık Yöneticileri', svc4d:'Portföy yönetim şirketleri, aile ofisleri ve kurumsal yatırım yapıları',
+    featEyebrow:'Hizmetlerimiz', featTitle:'Uyum sürecinizin her adımında yanınızdayız',
+    featDesc:'Başvurudan sonuçlanmaya kadar tüm süreci sizin adınıza yönetir, koordine eder ve takip ederiz',
+    f1t:'KYC / KYB Başvuru Yönetimi', f1d:'Bilgilerinizi ve belgelerinizi bir kez iletin. Başvuru sürecini baştan sona sizin adınıza yürütürüz.',
+    f2t:'Belge Hazırlama & Organizasyon', f2d:'Hangi belgelerin gerektiğini analiz eder, eksik ya da hatalı belgeler için sizi yönlendiririz.',
+    f3t:'Anlık Süreç Takibi', f3d:'Sürecinizin hangi aşamada olduğunu profilinizden gerçek zamanlı olarak takip edin.',
+    f4t:'Doğrudan Danışman İletişimi', f4d:'Size atanan danışmanınızla platform üzerinden anlık iletişime geçin, sorularınızı iletin.',
+    f5t:'Kurum Koordinasyonu', f5d:'İlgili kurum ve kuruluşlarla gerekli yazışmaları ve takipleri sizin adınıza yürütürüz.',
+    f6t:'Bireysel & Kurumsal Çözümler', f6d:'Gerçek kişiler ve tüzel kişiler için ayrı ayrı özelleştirilmiş uyum ve onboarding süreçleri.',
+    f7t:'Hukuki Belge Desteği', f7d:'Apostil onayı, noter tasdiki, aslı gibidir (Certified Copy) ve diğer resmi belge işlemlerini sizin adınıza koordine ederiz.',
+    f8t:'Yeminli Tercüme Koordinasyonu', f8d:'Yabancı dildeki belgelerinizi yetkili yeminli tercümanlar aracılığıyla resmi olarak tercüme ettirir, süreci yönetiriz.',
+    stat1label:'Kurumsal Müşteri', stat1sub:'Fintech, holding & ticaret',
+    stat2label:'Bireysel Müşteri', stat2sub:'Başarıyla tamamlandı',
+    stat3label:'Farklı Kurum & Yetki', stat3sub:'Yurt içi & uluslararası',
+    stat4label:'Tamamlanan Süreç', stat4sub:'Onboarding & uyum danışmanlığı',
+    fcolServices:'Hizmetler', fcolS1:'KYC Danışmanlığı', fcolS2:'Kurumsal KYB Hizmeti', fcolS3:'Belge Hazırlama', fcolS4:'Hukuki & Tercüme Desteği',
+    fcolProcess:'Çalışma Şeklimiz', fcolP1:'Süreç Nasıl İşler?', fcolP2:'Sık Sorulan Sorular', fcolP3:'Referanslar',
     fcolLegal:'Yasal', fcolL1:'KVKK Politikası', fcolL2:'Gizlilik', fcolL3:'Kullanım Şartları', fcolL4:'Güvenlik',
-    footerDesc:'Bireyler ve şirketler için profesyonel onboarding yönetim hizmeti. Siz başvurun, biz yönetelim.',
+    footerDesc:'Bireyler ve kurumlar için uçtan uca onboarding ve uyum danışmanlığı. Karmaşık süreçleri kolaylaştırıyoruz.',
     footerCopy:'© 2026 Allboard. Tüm hakları saklıdır.',
     obTitle:'Hesap Oluştur', obExit:'✕ Çıkış', stepLabel:'Adım',
     s1title:'Hesap Türü', s1desc:'Oluşturmak istediğiniz hesap türünü seçin',
@@ -1248,8 +1284,8 @@ var T = {
     btnSend:'Gönder ↑',
     loginTitle:'Tekrar Hoşgeldiniz', loginSub:'Hesabınıza giriş yapın',
     noAccount:'Hesabınız yok mu?', applyLink:'Ön başvuru yapın',
-    prStep1Title:'İletişim Bilgileri', prStep1Sub:'Sizi tanıyalım',
-    prStep2Title:'Hesap Türü', prStep2Sub:'Bireysel veya kurumsal hesap açmak istiyorsunuz?',
+    prStep1Title:'Danışmanlık Talebi', prStep1Sub:'Size en kısa sürede ulaşacağız',
+    prStep2Title:'Müşteri Türü', prStep2Sub:'Bireysel mi, kurumsal mı? Sürecinizi doğru planlayalım',
     prStep3Title:'Hedef Platformlar', prStep3Sub:'Hangi platform(lar)a başvurmak istiyorsunuz?',
     prStep4Title:'Belge Durumu', prStep4Sub:'Hangi belgelere sahipsiniz?',
     prOther:'Diğer', prOtherLabel:'Diğer platform adı',
@@ -1288,31 +1324,37 @@ var T = {
     statusLabels:{pending:'Beklemede',in_review:'İncelemede',approved:'Onaylandı',rejected:'Reddedildi'}
   },
   en:{
-    navLogin:'Log In', navApply:'Apply Now →', navRegister:'Register', navLogout:'Logout', navProfile:'My Profile →',
-    heroEyebrow:'Individual & Corporate Onboarding Service',
-    heroTitle:'We manage your onboarding process <strong>on your behalf</strong>',
-    heroDesc:'Submit your information and documents once — our expert team tracks, coordinates and finalises your onboarding from start to finish.',
-    heroApply:'Apply Now →', heroLogin:'Log In', heroGoProfile:'Go to My Profile →',
-    heroNote1:'Free application', heroNote2:'Expert team support', heroNote3:'Transparent process tracking',
-    trust1:'Full Management on Your Behalf', trust2:'Fast Process Tracking', trust3:'Secure Data Handling', trust4:'Expert Advisor Team', trust5:'High Approval Rate',
-    featEyebrow:'How It Works', featTitle:'You apply, we handle the rest',
-    featDesc:'We track, coordinate and finalise every step of the onboarding process on your behalf',
-    f1t:'Single Application', f1d:'Enter your information and documents once. Our expert team takes over from there.',
-    f2t:'Document Management', f2d:'We know which documents are required. We guide you for missing or incorrect documents.',
-    f3t:'Real-Time Tracking', f3d:'Track your application status in real time from your profile.',
-    f4t:'Direct Communication', f4d:'Instantly communicate with your assigned advisor through the platform for any questions.',
-    f5t:'Institution Coordination', f5d:'We handle correspondence and follow-ups with relevant institutions on your behalf.',
-    f6t:'Individual & Corporate', f6d:'Separately customised onboarding flows for natural persons and legal entities.',
-    f7t:'Legal Support', f7d:'We coordinate and track certified copies, apostille certification, notary attestation, and other official document procedures on your behalf.',
-    f8t:'Sworn Translator Services', f8d:'We arrange official translation of your foreign-language documents through authorised sworn translators and manage the approval process.',
-    stat1label:'Corporate Clients', stat1sub:'OTC, Exchange & Fintech',
-    stat2label:'Individual Clients', stat2sub:'Successfully approved',
-    stat3label:'OTC & Exchanges', stat3sub:'Different institutions & platforms',
-    stat4label:'Account Approvals', stat4sub:'Completed onboardings',
-    fcolServices:'Services', fcolS1:'Individual Onboarding', fcolS2:'Corporate Onboarding', fcolS3:'Document Management', fcolS4:'Application Tracking',
-    fcolProcess:'Process', fcolP1:'How It Works', fcolP2:'FAQ', fcolP3:'References',
+    navLogin:'Log In', navApply:'Request Consultation →', navRegister:'Register', navLogout:'Logout', navProfile:'My Profile →',
+    heroEyebrow:'Onboarding & Compliance Consulting',
+    heroTitle:'We manage your compliance processes <strong>end to end</strong>',
+    heroDesc:'KYC/KYB applications, document preparation, official correspondence and compliance processes — all managed on your behalf. You focus on your business, we handle the complexity.',
+    heroApply:'Request Consultation →', heroLogin:'Log In', heroGoProfile:'Go to My Profile →',
+    heroNote1:'Free initial consultation', heroNote2:'Experienced advisory team', heroNote3:'Transparent process tracking',
+    trust1:'End-to-End Process Management', trust2:'KYC / KYB Expertise', trust3:'Secure Data Handling', trust4:'Expert Advisory Team', trust5:'Legal & Translation Support',
+    svcEyebrow:'Who We Serve', svcTitle:'Which clients do we work with?',
+    svcDesc:'We provide consulting to any individual or institution seeking to open accounts at financial institutions, run compliance processes, or prepare document packages',
+    svc1t:'Companies & Ventures', svc1d:'Fintechs, holdings, trading companies and corporate structures of all sizes',
+    svc2t:'Individual Investors', svc2d:'Individuals seeking to open personal accounts at domestic or international financial institutions',
+    svc3t:'Foreign Nationals', svc3d:'Foreign individuals and legal entities wishing to run compliance processes in Turkey or internationally',
+    svc4t:'Fund & Asset Managers', svc4d:'Portfolio management firms, family offices and institutional investment structures',
+    featEyebrow:'Our Services', featTitle:'We are with you at every step of your compliance process',
+    featDesc:'We manage, coordinate and track the entire process on your behalf — from initial application to final approval',
+    f1t:'KYC / KYB Application Management', f1d:'Submit your information and documents once. We run the entire application process on your behalf.',
+    f2t:'Document Preparation & Organisation', f2d:'We analyse which documents are required and guide you on missing or incorrect items.',
+    f3t:'Real-Time Process Tracking', f3d:'Track the status of your process in real time from your profile.',
+    f4t:'Direct Advisor Communication', f4d:'Communicate instantly with your assigned advisor through the platform and send your questions.',
+    f5t:'Institution Coordination', f5d:'We handle all necessary correspondence and follow-ups with relevant institutions on your behalf.',
+    f6t:'Individual & Corporate Solutions', f6d:'Separately customised compliance and onboarding processes for natural persons and legal entities.',
+    f7t:'Legal Document Support', f7d:'We coordinate apostille certification, notary attestation, certified copies and other official document procedures on your behalf.',
+    f8t:'Sworn Translation Coordination', f8d:'We arrange official translation of your foreign-language documents through authorised sworn translators and manage the process.',
+    stat1label:'Corporate Clients', stat1sub:'Fintech, holding & trade',
+    stat2label:'Individual Clients', stat2sub:'Successfully completed',
+    stat3label:'Different Institutions', stat3sub:'Domestic & international',
+    stat4label:'Completed Processes', stat4sub:'Onboarding & compliance consulting',
+    fcolServices:'Services', fcolS1:'KYC Consulting', fcolS2:'Corporate KYB Services', fcolS3:'Document Preparation', fcolS4:'Legal & Translation Support',
+    fcolProcess:'How We Work', fcolP1:'How Does the Process Work?', fcolP2:'FAQ', fcolP3:'References',
     fcolLegal:'Legal', fcolL1:'GDPR Policy', fcolL2:'Privacy', fcolL3:'Terms of Service', fcolL4:'Security',
-    footerDesc:'Professional onboarding management service for individuals and companies. You apply, we manage.',
+    footerDesc:'End-to-end onboarding and compliance consulting for individuals and institutions. We simplify complex processes.',
     footerCopy:'© 2026 Allboard. All rights reserved.',
     obTitle:'Create Account', obExit:'✕ Exit', stepLabel:'Step',
     s1title:'Account Type', s1desc:'Select the type of account you wish to create',
@@ -1371,8 +1413,8 @@ var T = {
     btnSend:'Send ↑',
     loginTitle:'Welcome Back', loginSub:'Sign in to your account',
     noAccount:"Don't have an account?", applyLink:'Submit a pre-application',
-    prStep1Title:'Contact Information', prStep1Sub:'Tell us about yourself',
-    prStep2Title:'Account Type', prStep2Sub:'Are you applying for an individual or corporate account?',
+    prStep1Title:'Consultation Request', prStep1Sub:'We will get back to you as soon as possible',
+    prStep2Title:'Client Type', prStep2Sub:'Individual or corporate? Let us plan your process correctly',
     prStep3Title:'Target Platforms', prStep3Sub:'Which platform(s) do you want to apply for?',
     prStep4Title:'Document Status', prStep4Sub:'Which of the following documents do you have?',
     prOther:'Other', prOtherLabel:'Other platform name',
