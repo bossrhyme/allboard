@@ -4,34 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Allboard — Kripto Para Borsası KYC / KYB Onboarding Danışmanlığı</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#0f1f3d;--blue:#1447e6;--blue2:#2563eb;--teal:#00c4a7;--bg:#ffffff;--bg2:#f8faff;--bg3:#f1f5fd;--card:#ffffff;--text:#0f172a;--text2:#475569;--text3:#64748b;--border:#e2e8f0;--border2:#cbd5e1;--danger:#ef4444;--warn:#f59e0b;--success:#10b981;--radius:10px}
+:root{--navy:#1a2a2f;--blue:#0f6b52;--blue2:#0c5942;--teal:#b98d4b;--gold:#b98d4b;--gold2:#a5793a;--bg:#ffffff;--bg2:#faf8f3;--bg3:#f2ece1;--card:#ffffff;--text:#1a2a2f;--text2:#5a6670;--text3:#8b939b;--border:#e9e2d5;--border2:#d8cebc;--danger:#c0492f;--warn:#c08a2f;--success:#0f6b52;--radius:12px;--serif:'Fraunces',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.stitle,.nav-logo,.vf-footer-brand,.hero h1,.ftitle h2,.stat-num{font-family:var(--serif);font-weight:600;letter-spacing:-.01em}
 a{color:var(--blue);text-decoration:none}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
-.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.4rem;border-radius:8px;font-size:.88rem;font-weight:600;border:none;cursor:pointer;transition:all .18s;font-family:inherit}
-.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue2);transform:translateY(-1px);box-shadow:0 4px 14px rgba(20,71,230,.25)}
-.btn-outline{border:1.5px solid var(--border2);background:transparent;color:var(--text2)}.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.5rem;border-radius:6px;font-size:.86rem;font-weight:500;border:none;cursor:pointer;transition:all .22s ease;font-family:inherit;letter-spacing:.01em}
+.btn-primary{background:var(--navy);color:#fff}.btn-primary:hover{background:var(--blue);transform:translateY(-1px);box-shadow:0 8px 22px rgba(15,107,82,.18)}
+.btn-outline{border:1px solid var(--border2);background:transparent;color:var(--navy)}.btn-outline:hover{border-color:var(--navy);background:var(--bg2)}
 .btn-ghost{background:transparent;color:var(--text2);border:none;cursor:pointer;font-family:inherit}.btn-ghost:hover{color:var(--navy)}
-.btn-sm{padding:.4rem 1rem;font-size:.8rem}
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2.5rem;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);box-shadow:0 1px 0 var(--border)}
-.nav-logo{font-size:1.3rem;font-weight:800;color:var(--navy);cursor:pointer;letter-spacing:-.02em}.nav-logo span{color:var(--blue)}
+.btn-sm{padding:.42rem 1rem;font-size:.8rem}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2.5rem;height:70px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{font-size:1.4rem;font-weight:600;color:var(--navy);cursor:pointer;letter-spacing:-.01em}.nav-logo span{color:var(--gold)}
 .nav-actions{display:flex;gap:.75rem;align-items:center}
 [data-view]{display:none}[data-view].active{display:block}
-.hero{padding:8rem 2.5rem 4rem;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:.55rem;padding:.35rem 1rem;border-radius:100px;background:rgba(20,71,230,.06);border:1px solid rgba(20,71,230,.12);font-size:.73rem;font-weight:700;color:var(--blue);letter-spacing:.05em;text-transform:uppercase;margin-bottom:1.75rem}
-.hero-eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0}
-.hero h1{font-size:clamp(1.9rem,3.6vw,3rem);font-weight:800;line-height:1.15;letter-spacing:-.03em;color:var(--navy);margin-bottom:1.25rem}
-.hero h1 strong{color:var(--blue)}
-.hero-left p{font-size:1rem;color:var(--text2);line-height:1.75;max-width:420px;margin-bottom:2rem}
+.hero{padding:9rem 2.5rem 5rem;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.05fr 1fr;gap:4.5rem;align-items:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.6rem;padding:.4rem 1rem .4rem .4rem;border-radius:100px;background:var(--bg2);border:1px solid var(--border);font-size:.72rem;font-weight:600;color:var(--navy);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1.9rem}
+.hero-eyebrow::before{content:'';width:22px;height:1px;background:var(--gold);flex-shrink:0;margin-left:.6rem}
+.hero h1{font-size:clamp(2.2rem,4vw,3.5rem);font-weight:500;line-height:1.12;letter-spacing:-.02em;color:var(--navy);margin-bottom:1.4rem}
+.hero h1 strong{color:var(--gold);font-weight:600;font-style:italic}
+.hero-left p{font-size:1.02rem;color:var(--text2);line-height:1.8;max-width:440px;margin-bottom:2.2rem}
 .hero-btns{display:flex;gap:.85rem;flex-wrap:wrap;margin-bottom:1.5rem}
 .hero-btns .btn{padding:.7rem 1.6rem;font-size:.9rem}
 .hero-note{font-size:.76rem;color:var(--text3)}
-.hero-note span{color:var(--teal);font-weight:700;margin-right:.25rem}
+.hero-note span{color:var(--gold);font-weight:700;margin-right:.25rem}
 /* Hero right mockup */
-.hero-right{background:var(--bg2);border-radius:16px;border:1px solid var(--border);overflow:hidden;box-shadow:0 20px 50px rgba(15,31,61,.08)}
+.hero-right{background:var(--bg2);border-radius:16px;border:1px solid var(--border);overflow:hidden;box-shadow:0 30px 60px -20px rgba(26,42,47,.18)}
 .mockup-bar{background:var(--bg);border-bottom:1px solid var(--border);padding:.65rem 1rem;display:flex;align-items:center;gap:.65rem}
 .mockup-dots{display:flex;gap:.35rem}.mockup-dots span{width:9px;height:9px;border-radius:50%}
 .mockup-dots span:nth-child(1){background:#ff5f57}.mockup-dots span:nth-child(2){background:#febc2e}.mockup-dots span:nth-child(3){background:#28c840}
@@ -42,7 +45,7 @@ a{color:var(--blue);text-decoration:none}
 .mock-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.85rem}
 .mock-card-head h4{font-size:.83rem;font-weight:700;color:var(--navy)}
 .mock-badge{display:inline-block;padding:.18rem .55rem;border-radius:5px;font-size:.67rem;font-weight:600}
-.mb-success{background:#dcfce7;color:#15803d}.mb-warn{background:#fef3c7;color:#b45309}.mb-info{background:#dbeafe;color:#1d4ed8}
+.mb-success{background:#dcece5;color:#0f6b52}.mb-warn{background:#f5ecd8;color:#a5793a}.mb-info{background:var(--bg2);color:var(--navy);border:1px solid var(--border)}
 .mock-prog{height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-bottom:.4rem}
 .mock-prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--blue),var(--teal))}
 .mock-prog-label{display:flex;justify-content:space-between;font-size:.67rem;color:var(--text3)}
@@ -51,29 +54,30 @@ a{color:var(--blue);text-decoration:none}
 .mock-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--teal));display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0}
 .mock-info{flex:1}.mock-info-name{font-size:.75rem;font-weight:600;color:var(--navy)}.mock-info-sub{font-size:.65rem;color:var(--text3)}
 /* Trust bar */
-.trust-bar{background:#1447e6;padding:1.1rem 2.5rem;display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap}
-.trust-item{display:flex;align-items:center;gap:.5rem;color:#fff;font-size:.76rem;font-weight:500}
-.trust-sep{width:1px;height:18px;background:rgba(255,255,255,.12)}
-.features{padding:5rem 2.5rem;max-width:1180px;margin:0 auto}
-.ftitle{text-align:center;margin-bottom:3rem}
-.ftitle-eyebrow{display:inline-block;padding:.25rem .75rem;border-radius:6px;background:rgba(20,71,230,.07);font-size:.7rem;font-weight:700;color:var(--blue);letter-spacing:.07em;text-transform:uppercase;margin-bottom:.65rem}
-.ftitle h2{font-size:1.85rem;font-weight:800;color:var(--navy);letter-spacing:-.025em;margin-bottom:.5rem}
-.ftitle p{color:var(--text2);font-size:.92rem;max-width:440px;margin:0 auto}
-.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.1rem}
-.fcard{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:all .22s}
-.fcard:hover{border-color:rgba(20,71,230,.3);transform:translateY(-3px);box-shadow:0 10px 30px rgba(20,71,230,.07)}
-.fcard-icon{width:44px;height:44px;border-radius:10px;background:rgba(20,71,230,.06);border:1px solid rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem}
-.fcard h3{font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:.4rem}.fcard p{font-size:.8rem;color:var(--text2);line-height:1.6}
+.trust-bar{background:var(--navy);padding:1.2rem 2.5rem;display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.85);font-size:.76rem;font-weight:400;letter-spacing:.02em}
+.trust-sep{width:1px;height:18px;background:rgba(185,141,75,.35)}
+.features{padding:6rem 2.5rem;max-width:1180px;margin:0 auto}
+.ftitle{text-align:center;margin-bottom:3.5rem}
+.ftitle-eyebrow{display:inline-block;font-size:.72rem;font-weight:600;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin-bottom:1rem}
+.ftitle h2{font-size:2.15rem;font-weight:500;color:var(--navy);letter-spacing:-.02em;margin-bottom:.7rem}
+.ftitle p{color:var(--text2);font-size:.96rem;max-width:460px;margin:0 auto;line-height:1.7}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+.fcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;transition:all .28s ease}
+.fcard:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 18px 40px -18px rgba(26,42,47,.16)}
+.fcard-icon{width:46px;height:46px;border-radius:10px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:1.15rem}
+.fcard h3{font-size:1.02rem;font-weight:600;color:var(--navy);margin-bottom:.45rem;font-family:var(--serif)}.fcard p{font-size:.82rem;color:var(--text2);line-height:1.65}
 /* Footer */
-.stats{background:#1447e6;padding:4rem 2.5rem}
+.stats{background:var(--navy);padding:4.5rem 2.5rem;position:relative}
+.stats::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
 .stats-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2.5rem;text-align:center}
-.stat-num{font-size:2.8rem;font-weight:800;color:#fff;letter-spacing:-.04em;line-height:1}
-.stat-num span{color:var(--teal)}
-.stat-label{font-size:.82rem;font-weight:600;color:#fff;text-transform:uppercase;letter-spacing:.08em;margin-top:.55rem}
-.stat-sub{font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.2rem}
-.vf-footer{background:var(--bg2);border-top:1px solid var(--border);padding:3.5rem 2.5rem 2rem}
+.stat-num{font-size:3rem;font-weight:500;color:#fff;letter-spacing:-.03em;line-height:1}
+.stat-num span{color:var(--gold)}
+.stat-label{font-size:.78rem;font-weight:500;color:rgba(255,255,255,.9);text-transform:uppercase;letter-spacing:.1em;margin-top:.7rem}
+.stat-sub{font-size:.75rem;color:rgba(255,255,255,.5);margin-top:.25rem}
+.vf-footer{background:var(--bg2);border-top:1px solid var(--border);padding:4rem 2.5rem 2rem}
 .vf-footer-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
-.vf-footer-brand{font-size:1.2rem;font-weight:800;color:var(--navy);letter-spacing:-.02em;margin-bottom:.65rem}.vf-footer-brand span{color:var(--blue)}
+.vf-footer-brand{font-size:1.3rem;font-weight:600;color:var(--navy);letter-spacing:-.01em;margin-bottom:.75rem}.vf-footer-brand span{color:var(--gold)}
 .vf-footer-desc{font-size:.8rem;color:var(--text2);line-height:1.65;max-width:220px}
 .vf-footer-col h5{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:.85rem}
 .vf-footer-col a{display:block;font-size:.81rem;color:var(--text2);text-decoration:none;margin-bottom:.4rem;transition:color .18s}
@@ -97,24 +101,24 @@ a{color:var(--blue);text-decoration:none}
 .fg{margin-bottom:.9rem}.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 .fg label{display:block;font-size:.78rem;font-weight:600;margin-bottom:.35rem;color:var(--text2)}
 .fi{width:100%;padding:.65rem .95rem;background:#fff;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-size:.88rem;transition:border-color .18s;font-family:inherit}
-.fi:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(20,71,230,.08)}select.fi option{background:#fff}textarea.fi{resize:vertical;min-height:80px}
+.fi:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(15,107,82,.08)}select.fi option{background:#fff}textarea.fi{resize:vertical;min-height:80px}
 .phone-wrap{display:flex;gap:.5rem}
 .phone-cc{width:170px!important;flex-shrink:0;cursor:pointer}
 .rg{display:flex;flex-direction:column;gap:.65rem}
 .ro{display:flex;align-items:center;gap:.75rem;padding:1rem;background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all .18s}
-.ro:hover{border-color:var(--blue)}.ro.sel{border-color:var(--blue);background:rgba(20,71,230,.03)}
+.ro:hover{border-color:var(--blue)}.ro.sel{border-color:var(--blue);background:rgba(15,107,82,.03)}
 .rdot{width:20px;height:20px;border:2px solid var(--border2);border-radius:50%;flex-shrink:0;position:relative}
 .ro.sel .rdot{border-color:var(--blue)}.ro.sel .rdot::after{content:'';position:absolute;inset:3px;background:var(--blue);border-radius:50%}
 .rl strong{display:block;font-size:.92rem;color:var(--navy)}.rl span{font-size:.78rem;color:var(--text2)}
 .co{display:flex;align-items:flex-start;gap:.75rem;padding:1rem;background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:.65rem}
-.co.req{border-left:2.5px solid rgba(20,71,230,.4)}
+.co.req{border-left:2.5px solid rgba(15,107,82,.4)}
 .co input[type=checkbox]{width:17px;height:17px;margin-top:3px;accent-color:var(--blue);flex-shrink:0;cursor:pointer}
 .co label{font-size:.82rem;color:var(--text2);cursor:pointer;line-height:1.55}
 .co label strong{color:var(--navy);display:block;margin-bottom:.15rem;font-size:.86rem}
 .dug{margin-bottom:1.25rem}
 .dug .dlabel{font-size:.82rem;font-weight:600;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem;color:var(--navy)}
 .fdrop{border:2px dashed var(--border2);border-radius:var(--radius);padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;position:relative;background:#fff}
-.fdrop:hover{border-color:var(--blue);background:rgba(20,71,230,.02)}
+.fdrop:hover{border-color:var(--blue);background:rgba(15,107,82,.02)}
 .fdrop.dis{opacity:.4;cursor:not-allowed;pointer-events:none}
 .fdrop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .fdrop p{font-size:.8rem;color:var(--text2);margin-top:.2rem}
@@ -127,7 +131,7 @@ a{color:var(--blue);text-decoration:none}
 .pf-wrap{min-height:100vh;padding-top:64px;background:var(--bg2)}
 .pf-hdr{background:#fff;border-bottom:1px solid var(--border);padding:1.5rem 2rem;box-shadow:0 1px 4px rgba(15,31,61,.05)}
 .pf-hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
-.pf-av{width:52px;height:52px;background:rgba(20,71,230,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:var(--blue);flex-shrink:0}
+.pf-av{width:52px;height:52px;background:rgba(15,107,82,.09);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:var(--blue);flex-shrink:0;font-family:var(--serif)}
 .pf-info{flex:1;margin-left:.75rem}.pf-info h2{font-size:1.2rem;font-weight:800;color:var(--navy)}.pf-info p{font-size:.82rem;color:var(--text2)}
 .pf-status{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.4rem}
 .pf-tabs{display:flex;border-bottom:1px solid var(--border);margin-top:-.5rem;overflow-x:auto}
@@ -146,7 +150,7 @@ a{color:var(--blue);text-decoration:none}
 .dli .dli-info{flex:1}.dli .dli-name{font-size:.86rem;font-weight:600;color:var(--navy)}.dli .dli-meta{font-size:.74rem;color:var(--text2)}
 .vc{display:flex;align-items:center;gap:1rem;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;margin-bottom:.75rem}
 .vc-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0}
-.vc-icon.pass{background:rgba(16,185,129,.1)}.vc-icon.review{background:rgba(20,71,230,.08)}.vc-icon.pend{background:rgba(100,116,139,.08)}
+.vc-icon.pass{background:rgba(15,107,82,.1)}.vc-icon.review{background:var(--bg2)}.vc-icon.pend{background:rgba(139,147,155,.1)}
 .vc-info{flex:1}.vc-title{font-size:.87rem;font-weight:600;color:var(--navy)}.vc-desc{font-size:.77rem;color:var(--text2);margin-top:.15rem;line-height:1.5}
 .chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 250px);min-height:360px}
 .chat-msgs{flex:1;overflow-y:auto;padding:.5rem 0;display:flex;flex-direction:column;gap:.65rem}
@@ -159,13 +163,13 @@ a{color:var(--blue);text-decoration:none}
 .cmeta{font-size:.67rem;color:var(--text3);margin-top:.2rem}
 .cmsg.cli .cmeta{text-align:right}.cmsg.stf .cmeta{text-align:left}
 .cav{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0;align-self:flex-end}
-.cmsg.cli .cav{background:rgba(20,71,230,.12);color:var(--blue)}.cmsg.stf .cav{background:var(--bg3);color:var(--text2)}
+.cmsg.cli .cav{background:rgba(15,107,82,.12);color:var(--blue)}.cmsg.stf .cav{background:var(--bg3);color:var(--text2)}
 .chat-inp-area{border-top:1px solid var(--border);padding-top:.85rem;display:flex;gap:.75rem;align-items:flex-end}
 .chat-inp{flex:1;padding:.65rem 1rem;background:#fff;border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-size:.86rem;font-family:inherit;resize:none;max-height:110px;transition:border-color .18s}
-.chat-inp:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(20,71,230,.07)}
-.badge{display:inline-flex;align-items:center;padding:.18rem .6rem;border-radius:6px;font-size:.72rem;font-weight:600}
-.bs{background:#dcfce7;color:#15803d}.bw{background:#fef3c7;color:#b45309}
-.bd{background:#fee2e2;color:#991b1b}.bi{background:#dbeafe;color:#1d4ed8}.bn{background:#f1f5f9;color:#475569}
+.chat-inp:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(15,107,82,.07)}
+.badge{display:inline-flex;align-items:center;padding:.2rem .65rem;border-radius:100px;font-size:.72rem;font-weight:600;letter-spacing:.01em}
+.bs{background:#dcece5;color:#0f6b52}.bw{background:#f5ecd8;color:#a5793a}
+.bd{background:#f3ddd6;color:#a5391f}.bi{background:var(--bg3);color:var(--navy)}.bn{background:#eef0f0;color:#5a6670}
 .modal-ov{display:none;position:fixed;inset:0;background:rgba(15,31,61,.45);backdrop-filter:blur(6px);z-index:200;align-items:center;justify-content:center}
 .modal-ov.show{display:flex}
 .modal{background:#fff;border:1px solid var(--border);border-radius:16px;padding:2.25rem;width:90%;max-width:420px;position:relative;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(15,31,61,.12)}
@@ -234,7 +238,7 @@ a{color:var(--blue);text-decoration:none}
 <section class="hero">
   <div class="hero-left">
     <div class="hero-eyebrow" data-i18n="heroEyebrow">Kripto Para Piyasaları · KYC / KYB Onboarding</div>
-    <h1 data-i18n="heroTitle">Kripto para ekosisteminde yer almak isteyen şirket ve bireysel kullanıcıların onboarding süreçlerini yönetiyoruz</h1>
+    <h1 data-i18n="heroTitle">Kripto para ekosisteminde yer almak isteyen şirket ve bireysel kullanıcıların <strong>onboarding süreçlerini</strong> yönetiyoruz</h1>
     <p data-i18n="heroDesc">KYC/KYB başvurusundan onaya kadar tüm süreci — belge hazırlama, kurum yazışmaları ve aşama takibini — sizin adınıza üstleniyoruz.</p>
     <div class="hero-btns">
       <div id="heroGuest" style="display:flex;gap:.85rem;flex-wrap:wrap">
@@ -288,13 +292,13 @@ a{color:var(--blue);text-decoration:none}
           <!-- Adım 3 — Aktif -->
           <div style="display:flex;gap:.75rem;align-items:flex-start">
             <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
-              <div style="width:26px;height:26px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 0 3px rgba(20,71,230,.15)">3</div>
+              <div style="width:26px;height:26px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 0 3px rgba(15,107,82,.15)">3</div>
               <div style="width:2px;flex:1;background:var(--border);min-height:22px;margin:.25rem 0"></div>
             </div>
             <div style="padding-bottom:.85rem;flex:1">
               <div style="display:flex;align-items:center;gap:.4rem">
                 <div style="font-size:.8rem;font-weight:700;color:var(--blue)">Hukuki İşlem & Tercüme</div>
-                <span style="font-size:.62rem;font-weight:700;background:rgba(20,71,230,.08);color:var(--blue);padding:.1rem .4rem;border-radius:4px">Devam Ediyor</span>
+                <span style="font-size:.62rem;font-weight:700;background:rgba(15,107,82,.08);color:var(--blue);padding:.1rem .4rem;border-radius:4px">Devam Ediyor</span>
               </div>
               <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem">Apostil & yeminli tercüme koordinasyonu</div>
             </div>
@@ -349,20 +353,20 @@ a{color:var(--blue);text-decoration:none}
       <p data-i18n="svcDesc">Finansal kuruluşlara hesap açmak, uyum süreci yürütmek veya belge paketi hazırlamak isteyen her birey ve kuruma danışmanlık sağlıyoruz</p>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem">
-      <div style="background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;display:flex;align-items:flex-start;gap:.75rem">
-        <div style="width:36px;height:36px;border-radius:8px;background:rgba(20,71,230,.06);border:1px solid rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🏢</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;display:flex;align-items:flex-start;gap:.85rem;transition:border-color .25s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="width:38px;height:38px;border-radius:9px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0">🏢</div>
         <div><div style="font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:.2rem" data-i18n="svc1t">Şirketler & Girişimler</div><div style="font-size:.78rem;color:var(--text2);line-height:1.55" data-i18n="svc1d">Fintech, holding, ticaret şirketi ve her ölçekteki kurumsal yapılar</div></div>
       </div>
-      <div style="background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;display:flex;align-items:flex-start;gap:.75rem">
-        <div style="width:36px;height:36px;border-radius:8px;background:rgba(20,71,230,.06);border:1px solid rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">👤</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;display:flex;align-items:flex-start;gap:.85rem;transition:border-color .25s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="width:38px;height:38px;border-radius:9px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0">👤</div>
         <div><div style="font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:.2rem" data-i18n="svc2t">Bireysel Yatırımcılar</div><div style="font-size:.78rem;color:var(--text2);line-height:1.55" data-i18n="svc2d">Yurt içi ve yurt dışı finansal kurumlara bireysel hesap açmak isteyenler</div></div>
       </div>
-      <div style="background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;display:flex;align-items:flex-start;gap:.75rem">
-        <div style="width:36px;height:36px;border-radius:8px;background:rgba(20,71,230,.06);border:1px solid rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">🌍</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;display:flex;align-items:flex-start;gap:.85rem;transition:border-color .25s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="width:38px;height:38px;border-radius:9px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0">🌍</div>
         <div><div style="font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:.2rem" data-i18n="svc3t">Yabancı Uyruklu Müşteriler</div><div style="font-size:.78rem;color:var(--text2);line-height:1.55" data-i18n="svc3d">Türkiye'de veya uluslararası alanda uyum süreci yürütmek isteyen yabancı gerçek/tüzel kişiler</div></div>
       </div>
-      <div style="background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;display:flex;align-items:flex-start;gap:.75rem">
-        <div style="width:36px;height:36px;border-radius:8px;background:rgba(20,71,230,.06);border:1px solid rgba(20,71,230,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">💼</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;display:flex;align-items:flex-start;gap:.85rem;transition:border-color .25s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="width:38px;height:38px;border-radius:9px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0">💼</div>
         <div><div style="font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:.2rem" data-i18n="svc4t">Fon & Varlık Yöneticileri</div><div style="font-size:.78rem;color:var(--text2);line-height:1.55" data-i18n="svc4d">Portföy yönetim şirketleri, aile ofisleri ve kurumsal yatırım yapıları</div></div>
       </div>
     </div>
@@ -802,7 +806,7 @@ a{color:var(--blue);text-decoration:none}
   <!-- TAMAMLANDI -->
   <div class="spane" id="sComplete">
     <div style="text-align:center;padding:3rem 0">
-      <div style="width:80px;height:80px;background:rgba(20,71,230,.08);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 1.5rem;border:2px solid rgba(20,71,230,.15)">✓</div>
+      <div style="width:80px;height:80px;background:rgba(15,107,82,.08);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 1.5rem;border:2px solid rgba(15,107,82,.15)">✓</div>
       <h2 style="font-size:1.5rem;font-weight:800;color:var(--navy);margin-bottom:.4rem" data-i18n="completeTitle">Başvurunuz Alındı!</h2>
       <p style="color:var(--text2);max-width:400px;margin:1rem auto;font-size:.86rem;line-height:1.6" data-i18n="completeDesc">Ekibimiz belgelerinizi inceleyecek ve en kısa sürede sizinle iletişime geçecektir.</p>
       <div style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin:1.5rem 0">
@@ -1239,7 +1243,7 @@ var T = {
   tr:{
     navLogin:'Giriş Yap', navApply:'Danışmanlık Talebi →', navRegister:'Kayıt Ol', navLogout:'Çıkış', navProfile:'Profilim →',
     heroEyebrow:'Kripto Para Piyasaları · KYC / KYB Onboarding',
-    heroTitle:'Kripto para ekosisteminde yer almak isteyen şirket ve bireysel kullanıcıların onboarding süreçlerini yönetiyoruz',
+    heroTitle:'Kripto para ekosisteminde yer almak isteyen şirket ve bireysel kullanıcıların <strong>onboarding süreçlerini</strong> yönetiyoruz',
     heroDesc:'KYC/KYB başvurusundan onaya kadar tüm süreci — belge hazırlama, kurum yazışmaları ve aşama takibini — sizin adınıza üstleniyoruz.',
     heroApply:'Danışmanlık Talebi →', heroLogin:'Giriş Yap', heroGoProfile:'Profilime Git →',
     heroNote1:'Ücretsiz ön görüşme', heroNote2:'Deneyimli danışman ekibi', heroNote3:'Şeffaf süreç takibi',
@@ -1368,7 +1372,7 @@ var T = {
   en:{
     navLogin:'Log In', navApply:'Request Consultation →', navRegister:'Register', navLogout:'Logout', navProfile:'My Profile →',
     heroEyebrow:'Crypto Markets · KYC / KYB Onboarding',
-    heroTitle:'We manage the onboarding processes of companies and individuals seeking to enter the crypto ecosystem',
+    heroTitle:'We manage the <strong>onboarding processes</strong> of companies and individuals seeking to enter the crypto ecosystem',
     heroDesc:'From KYC/KYB application to approval — document preparation, institution correspondence and process tracking, all handled on your behalf.',
     heroApply:'Request Consultation →', heroLogin:'Log In', heroGoProfile:'Go to My Profile →',
     heroNote1:'Free initial consultation', heroNote2:'Experienced advisory team', heroNote3:'Transparent process tracking',
@@ -2224,22 +2228,22 @@ function renderProcessTracker(stage,note){
     var n=i+1;
     var done=n<stage;
     var active=n===stage;
-    var iconBg=done?'#0d9488':active?'#1447e6':'var(--border)';
+    var iconBg=done?'#b98d4b':active?'#0f6b52':'var(--border)';
     var iconColor=(done||active)?'#fff':'var(--text2)';
-    var lineColor=done?'#0d9488':'var(--border)';
-    var titleColor=active?'var(--blue)':done?'var(--fg)':'var(--text2)';
+    var lineColor=done?'#b98d4b':'var(--border)';
+    var titleColor=active?'var(--blue)':done?'var(--navy)':'var(--text2)';
     html+='<div style="display:flex;gap:.85rem;align-items:flex-start">';
     html+='<div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">';
-    html+='<div style="width:34px;height:34px;border-radius:50%;background:'+iconBg+';color:'+iconColor+';display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700'+(active?';box-shadow:0 0 0 5px rgba(20,71,230,.15)':'')+'">'+(done?'✓':n)+'</div>';
+    html+='<div style="width:34px;height:34px;border-radius:50%;background:'+iconBg+';color:'+iconColor+';display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700'+(active?';box-shadow:0 0 0 5px rgba(15,107,82,.15)':'')+'">'+(done?'✓':n)+'</div>';
     if(i<4)html+='<div style="width:2px;height:26px;background:'+lineColor+';margin:3px 0"></div>';
     html+='</div>';
     html+='<div style="padding-top:6px;padding-bottom:'+(i<4?'0':'0')+'">';
-    html+='<div style="font-size:.875rem;font-weight:600;color:'+titleColor+'">'+s[0]+(active?' <span style="font-size:.7rem;background:#eff6ff;color:#1447e6;padding:.1rem .45rem;border-radius:4px;font-weight:500;vertical-align:middle">Devam Ediyor</span>':'')+'</div>';
+    html+='<div style="font-size:.875rem;font-weight:600;color:'+titleColor+'">'+s[0]+(active?' <span style="font-size:.7rem;background:rgba(15,107,82,.08);color:#0f6b52;padding:.1rem .45rem;border-radius:4px;font-weight:500;vertical-align:middle">Devam Ediyor</span>':'')+'</div>';
     html+='<div style="font-size:.79rem;color:var(--text2);margin-top:.2rem;margin-bottom:.6rem">'+s[1]+'</div>';
     html+='</div></div>';
   });
   if(note){
-    html+='<div style="margin-top:1rem;padding:.75rem 1rem;background:rgba(20,71,230,.06);border-left:3px solid #1447e6;border-radius:0 6px 6px 0;font-size:.83rem;color:var(--text2)"><strong style="color:var(--fg)">Danışman Notu:</strong> '+esc(note)+'</div>';
+    html+='<div style="margin-top:1rem;padding:.75rem 1rem;background:var(--bg2);border-left:3px solid #b98d4b;border-radius:0 6px 6px 0;font-size:.83rem;color:var(--text2)"><strong style="color:var(--navy)">Danışman Notu:</strong> '+esc(note)+'</div>';
   }
   html+='</div>';
   cont.innerHTML=html;
@@ -2288,11 +2292,11 @@ async function loadDocsTab(){
   var pct=list.length?Math.round(readyCount/list.length*100):0;
   var html='<div style="margin-bottom:1rem">';
   html+='<div style="display:flex;justify-content:space-between;font-size:.82rem;color:var(--text2);margin-bottom:.4rem"><span>'+(isEn?'Ready':'Hazır')+': '+readyCount+' / '+list.length+'</span><span>%'+pct+'</span></div>';
-  html+='<div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#1447e6,#0d9488);border-radius:3px"></div></div>';
+  html+='<div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:linear-gradient(90deg,#0f6b52,#b98d4b);border-radius:3px"></div></div>';
   html+='</div><div style="display:flex;flex-direction:column;gap:.4rem">';
   list.forEach(function(key){
     var ready=docMap[key]==='approved';
-    html+='<div style="display:flex;align-items:center;gap:.75rem;padding:.55rem .8rem;border-radius:8px;border:1px solid '+(ready?'rgba(16,185,129,.2)':'rgba(226,232,240,.8)')+';background:'+(ready?'rgba(16,185,129,.05)':'var(--bg2)')+'\">';
+    html+='<div style="display:flex;align-items:center;gap:.75rem;padding:.55rem .8rem;border-radius:8px;border:1px solid '+(ready?'rgba(15,107,82,.25)':'var(--border)')+';background:'+(ready?'rgba(15,107,82,.05)':'var(--bg2)')+'\">';
     html+='<span style="font-size:1rem">'+( ready?'✅':'❌')+'</span>';
     html+='<span style="font-size:.85rem;font-weight:'+(ready?600:400)+';color:'+(ready?'var(--navy)':'var(--text2)')+'">'+( allLabels[key]||key)+'</span>';
     html+='</div>';
