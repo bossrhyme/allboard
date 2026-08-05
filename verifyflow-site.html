@@ -1040,8 +1040,8 @@ a{color:var(--blue);text-decoration:none}
     <div class="pr-pane active" id="prPane1">
       <h2 data-i18n="prStep1Title">İletişim Bilgileri</h2>
       <p class="msub" data-i18n="prStep1Sub">Sizi tanıyalım</p>
-      <div class="fg"><label data-i18n="lFullName">Ad Soyad *</label><input type="text" class="fi" id="prName" placeholder="Ahmet Yılmaz"></div>
-      <div class="fg"><label data-i18n="lEmail">E-posta *</label><input type="email" class="fi" id="prEmail" placeholder="siz@ornek.com"></div>
+      <div class="fg"><label data-i18n="lFullName">Ad Soyad *</label><input type="text" class="fi" id="prName" data-i18n-ph="prNamePh" placeholder="Ahmet Yılmaz"></div>
+      <div class="fg"><label data-i18n="lEmail">E-posta *</label><input type="email" class="fi" id="prEmail" data-i18n-ph="prEmailPh" placeholder="siz@ornek.com"></div>
       <div class="fg"><label data-i18n="lPhone">Telefon *</label><div class="phone-wrap"><select class="fi phone-cc" id="prPhoneCC" onchange="syncPhone('prPhoneCC','prPhoneNum','prPhone')"></select><input type="tel" class="fi" id="prPhoneNum" placeholder="5xx xxx xx xx" style="flex:1" oninput="syncPhone('prPhoneCC','prPhoneNum','prPhone')"></div><input type="hidden" id="prPhone"></div>
     </div>
 
@@ -1065,7 +1065,7 @@ a{color:var(--blue);text-decoration:none}
           </div>
         </label>
       </div>
-      <div class="fg" style="margin-top:1rem"><label data-i18n="prNotes">Notlar (opsiyonel)</label><textarea class="fi" id="prNotes" rows="3" style="resize:vertical" placeholder="Hangi platformlara başvurmak istediğinizi, özel taleplerinizi veya sorularınızı buraya yazabilirsiniz..."></textarea></div>
+      <div class="fg" style="margin-top:1rem"><label data-i18n="prNotes">Notlar (opsiyonel)</label><textarea class="fi" id="prNotes" rows="3" style="resize:vertical" data-i18n-ph="prNotesPh" placeholder="Hangi platformlara başvurmak istediğinizi, özel taleplerinizi veya sorularınızı buraya yazabilirsiniz..."></textarea></div>
     </div>
 
     <!-- Adım 3: Platform Seçimi (artık kullanılmıyor — sadece uyumluluk için) -->
@@ -1325,7 +1325,7 @@ var T = {
     prStep3Title:'Hedef Platformlar', prStep3Sub:'Hangi platform(lar)a başvurmak istiyorsunuz?',
     prStep4Title:'Belge Durumu', prStep4Sub:'Hangi belgelere sahipsiniz?',
     prOther:'Diğer', prOtherLabel:'Diğer platform adı',
-    prNotes:'Notlar (opsiyonel)',
+    prNotes:'Notlar (opsiyonel)', prNotesPh:'Hangi platformlara başvurmak istediğinizi, özel taleplerinizi veya sorularınızı buraya yazabilirsiniz...', prNamePh:'Ahmet Yılmaz', prEmailPh:'siz@ornek.com',
     prSuccessTitle:'Başvurunuz Alındı!',
     prSuccessSub:'Ekibimiz en kısa sürede sizinle iletişime geçip süreç hakkında daha detaylı bilgi verecektir.',
     btnSubmit:'Gönder', btnClose:'Kapat',
@@ -1460,7 +1460,7 @@ var T = {
     prStep3Title:'Target Platforms', prStep3Sub:'Which platform(s) do you want to apply for?',
     prStep4Title:'Document Status', prStep4Sub:'Which of the following documents do you have?',
     prOther:'Other', prOtherLabel:'Other platform name',
-    prNotes:'Notes (optional)',
+    prNotes:'Notes (optional)', prNotesPh:'Tell us which platforms you want to apply to, your specific requests or any questions...', prNamePh:'John Smith', prEmailPh:'you@example.com',
     prSuccessTitle:'Application Received!',
     prSuccessSub:'Our team will contact you shortly to share more detailed information about the process.',
     btnSubmit:'Submit', btnClose:'Close',
@@ -1508,6 +1508,7 @@ function setLang(l){
     el.textContent=T[l][k];
   });
   // Placeholders
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){var k=el.getAttribute('data-i18n-ph');if(T[l]&&T[l][k]!==undefined)el.placeholder=T[l][k];});
   var ci=document.getElementById('chatInp');if(ci)ci.placeholder=T[l].chatPlaceholder;
   // Step label
   document.getElementById('obLbl').textContent=T[l].stepLabel+' '+(idx+1)+' / '+steps.length;
