@@ -187,6 +187,18 @@ a{color:var(--blue);text-decoration:none}
 .mtabs{display:flex;margin-bottom:1.4rem;border-bottom:1px solid var(--border)}
 .mtab{flex:1;padding:.6rem;text-align:center;cursor:pointer;font-size:.86rem;font-weight:600;color:var(--text2);border-bottom:2px solid transparent;transition:all .18s}
 .mtab.active{color:var(--blue);border-bottom-color:var(--blue)}
+/* How it works + FAQ */
+.how-step{display:grid;grid-template-columns:auto 1fr;gap:1rem;padding:1rem 0;border-top:1px solid var(--border)}
+.how-step:first-of-type{border-top:none;padding-top:.5rem}
+.how-no{width:38px;height:38px;border-radius:50%;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--blue);flex-shrink:0}
+.how-step h4{font-size:1rem;color:var(--navy);margin-bottom:.25rem}
+.how-step p{font-size:.86rem;color:var(--text2);line-height:1.6;margin:0}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.95rem 0;cursor:pointer;font-weight:600;color:var(--navy);font-size:.93rem}
+.faq-q::after{content:'+';font-size:1.25rem;color:var(--blue);flex-shrink:0;line-height:1}
+.faq-item.open .faq-q::after{content:'−'}
+.faq-a{display:none;padding:0 0 1rem;color:var(--text2);font-size:.87rem;line-height:1.7;max-width:60ch}
+.faq-item.open .faq-a{display:block}
 /* Pre-reg modal */
 .pr-step{width:28px;height:28px;border-radius:50%;background:var(--bg3);color:var(--text3);font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
 .pr-step.active{background:var(--blue);color:#fff}
@@ -416,8 +428,8 @@ a{color:var(--blue);text-decoration:none}
     </div>
     <div class="vf-footer-col">
       <h5 data-i18n="fcolProcess">Çalışma Şeklimiz</h5>
-      <a href="#" data-i18n="fcolP1">Süreç Nasıl İşler?</a>
-      <a href="#" data-i18n="fcolP2">Sık Sorulan Sorular</a>
+      <a href="#" onclick="openInfo('how');return false" data-i18n="fcolP1">Süreç Nasıl İşler?</a>
+      <a href="#" onclick="openInfo('faq');return false" data-i18n="fcolP2">Sık Sorulan Sorular</a>
       <a href="#" data-i18n="fcolP3">Referanslar</a>
     </div>
     <div class="vf-footer-col">
@@ -1027,6 +1039,42 @@ a{color:var(--blue);text-decoration:none}
   </div>
 </div>
 
+<!-- SÜREÇ NASIL İŞLER MODALI -->
+<div class="modal-ov" id="howMod">
+  <div class="modal" style="max-width:640px;padding:2rem">
+    <button class="modal-x" onclick="closeInfo('how')">✕</button>
+    <h2 data-i18n="howTitle">Süreç Nasıl İşler?</h2>
+    <p class="msub" data-i18n="howIntro">Talebinizi aldıktan sonra süreç beş adımda ilerler. Her adımı sizin adınıza biz yürütür, ilerlemeyi şeffaf biçimde paylaşırız.</p>
+    <div class="how-step"><div class="how-no">1</div><div><h4 data-i18n="howS1t">Başvuru & Bilgi Toplama</h4><p data-i18n="howS1d">Ücretsiz ön görüşmeyle ihtiyacınızı belirler; kişisel/kurumsal bilgilerinizi ve hangi platform(lar)a başvuracağınızı tek seferde alırız.</p></div></div>
+    <div class="how-step"><div class="how-no">2</div><div><h4 data-i18n="howS2t">Belge Hazırlama & Organizasyon</h4><p data-i18n="howS2d">Gereken belgeleri analiz eder, eksik veya hatalı olanlar için sizi yönlendirir ve başvuru paketini hazırlarız.</p></div></div>
+    <div class="how-step"><div class="how-no">3</div><div><h4 data-i18n="howS3t">Hukuki İşlem & Tercüme</h4><p data-i18n="howS3d">Apostil, noter tasdiki, aslı gibidir ve yeminli tercüme gibi resmi işlemleri sizin adınıza koordine ederiz.</p></div></div>
+    <div class="how-step"><div class="how-no">4</div><div><h4 data-i18n="howS4t">Kurum Başvurusu & Takip</h4><p data-i18n="howS4d">Başvuruyu ilgili kuruma iletir; yazışmaları ve geri dönüşleri sizin adınıza takip ederiz.</p></div></div>
+    <div class="how-step"><div class="how-no">5</div><div><h4 data-i18n="howS5t">Onay & Süreç Tamamlama</h4><p data-i18n="howS5d">Tüm adımlar tamamlanınca nihai onay alınır ve süreç kapatılarak size bildirilir.</p></div></div>
+    <div style="margin-top:1.5rem;text-align:center"><button class="btn btn-primary" onclick="closeInfo('how');showPreReg()" data-i18n="howCta">Danışmanlık Talebi →</button></div>
+  </div>
+</div>
+
+<!-- SIKÇA SORULAN SORULAR MODALI -->
+<div class="modal-ov" id="faqMod">
+  <div class="modal" style="max-width:660px;padding:2rem">
+    <button class="modal-x" onclick="closeInfo('faq')">✕</button>
+    <h2 data-i18n="faqTitle">Sıkça Sorulan Sorular</h2>
+    <p class="msub" data-i18n="faqSub">Aklınıza takılanların yanıtları. Aradığınızı bulamazsanız danışmanlık talebi oluşturun, size yardımcı olalım.</p>
+    <div id="faqList">
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)" data-i18n="faqQ1">Coreboarding tam olarak ne yapıyor?</div><div class="faq-a" data-i18n="faqA1">Kripto para ekosistemindeki kuruluşlara (borsalar, OTC masaları vb.) KYC/KYB başvuru süreçlerinizi baştan sona yönetiriz — belge hazırlama, resmi işlemler, kurum yazışmaları ve süreç takibi dâhil.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)" data-i18n="faqQ2">Kimler hizmet alabilir?</div><div class="faq-a" data-i18n="faqA2">Kripto ekosistemine girmek isteyen bireysel yatırımcılar, şirketler ve girişimler, yabancı uyruklu müşteriler ile fon ve varlık yöneticileri.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)" data-i18n="faqQ3">Süreç ne kadar sürer?</div><div class="faq-a" data-i18n="faqA3">Süre; başvurulan kuruma, belgelerin hazır olma durumuna ve gereken hukuki/tercüme işlemlerine göre değişir. Ön görüşmede size gerçekçi bir zaman çizelgesi sunarız.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)" data-i18n="faqQ4">Hangi belgeler gerekiyor?</div><div class="faq-a" data-i18n="faqA4">Bireysel başvurularda kimlik, ikametgah, banka dökümü ve fon kaynağı gibi belgeler; kurumsal başvurularda bunlara ek olarak ticaret sicil, ana sözleşme, imza sirküleri ve ortaklık yapısı belgeleri gerekir. Tam liste ihtiyacınıza göre belirlenir.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)" data-i18n="faqQ5">Verilerim güvende mi?</div><div class="faq-a" data-i18n="faqA5">Evet. Belgeleriniz yalnızca başvurduğunuz kuruma, o başvuruyla sınırlı olarak iletilir; KVKK ve GDPR ilkeleriyle işlenir ve üçüncü taraflara satılmaz.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)" data-i18n="faqQ6">Yabancı uyrukluyum / yurt dışında yaşıyorum, hizmet alabilir miyim?</div><div class="faq-a" data-i18n="faqA6">Evet. Türkiye'de veya uluslararası alanda KYC/KYB süreci yürütmek isteyen yabancı gerçek ve tüzel kişilere hizmet veriyoruz.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)" data-i18n="faqQ7">Süreci nasıl takip ederim?</div><div class="faq-a" data-i18n="faqA7">Başvurunuz oluşturulduktan sonra size atanan danışmanla iletişime geçebilir, sürecin hangi aşamada olduğunu şeffaf biçimde görebilirsiniz.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)" data-i18n="faqQ8">Ücretlendirme nasıl?</div><div class="faq-a" data-i18n="faqA8">Ücret; hizmet kapsamına ve başvuru türüne göre belirlenir. Ön görüşme ücretsizdir ve size net bir teklif sunulur.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)" data-i18n="faqQ9">Başvurum reddedilirse ne olur?</div><div class="faq-a" data-i18n="faqA9">Nihai kararı ilgili kurum verir. Reddi en aza indirmek için belgelerinizi eksiksiz ve doğru hazırlar, gerekli durumlarda alternatif yollar için sizi yönlendiririz.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)" data-i18n="faqQ10">Nasıl başlarım?</div><div class="faq-a" data-i18n="faqA10">"Danışmanlık Talebi" butonundan formu doldurun; ekibimiz en kısa sürede sizinle iletişime geçip süreç hakkında detaylı bilgi versin.</div></div>
+    </div>
+  </div>
+</div>
+
 <!-- ÖN BAŞVURU MODALI -->
 <div class="modal-ov" id="preRegMod">
   <div class="modal" style="max-width:520px">
@@ -1261,6 +1309,26 @@ var T = {
     stat4label:'Tamamlanan Süreç', stat4sub:'KYC / KYB onboarding takibi',
     fcolServices:'Hizmetler', fcolS1:'KYC Onboarding Takibi', fcolS2:'Kurumsal KYB Başvurusu', fcolS3:'Belge Hazırlama', fcolS4:'Hukuki & Tercüme Desteği',
     fcolProcess:'Çalışma Şeklimiz', fcolP1:'Süreç Nasıl İşler?', fcolP2:'Sık Sorulan Sorular', fcolP3:'Referanslar',
+    howTitle:'Süreç Nasıl İşler?',
+    howIntro:'Talebinizi aldıktan sonra süreç beş adımda ilerler. Her adımı sizin adınıza biz yürütür, ilerlemeyi şeffaf biçimde paylaşırız.',
+    howS1t:'Başvuru & Bilgi Toplama', howS1d:'Ücretsiz ön görüşmeyle ihtiyacınızı belirler; kişisel/kurumsal bilgilerinizi ve hangi platform(lar)a başvuracağınızı tek seferde alırız.',
+    howS2t:'Belge Hazırlama & Organizasyon', howS2d:'Gereken belgeleri analiz eder, eksik veya hatalı olanlar için sizi yönlendirir ve başvuru paketini hazırlarız.',
+    howS3t:'Hukuki İşlem & Tercüme', howS3d:'Apostil, noter tasdiki, aslı gibidir ve yeminli tercüme gibi resmi işlemleri sizin adınıza koordine ederiz.',
+    howS4t:'Kurum Başvurusu & Takip', howS4d:'Başvuruyu ilgili kuruma iletir; yazışmaları ve geri dönüşleri sizin adınıza takip ederiz.',
+    howS5t:'Onay & Süreç Tamamlama', howS5d:'Tüm adımlar tamamlanınca nihai onay alınır ve süreç kapatılarak size bildirilir.',
+    howCta:'Danışmanlık Talebi →',
+    faqTitle:'Sıkça Sorulan Sorular',
+    faqSub:'Aklınıza takılanların yanıtları. Aradığınızı bulamazsanız danışmanlık talebi oluşturun, size yardımcı olalım.',
+    faqQ1:'Coreboarding tam olarak ne yapıyor?', faqA1:'Kripto para ekosistemindeki kuruluşlara (borsalar, OTC masaları vb.) KYC/KYB başvuru süreçlerinizi baştan sona yönetiriz — belge hazırlama, resmi işlemler, kurum yazışmaları ve süreç takibi dâhil.',
+    faqQ2:'Kimler hizmet alabilir?', faqA2:'Kripto ekosistemine girmek isteyen bireysel yatırımcılar, şirketler ve girişimler, yabancı uyruklu müşteriler ile fon ve varlık yöneticileri.',
+    faqQ3:'Süreç ne kadar sürer?', faqA3:'Süre; başvurulan kuruma, belgelerin hazır olma durumuna ve gereken hukuki/tercüme işlemlerine göre değişir. Ön görüşmede size gerçekçi bir zaman çizelgesi sunarız.',
+    faqQ4:'Hangi belgeler gerekiyor?', faqA4:'Bireysel başvurularda kimlik, ikametgah, banka dökümü ve fon kaynağı gibi belgeler; kurumsal başvurularda bunlara ek olarak ticaret sicil, ana sözleşme, imza sirküleri ve ortaklık yapısı belgeleri gerekir. Tam liste ihtiyacınıza göre belirlenir.',
+    faqQ5:'Verilerim güvende mi?', faqA5:'Evet. Belgeleriniz yalnızca başvurduğunuz kuruma, o başvuruyla sınırlı olarak iletilir; KVKK ve GDPR ilkeleriyle işlenir ve üçüncü taraflara satılmaz.',
+    faqQ6:'Yabancı uyrukluyum / yurt dışında yaşıyorum, hizmet alabilir miyim?', faqA6:'Evet. Türkiye\'de veya uluslararası alanda KYC/KYB süreci yürütmek isteyen yabancı gerçek ve tüzel kişilere hizmet veriyoruz.',
+    faqQ7:'Süreci nasıl takip ederim?', faqA7:'Başvurunuz oluşturulduktan sonra size atanan danışmanla iletişime geçebilir, sürecin hangi aşamada olduğunu şeffaf biçimde görebilirsiniz.',
+    faqQ8:'Ücretlendirme nasıl?', faqA8:'Ücret; hizmet kapsamına ve başvuru türüne göre belirlenir. Ön görüşme ücretsizdir ve size net bir teklif sunulur.',
+    faqQ9:'Başvurum reddedilirse ne olur?', faqA9:'Nihai kararı ilgili kurum verir. Reddi en aza indirmek için belgelerinizi eksiksiz ve doğru hazırlar, gerekli durumlarda alternatif yollar için sizi yönlendiririz.',
+    faqQ10:'Nasıl başlarım?', faqA10:'"Danışmanlık Talebi" butonundan formu doldurun; ekibimiz en kısa sürede sizinle iletişime geçip süreç hakkında detaylı bilgi versin.',
     fcolLegal:'Yasal', fcolL1:'KVKK Politikası', fcolL2:'Gizlilik', fcolL3:'Kullanım Şartları', fcolL4:'Güvenlik',
     footerDesc:'Kripto ekosistemindeki kuruluşlar için KYC/KYB onboarding süreç takibi ve danışmanlığı.',
     footerCopy:'© 2026 Coreboarding. Tüm hakları saklıdır.',
@@ -1396,6 +1464,26 @@ var T = {
     stat4label:'Completed Processes', stat4sub:'KYC / KYB onboarding tracking',
     fcolServices:'Services', fcolS1:'KYC Onboarding Tracking', fcolS2:'Corporate KYB Application', fcolS3:'Document Preparation', fcolS4:'Legal & Translation Support',
     fcolProcess:'How We Work', fcolP1:'How Does the Process Work?', fcolP2:'FAQ', fcolP3:'References',
+    howTitle:'How Does the Process Work?',
+    howIntro:'Once we receive your request, the process runs in five steps. We handle each step on your behalf and share progress transparently.',
+    howS1t:'Application & Info Gathering', howS1d:'In a free initial consultation we define your needs and collect your personal/corporate details and target platform(s) in one go.',
+    howS2t:'Document Preparation & Organization', howS2d:'We analyze the required documents, guide you on missing or incorrect ones, and prepare the application package.',
+    howS3t:'Legal Processing & Translation', howS3d:'We coordinate official procedures such as apostille, notarization, certified copies and sworn translation on your behalf.',
+    howS4t:'Institution Application & Follow-up', howS4d:'We submit the application to the relevant institution and track correspondence and responses for you.',
+    howS5t:'Approval & Completion', howS5d:'Once all steps are complete, final approval is obtained and the process is closed and reported to you.',
+    howCta:'Request Consultation →',
+    faqTitle:'Frequently Asked Questions',
+    faqSub:'Answers to what you may be wondering. If you cannot find what you are looking for, request a consultation and we will help.',
+    faqQ1:'What exactly does Coreboarding do?', faqA1:'We manage your KYC/KYB application processes with institutions in the crypto ecosystem (exchanges, OTC desks, etc.) end to end — including document preparation, official procedures, institution correspondence and process tracking.',
+    faqQ2:'Who can use the service?', faqA2:'Individual investors, companies and ventures, foreign nationals, and fund and asset managers seeking to enter the crypto ecosystem.',
+    faqQ3:'How long does the process take?', faqA3:'Timing depends on the target institution, document readiness and any legal/translation procedures required. We provide a realistic timeline in the initial consultation.',
+    faqQ4:'Which documents are required?', faqA4:'For individuals: identity, proof of address, bank statements and source of funds; for companies: additionally trade registry, articles of association, signature circular and ownership structure documents. The full list is defined based on your case.',
+    faqQ5:'Is my data safe?', faqA5:'Yes. Your documents are shared only with the institution you apply to, limited to that application; they are processed under KVKK and GDPR principles and never sold to third parties.',
+    faqQ6:'I am a foreign national / live abroad — can I use the service?', faqA6:'Yes. We serve foreign individuals and legal entities running KYC/KYB processes in Turkey or internationally.',
+    faqQ7:'How do I track the process?', faqA7:'Once your application is created, you can communicate with your assigned advisor and transparently see which stage the process is at.',
+    faqQ8:'How is pricing determined?', faqA8:'Pricing depends on the scope of service and application type. The initial consultation is free and you receive a clear quote.',
+    faqQ9:'What happens if my application is rejected?', faqA9:'The final decision rests with the institution. To minimize rejection, we prepare your documents accurately and completely and guide you toward alternatives where needed.',
+    faqQ10:'How do I start?', faqA10:'Fill in the form via the "Request Consultation" button; our team will contact you shortly to share detailed information about the process.',
     fcolLegal:'Legal', fcolL1:'GDPR Policy', fcolL2:'Privacy', fcolL3:'Terms of Service', fcolL4:'Security',
     footerDesc:'KYC/KYB onboarding process tracking and consulting for institutions in the crypto ecosystem.',
     footerCopy:'© 2026 Coreboarding. All rights reserved.',
@@ -1598,6 +1686,10 @@ function switchPolicy(tab){
   });
 }
 document.getElementById('policyMod').addEventListener('click',function(e){if(e.target===this)closePolicy();});
+function openInfo(which){document.getElementById(which+'Mod').classList.add('show');}
+function closeInfo(which){document.getElementById(which+'Mod').classList.remove('show');}
+function toggleFaq(el){el.parentElement.classList.toggle('open');}
+['how','faq'].forEach(function(w){var m=document.getElementById(w+'Mod');if(m)m.addEventListener('click',function(e){if(e.target===this)closeInfo(w);});});
 
 async function doLogin(){
   var email=document.getElementById('lEmail').value.trim();
