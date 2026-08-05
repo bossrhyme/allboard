@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Allboard — Onboarding Demo</title>
+<title>Coreboarding — Onboarding Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -162,7 +162,7 @@ sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
 <!-- Admin Login Overlay -->
 <div id="adminLoginOverlay" style="display:none;position:fixed;inset:0;background:var(--bg2);z-index:9999;display:flex;align-items:center;justify-content:center">
   <div style="background:#fff;border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:100%;max-width:400px;box-shadow:0 24px 60px rgba(15,31,61,.1)">
-    <div style="font-family:var(--serif);font-size:1.4rem;font-weight:600;color:var(--navy);letter-spacing:-.01em;margin-bottom:.2rem">All<span style="color:var(--gold)">board</span></div>
+    <div style="font-family:var(--serif);font-size:1.4rem;font-weight:600;color:var(--navy);letter-spacing:-.01em;margin-bottom:.2rem">Core<span style="color:var(--gold)">boarding</span></div>
     <p style="color:var(--text2);font-size:.85rem;margin-bottom:1.75rem;font-weight:500">Admin Paneli</p>
     <div style="margin-bottom:.9rem">
       <label style="display:block;font-size:.76rem;font-weight:700;margin-bottom:.35rem;color:var(--text2);text-transform:uppercase;letter-spacing:.05em">E-posta</label>
@@ -180,7 +180,7 @@ sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <div class="sidebar-logo">All<span>board</span></div>
+      <div class="sidebar-logo">Core<span>boarding</span></div>
       <div class="sidebar-subtitle" data-i18n="adminPanel">Admin Paneli</div>
     </div>
     <nav class="sidebar-nav">
@@ -1452,7 +1452,7 @@ async function staffSend(){
   if(!activeChatClientId){alert('Önce bir müşteri seçin.');return;}
   var inp=document.getElementById('staffChatInp'),txt=inp.value.trim();if(!txt)return;
   inp.value='';
-  await sb.from('chat_messages').insert({client_id:activeChatClientId,sender_type:'staff',sender_name:'Allboard Compliance',text:txt});
+  await sb.from('chat_messages').insert({client_id:activeChatClientId,sender_type:'staff',sender_name:'Coreboarding Compliance',text:txt});
 }
 
 function staffChatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();staffSend();}}

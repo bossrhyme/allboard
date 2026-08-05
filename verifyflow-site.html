@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Allboard — Kripto Para Borsası KYC / KYB Onboarding Danışmanlığı</title>
+<title>Coreboarding — Kripto Para Borsası KYC / KYB Onboarding Danışmanlığı</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -222,13 +222,12 @@ a{color:var(--blue);text-decoration:none}
 </head>
 <body>
 <nav class="nav" id="mainNav">
-  <div class="nav-logo" onclick="nav('landing')">All<span>board</span></div>
+  <div class="nav-logo" onclick="nav('landing')">Core<span>boarding</span></div>
   <div class="nav-actions" id="navAct">
     <div class="lang-toggle">
       <button class="lang-btn active" id="btnTR" onclick="setLang('tr')">TR</button>
       <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
     </div>
-    <button class="btn btn-outline btn-sm" onclick="showAuth('login')" data-i18n="navLogin">Giriş Yap</button>
     <button class="btn btn-primary btn-sm" onclick="showPreReg()" data-i18n="navApply">Danışmanlık Talebi →</button>
   </div>
 </nav>
@@ -243,7 +242,6 @@ a{color:var(--blue);text-decoration:none}
     <div class="hero-btns">
       <div id="heroGuest" style="display:flex;gap:.85rem;flex-wrap:wrap">
         <button class="btn btn-primary" onclick="showPreReg()" style="padding:.75rem 1.8rem" data-i18n="heroApply">Danışmanlık Talebi →</button>
-        <button class="btn btn-outline" onclick="showAuth('login')" style="padding:.75rem 1.6rem" data-i18n="heroLogin">Giriş Yap</button>
       </div>
       <div id="heroLoggedIn" style="display:none;gap:.85rem;flex-wrap:wrap;align-items:center">
         <button class="btn btn-primary" onclick="nav('profile')" style="padding:.75rem 1.8rem" data-i18n="heroGoProfile">Profilime Git →</button>
@@ -256,7 +254,7 @@ a{color:var(--blue);text-decoration:none}
       <div class="mock-card" style="padding:0;border:none;background:transparent">
         <div class="mock-card-head" style="margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--border)">
           <h4 data-i18n="heroTrackTitle">Süreç Takibi</h4>
-          <span class="mock-badge mb-info">Adım 3 / 5</span>
+          <span class="mock-badge mb-info" data-i18n="heroTrackStep">Adım 3 / 5</span>
         </div>
         <!-- Step timeline -->
         <div style="display:flex;flex-direction:column;gap:0">
@@ -268,8 +266,8 @@ a{color:var(--blue);text-decoration:none}
               <div style="width:2px;flex:1;background:var(--teal);min-height:22px;margin:.25rem 0"></div>
             </div>
             <div style="padding-bottom:.85rem;flex:1">
-              <div style="font-size:.8rem;font-weight:700;color:var(--navy)">Başvuru & Bilgi Toplama</div>
-              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem">Kişisel bilgiler ve ihtiyaç analizi tamamlandı</div>
+              <div style="font-size:.8rem;font-weight:700;color:var(--navy)" data-i18n="hs1t">Başvuru & Bilgi Toplama</div>
+              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem" data-i18n="hs1d">Kişisel bilgiler ve ihtiyaç analizi tamamlandı</div>
             </div>
           </div>
 
@@ -280,8 +278,8 @@ a{color:var(--blue);text-decoration:none}
               <div style="width:2px;flex:1;background:linear-gradient(var(--teal),var(--blue));min-height:22px;margin:.25rem 0"></div>
             </div>
             <div style="padding-bottom:.85rem;flex:1">
-              <div style="font-size:.8rem;font-weight:700;color:var(--navy)">Belge Hazırlama & Organizasyon</div>
-              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem">Belge paketi derlendi, eksikler tamamlandı</div>
+              <div style="font-size:.8rem;font-weight:700;color:var(--navy)" data-i18n="hs2t">Belge Hazırlama & Organizasyon</div>
+              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem" data-i18n="hs2d">Belge paketi derlendi, eksikler tamamlandı</div>
             </div>
           </div>
 
@@ -293,10 +291,10 @@ a{color:var(--blue);text-decoration:none}
             </div>
             <div style="padding-bottom:.85rem;flex:1">
               <div style="display:flex;align-items:center;gap:.4rem">
-                <div style="font-size:.8rem;font-weight:700;color:var(--blue)">Hukuki İşlem & Tercüme</div>
-                <span style="font-size:.62rem;font-weight:700;background:rgba(15,107,82,.08);color:var(--blue);padding:.1rem .4rem;border-radius:4px">Devam Ediyor</span>
+                <div style="font-size:.8rem;font-weight:700;color:var(--blue)" data-i18n="hs3t">Hukuki İşlem & Tercüme</div>
+                <span style="font-size:.62rem;font-weight:700;background:rgba(15,107,82,.08);color:var(--blue);padding:.1rem .4rem;border-radius:4px" data-i18n="heroTrackNow">Devam Ediyor</span>
               </div>
-              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem">Apostil & yeminli tercüme koordinasyonu</div>
+              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem" data-i18n="hs3d">Apostil & yeminli tercüme koordinasyonu</div>
             </div>
           </div>
 
@@ -307,8 +305,8 @@ a{color:var(--blue);text-decoration:none}
               <div style="width:2px;flex:1;background:var(--border);min-height:22px;margin:.25rem 0"></div>
             </div>
             <div style="padding-bottom:.85rem;flex:1">
-              <div style="font-size:.8rem;font-weight:700;color:var(--text2)">Kurum Başvurusu & Takip</div>
-              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem">Resmi başvuru iletimi ve yazışma yönetimi</div>
+              <div style="font-size:.8rem;font-weight:700;color:var(--text2)" data-i18n="hs4t">Kurum Başvurusu & Takip</div>
+              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem" data-i18n="hs4d">Resmi başvuru iletimi ve yazışma yönetimi</div>
             </div>
           </div>
 
@@ -318,8 +316,8 @@ a{color:var(--blue);text-decoration:none}
               <div style="width:26px;height:26px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--text3);flex-shrink:0">✓</div>
             </div>
             <div style="flex:1">
-              <div style="font-size:.8rem;font-weight:700;color:var(--text2)">Onay & Süreç Tamamlama</div>
-              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem">Nihai onay ve müşteri bildirimi</div>
+              <div style="font-size:.8rem;font-weight:700;color:var(--text2)" data-i18n="hs5t">Onay & Süreç Tamamlama</div>
+              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem" data-i18n="hs5d">Nihai onay ve müşteri bildirimi</div>
             </div>
           </div>
 
@@ -415,7 +413,7 @@ a{color:var(--blue);text-decoration:none}
 <footer class="vf-footer">
   <div class="vf-footer-grid">
     <div>
-      <div class="vf-footer-brand">All<span>board</span></div>
+      <div class="vf-footer-brand">Core<span>boarding</span></div>
       <p class="vf-footer-desc" data-i18n="footerDesc">Bireyler ve kurumlar için uçtan uca onboarding ve uyum danışmanlığı. Karmaşık süreçleri kolaylaştırıyoruz.</p>
     </div>
     <div class="vf-footer-col">
@@ -440,7 +438,7 @@ a{color:var(--blue);text-decoration:none}
     </div>
   </div>
   <div class="vf-footer-bottom">
-    <p data-i18n="footerCopy">&copy; 2026 Allboard. Tüm hakları saklıdır.</p>
+    <p data-i18n="footerCopy">&copy; 2026 Coreboarding. Tüm hakları saklıdır.</p>
     <div class="vf-footer-badges">
       <span class="vf-fbadge">KVKK</span>
       <span class="vf-fbadge">GDPR</span>
@@ -790,10 +788,10 @@ a{color:var(--blue);text-decoration:none}
   <div class="spane" id="sAml">
     <div class="stitle" data-i18n="sAmlTitle">AML Onayı & Şartlar</div>
     <div class="sdesc" data-i18n="sAmlDesc">Başvurunuzu tamamlamak için aşağıdaki onayları verin</div>
-    <div class="co req"><input type="checkbox" id="c-aml"><label for="c-aml"><strong data-i18n="conAmlTitle">AML Tarama Onayı</strong><span data-i18n="conAmlText">Allboard'un yaptırım listeleri, PEP veritabanları ve olumsuz medya kaynaklarında AML taraması yapmasına izin veriyorum.</span></label></div>
+    <div class="co req"><input type="checkbox" id="c-aml"><label for="c-aml"><strong data-i18n="conAmlTitle">AML Tarama Onayı</strong><span data-i18n="conAmlText">Coreboarding'un yaptırım listeleri, PEP veritabanları ve olumsuz medya kaynaklarında AML taraması yapmasına izin veriyorum.</span></label></div>
     <div class="co req" style="border-color:#f59e0b;background:#fffbeb"><input type="checkbox" id="c-share"><label for="c-share"><strong data-i18n="conShareTitle">Belge Paylaşım Onayı</strong><span data-i18n="conShareText">Onboarding sürecinde tarafıma ait belge ve kişisel verilerin, başvuru sürecinde talep ettiğim kripto borsaları, OTC firmaları ve bankalar gibi ilgili platformlara — yalnızca o platformdaki hesap açma işlemiyle sınırlı olmak üzere — iletilmesine onay veriyorum. Bu paylaşım, KVKK Madde 5/2(f) ve GDPR Madde 6/1(b) kapsamında sözleşmesel zorunluluk olarak gerçekleştirilir. <a href="#" onclick="openPolicy('kvkk');return false" data-i18n="readMore">Ayrıntılar →</a></span></label></div>
-    <div class="co req"><input type="checkbox" id="c-prv"><label for="c-prv"><strong data-i18n="conPrivTitle">Gizlilik Politikası</strong><span data-i18n="conPrivText">Kişisel verilerimin <a href="#" onclick="openPolicy('privacy');return false" data-i18n="conPrivLink">Allboard Gizlilik Politikası</a> kapsamında işlenmesini okudum ve kabul ediyorum.</span></label></div>
-    <div class="co req"><input type="checkbox" id="c-tos"><label for="c-tos"><strong data-i18n="conTosTitle">Kullanım Şartları</strong><span data-i18n="conTosText"><a href="#" onclick="openPolicy('tos');return false" data-i18n="conTosLink">Allboard Kullanım Şartlarını</a> okudum ve kabul ediyorum.</span></label></div>
+    <div class="co req"><input type="checkbox" id="c-prv"><label for="c-prv"><strong data-i18n="conPrivTitle">Gizlilik Politikası</strong><span data-i18n="conPrivText">Kişisel verilerimin <a href="#" onclick="openPolicy('privacy');return false" data-i18n="conPrivLink">Coreboarding Gizlilik Politikası</a> kapsamında işlenmesini okudum ve kabul ediyorum.</span></label></div>
+    <div class="co req"><input type="checkbox" id="c-tos"><label for="c-tos"><strong data-i18n="conTosTitle">Kullanım Şartları</strong><span data-i18n="conTosText"><a href="#" onclick="openPolicy('tos');return false" data-i18n="conTosLink">Coreboarding Kullanım Şartlarını</a> okudum ve kabul ediyorum.</span></label></div>
     <div class="co req"><input type="checkbox" id="c-acc"><label for="c-acc"><strong data-i18n="conAccTitle">Doğruluk Beyanı</strong><span data-i18n="conAccText">Sağladığım tüm bilgilerin doğru, eksiksiz ve güncel olduğunu beyan ediyorum.</span></label></div>
     <div class="co"><input type="checkbox" id="c-mon"><label for="c-mon"><strong data-i18n="conMonTitle">Süregelen İzleme <span style="font-weight:400" data-i18n="optionalLabel">(İsteğe bağlı)</span></strong><span data-i18n="conMonText">Hesabımda değişiklik olması durumunda yeniden tarama yapılmasına onay veriyorum.</span></label></div>
     <div class="snav"><button class="btn btn-outline" onclick="goPrev()" data-i18n="btnBack">← Geri</button><button class="btn btn-primary" id="submitBtn" onclick="submitApp()" data-i18n="btnSubmit">Başvuruyu Gönder ✓</button></div>
@@ -941,7 +939,7 @@ a{color:var(--blue);text-decoration:none}
       <p class="msub">6698 Sayılı Kişisel Verilerin Korunması Kanunu kapsamında hazırlanmıştır.</p>
       <div class="policy-section">
         <h4 data-i18n="kvkkS1">1. Veri Sorumlusu</h4>
-        <p data-i18n="kvkkS1T">Allboard (bundan böyle "Şirket"), 6698 sayılı KVKK kapsamında veri sorumlusu sıfatıyla hareket etmektedir.</p>
+        <p data-i18n="kvkkS1T">Coreboarding (bundan böyle "Şirket"), 6698 sayılı KVKK kapsamında veri sorumlusu sıfatıyla hareket etmektedir.</p>
       </div>
       <div class="policy-section">
         <h4 data-i18n="kvkkS2">2. İşlenen Kişisel Veriler</h4>
@@ -967,7 +965,7 @@ a{color:var(--blue);text-decoration:none}
       </div>
       <div class="policy-section">
         <h4 data-i18n="kvkkS6">6. Haklarınız (KVKK Madde 11)</h4>
-        <p data-i18n="kvkkS6T">Kişisel verilerinize erişim, düzeltme, silme, işleme itiraz ve veri taşınabilirliği haklarınız mevcuttur. Taleplerinizi <strong>privacy@allboard.io</strong> adresine iletebilirsiniz.</p>
+        <p data-i18n="kvkkS6T">Kişisel verilerinize erişim, düzeltme, silme, işleme itiraz ve veri taşınabilirliği haklarınız mevcuttur. Taleplerinizi <strong>privacy@coreboarding.io</strong> adresine iletebilirsiniz.</p>
       </div>
     </div>
 
@@ -977,7 +975,7 @@ a{color:var(--blue);text-decoration:none}
       <p class="msub" data-i18n="privSub">Son güncellenme: Ocak 2026</p>
       <div class="policy-section">
         <h4 data-i18n="privS1">Veri Toplama</h4>
-        <p data-i18n="privS1T">Allboard, yalnızca KYC/KYB onboarding hizmetinin sunulması için zorunlu olan verileri toplar. Bu veriler doğrudan sizden, başvuru formu aracılığıyla temin edilir.</p>
+        <p data-i18n="privS1T">Coreboarding, yalnızca KYC/KYB onboarding hizmetinin sunulması için zorunlu olan verileri toplar. Bu veriler doğrudan sizden, başvuru formu aracılığıyla temin edilir.</p>
       </div>
       <div class="policy-section highlight">
         <h4 data-i18n="privS2">Belge ve Veri Paylaşımı</h4>
@@ -1002,7 +1000,7 @@ a{color:var(--blue);text-decoration:none}
       </div>
       <div class="policy-section">
         <h4 data-i18n="privS5">İletişim</h4>
-        <p>privacy@allboard.io</p>
+        <p>privacy@coreboarding.io</p>
       </div>
     </div>
 
@@ -1012,7 +1010,7 @@ a{color:var(--blue);text-decoration:none}
       <p class="msub" data-i18n="tosSub">Son güncellenme: Ocak 2026</p>
       <div class="policy-section">
         <h4 data-i18n="tosS1">1. Hizmet Kapsamı</h4>
-        <p data-i18n="tosS1T">Allboard, bireylerin ve kurumların kripto borsaları, OTC masaları ve finansal kuruluşlar nezdinde KYC/KYB onboarding süreçlerini yönetmelerine aracılık eden bir danışmanlık platformudur. Şirket, herhangi bir platform adına hesap açma taahhüdünde bulunmaz.</p>
+        <p data-i18n="tosS1T">Coreboarding, bireylerin ve kurumların kripto borsaları, OTC masaları ve finansal kuruluşlar nezdinde KYC/KYB onboarding süreçlerini yönetmelerine aracılık eden bir danışmanlık platformudur. Şirket, herhangi bir platform adına hesap açma taahhüdünde bulunmaz.</p>
       </div>
       <div class="policy-section highlight">
         <h4 data-i18n="tosS2">2. Belge Paylaşım Yetkisi</h4>
@@ -1023,12 +1021,12 @@ a{color:var(--blue);text-decoration:none}
         <ul>
           <li data-i18n="tosS3L1">Sağlanan tüm bilgi ve belgelerin doğru, güncel ve eksiksiz olması kullanıcının sorumluluğundadır.</li>
           <li data-i18n="tosS3L2">Sahte, yanıltıcı veya başkasına ait belge yüklenmesi kesinlikle yasaktır ve yasal işleme yol açar.</li>
-          <li data-i18n="tosS3L3">Kullanıcı, platformların bağımsız karar mercileri olduğunu ve Allboard'un platform kararları üzerinde etkisi bulunmadığını kabul eder.</li>
+          <li data-i18n="tosS3L3">Kullanıcı, platformların bağımsız karar mercileri olduğunu ve Coreboarding'un platform kararları üzerinde etkisi bulunmadığını kabul eder.</li>
         </ul>
       </div>
       <div class="policy-section">
         <h4 data-i18n="tosS4">4. Sorumluluk Sınırı</h4>
-        <p data-i18n="tosS4T">Allboard, platform tarafından verilen red kararlarından, süreç gecikmelerinden veya platform politika değişikliklerinden sorumlu tutulamaz. Hizmet, başvuru yönetimi ile sınırlıdır.</p>
+        <p data-i18n="tosS4T">Coreboarding, platform tarafından verilen red kararlarından, süreç gecikmelerinden veya platform politika değişikliklerinden sorumlu tutulamaz. Hizmet, başvuru yönetimi ile sınırlıdır.</p>
       </div>
       <div class="policy-section">
         <h4 data-i18n="tosS5">5. Uygulanacak Hukuk</h4>
@@ -1212,7 +1210,7 @@ a{color:var(--blue);text-decoration:none}
     <div class="pr-pane" id="prSuccess" style="text-align:center;padding:1.5rem 0">
       <div style="font-size:3rem;margin-bottom:1rem">✅</div>
       <h2 data-i18n="prSuccessTitle">Başvurunuz Alındı!</h2>
-      <p class="msub" style="margin-bottom:1.5rem" data-i18n="prSuccessSub">Ekibimiz inceleme sonrası hesabınızı oluşturacak ve size e-posta ile bildirim yapacak.</p>
+      <p class="msub" style="margin-bottom:1.5rem" data-i18n="prSuccessSub">Ekibimiz en kısa sürede sizinle iletişime geçip süreç hakkında daha detaylı bilgi verecektir.</p>
       <button class="btn btn-primary" onclick="closePreReg()" data-i18n="btnClose">Kapat</button>
     </div>
 
@@ -1242,6 +1240,12 @@ var T = {
     heroTitle:'Kripto ekosisteminde <strong>onboarding süreçlerinizi</strong> uçtan uca yönetiyoruz',
     heroDesc:'KYC/KYB başvurusundan onaya kadar tüm süreci — belge hazırlama, kurum yazışmaları ve aşama takibini — sizin adınıza üstleniyoruz.',
     heroApply:'Danışmanlık Talebi →', heroLogin:'Giriş Yap', heroGoProfile:'Profilime Git →', heroTrackTitle:'Süreç Takibi',
+    heroTrackStep:'Adım 3 / 5', heroTrackNow:'Devam Ediyor',
+    hs1t:'Başvuru & Bilgi Toplama', hs1d:'Kişisel bilgiler ve ihtiyaç analizi tamamlandı',
+    hs2t:'Belge Hazırlama & Organizasyon', hs2d:'Belge paketi derlendi, eksikler tamamlandı',
+    hs3t:'Hukuki İşlem & Tercüme', hs3d:'Apostil & yeminli tercüme koordinasyonu',
+    hs4t:'Kurum Başvurusu & Takip', hs4d:'Resmi başvuru iletimi ve yazışma yönetimi',
+    hs5t:'Onay & Süreç Tamamlama', hs5d:'Nihai onay ve müşteri bildirimi',
     heroNote1:'Ücretsiz ön görüşme', heroNote2:'Deneyimli danışman ekibi', heroNote3:'Şeffaf süreç takibi',
     trust1:'Uçtan Uca Süreç Yönetimi', trust2:'KYC / KYB Uzmanlığı', trust3:'Güvenli Veri İşleme', trust4:'Uzman Danışman Ekibi', trust5:'Hukuki & Tercüme Desteği',
     svcEyebrow:'Hizmet Alanlarımız', svcTitle:'Hangi müşterilerin onboarding sürecini yönetiyoruz?',
@@ -1268,7 +1272,7 @@ var T = {
     fcolProcess:'Çalışma Şeklimiz', fcolP1:'Süreç Nasıl İşler?', fcolP2:'Sık Sorulan Sorular', fcolP3:'Referanslar',
     fcolLegal:'Yasal', fcolL1:'KVKK Politikası', fcolL2:'Gizlilik', fcolL3:'Kullanım Şartları', fcolL4:'Güvenlik',
     footerDesc:'Kripto ekosistemindeki kuruluşlar için KYC/KYB onboarding süreç takibi ve danışmanlığı.',
-    footerCopy:'© 2026 Allboard. Tüm hakları saklıdır.',
+    footerCopy:'© 2026 Coreboarding. Tüm hakları saklıdır.',
     obTitle:'Hesap Oluştur', obExit:'✕ Çıkış', stepLabel:'Adım',
     s1title:'Hesap Türü', s1desc:'Oluşturmak istediğiniz hesap türünü seçin',
     typeInd:'Bireysel', typeIndDesc:'Kişisel kimlik doğrulaması (7 adım)',
@@ -1302,11 +1306,11 @@ var T = {
     badgeRequired:'Zorunlu', badgeOptional:'İsteğe bağlı',
     docAddrHint:'Fatura, banka ekstresi, max 10MB',
     sAmlTitle:'AML Onayı & Şartlar', sAmlDesc:'Başvurunuzu tamamlamak için aşağıdaki onayları verin',
-    conAmlTitle:'AML Tarama Onayı', conAmlText:"Allboard'un yaptırım listeleri, PEP veritabanları ve olumsuz medya kaynaklarında AML taraması yapmasına izin veriyorum.",
+    conAmlTitle:'AML Tarama Onayı', conAmlText:"Coreboarding'un yaptırım listeleri, PEP veritabanları ve olumsuz medya kaynaklarında AML taraması yapmasına izin veriyorum.",
     conShareTitle:'Belge Paylaşım Onayı', conShareText:'Onboarding sürecinde tarafıma ait belge ve kişisel verilerin, başvuru sürecinde talep ettiğim kripto borsaları, OTC firmaları ve bankalar gibi ilgili platformlara — yalnızca o platformdaki hesap açma işlemiyle sınırlı olmak üzere — iletilmesine onay veriyorum. (KVKK Md.5/2(f) / GDPR Md.6/1(b))',
     readMore:'Ayrıntılar →',
-    conPrivTitle:'Gizlilik Politikası', conPrivLink:'Allboard Gizlilik Politikası', conPrivText:'Kişisel verilerimin Allboard Gizlilik Politikası kapsamında işlenmesini okudum ve kabul ediyorum.',
-    conTosTitle:'Kullanım Şartları', conTosLink:'Allboard Kullanım Şartlarını', conTosText:'Allboard Kullanım Şartlarını okudum ve kabul ediyorum.',
+    conPrivTitle:'Gizlilik Politikası', conPrivLink:'Coreboarding Gizlilik Politikası', conPrivText:'Kişisel verilerimin Coreboarding Gizlilik Politikası kapsamında işlenmesini okudum ve kabul ediyorum.',
+    conTosTitle:'Kullanım Şartları', conTosLink:'Coreboarding Kullanım Şartlarını', conTosText:'Coreboarding Kullanım Şartlarını okudum ve kabul ediyorum.',
     conAccTitle:'Doğruluk Beyanı', conAccText:'Sağladığım tüm bilgilerin doğru, eksiksiz ve güncel olduğunu beyan ediyorum.',
     conMonTitle:'Süregelen İzleme', conMonText:'Hesabımda değişiklik olması durumunda yeniden tarama yapılmasına onay veriyorum.',
     alertConsents:'Lütfen tüm zorunlu onayları verin.',
@@ -1333,7 +1337,7 @@ var T = {
     prOther:'Diğer', prOtherLabel:'Diğer platform adı',
     prNotes:'Notlar (opsiyonel)',
     prSuccessTitle:'Başvurunuz Alındı!',
-    prSuccessSub:'Ekibimiz inceleme sonrası hesabınızı oluşturacak ve size e-posta ile bildirim yapacak.',
+    prSuccessSub:'Ekibimiz en kısa sürede sizinle iletişime geçip süreç hakkında daha detaylı bilgi verecektir.',
     btnSubmit:'Gönder', btnClose:'Kapat',
     alertDisposableEmail:'Geçici/sahte e-posta adresleri kabul edilmez. Lütfen gerçek e-postanızı girin.',
     alertPreRegName:'Ad Soyad zorunludur.', alertPreRegEmail:'Geçerli bir e-posta adresi girin.',
@@ -1371,6 +1375,12 @@ var T = {
     heroTitle:'We manage your <strong>onboarding process</strong> in the crypto ecosystem, end to end',
     heroDesc:'From KYC/KYB application to approval — document preparation, institution correspondence and process tracking, all handled on your behalf.',
     heroApply:'Request Consultation →', heroLogin:'Log In', heroGoProfile:'Go to My Profile →', heroTrackTitle:'Process Tracking',
+    heroTrackStep:'Step 3 / 5', heroTrackNow:'In Progress',
+    hs1t:'Application & Info Gathering', hs1d:'Personal details and needs analysis completed',
+    hs2t:'Document Preparation & Organization', hs2d:'Document package compiled, gaps completed',
+    hs3t:'Legal Processing & Translation', hs3d:'Apostille & sworn translation coordination',
+    hs4t:'Institution Application & Follow-up', hs4d:'Official submission and correspondence management',
+    hs5t:'Approval & Completion', hs5d:'Final approval and client notification',
     heroNote1:'Free initial consultation', heroNote2:'Experienced advisory team', heroNote3:'Transparent process tracking',
     trust1:'End-to-End Process Management', trust2:'KYC / KYB Expertise', trust3:'Secure Data Handling', trust4:'Expert Advisory Team', trust5:'Legal & Translation Support',
     svcEyebrow:'Who We Serve', svcTitle:'Whose KYC/KYB onboarding do we manage?',
@@ -1397,7 +1407,7 @@ var T = {
     fcolProcess:'How We Work', fcolP1:'How Does the Process Work?', fcolP2:'FAQ', fcolP3:'References',
     fcolLegal:'Legal', fcolL1:'GDPR Policy', fcolL2:'Privacy', fcolL3:'Terms of Service', fcolL4:'Security',
     footerDesc:'KYC/KYB onboarding process tracking and consulting for institutions in the crypto ecosystem.',
-    footerCopy:'© 2026 Allboard. All rights reserved.',
+    footerCopy:'© 2026 Coreboarding. All rights reserved.',
     obTitle:'Create Account', obExit:'✕ Exit', stepLabel:'Step',
     s1title:'Account Type', s1desc:'Select the type of account you wish to create',
     typeInd:'Individual', typeIndDesc:'Personal identity verification (7 steps)',
@@ -1431,11 +1441,11 @@ var T = {
     badgeRequired:'Required', badgeOptional:'Optional',
     docAddrHint:'Utility bill, bank statement, max 10MB',
     sAmlTitle:'AML Consent & Terms', sAmlDesc:'Grant the following consents to complete your application',
-    conAmlTitle:'AML Screening Consent', conAmlText:'I consent to Allboard conducting AML screening against sanctions lists, PEP databases and adverse media sources.',
+    conAmlTitle:'AML Screening Consent', conAmlText:'I consent to Coreboarding conducting AML screening against sanctions lists, PEP databases and adverse media sources.',
     conShareTitle:'Document Sharing Consent', conShareText:'I consent to my documents and personal data being shared with the crypto exchanges, OTC firms and banks I have selected during onboarding — solely for the purpose of opening an account on those platforms. (GDPR Art.6/1(b) / legitimate interest)',
     readMore:'Details →',
-    conPrivTitle:'Privacy Policy', conPrivLink:'Allboard Privacy Policy', conPrivText:'I have read and accept the processing of my personal data under the Allboard Privacy Policy.',
-    conTosTitle:'Terms of Service', conTosLink:'Allboard Terms of Service', conTosText:'I have read and accept the Allboard Terms of Service.',
+    conPrivTitle:'Privacy Policy', conPrivLink:'Coreboarding Privacy Policy', conPrivText:'I have read and accept the processing of my personal data under the Coreboarding Privacy Policy.',
+    conTosTitle:'Terms of Service', conTosLink:'Coreboarding Terms of Service', conTosText:'I have read and accept the Coreboarding Terms of Service.',
     conAccTitle:'Accuracy Declaration', conAccText:'I declare that all information provided is accurate, complete and up to date.',
     conMonTitle:'Ongoing Monitoring', conMonText:'I consent to rescreening should changes occur to my account.',
     alertConsents:'Please accept all required consents.',
@@ -1462,7 +1472,7 @@ var T = {
     prOther:'Other', prOtherLabel:'Other platform name',
     prNotes:'Notes (optional)',
     prSuccessTitle:'Application Received!',
-    prSuccessSub:'Our team will create your account after review and notify you by email.',
+    prSuccessSub:'Our team will contact you shortly to share more detailed information about the process.',
     btnSubmit:'Submit', btnClose:'Close',
     alertDisposableEmail:'Disposable/temporary email addresses are not accepted. Please use your real email.',
     alertPreRegName:'Full name is required.', alertPreRegEmail:'Please enter a valid email address.',
@@ -1548,7 +1558,7 @@ async function updateNav(v){
     na.innerHTML=lt+'<span id="navUserName" style="font-size:.85rem;color:var(--text2);font-weight:500;cursor:pointer" onclick="nav(\'profile\')"></span><button class="btn btn-primary btn-sm" onclick="nav(\'profile\')" data-i18n="navProfile">'+L.navProfile+'</button><button class="btn btn-ghost btn-sm" onclick="doLogout()" data-i18n="navLogout">'+L.navLogout+'</button>';
     document.getElementById('navUserName').textContent=name; // XSS-safe
   } else {
-    na.innerHTML=lt+'<button class="btn btn-outline btn-sm" onclick="showAuth(\'login\')" data-i18n="navLogin">'+L.navLogin+'</button><button class="btn btn-primary btn-sm" onclick="showPreReg()" data-i18n="navApply">'+L.navApply+'</button>';
+    na.innerHTML=lt+'<button class="btn btn-primary btn-sm" onclick="showPreReg()" data-i18n="navApply">'+L.navApply+'</button>';
   }
 }
 
@@ -2130,7 +2140,7 @@ async function submitApp(){
 
   // Welcome message
   var fname=clientData.personal.firstName||session.user.email;
-  await sb.from('chat_messages').insert({client_id:client.id,sender_type:'staff',sender_name:'Allboard',text:'Merhaba '+fname+', başvurunuz alındı. Belgeleriniz incelemeye alınmıştır. / Hello '+fname+', your application has been received. Your documents are under review.'});
+  await sb.from('chat_messages').insert({client_id:client.id,sender_type:'staff',sender_name:'Coreboarding',text:'Merhaba '+fname+', başvurunuz alındı. Belgeleriniz incelemeye alınmıştır. / Hello '+fname+', your application has been received. Your documents are under review.'});
 
   currentClient=client;
   resetBtn();
@@ -2325,7 +2335,7 @@ function appendMsg(m){
   var now=new Date(m.created_at);
   var ts=pad(now.getDate())+'.'+pad(now.getMonth()+1)+' '+pad(now.getHours())+':'+pad(now.getMinutes());
   var div=document.createElement('div');div.className='cmsg '+(isClient?'cli':'stf');
-  var senderName=isClient?(T[currentLang].you||'Siz'):'Allboard';
+  var senderName=isClient?(T[currentLang].you||'Siz'):'Coreboarding';
   div.innerHTML='<div class="cav">'+initials+'</div><div><div class="cbub">'+esc(m.text)+'</div><div class="cmeta">'+senderName+' · '+ts+'</div></div>';
   cont.appendChild(div);cont.scrollTop=cont.scrollHeight;
 }
