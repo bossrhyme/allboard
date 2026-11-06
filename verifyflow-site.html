@@ -51,6 +51,29 @@ a{color:var(--blue);text-decoration:none}
 .mock-list-item{display:flex;align-items:center;gap:.65rem;padding:.55rem .7rem;border-radius:7px;background:var(--bg2)}
 .mock-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--teal));display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0}
 .mock-info{flex:1}.mock-info-name{font-size:.75rem;font-weight:600;color:var(--navy)}.mock-info-sub{font-size:.65rem;color:var(--text3)}
+/* Hero process tracker (animated) */
+.ht{padding:1.4rem 1.5rem}
+.ht-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:1rem;margin-bottom:1.1rem;border-bottom:1px solid var(--border)}
+.ht-head h4{font-size:1.05rem;font-weight:800;color:var(--navy);letter-spacing:-.01em}
+.ht-badge{font-size:.72rem;font-weight:700;padding:.28rem .7rem;border-radius:100px;background:#dbeafe;color:var(--blue);transition:background .3s,color .3s;white-space:nowrap}
+.ht-badge.done{background:#d2f3ec;color:#0d9488}
+.ht-steps{display:flex;flex-direction:column}
+.ht-step{display:flex;gap:.85rem;align-items:flex-start}
+.ht-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.ht-m{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0;background:#fff;border:1.5px solid var(--border2);color:var(--text3);transition:background .35s,color .35s,box-shadow .35s,border-color .35s}
+.ht-ln{width:2px;flex:1;min-height:24px;background:var(--border);margin:4px 0;transition:background .4s}
+.ht-ln.on{background:var(--teal)}
+.ht-tx{padding-bottom:1rem;padding-top:3px;flex:1}
+.ht-tt-row{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+.ht-tt{font-size:.9rem;font-weight:700;color:var(--text2);line-height:1.2;transition:color .35s}
+.ht-ts{font-size:.72rem;color:var(--text3);margin-top:.15rem;transition:color .35s}
+.ht-chip{display:none;font-size:.62rem;font-weight:700;background:rgba(20,71,230,.1);color:var(--blue);padding:.1rem .45rem;border-radius:5px}
+.ht-step.done .ht-m{background:var(--teal);border-color:var(--teal);color:#fff}
+.ht-step.now .ht-m{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 0 5px rgba(20,71,230,.15)}
+.ht-step.done .ht-tt{color:var(--navy)}
+.ht-step.now .ht-tt{color:var(--blue)}
+.ht-step.now .ht-chip{display:inline-block}
+@media(prefers-reduced-motion:reduce){.ht-m,.ht-ln,.ht-tt,.ht-ts,.ht-badge{transition:none}}
 /* Trust bar */
 .trust-bar{background:#1447e6;padding:1.1rem 2.5rem;display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap}
 .trust-item{display:flex;align-items:center;gap:.5rem;color:#fff;font-size:.76rem;font-weight:500}
@@ -258,78 +281,18 @@ a{color:var(--blue);text-decoration:none}
     <div class="hero-note"><span>✓</span> <span data-i18n="heroNote1">Ücretsiz ön görüşme</span> &nbsp;·&nbsp; <span>✓</span> <span data-i18n="heroNote2">Deneyimli danışman ekibi</span> &nbsp;·&nbsp; <span>✓</span> <span data-i18n="heroNote3">Şeffaf süreç takibi</span></div>
   </div>
   <div class="hero-right">
-    <div class="mockup-body">
-      <div class="mock-card" style="padding:0;border:none;background:transparent">
-        <div class="mock-card-head" style="margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--border)">
-          <h4 data-i18n="heroTrackTitle">Süreç Takibi</h4>
-          <span class="mock-badge mb-info" data-i18n="heroTrackStep">Adım 3 / 5</span>
-        </div>
-        <!-- Step timeline -->
-        <div style="display:flex;flex-direction:column;gap:0">
-
-          <!-- Adım 1 — Tamamlandı -->
-          <div style="display:flex;gap:.75rem;align-items:flex-start">
-            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
-              <div style="width:26px;height:26px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0">✓</div>
-              <div style="width:2px;flex:1;background:var(--teal);min-height:22px;margin:.25rem 0"></div>
-            </div>
-            <div style="padding-bottom:.85rem;flex:1">
-              <div style="font-size:.8rem;font-weight:700;color:var(--navy)" data-i18n="hs1t">Başvuru & Bilgi Toplama</div>
-              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem" data-i18n="hs1d">Kişisel bilgiler ve ihtiyaç analizi tamamlandı</div>
-            </div>
-          </div>
-
-          <!-- Adım 2 — Tamamlandı -->
-          <div style="display:flex;gap:.75rem;align-items:flex-start">
-            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
-              <div style="width:26px;height:26px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0">✓</div>
-              <div style="width:2px;flex:1;background:linear-gradient(var(--teal),var(--blue));min-height:22px;margin:.25rem 0"></div>
-            </div>
-            <div style="padding-bottom:.85rem;flex:1">
-              <div style="font-size:.8rem;font-weight:700;color:var(--navy)" data-i18n="hs2t">Belge Hazırlama & Organizasyon</div>
-              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem" data-i18n="hs2d">Belge paketi derlendi, eksikler tamamlandı</div>
-            </div>
-          </div>
-
-          <!-- Adım 3 — Aktif -->
-          <div style="display:flex;gap:.75rem;align-items:flex-start">
-            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
-              <div style="width:26px;height:26px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 0 3px rgba(20,71,230,.15)">3</div>
-              <div style="width:2px;flex:1;background:var(--border);min-height:22px;margin:.25rem 0"></div>
-            </div>
-            <div style="padding-bottom:.85rem;flex:1">
-              <div style="display:flex;align-items:center;gap:.4rem">
-                <div style="font-size:.8rem;font-weight:700;color:var(--blue)" data-i18n="hs3t">Hukuki İşlem & Tercüme</div>
-                <span style="font-size:.62rem;font-weight:700;background:rgba(20,71,230,.08);color:var(--blue);padding:.1rem .4rem;border-radius:4px" data-i18n="heroTrackNow">Devam Ediyor</span>
-              </div>
-              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem" data-i18n="hs3d">Apostil & yeminli tercüme koordinasyonu</div>
-            </div>
-          </div>
-
-          <!-- Adım 4 — Bekliyor -->
-          <div style="display:flex;gap:.75rem;align-items:flex-start">
-            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
-              <div style="width:26px;height:26px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--text3);flex-shrink:0">4</div>
-              <div style="width:2px;flex:1;background:var(--border);min-height:22px;margin:.25rem 0"></div>
-            </div>
-            <div style="padding-bottom:.85rem;flex:1">
-              <div style="font-size:.8rem;font-weight:700;color:var(--text2)" data-i18n="hs4t">Kurum Başvurusu & Takip</div>
-              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem" data-i18n="hs4d">Resmi başvuru iletimi ve yazışma yönetimi</div>
-            </div>
-          </div>
-
-          <!-- Adım 5 — Bekliyor -->
-          <div style="display:flex;gap:.75rem;align-items:flex-start">
-            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
-              <div style="width:26px;height:26px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--text3);flex-shrink:0">✓</div>
-            </div>
-            <div style="flex:1">
-              <div style="font-size:.8rem;font-weight:700;color:var(--text2)" data-i18n="hs5t">Onay & Süreç Tamamlama</div>
-              <div style="font-size:.69rem;color:var(--text3);margin-top:.1rem" data-i18n="hs5d">Nihai onay ve müşteri bildirimi</div>
-            </div>
-          </div>
-
-        </div>
+    <div class="ht">
+      <div class="ht-head">
+        <h4 data-i18n="heroTrackTitle">Süreç Takibi</h4>
+        <span class="ht-badge" id="htBadge">Adım 1 / 6</span>
+      </div>
+      <div class="ht-steps" id="htSteps">
+        <div class="ht-step"><div class="ht-col"><div class="ht-m">1</div><div class="ht-ln"></div></div><div class="ht-tx"><div class="ht-tt-row"><span class="ht-tt" data-i18n="pt1">Ön Görüşme & İhtiyaç Analizi</span><span class="ht-chip" data-i18n="heroTrackNow">Devam Ediyor</span></div><div class="ht-ts" data-i18n="pd1">Ücretsiz görüşmeyle ihtiyacınız belirlendi</div></div></div>
+        <div class="ht-step"><div class="ht-col"><div class="ht-m">2</div><div class="ht-ln"></div></div><div class="ht-tx"><div class="ht-tt-row"><span class="ht-tt" data-i18n="pt2">Başvuru & Bilgi Toplama</span><span class="ht-chip" data-i18n="heroTrackNow">Devam Ediyor</span></div><div class="ht-ts" data-i18n="pd2">Kişisel/kurumsal bilgiler ve belgeler derlendi</div></div></div>
+        <div class="ht-step"><div class="ht-col"><div class="ht-m">3</div><div class="ht-ln"></div></div><div class="ht-tx"><div class="ht-tt-row"><span class="ht-tt" data-i18n="pt3">Belge Hazırlama & Organizasyon</span><span class="ht-chip" data-i18n="heroTrackNow">Devam Ediyor</span></div><div class="ht-ts" data-i18n="pd3">Belge paketi hazırlandı, eksikler tamamlandı</div></div></div>
+        <div class="ht-step"><div class="ht-col"><div class="ht-m">4</div><div class="ht-ln"></div></div><div class="ht-tx"><div class="ht-tt-row"><span class="ht-tt" data-i18n="pt4">Hukuki İşlem & Tercüme</span><span class="ht-chip" data-i18n="heroTrackNow">Devam Ediyor</span></div><div class="ht-ts" data-i18n="pd4">Apostil & yeminli tercüme koordinasyonu</div></div></div>
+        <div class="ht-step"><div class="ht-col"><div class="ht-m">5</div><div class="ht-ln"></div></div><div class="ht-tx"><div class="ht-tt-row"><span class="ht-tt" data-i18n="pt5">Kurum Başvurusu & Takip</span><span class="ht-chip" data-i18n="heroTrackNow">Devam Ediyor</span></div><div class="ht-ts" data-i18n="pd5">Resmi başvuru iletimi ve yazışma yönetimi</div></div></div>
+        <div class="ht-step"><div class="ht-col"><div class="ht-m">6</div></div><div class="ht-tx"><div class="ht-tt-row"><span class="ht-tt" data-i18n="pt6">Onay & Süreç Tamamlama</span><span class="ht-chip" data-i18n="heroTrackNow">Devam Ediyor</span></div><div class="ht-ts" data-i18n="pd6">Nihai onay ve müşteri bildirimi</div></div></div>
       </div>
     </div>
   </div>
@@ -1277,6 +1240,13 @@ var T = {
     heroDesc:'KYC/KYB başvurusundan onaya kadar tüm süreci; belge hazırlama, kurum yazışmaları ve süreç takibini sizin adınıza üstleniyoruz.',
     heroApply:'Danışmanlık Talebi →', heroLogin:'Giriş Yap', heroGoProfile:'Profilime Git →', heroTrackTitle:'Süreç Takibi',
     heroTrackStep:'Adım 3 / 5', heroTrackNow:'Devam Ediyor',
+    ptStep:'Adım', ptDone:'Tamamlandı',
+    pt1:'Ön Görüşme & İhtiyaç Analizi', pd1:'Ücretsiz görüşmeyle ihtiyacınız belirlendi',
+    pt2:'Başvuru & Bilgi Toplama', pd2:'Kişisel/kurumsal bilgiler ve belgeler derlendi',
+    pt3:'Belge Hazırlama & Organizasyon', pd3:'Belge paketi hazırlandı, eksikler tamamlandı',
+    pt4:'Hukuki İşlem & Tercüme', pd4:'Apostil & yeminli tercüme koordinasyonu',
+    pt5:'Kurum Başvurusu & Takip', pd5:'Resmi başvuru iletimi ve yazışma yönetimi',
+    pt6:'Onay & Süreç Tamamlama', pd6:'Nihai onay ve müşteri bildirimi',
     hs1t:'Başvuru & Bilgi Toplama', hs1d:'Kişisel bilgiler ve ihtiyaç analizi tamamlandı',
     hs2t:'Belge Hazırlama & Organizasyon', hs2d:'Belge paketi derlendi, eksikler tamamlandı',
     hs3t:'Hukuki İşlem & Tercüme', hs3d:'Apostil & yeminli tercüme koordinasyonu',
@@ -1432,6 +1402,13 @@ var T = {
     heroDesc:'From KYC/KYB application to approval — document preparation, institution correspondence and process tracking, all handled on your behalf.',
     heroApply:'Request Consultation →', heroLogin:'Log In', heroGoProfile:'Go to My Profile →', heroTrackTitle:'Process Tracking',
     heroTrackStep:'Step 3 / 5', heroTrackNow:'In Progress',
+    ptStep:'Step', ptDone:'Completed',
+    pt1:'Initial Consultation & Needs Analysis', pd1:'Your needs defined in a free consultation',
+    pt2:'Application & Info Gathering', pd2:'Personal/corporate details and documents compiled',
+    pt3:'Document Preparation & Organization', pd3:'Document package prepared, gaps completed',
+    pt4:'Legal Processing & Translation', pd4:'Apostille & sworn translation coordination',
+    pt5:'Institution Application & Follow-up', pd5:'Official submission and correspondence management',
+    pt6:'Approval & Completion', pd6:'Final approval and client notification',
     hs1t:'Application & Info Gathering', hs1d:'Personal details and needs analysis completed',
     hs2t:'Document Preparation & Organization', hs2d:'Document package compiled, gaps completed',
     hs3t:'Legal Processing & Translation', hs3d:'Apostille & sworn translation coordination',
@@ -2432,6 +2409,29 @@ async function sendMsg(){
   if(error)console.error('Chat error:',error);
 }
 function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
+
+// ── HERO SÜREÇ TAKİBİ — otomatik adım animasyonu (1→6, döngü) ──
+(function(){
+  var total=6, step=0;
+  var badge=document.getElementById('htBadge');
+  var els=badge?[].slice.call(document.querySelectorAll('#htSteps .ht-step')):[];
+  if(!badge||!els.length)return;
+  function words(){var t=(typeof T!=='undefined'&&T[currentLang])?T[currentLang]:{};return {s:t.ptStep||'Adım',d:t.ptDone||'Tamamlandı'};}
+  function render(){
+    els.forEach(function(el,i){
+      el.classList.remove('done','now','wait');
+      var m=el.querySelector('.ht-m'),ln=el.querySelector('.ht-ln');
+      if(step===total||i<step){el.classList.add('done');m.textContent='✓';if(ln)ln.classList.add('on');}
+      else if(i===step){el.classList.add('now');m.textContent=(i+1);}
+      else{el.classList.add('wait');m.textContent=(i+1);if(ln)ln.classList.remove('on');}
+    });
+    var w=words();
+    if(step===total){badge.textContent=w.d+' · '+total+'/'+total;badge.classList.add('done');}
+    else{badge.textContent=w.s+' '+(step+1)+' / '+total;badge.classList.remove('done');}
+  }
+  function loop(){render();var dly=(step===total)?1500:1050;step=(step>=total)?0:step+1;setTimeout(loop,dly);}
+  loop();
+})();
 </script>
 </body>
 </html>
