@@ -491,7 +491,10 @@ sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
             <h3>Ön Başvurular</h3>
             <p style="margin-top:.25rem;color:var(--text2);font-size:.85rem">Gelen ön başvurular — kullanıcı oluşturmak için "Davet Et" butonunu kullanın</p>
           </div>
-          <button class="btn btn-outline btn-sm" onclick="loadPreReg()">↺ Yenile</button>
+          <div style="display:flex;gap:.5rem">
+            <button class="btn btn-outline btn-sm" onclick="loadPreReg()">↺ Yenile</button>
+            <button class="btn btn-danger btn-sm" onclick="clearAllPreReg()">🗑 Tümünü Sil</button>
+          </div>
         </div>
         <div class="table-wrap">
           <table>
@@ -1573,11 +1576,33 @@ async function loadPreReg(){
       lbl.textContent=r.status==='approved'?'Kullanıcı oluşturuldu':'Reddedildi';
       actionCell.appendChild(lbl);
     }
+    var delBtn=document.createElement('button');
+    delBtn.className='btn btn-outline btn-sm';
+    delBtn.style.cssText='margin-left:.3rem;border-color:var(--danger);color:var(--danger)';
+    delBtn.textContent='Sil';
+    delBtn.dataset.id=r.id;
+    delBtn.addEventListener('click',function(){deletePreReg(this.dataset.id,this);});
+    actionCell.appendChild(delBtn);
     tr.querySelector('.detail-btn').addEventListener('click',(function(row){
       return function(){showPreRegDetail(row);};
     })(r));
     tbody.appendChild(tr);
   });
+}
+
+async function deletePreReg(id,btn){
+  if(!confirm('Bu başvuru kalıcı olarak silinsin mi? Bu işlem geri alınamaz.'))return;
+  if(btn){btn.disabled=true;btn.textContent='...';}
+  var {error}=await sb.from('pre_registrations').delete().eq('id',id);
+  if(error){alert('Silme hatası: '+error.message);if(btn){btn.disabled=false;btn.textContent='Sil';}return;}
+  loadPreReg();
+}
+async function clearAllPreReg(){
+  if(!confirm('TÜM ön başvurular kalıcı olarak silinecek. Bu işlem geri alınamaz. Devam edilsin mi?'))return;
+  if(!confirm('Emin misiniz? Tüm başvuru kayıtları silinecek.'))return;
+  var {error}=await sb.from('pre_registrations').delete().not('id','is',null);
+  if(error){alert('Silme hatası: '+error.message);return;}
+  loadPreReg();
 }
 
 function showPreRegDetail(r){
