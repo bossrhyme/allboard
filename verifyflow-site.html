@@ -19,6 +19,9 @@ a{color:var(--blue);text-decoration:none}
 .btn-sm{padding:.4rem 1rem;font-size:.8rem}
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2.5rem;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);box-shadow:0 1px 0 var(--border)}
 .nav-logo{display:flex;align-items:center;gap:.5rem;font-size:1.3rem;font-weight:800;color:var(--navy);cursor:pointer;letter-spacing:-.02em}.nav-logo span{color:var(--blue)}.nav-logo .brand-mark{flex-shrink:0;width:28px;height:28px}
+.brand-mark .cb-spin{transform-box:view-box;transform-origin:32px 32px;animation:cbspin 6s linear infinite}
+@keyframes cbspin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.brand-mark .cb-spin{animation:none}}
 .nav-actions{display:flex;gap:.75rem;align-items:center}
 [data-view]{display:none}[data-view].active{display:block}
 .hero{padding:8rem 2.5rem 4rem;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
@@ -254,7 +257,7 @@ a{color:var(--blue);text-decoration:none}
 </head>
 <body>
 <nav class="nav" id="mainNav">
-  <div class="nav-logo" onclick="nav('landing')"><svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#1447e6"/><g transform="rotate(90 32 32)"><circle cx="32" cy="32" r="21" fill="none" stroke="#fff" stroke-width="7.5" stroke-linecap="round" stroke-dasharray="98 34" transform="rotate(-58 32 32)"/><circle cx="43.4" cy="14.9" r="6.6" fill="#00e6c3"/><circle cx="32" cy="32" r="5" fill="#fff"/></g></svg>Coreboarding</div>
+  <div class="nav-logo" onclick="nav('landing')"><svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#1447e6"/><g class="cb-spin"><g transform="rotate(90 32 32)"><circle cx="32" cy="32" r="21" fill="none" stroke="#fff" stroke-width="7.5" stroke-linecap="round" stroke-dasharray="98 34" transform="rotate(-58 32 32)"/><circle cx="43.4" cy="14.9" r="6.6" fill="#00e6c3"/><circle cx="32" cy="32" r="5" fill="#fff"/></g></g></svg>Coreboarding</div>
   <div class="nav-actions" id="navAct">
     <div class="lang-toggle">
       <button class="lang-btn" id="btnTR" onclick="setLang('tr')">TR</button>
@@ -363,7 +366,7 @@ a{color:var(--blue);text-decoration:none}
 <footer class="vf-footer">
   <div class="vf-footer-grid">
     <div>
-      <div class="vf-footer-brand"><svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#1447e6"/><g transform="rotate(90 32 32)"><circle cx="32" cy="32" r="21" fill="none" stroke="#fff" stroke-width="7.5" stroke-linecap="round" stroke-dasharray="98 34" transform="rotate(-58 32 32)"/><circle cx="43.4" cy="14.9" r="6.6" fill="#00e6c3"/><circle cx="32" cy="32" r="5" fill="#fff"/></g></svg>Coreboarding</div>
+      <div class="vf-footer-brand"><svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#1447e6"/><g class="cb-spin"><g transform="rotate(90 32 32)"><circle cx="32" cy="32" r="21" fill="none" stroke="#fff" stroke-width="7.5" stroke-linecap="round" stroke-dasharray="98 34" transform="rotate(-58 32 32)"/><circle cx="43.4" cy="14.9" r="6.6" fill="#00e6c3"/><circle cx="32" cy="32" r="5" fill="#fff"/></g></g></svg>Coreboarding</div>
       <p class="vf-footer-desc" data-i18n="footerDesc">Bireyler ve kurumlar için uçtan uca onboarding ve uyum danışmanlığı. Karmaşık süreçleri kolaylaştırıyoruz.</p>
     </div>
     <div class="vf-footer-col">
