@@ -32,8 +32,9 @@ a{color:var(--blue);text-decoration:none}
 .hero-left p{font-size:1rem;color:var(--text2);line-height:1.75;max-width:420px;margin-bottom:2rem}
 .hero-btns{display:flex;gap:.85rem;flex-wrap:wrap;margin-bottom:1.5rem}
 .hero-btns .btn{padding:.7rem 1.6rem;font-size:.9rem}
-.hero-note{font-size:.76rem;color:var(--text3)}
-.hero-note span{color:var(--teal);font-weight:700;margin-right:.25rem}
+.hero-note{display:flex;flex-direction:column;gap:.5rem;font-size:.82rem;color:var(--teal);font-weight:600}
+.hero-note-item{display:flex;align-items:center;gap:.45rem}
+.hero-note-item .hn-check{color:var(--teal);font-weight:800}
 /* Hero right mockup */
 .hero-right{background:var(--bg2);border-radius:16px;border:1px solid var(--border);overflow:hidden;box-shadow:0 20px 50px rgba(15,31,61,.08)}
 .mockup-bar{background:var(--bg);border-bottom:1px solid var(--border);padding:.65rem 1rem;display:flex;align-items:center;gap:.65rem}
@@ -281,7 +282,7 @@ a{color:var(--blue);text-decoration:none}
         <button class="btn btn-primary" onclick="nav('profile')" style="padding:.75rem 1.8rem" data-i18n="heroGoProfile">Profilime Git →</button>
       </div>
     </div>
-    <div class="hero-note"><span>✓</span> <span data-i18n="heroNote1">Ücretsiz ön görüşme</span> &nbsp;·&nbsp; <span>✓</span> <span data-i18n="heroNote2">Deneyimli danışman ekibi</span> &nbsp;·&nbsp; <span>✓</span> <span data-i18n="heroNote3">Şeffaf süreç takibi</span></div>
+    <div class="hero-note"><div class="hero-note-item"><span class="hn-check">✓</span> <span data-i18n="heroNote1">Ücretsiz ön görüşme</span></div><div class="hero-note-item"><span class="hn-check">✓</span> <span data-i18n="heroNote2">Deneyimli danışman ekibi</span></div><div class="hero-note-item"><span class="hn-check">✓</span> <span data-i18n="heroNote3">Şeffaf süreç takibi</span></div></div>
   </div>
   <div class="hero-right">
     <div class="ht">
