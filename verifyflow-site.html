@@ -2428,6 +2428,13 @@ function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg(
   function loop(){render();var dly=(step===total)?1500:1050;step=(step>=total)?0:step+1;setTimeout(loop,dly);}
   loop();
 })();
+
+// ── Gizli giriş: vitrinde buton yok; davetli müşteri /#giris (veya #login) linkiyle giriş açar ──
+(function(){
+  function openIfLogin(){var h=(location.hash||'').toLowerCase();if(h==='#giris'||h==='#login'){try{showAuth('login');}catch(e){}}}
+  openIfLogin();
+  window.addEventListener('hashchange',openIfLogin);
+})();
 </script>
 </body>
 </html>
